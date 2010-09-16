@@ -1,25 +1,99 @@
-<?xml version="1.0" encoding="UTF-8"?>
 
-<!--
-index.zul
-
-{{IS_NOTE
-	Purpose:
-		
-	Description:
-		
-	History:
-		Mon Jun 12 21:23:35     2006, Created by tomyeh
-		Fri May 01 04:36:35     2009, Modified by stera
-}}IS_NOTE
-
-Copyright (C) 2006 Potix Corporation. All Rights Reserved.
-
-{{IS_RIGHT
-}}IS_RIGHT
--->
 <zk xmlns="http://www.zkoss.org/2005/zul">
-<window>
-	My ZK application
-</window>
+    <window id="main" width="100%" height="100%" use="org.sadhar.sia.terpadu.application.IndexWnd" >
+        <borderlayout style="background:#c5e6ef;">
+            <north size="30px" border="0" style="background:#c5e6ef;">
+                <div>
+                    <menubar id="menubar">
+                        <menu label="Mahasiswa" height="30px">
+                            <menupopup id="1">
+                                <menuitem  label="Demografi Calon Mahasiswa" value="/zul/demograficalonmahasiswa/DemografiCalonMahasiswa.zul" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Rerata Nilai Tes PMB" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Distribusi Pendaftar per Gelombang Pendaftaran" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Jumlah Mahasiswa" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Demografi Mahasiswa" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Statistik Mahasiswa" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="IPK dan IPS" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Jumlah Mahasiswa Lulus dan Belum Lulus" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Warning" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Statistik Lama Studi" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Rerata Lama Studi" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Rerata Lama Pengerjaan TA" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Jumlah Wisudawan dan Wisudawati" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Jumlah Mahasiswa DO" value="xx" onClick="main.showObject(self.value)" />
+                            </menupopup>
+                        </menu>
+                        <menu label="Matakuliah" height="30px">
+                            <menupopup id="2">
+                                <menuitem  label="Daftar Matakuliah" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Daftar Matakuliah Yang Paling Sering Diulang" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Rerata Nilai Per Matakuliah" value="xx" onClick="main.showObject(self.value)" />
+                            </menupopup>
+                        </menu>
+                        <menu label="Dosen" height="30px">
+                            <menupopup id="3">
+                                <menuitem  label="Jadwal Dosen" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Jumlah Dosen" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Riwayat Dosen" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Beban SKS Dosen" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Jumlah Penelitian" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Rasio Dosen-Mahasiswa" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Statistik Pendidikan Dosen" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Daftar Dosen Yang Sedang Menempuh Studi" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="DP3 Dosen" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Nilai Evaluasi Perkuliahan Dosen" value="xx" onClick="main.showObject(self.value)" />
+                            </menupopup>
+                        </menu>
+                        <menu label="SDM" height="30px">
+                            <menupopup id="4">
+                                <menuitem  label="Laporan Data Pegawai" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Jumlah Pegawai Administratif" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Jumlah Status Izin atau Cuti Pegawai (Non Akademis)" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Distribusi Umur Dosen dan Pegawai" value="xx" onClick="main.showObject(self.value)" />
+                            </menupopup>
+                        </menu>
+                        <menu label="MA" height="30px">
+                            <menupopup id="5">
+                                <menuitem  label="Pembelian Barang Investasi" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Jumlah Uang Investasi" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Penghapusan Barang Investasi" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Daftar Gedung, Tanah dan Kendaraan" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Daftar Barang Investasi" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Total Asset" value="xx" onClick="main.showObject(self.value)" />
+                          </menupopup>
+                        </menu>
+                        <menu label="Keuangan" height="30px">
+                            <menupopup id="6">
+                                <menuitem  label="Pendapatan" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Pinjaman Unit" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Realisasi Biaya" value="xx" onClick="main.showObject(self.value)" />
+                            </menupopup>
+                        </menu>
+                        <menu label="PM" height="30px">
+                            <menupopup id="7">
+                                <menuitem  label="Laporan Kinerja Pegawai" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Laporan Hasil Penilaian Matrik Borang" value="xx" onClick="main.showObject(self.value)" />
+                            </menupopup>
+                        </menu>
+                    </menubar>
+                </div>
+            </north>
+            <!-- Content -->
+            <center flex="true">
+                <div id="contentDiv" style="height:200px;overflow:auto">
+                    <panel border="normal" title="Content" visible="false">
+                    </panel>
+                </div>
+            </center>
+            <south size="40px" border="0" style="background:#c5e6ef;">
+                <hbox pack="center" width="100%">
+                    <html><![CDATA[
+                <span style="color:#0C7A9A">Create by SI-Terpadu Nightly Build</span>
+            ]]>
+                    </html>
+                </hbox>
+            </south>
+        </borderlayout>
+    </window>
 </zk>
+
