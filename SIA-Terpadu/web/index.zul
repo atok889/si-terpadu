@@ -12,7 +12,7 @@
                                 <menuitem  label="Distribusi Pendaftar per Gelombang Pendaftaran" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Jumlah Mahasiswa" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Demografi Mahasiswa" value="xx" onClick="main.showObject(self.value)" />
-                                <menuitem  label="Statistik Mahasiswa" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Statistik Mahasiswa" value="/zul/statistikmahasiswa/StatistikMahasiswa.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="IPK dan IPS" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Jumlah Mahasiswa Lulus dan Belum Lulus" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Warning" value="xx" onClick="main.showObject(self.value)" />
