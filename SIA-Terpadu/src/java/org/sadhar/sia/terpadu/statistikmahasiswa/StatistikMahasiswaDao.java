@@ -14,5 +14,6 @@ import java.util.Map;
  */
 public interface  StatistikMahasiswaDAO {
 
+    
     public List<Map> list();
 }
