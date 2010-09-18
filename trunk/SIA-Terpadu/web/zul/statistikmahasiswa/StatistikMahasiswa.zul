@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title="Statistik Mahasiswa" border="normal" width="700px"
-            closable="true"
+    <window title="Statistik Mahasiswa" border="normal" width="950px"
+            closable="true" sizable="true" 
             id="statistikMahasiswaWnd"
             use="org.sadhar.sia.terpadu.statistikmahasiswa.StatistikMahasiswaWnd">
         <div style="padding:5px">
             <groupbox>
                 <caption label="Parameter"></caption>
                 <div style="padding:3px">
-
                     <grid>
                         <rows>
                             <row>
                                 <label value="Progdi/Fakultas"></label>
-                                <combobox>
-                                    <comboitem label=""></comboitem>
-                                    <comboitem label=""></comboitem>
+                                <combobox id="cmbboxProdi" width="300px"
+                                  onSelect="statistikMahasiswaWnd.cmbDataProdiOnSelect()">
                                 </combobox>
                             </row>
                             <row>
@@ -29,15 +27,18 @@
                                     <comboitem label=""></comboitem>
                                     <comboitem label=""></comboitem>
                                 </combobox>
-                        </row></rows>
+                            </row>
+                        </rows>
                     </grid>
                 </div>
             </groupbox>
             <groupbox>
                 <caption label="Keluaran"></caption>
-                <div style="padding:3px">
-                    <chart></chart>
-                </div>
+                <listbox id="listboxMahasiswa" width="900px" fixedLayout="false" >
+                    <listhead>
+                        <listheader label="-"  align="center" ></listheader>
+                    </listhead>
+                </listbox>
             </groupbox>
             <groupbox>
                 <caption label="Export"></caption>
@@ -53,7 +54,8 @@
                         <button label="Export" height="25px" width="90px" onClick=""></button>
                     </hbox>
                 </div>
-        </groupbox></div>
+            </groupbox>
+        </div>
     </window>
 </zk>
 
