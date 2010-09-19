@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <window title="PDF Preview" border="normal" width="700px" height="500px"
+            closable="true"
+            id="pdfPreview"
+            use="org.sadhar.sia.terpadu.pdfpreview.PdfPreviewWnd">
+        <div style="padding:5px">
+            <jasperreport id="report"/>            
+        </div>
+    </window>
+</zk>
