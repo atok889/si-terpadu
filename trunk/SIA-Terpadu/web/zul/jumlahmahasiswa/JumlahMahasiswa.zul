@@ -35,7 +35,7 @@
                     <image id="chartImg"/>
                 </div>
             </groupbox>
-            <groupbox visible="false">
+            <groupbox>
                 <caption label="Export"></caption>
                 <div style="padding:3px" align="right">
                     <hbox>
