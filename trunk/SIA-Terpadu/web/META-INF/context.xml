@@ -1,2 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context antiJARLocking="true" path="/si-terpadu"/>
+<Context antiJARLocking="true" path="/si-terpadu">
+<Resource auth="Container" defaultAutoCommit="false" driverClassName="com.mysql.jdbc.Driver" maxActive="20" name="jdbc/kamus" password="admin" timeBetweenEvictionRunsMillis="60000" type="javax.sql.DataSource" url="jdbc:mysql://localhost:3306/pmb?zeroDateTimeBehavior=convertToNull" username="root"/>
+<!--<Resource auth="Container" defaultAutoCommit="false" driverClassName="com.mysql.jdbc.Driver" maxActive="20" name="jdbc/kamus" password="phk1200809" timeBetweenEvictionRunsMillis="60000" type="javax.sql.DataSource" url="jdbc:mysql://172.21.0.130:3306/ppmk?zeroDateTimeBehavior=convertToNull" username="pbapsi"/>-->
+</Context>
