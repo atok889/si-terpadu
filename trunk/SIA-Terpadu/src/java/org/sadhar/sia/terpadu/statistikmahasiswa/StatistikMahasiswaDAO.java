@@ -51,6 +51,8 @@ public interface StatistikMahasiswaDAO {
 
     public void deleteTabelStatistik(String kodeProdi);
 
+    public void createDatabaseTempo();
+
     public void deleteTabelStatistik();
 
     public void deleteTabelAllStatistik();

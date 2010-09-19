@@ -266,6 +266,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
     }
 
     public void createTabelStatistik() {
+        this.createDatabaseTempo();
         String sql = "Show tables from tempo like 'tempstatistik'";
         SqlRowSet rs = ClassConnection.getJdbc().queryForRowSet(sql);
         if (rs.next()) {
@@ -542,7 +543,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
     }
 
     public List getAngkatan(String prodi) {
-        String sql = "SELECT DISTINCT(angkatan) FROM tempo.tempmhs" + prodi + " ORDER BY angkatan";
+        String sql = "SELECT DISTINCT(angkatan) FROM tempo.tempmhs" + prodi + " WHERE angkatan > 1900  ORDER BY angkatan";
         return ClassConnection.getJdbc().queryForList(sql);
     }
 
@@ -583,6 +584,11 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
         xls.add("angkatan");
         xls.add("jumlah");
         return xls;
+    }
+
+    public void createDatabaseTempo() {
+        String sql = "CREATE DATABASE IF NOT EXISTS TEMPO ";
+        ClassConnection.getJdbc().execute(sql);
     }
 
     public Object[][] SetDataToCetak(String kodeProdi) throws Exception {

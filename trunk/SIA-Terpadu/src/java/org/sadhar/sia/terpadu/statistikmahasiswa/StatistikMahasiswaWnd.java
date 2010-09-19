@@ -63,6 +63,10 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
         cmbboxProdi.setSelectedItem(item);
     }
 
+    private void resetListboxDetail() {
+        listboxDetailMahasiswa.getChildren().clear();
+    }
+
     private void loadDataToListbox() {
         listboxMahasiswa.getChildren().clear();
         if (statistikMahasiswaDAO.isTabelrgXYZZyyyySAda(kodeProdi, tahunAkademik, semester)) {
@@ -156,6 +160,7 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
     }
 
     private void loadAllDataToListbox() {
+        this.generateAllDataMahasiswa();
         listboxMahasiswa.getChildren().clear();
         Listhead listhead = new Listhead();
         listhead.setSizable(true);
@@ -232,6 +237,7 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
     }
 
     private void generateDataMahasiswa() {
+        statistikMahasiswaDAO.createTabelStatistik();
         statistikMahasiswaDAO.createTabelTempo(kodeProdi);
         statistikMahasiswaDAO.getMhsCuti(kodeProdi, tahunAkademik, semester);
         statistikMahasiswaDAO.getMhsReg(kodeProdi, tahunAkademik, semester);
@@ -241,8 +247,8 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
     }
 
     private void generateAllDataMahasiswa() {
-        List<Map> prodis = statistikMahasiswaDAO.getProdi();
         statistikMahasiswaDAO.createTabelStatistik();
+        List<Map> prodis = statistikMahasiswaDAO.getProdi();
         for (Map prodi : prodis) {
             if (statistikMahasiswaDAO.isTabelrgXYZZyyyySAda(prodi.get("Kd_prg").toString(), tahunAkademik, semester)) {
                 statistikMahasiswaDAO.createTabelTempo(prodi.get("Kd_prg").toString());
@@ -259,11 +265,11 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
 
     public void cmbDataProdiOnSelect() {
         if (cmbboxProdi.getSelectedItem().getLabel().equalsIgnoreCase("--TOTAL--")) {
-            System.out.println("OK");
             this.loadAllDataToListbox();
         } else {
             kodeProdi = (String) cmbboxProdi.getSelectedItem().getValue();
             this.loadDataToListbox();
         }
+        this.resetListboxDetail();
     }
 }
