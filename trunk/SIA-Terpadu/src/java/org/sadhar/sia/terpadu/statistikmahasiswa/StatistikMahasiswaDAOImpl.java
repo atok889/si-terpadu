@@ -6,7 +6,6 @@ package org.sadhar.sia.terpadu.statistikmahasiswa;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -46,7 +45,6 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                 + " order by angkatan asc";
 
         ClassConnection.getJdbc().execute(insertTempo);
-
         return ClassConnection.getJdbc().query(sql, new Mapper());
     }
 
@@ -65,7 +63,17 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                 + "group by angkatan "
                 + "order by angkatan asc";
 
+        String insertStatistik = "insert into tempo.tempstatistik "
+                + "(jenis, angkatan, jumlah) "
+                + "select distinct 'Mahasiswa Lulus',if(left(nomor_mhs,1)='9',concat('19',left(nomor_mhs,2)), "
+                + "if(left(nomor_mhs,1)='8',concat('19',left(nomor_mhs,2)),concat('20',left(nomor_mhs,2)))) as angkatan, "
+                + "COUNT(left(nomor_mhs,2)) as jumlah "
+                + "from db_" + kodeProdi + ".ll" + kodeProdi + " "
+                + "group by angkatan "
+                + "order by angkatan asc";
+
         ClassConnection.getJdbc().execute(insertTempo);
+        ClassConnection.getJdbc().execute(insertStatistik);
         return ClassConnection.getJdbc().query(sql, new Mapper());
     }
 
@@ -84,8 +92,17 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                 + "group by angkatan "
                 + "order by angkatan asc";
 
-        ClassConnection.getJdbc().execute(insertTempo);
+        String insertStatistik = "insert into tempo.tempstatistik "
+                + "(jenis, angkatan, jumlah) "
+                + "select distinct 'Mahasiswa DO',if(left(nomor_mhs,1)='9',concat('19',left(nomor_mhs,2)), "
+                + "if(left(nomor_mhs,1)='8',concat('19',left(nomor_mhs,2)),concat('20',left(nomor_mhs,2)))) as angkatan, "
+                + "COUNT(left(nomor_mhs,2)) as jumlah "
+                + "from db_" + kodeProdi + ".do" + kodeProdi + " "
+                + "group by angkatan "
+                + "order by angkatan asc";
 
+        ClassConnection.getJdbc().execute(insertTempo);
+        ClassConnection.getJdbc().execute(insertStatistik);
         return ClassConnection.getJdbc().query(sql, new Mapper());
     }
 
@@ -101,12 +118,22 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                 + "if(left(nomor_mhs,1)='8',concat('19',left(nomor_mhs,2)),concat('20',left(nomor_mhs,2)))) as angkatan, "
                 + "COUNT(left(nomor_mhs,2)) as jumlah "
                 + "from db_" + kodeProdi + ".rg" + kodeProdi + akademik + semester + " "
-                + "where st_mhs = '1'"
+                + "where st_mhs = '1' "
                 + "group by angkatan "
                 + "order by angkatan asc";
 
-        ClassConnection.getJdbc().execute(insertTempo);
+        String insertStatistik = "insert into tempo.tempstatistik "
+                + " (jenis, angkatan, jumlah) "
+                + " select distinct 'Mahasiswa Registrasi',if(left(nomor_mhs,1)='9',concat('19',left(nomor_mhs,2)), "
+                + " if(left(nomor_mhs,1)='8',concat('19',left(nomor_mhs,2)),concat('20',left(nomor_mhs,2)))) as angkatan, "
+                + " COUNT(left(nomor_mhs,2)) as jumlah "
+                + " from db_" + kodeProdi + ".rg" + kodeProdi + akademik + semester + " "
+                + " where st_mhs = '1' "
+                + " group by angkatan "
+                + " order by angkatan asc";
 
+        ClassConnection.getJdbc().execute(insertTempo);
+        ClassConnection.getJdbc().execute(insertStatistik);
         return ClassConnection.getJdbc().query(xStr, new Mapper());
     }
 
@@ -122,12 +149,22 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                 + "if(left(nomor_mhs,1)='8',concat('19',left(nomor_mhs,2)),concat('20',left(nomor_mhs,2)))) as angkatan, "
                 + "COUNT(left(nomor_mhs,2)) as jumlah "
                 + "from db_" + kodeProdi + ".rg" + kodeProdi + akademik + semester + " "
-                + "where st_mhs = '2'"
+                + "where st_mhs = '2' "
+                + "group by angkatan "
+                + "order by angkatan asc";
+
+        String insertStatistik = "insert into tempo.tempstatistik "
+                + "(jenis, angkatan, jumlah) "
+                + "select distinct 'Mahasiswa Tidak Registrasi',if(left(nomor_mhs,1)='9',concat('19',left(nomor_mhs,2)), "
+                + "if(left(nomor_mhs,1)='8',concat('19',left(nomor_mhs,2)),concat('20',left(nomor_mhs,2)))) as angkatan, "
+                + "COUNT(left(nomor_mhs,2)) as jumlah "
+                + "from db_" + kodeProdi + ".rg" + kodeProdi + akademik + semester + " "
+                + "where st_mhs = '3' "
                 + "group by angkatan "
                 + "order by angkatan asc";
 
         ClassConnection.getJdbc().execute(insertTempo);
-
+        ClassConnection.getJdbc().execute(insertStatistik);
         return ClassConnection.getJdbc().query(sql, new Mapper());
     }
 
@@ -143,12 +180,22 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                 + "if(left(nomor_mhs,1)='8',concat('19',left(nomor_mhs,2)),concat('20',left(nomor_mhs,2)))) as angkatan, "
                 + "COUNT(left(nomor_mhs,2)) as jumlah "
                 + "from db_" + kodeProdi + ".rg" + kodeProdi + akademik + semester + " "
-                + "where st_mhs = '3'"
+                + "where st_mhs = '3' "
+                + "group by angkatan "
+                + "order by angkatan asc";
+
+        String insertStatistik = "insert into tempo.tempstatistik "
+                + "(jenis, angkatan, jumlah) "
+                + "select distinct 'Mahasiswa Cuti',if(left(nomor_mhs,1)='9',concat('19',left(nomor_mhs,2)), "
+                + "if(left(nomor_mhs,1)='8',concat('19',left(nomor_mhs,2)),concat('20',left(nomor_mhs,2)))) as angkatan, "
+                + "COUNT(left(nomor_mhs,2)) as jumlah "
+                + "from db_" + kodeProdi + ".rg" + kodeProdi + akademik + semester + " "
+                + "where st_mhs = '3' "
                 + "group by angkatan "
                 + "order by angkatan asc";
 
         ClassConnection.getJdbc().execute(insertTempo);
-
+        ClassConnection.getJdbc().execute(insertStatistik);
         return ClassConnection.getJdbc().query(sql, new Mapper());
     }
 
@@ -166,8 +213,14 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
 
     public boolean isTabelrgXYZZyyyySAda(String kodeProdi, String akademik, String semester) {
         String sql = "Show tables from db_" + kodeProdi + " like 'rg" + kodeProdi + akademik + semester + "'";
-        SqlRowSet rs = ClassConnection.getJdbc().queryForRowSet(sql);
-        return rs.next();
+        SqlRowSet rs = null;
+        boolean result = false;
+        try {
+            rs = ClassConnection.getJdbc().queryForRowSet(sql);
+            result = rs.next();
+        } catch (Exception e) {
+        }
+        return result;
     }
 
     public void createTabelTempo(String kodeProdi) {
@@ -196,6 +249,96 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                 + ") ENGINE=MyISAM DEFAULT CHARSET=latin1";
         ClassConnection.getJdbc().execute(create);
         this.alterTableStatistik(kodeProdi, tahun);
+    }
+
+    public void createTabelAllStatistik(List<Map> tahun) {
+        String sql = "Show tables from tempo like 'tempallstatistik'";
+        SqlRowSet rs = ClassConnection.getJdbc().queryForRowSet(sql);
+        if (rs.next()) {
+            deleteTabelAllStatistik();
+        }
+        String create = "CREATE TABLE tempo.tempallstatistik ( "
+                + "status varchar(50) NOT NULL PRIMARY KEY ,"
+                + "total int(4) NOT NULL default '0' "
+                + ") ENGINE=MyISAM DEFAULT CHARSET=latin1";
+        ClassConnection.getJdbc().execute(create);
+        this.alterTableStatistik(tahun);
+    }
+
+    public void createTabelStatistik() {
+        String sql = "Show tables from tempo like 'tempstatistik'";
+        SqlRowSet rs = ClassConnection.getJdbc().queryForRowSet(sql);
+        if (rs.next()) {
+            deleteTabelStatistik();
+        }
+        String create = "CREATE TABLE tempo.tempstatistik( "
+                + "jenis varchar(150) , "
+                + "angkatan varchar(4) NOT NULL default '', "
+                + "jumlah int(4) NOT NULL default '0' "
+                + ") ENGINE=MyISAM DEFAULT CHARSET=latin1";
+        ClassConnection.getJdbc().execute(create);
+    }
+
+    public void alterTableStatistik(List<Map> tahun) {
+        for (Map angkatan : tahun) {
+            String sql = "ALTER TABLE tempo.tempallstatistik  ADD t" + angkatan.get("angkatan") + " int(4)";
+            ClassConnection.getJdbc().execute(sql);
+        }
+
+        String sqlInsert = "INSERT INTO tempo.tempallstatistik (status) VALUES('Total Angkatan'),('Mahasiswa Registrasi'),"
+                + " ('Mahasiswa Tidak Aktif'),('Mahasiswa Cuti'),('Mahasiswa DO'),('Mahasiswa Lulus')";
+        ClassConnection.getJdbc().execute(sqlInsert);
+
+        String sqlUpdateMhsReg = "UPDATE tempo.tempallstatistik  SET total = '" + this.getJumlahMhsReg(null) + "' WHERE status = 'Mahasiswa Registrasi'";
+        ClassConnection.getJdbc().execute(sqlUpdateMhsReg);
+
+        String sqlUpdateMhsCuti = "UPDATE tempo.tempallstatistik SET total = '" + this.getJumlahMhsCuti(null) + "' WHERE status = 'Mahasiswa Cuti'";
+        ClassConnection.getJdbc().execute(sqlUpdateMhsCuti);
+
+        String sqlUpdateMhsTidakAktif = "UPDATE tempo.tempallstatistik  SET total = '" + this.getJumlahMhsTidakAktif(null) + "' WHERE status = 'Mahasiswa Tidak Aktif'";
+        ClassConnection.getJdbc().execute(sqlUpdateMhsTidakAktif);
+
+        String sqlUpdateMhsDO = "UPDATE tempo.tempallstatistik  SET total = '" + this.getJumlahMhsDO(null) + "' WHERE status = 'Mahasiswa DO'";
+        ClassConnection.getJdbc().execute(sqlUpdateMhsDO);
+
+        String sqlUpdateMhsLulus = "UPDATE tempo.tempallstatistik  SET total = '" + this.getJumlahMhsLulus(null) + "' WHERE status = 'Mahasiswa Lulus'";
+        ClassConnection.getJdbc().execute(sqlUpdateMhsLulus);
+
+        int total = this.getJumlahMhsCuti(null) + this.getJumlahMhsDO(null) + this.getJumlahMhsLulus(null) + this.getJumlahMhsReg(null) + this.getJumlahMhsTidakAktif(null);
+
+        String sqlUpdateTotal = "UPDATE tempo.tempallstatistik SET total = '" + total + "' WHERE status = 'Total Angkatan'";
+        ClassConnection.getJdbc().execute(sqlUpdateTotal);
+
+        for (Map angkatan : tahun) {
+
+            sqlUpdateMhsReg = "UPDATE tempo.tempallstatistik SET t" + angkatan.get("angkatan") + " = " + this.getJumlahMhsReg(angkatan.get("angkatan").toString()) + ""
+                    + " WHERE status = 'Mahasiswa Registrasi'  ";
+            ClassConnection.getJdbc().execute(sqlUpdateMhsReg);
+
+            sqlUpdateMhsCuti = "UPDATE tempo.tempallstatistik SET t" + angkatan.get("angkatan") + " = " + this.getJumlahMhsCuti(angkatan.get("angkatan").toString()) + ""
+                    + " WHERE status = 'Mahasiswa Cuti'  ";
+            ClassConnection.getJdbc().execute(sqlUpdateMhsCuti);
+
+            sqlUpdateMhsTidakAktif = "UPDATE tempo.tempallstatistik SET t" + angkatan.get("angkatan") + " = " + this.getJumlahMhsTidakAktif(angkatan.get("angkatan").toString()) + ""
+                    + " WHERE status = 'Mahasiswa Tidak Aktif'  ";
+            ClassConnection.getJdbc().execute(sqlUpdateMhsTidakAktif);
+
+            sqlUpdateMhsDO = "UPDATE tempo.tempallstatistik SET t" + angkatan.get("angkatan") + " = " + this.getJumlahMhsDO(angkatan.get("angkatan").toString()) + ""
+                    + " WHERE status = 'Mahasiswa DO'  ";
+            ClassConnection.getJdbc().execute(sqlUpdateMhsDO);
+
+            sqlUpdateMhsLulus = "UPDATE tempo.tempallstatistik SET t" + angkatan.get("angkatan") + " = " + this.getJumlahMhsLulus(angkatan.get("angkatan").toString()) + ""
+                    + " WHERE status = 'Mahasiswa Lulus'  ";
+            ClassConnection.getJdbc().execute(sqlUpdateMhsLulus);
+
+            total = this.getJumlahMhsReg(angkatan.get("angkatan").toString()) + this.getJumlahMhsCuti(angkatan.get("angkatan").toString())
+                    + this.getJumlahMhsDO(angkatan.get("angkatan").toString()) + this.getJumlahMhsLulus(angkatan.get("angkatan").toString()) + this.getJumlahMhsTidakAktif(angkatan.get("angkatan").toString());
+
+            sqlUpdateTotal = "UPDATE tempo.tempallstatistik SET t" + angkatan.get("angkatan") + " = " + total + ""
+                    + " WHERE status = 'Total Angkatan'  ";
+            ClassConnection.getJdbc().execute(sqlUpdateTotal);
+        }
+
     }
 
     public void alterTableStatistik(String prodi, List<Map> tahun) {
@@ -312,6 +455,56 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
         return ClassConnection.getJdbc().queryForInt(sql);
     }
 
+    public int getJumlahMhsReg(String tahun) {
+        String sql = null;
+        if (tahun == null) {
+            sql = "select SUM(jumlah) as jumlah from tempo.tempstatistik  WHERE jenis = 'Mahasiswa Registrasi'";
+        } else {
+            sql = "select SUM(jumlah) as jumlah from tempo.tempstatistik WHERE jenis = 'Mahasiswa Registrasi'  AND angkatan = '" + tahun + "'";
+        }
+        return ClassConnection.getJdbc().queryForInt(sql);
+    }
+
+    public int getJumlahMhsCuti(String tahun) {
+        String sql = null;
+        if (tahun == null) {
+            sql = "select SUM(jumlah) as jumlah from tempo.tempstatistik  WHERE jenis = 'Mahasiswa Cuti' ";
+        } else {
+            sql = "select SUM(jumlah) as jumlah from tempo.tempstatistik WHERE jenis = 'Mahasiswa Cuti'  AND angkatan = '" + tahun + "' ";
+        }
+        return ClassConnection.getJdbc().queryForInt(sql);
+    }
+
+    public int getJumlahMhsDO(String tahun) {
+        String sql = null;
+        if (tahun == null) {
+            sql = "select SUM(jumlah) as jumlah from tempo.tempstatistik  WHERE jenis = 'Mahasiswa DO'";
+        } else {
+            sql = "select SUM(jumlah) as jumlah from tempo.tempstatistik WHERE jenis = 'Mahasiswa DO'  AND angkatan = '" + tahun + "'";
+        }
+        return ClassConnection.getJdbc().queryForInt(sql);
+    }
+
+    public int getJumlahMhsLulus(String tahun) {
+        String sql = null;
+        if (tahun == null) {
+            sql = "select SUM(jumlah) as jumlah from tempo.tempstatistik  WHERE jenis = 'Mahasiswa Lulus'";
+        } else {
+            sql = "select SUM(jumlah) as jumlah from tempo.tempstatistik WHERE jenis = 'Mahasiswa Lulus'  AND angkatan = '" + tahun + "'";
+        }
+        return ClassConnection.getJdbc().queryForInt(sql);
+    }
+
+    public int getJumlahMhsTidakAktif(String tahun) {
+        String sql = null;
+        if (tahun == null) {
+            sql = "select SUM(jumlah) as jumlah from tempo.tempstatistik  WHERE jenis = 'Mahasiswa Tidak Registrasi'";
+        } else {
+            sql = "select SUM(jumlah) as jumlah from tempo.tempstatistik WHERE jenis = 'Mahasiswa Tidak Registrasi'  AND angkatan = '" + tahun + "'";
+        }
+        return ClassConnection.getJdbc().queryForInt(sql);
+    }
+
     public void deleteTabelTempo(String kodeProdi) {
         String sql = "drop table tempo.tempmhs" + kodeProdi;
         ClassConnection.getJdbc().execute(sql);
@@ -322,8 +515,18 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
         ClassConnection.getJdbc().execute(sql);
     }
 
+    public void deleteTabelStatistik() {
+        String sql = "drop table tempo.tempstatistik";
+        ClassConnection.getJdbc().execute(sql);
+    }
+
+    public void deleteTabelAllStatistik() {
+        String sql = "drop table tempo.tempallstatistik";
+        ClassConnection.getJdbc().execute(sql);
+    }
+
     public List<Map> getProdi() {
-        String sql = "SELECT Kd_prg, Nama_prg FROM kamus.prg_std";
+        String sql = "SELECT Kd_prg, Nama_prg FROM kamus.prg_std ORDER BY Nama_prg";
         List<Map> maps = ClassConnection.getJdbc().queryForList(sql);
         return maps;
     }
@@ -343,8 +546,34 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
         return ClassConnection.getJdbc().queryForList(sql);
     }
 
+    public List<Map> getAngkatan() {
+        String sql = "select distinct angkatan from tempo.tempstatistik WHERE angkatan > 1900 order by angkatan";
+        return ClassConnection.getJdbc().queryForList(sql);
+    }
+
     public List<Map> getStatistikMahasiswa(String kodeProdi) {
         String sql = "SELECT *FROM tempo.tempstatistik" + kodeProdi;
+        return ClassConnection.getJdbc().queryForList(sql);
+    }
+
+    public List<Map> getStatistikMahasiswa() {
+        String sql = "SELECT *FROM tempo.tempallstatistik";
+        return ClassConnection.getJdbc().queryForList(sql);
+    }
+
+    public List<Map> getDetailStatistikMahasiswa(String kodeProdi, String tahunAngkatan, String database, String status) {
+        String sql = null;
+        if (status == null) {
+            sql = "SELECT nama_mhs, nama_prg FROM " + database + ", kamus.prg_std prg  WHERE  prg.Kd_prg = '" + kodeProdi + "'  "
+                    + " AND  if(left(nomor_mhs,1)='9', CONCAT('19',left(nomor_mhs,2)), "
+                    + " if(left(nomor_mhs,1)='8', CONCAT('19',left(nomor_mhs,2)), CONCAT('20',left(nomor_mhs,2)))) = '" + tahunAngkatan + "'";
+        } else {
+            sql = "SELECT  mhs.nomor_mhs ,mhs.nama_mhs, prg.Nama_prg as nama_prg FROM  " + database + " db,  kamus.prg_std prg , db_" + kodeProdi + ".mhs" + kodeProdi + " mhs "
+                    + " WHERE  prg.Kd_prg = '" + kodeProdi + "'   AND  if(left(db.nomor_mhs,1)='9', CONCAT('19',left(db.nomor_mhs,2)), "
+                    + " if(left(db.nomor_mhs,1)='8', CONCAT('19',left(db.nomor_mhs,2)), CONCAT('20',left(db.nomor_mhs,2)))) = '" + tahunAngkatan + "' "
+                    + " AND mhs.nomor_mhs = db.nomor_mhs AND db.st_mhs = '" + status + "'";
+
+        }
         return ClassConnection.getJdbc().queryForList(sql);
     }
 

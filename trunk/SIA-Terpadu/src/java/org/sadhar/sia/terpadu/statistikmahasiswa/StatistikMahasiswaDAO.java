@@ -41,9 +41,23 @@ public interface StatistikMahasiswaDAO {
 
     public void createTabelTempo(String kodeProdi);
 
+    public void createTabelAllStatistik(List<Map> tahun);
+
     public void createTabelStatistik(String kodeProdi, List<Map> tahun);
 
+    public void createTabelStatistik();
+
+    public void deleteTabelTempo(String kodeProdi);
+
+    public void deleteTabelStatistik(String kodeProdi);
+
+    public void deleteTabelStatistik();
+
+    public void deleteTabelAllStatistik();
+
     public void alterTableStatistik(String kodeProdi, List<Map> tahun);
+
+    public void alterTableStatistik(List<Map> tahun);
 
     public int getJumlahMhsReg(String prodi, String tahun);
 
@@ -55,15 +69,27 @@ public interface StatistikMahasiswaDAO {
 
     public int getJumlahMhsTidakAktif(String prodi, String tahun);
 
-    public void deleteTabelTempo(String kodeProdi);
+    public int getJumlahMhsReg(String tahun);
 
-    public void deleteTabelStatistik(String kodeProdi);
+    public int getJumlahMhsCuti(String tahun);
+
+    public int getJumlahMhsDO(String tahun);
+
+    public int getJumlahMhsLulus(String tahun);
+
+    public int getJumlahMhsTidakAktif(String tahun);
 
     public List<Map> getStatistikMahasiswa(String kodeProdi);
+
+    public List<Map> getStatistikMahasiswa();
+
+    public List<Map> getDetailStatistikMahasiswa(String kodeProdi, String tahunAngkatan, String database, String status);
 
     public LinkedList getFieldStatistikMahasiswa();
 
     public List<Map> getProdi();
+
+    public List<Map> getAngkatan();
 
     public Object[][] SetDataToCetak(String kodeProdi) throws Exception;
 
