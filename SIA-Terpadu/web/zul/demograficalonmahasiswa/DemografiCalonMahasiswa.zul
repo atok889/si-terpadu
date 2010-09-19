@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <zk xmlns="http://www.zkoss.org/2005/zul">
     <window title="Demografi Calon Mahasiswa" border="normal" width="700px"
             closable="true"
@@ -9,7 +8,6 @@
             <groupbox>
                 <caption label="Parameter"></caption>
                 <div style="padding:3px">
-
                     <grid>
                         <rows>
                             <row>
