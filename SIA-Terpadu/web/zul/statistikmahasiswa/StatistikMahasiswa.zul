@@ -15,17 +15,9 @@
                                 <label value="Progdi/Fakultas"></label>
                                 <combobox id="cmbboxProdi" width="300px"
                                   onSelect="statistikMahasiswaWnd.cmbDataProdiOnSelect()">
-                                </combobox>
-                            </row>
-                            <row>
-                                <label value="Tahun Pendaftaran"></label>
-                                <textbox></textbox>
-                            </row>
-                            <row>
-                                <label value="Jenis"></label>
-                                <combobox>
-                                    <comboitem label=""></comboitem>
-                                    <comboitem label=""></comboitem>
+                                    <comboitem>
+
+                                    </comboitem>
                                 </combobox>
                             </row>
                         </rows>
@@ -42,18 +34,8 @@
             </groupbox>
             <groupbox>
                 <caption label="Export"></caption>
-                <div style="padding:3px" align="right">
-                    <hbox>
-                        <label value="Format"></label>
-                        <combobox>
-                            <comboitem label="PDF"></comboitem>
-                            <comboitem label="XLS"></comboitem>
-                            <comboitem label="DOC"></comboitem>
-                            <comboitem label="RTF"></comboitem>
-                        </combobox>
-                        <button label="Export" height="25px" width="90px" onClick=""></button>
-                    </hbox>
-                </div>
+                <listbox id="listboxDetailMahasiswa" width="900px" fixedLayout="false"  >                   
+                </listbox>
             </groupbox>
         </div>
     </window>
