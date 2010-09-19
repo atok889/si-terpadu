@@ -6,7 +6,9 @@ package org.sadhar.sia.terpadu.jumlahmahasiswa;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.AxisLocation;
@@ -16,9 +18,9 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.category.DefaultCategoryDataset;
 import org.sadhar.sia.framework.ClassApplicationModule;
 import org.zkoss.image.AImage;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zkex.zul.Jasperreport;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Combobox;
@@ -26,6 +28,7 @@ import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
+import org.zkoss.zul.Window;
 
 /**
  *
@@ -39,6 +42,7 @@ public class JumlahMahasiswaWnd extends ClassApplicationModule {
     Image chartImg;
     Combobox cmbExportType;
     Button btnExport;
+    JFreeChart chart = null;
 
     public JumlahMahasiswaWnd() {
     }
@@ -53,6 +57,7 @@ public class JumlahMahasiswaWnd extends ClassApplicationModule {
         btnExport.setDisabled(true);
         loadProgdi();
         cmbProgdi.setSelectedIndex(0);
+        cmbExportType.setSelectedIndex(0);
     }
 
     private void loadProgdi() throws Exception {
@@ -79,7 +84,7 @@ public class JumlahMahasiswaWnd extends ClassApplicationModule {
         try {
             JumlahMahasiwaDAO dao = new JumlahMahasiswaDAOImpl();
             CategoryDataset dataset = dao.getDataset((ProgramStudi) cmbProgdi.getSelectedItem().getValue(), txtTahunAngkatan.getValue());
-            JFreeChart chart = null;
+
             if (cmbProgdi.getSelectedItem().getValue() == null && txtTahunAngkatan.getValue().isEmpty()) {
                 chart = ChartFactory.createBarChart(
                         "Jumlah Mahasiswa", // chart title
@@ -89,7 +94,7 @@ public class JumlahMahasiswaWnd extends ClassApplicationModule {
                         PlotOrientation.HORIZONTAL,
                         true, // include legend
                         true,
-                        false);                
+                        false);
             } else {
                 chart = ChartFactory.createBarChart(
                         "Jumlah Mahasiswa", // chart title
@@ -119,7 +124,7 @@ public class JumlahMahasiswaWnd extends ClassApplicationModule {
 
             AImage image = new AImage("Bar Chart", bytes);
             chartImg.setContent(image);
-
+            btnExport.setDisabled(false);
         } catch (Exception ex) {
             ex.printStackTrace();
             Messagebox.show(ex.getMessage());
@@ -127,44 +132,28 @@ public class JumlahMahasiswaWnd extends ClassApplicationModule {
     }
 
     public void exportReport() throws Exception {
-    }
-
-    private CategoryDataset createDataset1() {
-
-        // row keys...
-        final String series1 = "First";
-        final String series2 = "Second";
-        final String series3 = "Third";
-
-        // column keys...
-        final String category1 = "Category 1";
-        final String category2 = "Category 2";
-        final String category3 = "Category 3";
-        final String category4 = "Category 4";
-        final String category5 = "Category 5";
-
-        // create the dataset...
-        final DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-
-        dataset.addValue(1.0, series1, category1);
-        dataset.addValue(4.0, series1, category2);
-        dataset.addValue(3.0, series1, category3);
-        dataset.addValue(5.0, series1, category4);
-        dataset.addValue(5.0, series1, category5);
-
-        dataset.addValue(5.0, series2, category1);
-        dataset.addValue(7.0, series2, category2);
-        dataset.addValue(6.0, series2, category3);
-        dataset.addValue(8.0, series2, category4);
-        dataset.addValue(4.0, series2, category5);
-
-        dataset.addValue(4.0, series3, category1);
-        dataset.addValue(3.0, series3, category2);
-        dataset.addValue(2.0, series3, category3);
-        dataset.addValue(3.0, series3, category4);
-        //dataset.addValue(6.0, series3, category5);
-
-        return dataset;
-
+        try {
+            //JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(datas);
+            if (cmbExportType.getSelectedItem().getValue().toString().equals("pdf")) {
+                Window pdfPreviewWnd = (Window) Executions.createComponents("/zul/pdfpreview/PdfPreview.zul", null, null);
+                Jasperreport pdfReport = (Jasperreport) pdfPreviewWnd.getFellow("report");
+                pdfReport.setType(cmbExportType.getSelectedItem().getValue().toString());
+                pdfReport.setSrc("reports/jumlahmahasiswa/JumlahMahasiswa.jasper");
+                Map parameters = new HashMap();
+                parameters.put("chart",chart.createBufferedImage(500, 300));
+                pdfReport.setParameters(parameters);
+                pdfReport.setDatasource(null);
+                pdfPreviewWnd.doModal();
+            } else {
+                report.setType(cmbExportType.getSelectedItem().getValue().toString());
+                report.setSrc("reports/jumlahmahasiswa/JumlahMahasiswa.jasper");
+                Map parameters = new HashMap();
+                parameters.put("chart",chart.createBufferedImage(500, 300, BufferedImage.TRANSLUCENT, null));
+                report.setParameters(parameters);                
+                report.setDatasource(null);
+            }
+        } catch (Exception ex) {
+            Messagebox.show(ex.getMessage());
+        }
     }
 }
