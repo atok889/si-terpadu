@@ -9,7 +9,7 @@
                             <menupopup id="1">
                                 <menuitem  label="Demografi Calon Mahasiswa" value="/zul/demograficalonmahasiswa/DemografiCalonMahasiswa.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Rerata Nilai Tes PMB" value="xx" onClick="main.showObject(self.value)" />
-                                <menuitem  label="Distribusi Pendaftar per Gelombang Pendaftaran" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Distribusi Pendaftar per Gelombang Pendaftaran" value="/zul/distribusipendaftarpergelombangpendaftaran/DistribusiPendaftar.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Jumlah Mahasiswa" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Demografi Mahasiswa" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Statistik Mahasiswa" value="/zul/statistikmahasiswa/StatistikMahasiswa.zul" onClick="main.showObject(self.value)" />
