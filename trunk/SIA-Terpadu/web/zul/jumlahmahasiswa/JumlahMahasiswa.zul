@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title="Jumlah Mahasiswa" border="normal" width="800px"
+    <window title="Jumlah Mahasiswa" border="normal" width="900px"
             closable="true"
             id="jumlahMahasiswa"
             use="org.sadhar.sia.terpadu.jumlahmahasiswa.JumlahMahasiswaWnd">
@@ -30,12 +30,12 @@
             </groupbox>
             <groupbox>
                 <caption label="Keluaran"></caption>
-                <div style="padding:3px">
+                <div id="contentDiv" style="height:400px;overflow:auto;padding:10px">
                     <jasperreport id="report" visible="false"/>
                     <image id="chartImg"/>
                 </div>
             </groupbox>
-            <groupbox>
+            <groupbox visible="false">
                 <caption label="Export"></caption>
                 <div style="padding:3px" align="right">
                     <hbox>
