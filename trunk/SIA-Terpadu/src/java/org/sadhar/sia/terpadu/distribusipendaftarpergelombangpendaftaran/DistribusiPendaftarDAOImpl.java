@@ -27,30 +27,30 @@ public class DistribusiPendaftarDAOImpl implements DistribusiPendaftarDAO {
             List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
             DistribusiPendaftar dp = new DistribusiPendaftar();
             dp.setTahun(tahun);
-            for (Map m : rows) {
-                int gel = Integer.parseInt(m.get("gelombang").toString());
-                switch (gel) {
-                    case 1:
-                        dp.setGelombang1(Integer.parseInt(m.get("jumlah").toString()));
-                        break;
-                    case 2:
-                        dp.setGelombang2(Integer.parseInt(m.get("jumlah").toString()));
-                        break;
-                    case 3:
-                        dp.setGelombang3(Integer.parseInt(m.get("jumlah").toString()));
-                        break;
-                    case 0:
-                        dp.setJalurKerjaSama(Integer.parseInt(m.get("jumlah").toString()));
-                        break;
-                    case 9:
-                        dp.setJalurPrestasi(Integer.parseInt(m.get("jumlah").toString()));
-                        break;
+            for (Map m : rows) {                
+                if (m.get("gelombang").toString().trim().length() > 0) {
+                    int gel = Integer.parseInt(m.get("gelombang").toString());
+                    switch (gel) {
+                        case 1:
+                            dp.setGelombang1(Integer.parseInt(m.get("jumlah").toString()));
+                            break;
+                        case 2:
+                            dp.setGelombang2(Integer.parseInt(m.get("jumlah").toString()));
+                            break;
+                        case 3:
+                            dp.setGelombang3(Integer.parseInt(m.get("jumlah").toString()));
+                            break;
+                        case 0:
+                            dp.setJalurKerjaSama(Integer.parseInt(m.get("jumlah").toString()));
+                            break;
+                        case 9:
+                            dp.setJalurPrestasi(Integer.parseInt(m.get("jumlah").toString()));
+                            break;
+                    }
                 }
             }
             list.add(dp);
         }
         return list;
     }
-
-    
 }
