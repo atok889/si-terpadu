@@ -11,12 +11,15 @@ import java.util.List;
 import java.util.Map;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.StandardChartTheme;
 import org.jfree.chart.axis.AxisLocation;
 import org.jfree.chart.encoders.EncoderUtil;
 import org.jfree.chart.encoders.ImageFormat;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
+import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
 import org.sadhar.sia.framework.ClassApplicationModule;
 import org.zkoss.image.AImage;
@@ -84,7 +87,8 @@ public class JumlahMahasiswaWnd extends ClassApplicationModule {
         try {
             JumlahMahasiwaDAO dao = new JumlahMahasiswaDAOImpl();
             CategoryDataset dataset = dao.getDataset((ProgramStudi) cmbProgdi.getSelectedItem().getValue(), txtTahunAngkatan.getValue());
-
+            ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
+            BarRenderer.setDefaultBarPainter(new StandardBarPainter());
             if (cmbProgdi.getSelectedItem().getValue() == null) {
                 chart = ChartFactory.createBarChart(
                         "Jumlah Mahasiswa", // chart title
@@ -111,13 +115,16 @@ public class JumlahMahasiswaWnd extends ClassApplicationModule {
             final CategoryPlot plot = chart.getCategoryPlot();
             plot.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
             plot.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
-            final CategoryItemRenderer renderer1 = plot.getRenderer();
 
+            final CategoryItemRenderer renderer1 = plot.getRenderer();
             renderer1.setSeriesPaint(0, Color.red);
             renderer1.setSeriesPaint(1, Color.yellow);
             renderer1.setSeriesPaint(2, Color.green);
             renderer1.setSeriesPaint(3, Color.blue);
             renderer1.setSeriesPaint(4, Color.cyan);
+            BarRenderer br = (BarRenderer)renderer1;
+            br.setShadowVisible(false);
+
 
             BufferedImage bi = chart.createBufferedImage(800, 400, BufferedImage.TRANSLUCENT, null);
             if (cmbProgdi.getSelectedItem().getValue() == null) {
@@ -144,7 +151,7 @@ public class JumlahMahasiswaWnd extends ClassApplicationModule {
                 pdfReport.setType(cmbExportType.getSelectedItem().getValue().toString());
                 pdfReport.setSrc("reports/jumlahmahasiswa/JumlahMahasiswa.jasper");
                 Map parameters = new HashMap();
-                parameters.put("chart",chart.createBufferedImage(500, 300));
+                parameters.put("chart", chart.createBufferedImage(500, 300));
                 pdfReport.setParameters(parameters);
                 pdfReport.setDatasource(null);
                 pdfPreviewWnd.doModal();
@@ -152,8 +159,8 @@ public class JumlahMahasiswaWnd extends ClassApplicationModule {
                 report.setType(cmbExportType.getSelectedItem().getValue().toString());
                 report.setSrc("reports/jumlahmahasiswa/JumlahMahasiswa.jasper");
                 Map parameters = new HashMap();
-                parameters.put("chart",chart.createBufferedImage(500, 300, BufferedImage.TRANSLUCENT, null));
-                report.setParameters(parameters);                
+                parameters.put("chart", chart.createBufferedImage(500, 300, BufferedImage.TRANSLUCENT, null));
+                report.setParameters(parameters);
                 report.setDatasource(null);
             }
         } catch (Exception ex) {
