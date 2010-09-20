@@ -27,7 +27,7 @@ public class JumlahMahasiswaDAOImpl implements JumlahMahasiwaDAO {
         List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
         String sql = "SELECT Kd_prg,Nama_prg FROM kamus.prg_std ORDER BY Kd_prg";
         List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
-        for (Map m : rows) {
+        for (Map m : rows) {            
             ProgramStudi ps = new ProgramStudi();
             ps.setKode(m.get("Kd_prg").toString());
             ps.setNama(m.get("Nama_prg").toString());
@@ -57,10 +57,10 @@ public class JumlahMahasiswaDAOImpl implements JumlahMahasiwaDAO {
             }
         } else if (progdi == null && !tahun.isEmpty()) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-            //progdis = getProgramStudi();
+            progdis = getProgramStudi();
             //for sampe
-            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
-            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
+//            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
+//            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
 
             for (ProgramStudi ps : progdis) {
                 sql = "SELECT YEAR(tglmskusd) AS tahun,COUNT(nomor_mhs) AS jumlah "
@@ -73,10 +73,10 @@ public class JumlahMahasiswaDAOImpl implements JumlahMahasiwaDAO {
         } else if (progdi == null && tahun.isEmpty()) {
             DateTime dt = new DateTime(new Date());
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-            //progdis = getProgramStudi();
+            progdis = getProgramStudi();
             //for sampe
-            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
-            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
+//            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
+//            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
 
             for (ProgramStudi ps : progdis) {
                 sql = "SELECT YEAR(tglmskusd) AS tahun,COUNT(nomor_mhs) AS jumlah "

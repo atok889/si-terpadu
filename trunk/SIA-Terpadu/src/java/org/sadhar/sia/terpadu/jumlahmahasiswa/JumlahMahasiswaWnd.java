@@ -85,7 +85,7 @@ public class JumlahMahasiswaWnd extends ClassApplicationModule {
             JumlahMahasiwaDAO dao = new JumlahMahasiswaDAOImpl();
             CategoryDataset dataset = dao.getDataset((ProgramStudi) cmbProgdi.getSelectedItem().getValue(), txtTahunAngkatan.getValue());
 
-            if (cmbProgdi.getSelectedItem().getValue() == null && txtTahunAngkatan.getValue().isEmpty()) {
+            if (cmbProgdi.getSelectedItem().getValue() == null) {
                 chart = ChartFactory.createBarChart(
                         "Jumlah Mahasiswa", // chart title
                         "Program Studi", // domain axis label
@@ -119,7 +119,11 @@ public class JumlahMahasiswaWnd extends ClassApplicationModule {
             renderer1.setSeriesPaint(3, Color.blue);
             renderer1.setSeriesPaint(4, Color.cyan);
 
-            BufferedImage bi = chart.createBufferedImage(500, 300, BufferedImage.TRANSLUCENT, null);
+            BufferedImage bi = chart.createBufferedImage(800, 400, BufferedImage.TRANSLUCENT, null);
+            if (cmbProgdi.getSelectedItem().getValue() == null) {
+                bi = chart.createBufferedImage(800, 1500, BufferedImage.TRANSLUCENT, null);
+            }
+
             byte[] bytes = EncoderUtil.encode(bi, ImageFormat.PNG, true);
 
             AImage image = new AImage("Bar Chart", bytes);
