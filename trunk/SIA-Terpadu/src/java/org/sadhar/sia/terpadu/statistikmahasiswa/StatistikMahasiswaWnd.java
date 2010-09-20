@@ -33,8 +33,7 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
     private Listbox listboxMahasiswa;
     private Listbox listboxDetailMahasiswa;
     private String tahunAkademik = "2000";
-    private String semester = "2";
-    private List<StatistikMahasiswa> statistikMahasiswas;
+    private String semester = "2";    
 
     public StatistikMahasiswaWnd() {
         statistikMahasiswaDAO = new StatistikMahasiswaDAOImpl();

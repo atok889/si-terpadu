@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <window title="Statistik Mahasiswa" border="normal" width="750px"
+            closable="true" sizable="true"
+            id="jumlahMahasiswaLulusDanBelumLulusWnd"
+            use="org.sadhar.sia.terpadu.jumlahmahasiswalulusdanbelumlulus.JumlahMahasiswaLulusDanBelumLulusWnd">
+        <div style="padding:5px">
+            <groupbox>
+                <caption label="Parameter"></caption>
+                <div style="padding:3px">
+                    <grid>
+                        <rows>
+                            <row>
+                                <label value="Progdi/Fakultas"></label>
+                                <combobox id="cmbboxProdi" width="300px"
+                                  onSelect="jumlahMahasiswaLulusDanBelumLulusWnd.cmbDataProdiOnSelect()">
+                                    <comboitem>
+
+                                    </comboitem>
+                                </combobox>
+                            </row>
+                        </rows>
+                    </grid>
+                </div>
+            </groupbox>
+            <groupbox>
+                <caption label="Keluaran"></caption>
+                <listbox id="listboxMahasiswa" width="700px" fixedLayout="false" >
+                    <listhead>
+                        <listheader label="-"  align="center" ></listheader>
+                    </listhead>
+                </listbox>
+            </groupbox>
+        </div>
+    </window>
+</zk>
+
