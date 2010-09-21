@@ -122,7 +122,7 @@ public class JumlahMahasiswaWnd extends ClassApplicationModule {
             renderer1.setSeriesPaint(2, Color.green);
             renderer1.setSeriesPaint(3, Color.blue);
             renderer1.setSeriesPaint(4, Color.cyan);
-            BarRenderer br = (BarRenderer)renderer1;
+            BarRenderer br = (BarRenderer) renderer1;
             br.setShadowVisible(false);
 
 
@@ -137,7 +137,6 @@ public class JumlahMahasiswaWnd extends ClassApplicationModule {
             chartImg.setContent(image);
             btnExport.setDisabled(false);
         } catch (Exception ex) {
-            ex.printStackTrace();
             Messagebox.show(ex.getMessage());
         }
     }
