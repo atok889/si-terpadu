@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title="Statistik Mahasiswa" border="normal" width="950px"
-            closable="true" sizable="true" 
-            id="statistikMahasiswaWnd"
-            use="org.sadhar.sia.terpadu.statistikmahasiswa.StatistikMahasiswaWnd">
+    <window title="Warning Administratif" border="normal" width="800px"
+            closable="true" sizable="true"
+            id="warningAdministratifWnd"
+            use="org.sadhar.sia.terpadu.warning.warningadministratif.WarningAdministratifWnd">
         <div style="padding:5px">
             <groupbox>
                 <caption label="Parameter"></caption>
@@ -35,12 +35,7 @@
                         <listheader label="-"  align="center" ></listheader>
                     </listhead>
                 </listbox>
-            </groupbox>
-            <groupbox>
-                <caption label="Detail"></caption>
-                <listbox id="listboxDetailMahasiswa" width="900px" fixedLayout="false" visible = "false" >
-                </listbox>
-            </groupbox>
+            </groupbox>         
         </div>
     </window>
 </zk>
