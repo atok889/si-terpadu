@@ -33,7 +33,7 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
     private Listbox listboxMahasiswa;
     private Listbox listboxDetailMahasiswa;
     private String tahunAkademik = "2000";
-    private String semester = "2";    
+    private String semester = "2";
 
     public StatistikMahasiswaWnd() {
         statistikMahasiswaDAO = new StatistikMahasiswaDAOImpl();
@@ -50,16 +50,16 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
     }
 
     private void loadDataProdiToCombo() {
-        for (Map map : statistikMahasiswaDAO.getProdi()) {
-            Comboitem item = new Comboitem();
-            item.setValue(map.get("Kd_prg").toString());
-            item.setLabel(map.get("Nama_prg").toString());
-            cmbboxProdi.appendChild(item);
-        }
-
         Comboitem item = new Comboitem("--TOTAL--");
         cmbboxProdi.appendChild(item);
         cmbboxProdi.setSelectedItem(item);
+
+        for (Map map : statistikMahasiswaDAO.getProdi()) {
+            Comboitem items = new Comboitem();
+            items.setValue(map.get("Kd_prg").toString());
+            items.setLabel(map.get("Nama_prg").toString());
+            cmbboxProdi.appendChild(items);
+        }
     }
 
     private void resetListboxDetail() {
@@ -151,7 +151,9 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
             listboxMahasiswa.appendChild(listhead);
         } else {
             try {
-                Messagebox.show("Data Tidak Ditemukan !", "Error", Messagebox.OK, Messagebox.ERROR);
+                Messagebox.show("Data tidak ditemukan !", "Informasi", Messagebox.OK, Messagebox.INFORMATION);
+                this.listboxDetailMahasiswa.setVisible(false);
+                this.listboxMahasiswa.setVisible(false);
             } catch (InterruptedException ex) {
                 Logger.getLogger(StatistikMahasiswaWnd.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -263,10 +265,19 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
     }
 
     public void cmbDataProdiOnSelect() {
-        if (cmbboxProdi.getSelectedItem().getLabel().equalsIgnoreCase("--TOTAL--")) {
-            this.loadAllDataToListbox();
+        if (cmbboxProdi.getSelectedItem().getValue() == null) {
+            kodeProdi = null;
         } else {
             kodeProdi = (String) cmbboxProdi.getSelectedItem().getValue();
+        }
+    }
+
+    public void btnShowOnClick() {
+        this.listboxMahasiswa.setVisible(true);
+        this.listboxDetailMahasiswa.setVisible(true);
+        if (kodeProdi == null) {
+            this.loadAllDataToListbox();
+        } else {
             this.loadDataToListbox();
         }
         this.resetListboxDetail();

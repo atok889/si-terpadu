@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title="Statistik Mahasiswa" border="normal" width="750px"
+    <window title="Jumlah Mahasiswa Lulus Dan Belum Lulus" border="normal" width="750px"
             closable="true" sizable="true"
             id="jumlahMahasiswaLulusDanBelumLulusWnd"
             use="org.sadhar.sia.terpadu.jumlahmahasiswalulusdanbelumlulus.JumlahMahasiswaLulusDanBelumLulusWnd">
@@ -16,9 +16,12 @@
                                 <combobox id="cmbboxProdi" width="300px"
                                   onSelect="jumlahMahasiswaLulusDanBelumLulusWnd.cmbDataProdiOnSelect()">
                                     <comboitem>
-
                                     </comboitem>
                                 </combobox>
+                            </row>
+                            <row style = "">
+                                <label value=""></label>
+                                <button label="Tampilkan" height="25px" width="90px" onClick="jumlahMahasiswaLulusDanBelumLulusWnd.btnShowOnClick()"  ></button>
                             </row>
                         </rows>
                     </grid>
@@ -26,11 +29,27 @@
             </groupbox>
             <groupbox>
                 <caption label="Keluaran"></caption>
-                <listbox id="listboxMahasiswa" width="700px" fixedLayout="false" >
+                <listbox id="listboxMahasiswa" width="700px" fixedLayout="false" visible = "false">
                     <listhead>
                         <listheader label="-"  align="center" ></listheader>
                     </listhead>
                 </listbox>
+            </groupbox>
+            <groupbox visible="true">
+                <caption label="Export"></caption>
+                <div style="padding:3px" align="right">
+                    <hbox>
+                        <label value="Format"></label>
+                        <jasperreport id="report" visible="false"/>
+                        <combobox id="cmbExportType">
+                            <comboitem label="PDF" value="pdf"></comboitem>
+                            <comboitem label="XLS" value="xls"></comboitem>
+                            <comboitem label="DOC" value="rtf"></comboitem>
+                            <comboitem label="RTF" value="rtf"></comboitem>
+                        </combobox>
+                        <button id="btnExport" disabled="true" label="Export" height="25px" width="90px" onClick="jumlahMahasiswaLulusDanBelumLulusWnd.exportReport()"></button>
+                    </hbox>
+                </div>
             </groupbox>
         </div>
     </window>
