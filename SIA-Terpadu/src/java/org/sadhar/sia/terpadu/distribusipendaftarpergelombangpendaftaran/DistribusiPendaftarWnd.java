@@ -44,6 +44,7 @@ public class DistribusiPendaftarWnd extends ClassApplicationModule {
         cmbExportType.setSelectedIndex(0);
         lstData = (Listbox) getFellow("lstData");
         btnExport = (Button) getFellow("btnExport");
+        cmbExportType.setSelectedIndex(0);
     }
 
     public void viewReport() throws Exception {
