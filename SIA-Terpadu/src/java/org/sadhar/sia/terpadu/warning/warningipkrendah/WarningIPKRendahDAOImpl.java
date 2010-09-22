@@ -39,10 +39,11 @@ public class WarningIPKRendahDAOImpl implements WarningIPKRendahDAO {
         List<Map> datas = new ArrayList<Map>();
         List<Map> allData = new ArrayList<Map>();
         for (Map data : tahuns) {
-            if (isTabelExist(kodeProdi, (String) data.get("angkatan"))) {
-                System.out.println(kodeProdi + "" + data.get("angkatan"));
+            if (isTabelExist(kodeProdi, (String) data.get("angkatan"))) {               
                 String sql = "SELECT detail_mhs.Nomor_mhs, mhs.nama_mhs, prodi.Nama_prg, fakultas.Nama_fak, "
-                        + " SUM(SKS * angka)/SUM(SKS) as ipk "
+                        + " SUM(SKS * angka)/SUM(SKS) as ipk, "
+                        + " IF(LEFT( mhs.nomor_mhs, 1)='9', CONCAT('19', LEFT( mhs.nomor_mhs, 2)),"
+                        + " IF(LEFT( mhs.nomor_mhs, 1)='8', CONCAT('19', LEFT( mhs.nomor_mhs,2)), CONCAT('20', LEFT( mhs.nomor_mhs, 2)))) AS angkatan "
                         + " FROM db_" + kodeProdi + ".kh" + kodeProdi + data.get("angkatan") + " AS detail_mhs "
                         + " INNER JOIN db_" + kodeProdi + ".mhs" + kodeProdi + " mhs ON (mhs.nomor_mhs = detail_mhs.Nomor_mhs) "
                         + " INNER JOIN kamus.prg_std prodi ON (prodi.Kd_prg = '" + kodeProdi + "')  "
@@ -53,20 +54,19 @@ public class WarningIPKRendahDAOImpl implements WarningIPKRendahDAO {
                 allData.addAll(datas);
             }
 
-        }
-
-        for (Map map : allData) {
-            System.out.print("-----" + map.get("Nomor_mhs"));
-            System.out.print("-----" + map.get("nama_mhs"));
-            System.out.println("-----" + map.get("ipk"));
-            System.out.println("-----" + map.get("Nama_fak"));
-        }
-        return datas;
+        }       
+        return allData;
     }
 
     public boolean isTabelExist(String kodeProdi, String tahun) {
-        String sql = "Show tables from db_" + kodeProdi + " like 'kh" + kodeProdi + tahun + "'";
-        SqlRowSet rs = ClassConnection.getJdbc().queryForRowSet(sql);
+        SqlRowSet rs = null;
+        try {
+            String sql = "Show tables from db_" + kodeProdi + " like 'kh" + kodeProdi + tahun + "'";
+            rs = ClassConnection.getJdbc().queryForRowSet(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
         return rs.next();
     }
 }
