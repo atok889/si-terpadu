@@ -5,7 +5,6 @@
 package org.sadhar.sia.terpadu.jumlahmahasiswalulusdanbelumlulus;
 
 import java.text.DecimalFormat;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -15,7 +14,6 @@ import org.zkoss.zkex.zul.Jasperreport;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
-import org.zkoss.zul.Label;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listhead;
@@ -55,11 +53,16 @@ public class JumlahMahasiswaLulusDanBelumLulusWnd extends ClassApplicationModule
     }
 
     private void loadDataProdiToCombo() {
+        Comboitem item = new Comboitem();
+        item.setLabel("--Pilih Prodi--");
+        cmbboxProdi.appendChild(item);
+        cmbboxProdi.setSelectedItem(item);
+
         for (Map map : jumlahMahasiswaLulusDanBelumLulusDAO.getProdi()) {
-            Comboitem item = new Comboitem();
-            item.setValue(map.get("Kd_prg").toString());
-            item.setLabel(map.get("Nama_prg").toString());
-            cmbboxProdi.appendChild(item);
+            Comboitem items = new Comboitem();
+            items.setValue(map.get("Kd_prg").toString());
+            items.setLabel(map.get("Nama_prg").toString());
+            cmbboxProdi.appendChild(items);
         }
     }
 
@@ -143,12 +146,9 @@ public class JumlahMahasiswaLulusDanBelumLulusWnd extends ClassApplicationModule
 
     public void exportReport() throws Exception {
         List<Map> datas = jumlahMahasiswaLulusDanBelumLulusDAO.getJumlahMahasiswaLulusDanBelumLulus(kodeProdi);
-//        for(Map map: datas){
-//            System.out.println(map.get("angkatan"));
-//        }
         try {
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(datas);
-            if (cmbExportType.getSelectedItem().getValue().toString().equals("pdfgg")) {
+            if (cmbExportType.getSelectedItem().getValue().toString().equals("pdf")) {
                 Window pdfPreviewWnd = (Window) Executions.createComponents("/zul/pdfpreview/PdfPreview.zul", null, null);
                 Jasperreport pdfReport = (Jasperreport) pdfPreviewWnd.getFellow("report");
                 pdfReport.setType(cmbExportType.getSelectedItem().getValue().toString());
