@@ -141,9 +141,9 @@ public class DemografiMahasiswaWnd extends ClassApplicationModule {
             BarRenderer br = (BarRenderer) renderer1;
             br.setShadowVisible(false);
 
-            BufferedImage bi = chart.createBufferedImage(800, 400, BufferedImage.TRANSLUCENT, null);
+            BufferedImage bi = chart.createBufferedImage(900, 500, BufferedImage.TRANSLUCENT, null);
             if (cmbProgdi.getSelectedItem().getValue() == null) {
-                bi = chart.createBufferedImage(800, 1500, BufferedImage.TRANSLUCENT, null);
+                bi = chart.createBufferedImage(900, 2000, BufferedImage.TRANSLUCENT, null);
             }
 
             byte[] bytes = EncoderUtil.encode(bi, ImageFormat.PNG, true);

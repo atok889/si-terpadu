@@ -59,10 +59,10 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
             }
         } else if (progdi == null && tahun.isEmpty()) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-//            progdis = getProgramStudi();
+            progdis = getProgramStudi();
 
-            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
-            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
+//            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
+//            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
 
 
             for (ProgramStudi ps : progdis) {
@@ -76,10 +76,10 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
             }
         } else if (progdi == null && !tahun.isEmpty()) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-//            progdis = getProgramStudi();
+            progdis = getProgramStudi();
 
-            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
-            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
+//            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
+//            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
 
 
             for (ProgramStudi ps : progdis) {
@@ -116,10 +116,10 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
             }
         } else if (progdi == null && tahun.isEmpty()) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-//            progdis = getProgramStudi();
+            progdis = getProgramStudi();
 
-            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
-            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
+//            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
+//            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
 
             for (ProgramStudi ps : progdis) {
                 sql = "SELECT kamus.agama.Nm_agama as agama, COUNT(db_" + ps.getKode() + ".mhs" + ps.getKode() + ".nomor_mhs) AS jumlah "
@@ -133,10 +133,10 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
             }
         } else if (progdi == null && !tahun.isEmpty()) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-//            progdis = getProgramStudi();
+            progdis = getProgramStudi();
 
-            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
-            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
+//            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
+//            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
 
 
             for (ProgramStudi ps : progdis) {
@@ -176,10 +176,10 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
             }
         } else if (progdi == null && tahun.isEmpty()) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-//            progdis = getProgramStudi();
+            progdis = getProgramStudi();
 
-            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
-            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
+//            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
+//            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
 
             for (ProgramStudi ps : progdis) {
                 sql = "SELECT kamus.penghasilan.nm_hasil as penghasilan, COUNT(db_" + ps.getKode() + ".mhs" + ps.getKode() + ".nomor_mhs) AS jumlah "
@@ -193,10 +193,10 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
             }
         } else if (progdi == null && !tahun.isEmpty()) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-//            progdis = getProgramStudi();
+            progdis = getProgramStudi();
 
-            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
-            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
+//            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
+//            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
 
 
             for (ProgramStudi ps : progdis) {
@@ -237,10 +237,10 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
             }
         } else if (progdi == null && tahun.isEmpty()) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-//            progdis = getProgramStudi();
+            progdis = getProgramStudi();
 
-            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
-            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
+//            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
+//            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
 
             for (ProgramStudi ps : progdis) {
                 sql = "SELECT kamus.pekerjaan.Nm_kerja as pekerjaan, COUNT(db_" + ps.getKode() + ".mhs" + ps.getKode() + ".nomor_mhs) AS jumlah "
@@ -254,10 +254,10 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
             }
         } else if (progdi == null && !tahun.isEmpty()) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-//            progdis = getProgramStudi();
+            progdis = getProgramStudi();
 
-            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
-            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
+//            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
+//            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
 
 
             for (ProgramStudi ps : progdis) {
@@ -349,10 +349,10 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
         } //progdi tdk kosong
         else if (progdi == null && tahun.isEmpty() && prov == null) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-//            progdis = getProgramStudi();
+            progdis = getProgramStudi();
 
-            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
-            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
+//            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
+//            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
 
 
             for (ProgramStudi ps : progdis) {
@@ -369,10 +369,10 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
             }
         } else if (progdi == null && !tahun.isEmpty() && prov == null) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-//            progdis = getProgramStudi();
+            progdis = getProgramStudi();
 
-            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
-            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
+//            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
+//            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
 
 
             for (ProgramStudi ps : progdis) {
@@ -390,10 +390,10 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
             }
         } else if (progdi == null && !tahun.isEmpty() && prov != null && kabkota == null) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-//            progdis = getProgramStudi();
+            progdis = getProgramStudi();
 
-            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
-            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
+//            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
+//            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
 
 
             for (ProgramStudi ps : progdis) {
@@ -411,10 +411,10 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
             }
         } else if (progdi == null && !tahun.isEmpty() && prov != null && kabkota != null) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-//            progdis = getProgramStudi();
+            progdis = getProgramStudi();
 
-            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
-            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
+//            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
+//            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
 
 
             for (ProgramStudi ps : progdis) {
@@ -432,10 +432,10 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
             }
         } else if (progdi == null && tahun.isEmpty() && prov != null && kabkota == null) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-//            progdis = getProgramStudi();
+            progdis = getProgramStudi();
 
-            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
-            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
+//            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
+//            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
 
 
             for (ProgramStudi ps : progdis) {
@@ -452,10 +452,10 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
             }
         } else if (progdi == null && tahun.isEmpty() && prov != null && kabkota != null) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-//            progdis = getProgramStudi();
+            progdis = getProgramStudi();
 
-            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
-            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
+//            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
+//            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
 
 
             for (ProgramStudi ps : progdis) {
