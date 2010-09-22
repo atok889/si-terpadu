@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title="Demografi Mahasiswa" border="normal" width="900px"
+    <window title="Demografi Mahasiswa" border="normal" width="1000px"
             closable="true"
             id="demografiMahasiswa"
             use="org.sadhar.sia.terpadu.demografimahasiswa.DemografiMahasiswaDaerahWnd">
