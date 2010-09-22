@@ -587,7 +587,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
     }
 
     public void createDatabaseTempo() {
-        String sql = "CREATE DATABASE IF NOT EXISTS TEMPO ";
+        String sql = "CREATE DATABASE IF NOT EXISTS tempo ";
         ClassConnection.getJdbc().execute(sql);
     }
 

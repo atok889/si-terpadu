@@ -44,7 +44,7 @@ public class JumlahMahasiswaLulusDanBelumLulusDAOImpl implements JumlahMahasiswa
     }
 
     public void createDatabaseTempo() {
-        String sql = "CREATE DATABASE IF NOT EXISTS TEMPO";
+        String sql = "CREATE DATABASE IF NOT EXISTS tempo";
         ClassConnection.getJdbc().execute(sql);
     }
 
