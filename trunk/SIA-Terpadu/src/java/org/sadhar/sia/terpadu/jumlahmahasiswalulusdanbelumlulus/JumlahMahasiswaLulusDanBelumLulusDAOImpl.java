@@ -121,8 +121,12 @@ public class JumlahMahasiswaLulusDanBelumLulusDAOImpl implements JumlahMahasiswa
         this.createTableTahun(kodeProdi);
         this.createTableLulus(kodeProdi);
         this.updateTableLulus(kodeProdi);
-        String sql = "SELECT angkatan, jumlah_total,jumlah_lulus,(jumlah_lulus/(jumlah_total*10/100)*10) AS prosentase_lulus, (jumlah_total-jumlah_lulus) AS jumlah_belum_lulus,"
-                + "((jumlah_total-jumlah_lulus)/(jumlah_total*10/100)*10) AS prosentase_belum_lulus FROM tempo.lulus" + kodeProdi;
+        String sql = "SELECT angkatan, @vjumlah_total := jumlah_total as jumlah_total,"
+                + " @vjumlah_lulus := jumlah_lulus as jumlah_lulus, "
+                + " IF(@vjumlah_total=0,0,(jumlah_lulus/(jumlah_total*10/100)*10)) AS prosentase_lulus,"
+                + " (jumlah_total-jumlah_lulus) AS jumlah_belum_lulus, "
+                + " IF(@vjumlah_total=0,0,((jumlah_total-jumlah_lulus)/(jumlah_total*10/100)*10) ) AS prosentase_belum_lulus "
+                + " FROM tempo.lulus" + kodeProdi+" ORDER BY angkatan";
         return ClassConnection.getJdbc().queryForList(sql);
     }
 }
