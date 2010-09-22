@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <window title="Daftar Matakuliah" border="normal" width="900px"
+            closable="true"
+            id="daftarMatakuliah"
+            use="org.sadhar.sia.terpadu.daftarmatakuliah.DaftarMatakuliahWnd">
+        <div style="padding:5px">
+            <groupbox>
+                <caption label="Parameter"></caption>
+                <div style="padding:3px">
+                    <grid>
+                        <rows>
+                            <row>
+                                <label value="Program Studi"/>
+                                <combobox id="cmbProdi" width="300px" onChange="daftarMatakuliah.cmbProdiOnChange()"/>
+                            </row>
+                        </rows>
+                    </grid>
+                </div>
+                <div style="padding:3px">
+                    <button label="Tampilkan" height="25px" width="90px" onClick="daftarMatakuliah.viewReport()"></button>
+                </div>
+            </groupbox>
+            <groupbox>
+                <caption label="Keluaran"></caption>
+                <div style="padding:3px">
+                    <jasperreport id="report" visible="false"/>
+                    <listbox id="lstData" rows="12">
+                        <listhead>
+                            <listheader label="No" width="50px"/>
+                            <listheader label="Kode" width="80px"/>
+                            <listheader label="Matakuliah"/>
+                            <listheader label="SKS" align="center" width="80px" />
+                            <listheader label="Dosen" width="200px" />
+                        </listhead>
+                    </listbox>
+                </div>
+            </groupbox>
+            <groupbox>
+                <caption label="Export"></caption>
+                <div style="padding:3px" align="right">
+                    <hbox>
+                        <label value="Format"></label>
+                        <combobox id="cmbExportType">
+                            <comboitem label="PDF" value="pdf"></comboitem>
+                            <comboitem label="XLS" value="xls"></comboitem>
+                            <comboitem label="DOC" value="rtf"></comboitem>
+                            <comboitem label="RTF" value="rtf"></comboitem>
+                        </combobox>
+                        <button id="btnExport" disabled="true" label="Export" height="25px" width="90px" onClick="daftarMatakuliah.exportReport()"></button>
+                    </hbox>
+                </div>
+        </groupbox></div>
+    </window>
+</zk>
