@@ -14,4 +14,10 @@ import java.util.Map;
 public interface WarningIPKRendahDAO {
 
     public List<Map> getProdi();
+
+    public List<Map> getAngkatan();
+
+    public List<Map> getWarningIPKRendah(String kodeProdi);
+
+    public boolean isTabelExist(String kodeProdi, String tahun);
 }

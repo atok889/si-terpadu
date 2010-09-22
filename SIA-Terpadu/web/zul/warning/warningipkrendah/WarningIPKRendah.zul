@@ -14,7 +14,7 @@
                             <row>
                                 <label value="Progdi/Fakultas"></label>
                                 <combobox id="cmbboxProdi" width="300px"
-                                  onSelect="statistikMahasiswaWnd.cmbDataProdiOnSelect()">
+                                  onSelect="warningIPKRendahWnd.cmbDataProdiOnSelect()">
                                     <comboitem>
 
                                     </comboitem>
@@ -22,7 +22,7 @@
                             </row>
                             <row>
                                 <label value=""></label>
-                                <button label="Tampilkan" height="25px" width="90px" onClick="statistikMahasiswaWnd.btnShowOnClick()"  ></button>
+                                <button label="Tampilkan" height="25px" width="90px" onClick="warningIPKRendahWnd.btnShowOnClick()"  ></button>
                             </row>
                         </rows>
                     </grid>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title="Warning Semster" border="normal" width="800px"
+    <window title="Warning Semester" border="normal" width="800px"
             closable="true" sizable="true"
             id="warningSemesterWnd"
             use="org.sadhar.sia.terpadu.warning.warningsemester.WarningSemesterWnd">
