@@ -75,7 +75,11 @@ public class DistribusiPendaftarWnd extends ClassApplicationModule {
                     item.appendChild(new Listcell(dp.getJalurPrestasi() + ""));
                     lstData.appendChild(item);
                 }
-                btnExport.setDisabled(false);
+                if (datas.size() > 0) {
+                    btnExport.setDisabled(false);
+                }else{
+                     btnExport.setDisabled(true);
+                }
             } else {
                 Messagebox.show("Silahkan input tahun pendaftaran");
                 txtTahunMulai.setFocus(true);
