@@ -17,19 +17,19 @@ public interface StatistikMahasiswaDAO {
 
     public List getMhsLulus(String kodeProdi);
 
-    public List getMhsDO(String kodeProdi);
+    public List<Map> getMhsDO(String kodeProdi);
 
-    public List getMhsReg(String kodeProdi, String akademik, String semester);
+    public List<Map> getMhsReg(String kodeProdi, String akademik, String semester);
 
-    public List getMhsTidakReg(String kodeProdi, String akademik, String semester);
+    public List<Map> getMhsTidakReg(String kodeProdi, String akademik, String semester);
 
-    public List getMhsCuti(String kodeProdi, String akademik, String semester);
+    public List<Map> getMhsCuti(String kodeProdi, String akademik, String semester);
 
-    public List getMhsAllTempo(String kodeProdi);
+    public List<Map> getMhsAllTempo(String kodeProdi);
 
     public StatistikMahasiswa getTempo(String prodi, String jenis, String tahun);
 
-    public List<StatistikMahasiswa> getAllTempo(String prodi);
+    public List<Map> getAllTempo(String prodi);
 
     public List<Map> getAngkatan(String prodi);
 

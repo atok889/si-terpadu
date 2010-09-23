@@ -24,14 +24,14 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
         ClassConnection.getTransactionProxyFactoryBean().setTarget(this);
     }
 
-    public List getListDataStatistik(String kodeProdi) {
+    public List<Map> getListDataStatistik(String kodeProdi) {
         String sql = "select jenis, angkatan, jumlah "
                 + "from tempo.tempmhs" + kodeProdi;
 
-        return ClassConnection.getJdbc().query(sql, new Mapper());
+        return ClassConnection.getJdbc().queryForList(sql);
     }
 
-    public List getMhsAllTempo(String kodeProdi) {
+    public List<Map> getMhsAllTempo(String kodeProdi) {
         String sql = "select * "
                 + "from tempo.tempmhs" + kodeProdi + " "
                 + "where tempo.tempmhs" + kodeProdi + ".jenis like 'Total Mahasiswa' "
@@ -45,10 +45,10 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                 + " order by angkatan asc";
 
         ClassConnection.getJdbc().execute(insertTempo);
-        return ClassConnection.getJdbc().query(sql, new Mapper());
+        return ClassConnection.getJdbc().queryForList(sql);
     }
 
-    public List getMhsLulus(String kodeProdi) {
+    public List<Map> getMhsLulus(String kodeProdi) {
         String sql = "select * "
                 + "from tempo.tempmhs" + kodeProdi + " "
                 + "where tempo.tempmhs" + kodeProdi + ".jenis like 'Mahasiswa Lulus' "
@@ -74,10 +74,10 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
 
         ClassConnection.getJdbc().execute(insertTempo);
         ClassConnection.getJdbc().execute(insertStatistik);
-        return ClassConnection.getJdbc().query(sql, new Mapper());
+        return ClassConnection.getJdbc().queryForList(sql);
     }
 
-    public List getMhsDO(String kodeProdi) {
+    public List<Map> getMhsDO(String kodeProdi) {
         String sql = "select * "
                 + "from tempo.tempmhs" + kodeProdi + " "
                 + "where tempo.tempmhs" + kodeProdi + ".jenis like 'Mahasiswa DO' "
@@ -103,11 +103,11 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
 
         ClassConnection.getJdbc().execute(insertTempo);
         ClassConnection.getJdbc().execute(insertStatistik);
-        return ClassConnection.getJdbc().query(sql, new Mapper());
+        return ClassConnection.getJdbc().queryForList(sql);
     }
 
-    public List getMhsReg(String kodeProdi, String akademik, String semester) {
-        String xStr = "select * "
+    public List<Map> getMhsReg(String kodeProdi, String akademik, String semester) {
+        String sql = "select * "
                 + "from tempo.tempmhs" + kodeProdi + " "
                 + "where tempo.tempmhs" + kodeProdi + ".jenis like 'Mahasiswa Registrasi' "
                 + "order by angkatan ";
@@ -134,10 +134,10 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
 
         ClassConnection.getJdbc().execute(insertTempo);
         ClassConnection.getJdbc().execute(insertStatistik);
-        return ClassConnection.getJdbc().query(xStr, new Mapper());
+        return ClassConnection.getJdbc().queryForList(sql);
     }
 
-    public List getMhsTidakReg(String kodeProdi, String akademik, String semester) {
+    public List<Map> getMhsTidakReg(String kodeProdi, String akademik, String semester) {
         String sql = "select * "
                 + "from tempo.tempmhs" + kodeProdi + " "
                 + "where tempo.tempmhs" + kodeProdi + ".jenis like 'Mahasiswa Tidak Registrasi' "
@@ -165,10 +165,10 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
 
         ClassConnection.getJdbc().execute(insertTempo);
         ClassConnection.getJdbc().execute(insertStatistik);
-        return ClassConnection.getJdbc().query(sql, new Mapper());
+        return ClassConnection.getJdbc().queryForList(sql);
     }
 
-    public List getMhsCuti(String kodeProdi, String akademik, String semester) {
+    public List<Map> getMhsCuti(String kodeProdi, String akademik, String semester) {
         String sql = "select * "
                 + "from tempo.tempmhs" + kodeProdi + " "
                 + "where tempo.tempmhs" + kodeProdi + ".jenis like 'Mahasiswa Cuti' "
@@ -194,9 +194,10 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                 + "group by angkatan "
                 + "order by angkatan asc";
 
+        System.out.println("----"+insertTempo);
         ClassConnection.getJdbc().execute(insertTempo);
         ClassConnection.getJdbc().execute(insertStatistik);
-        return ClassConnection.getJdbc().query(sql, new Mapper());
+        return ClassConnection.getJdbc().queryForList(sql);
     }
 
     public boolean isTabelLulusAda(String kodeProdi) {
@@ -534,12 +535,12 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
 
     public StatistikMahasiswa getTempo(String prodi, String jenis, String tahun) {
         String sql = "SELECT * FROM tempo.tempmhs" + prodi + " WHERE jenis='" + jenis + "' AND angkatan='" + tahun + "'";
-        return (StatistikMahasiswa) ClassConnection.getJdbc().queryForObject(sql, new Mapper());
+        return (StatistikMahasiswa) ClassConnection.getJdbc().queryForList(sql);
     }
 
-    public List<StatistikMahasiswa> getAllTempo(String prodi) {
+    public List<Map> getAllTempo(String prodi) {
         String sql = "SELECT * FROM tempo.tempmhs" + prodi + " ORDER BY angkatan";
-        return ClassConnection.getJdbc().query(sql, new Mapper());
+        return ClassConnection.getJdbc().queryForList(sql);
     }
 
     public List getAngkatan(String prodi) {
@@ -605,15 +606,14 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
         }
         return xBufResult;
     }
-
-    protected class Mapper implements RowMapper {
-
-        public Object mapRow(ResultSet rs, int rowNum) throws SQLException, SQLException {
-            StatistikMahasiswa xstat = new StatistikMahasiswa();
-            xstat.setJenis(rs.getString("jenis"));
-            xstat.setAngkatan(rs.getString("angkatan"));
-            xstat.setJumlah(rs.getInt("jumlah"));
-            return xstat;
-        }
-    }
+//    protected class Mapper implements RowMapper {
+//
+//        public Object mapRow(ResultSet rs, int rowNum) throws SQLException, SQLException {
+//            StatistikMahasiswa xstat = new StatistikMahasiswa();
+//            xstat.setJenis(rs.getString("jenis"));
+//            xstat.setAngkatan(rs.getString("angkatan"));
+//            xstat.setJumlah(rs.getInt("jumlah"));
+//            return xstat;
+//        }
+//    }
 }

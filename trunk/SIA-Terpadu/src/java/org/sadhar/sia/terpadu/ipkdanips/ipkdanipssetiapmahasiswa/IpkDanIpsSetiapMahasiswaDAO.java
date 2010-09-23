@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.sadhar.sia.terpadu.statistiklamastudi;
+package org.sadhar.sia.terpadu.ipkdanips.ipkdanipssetiapmahasiswa;
 
 import java.util.List;
 import java.util.Map;
@@ -11,9 +11,7 @@ import java.util.Map;
  *
  * @author kris
  */
-public interface StatistikLamaStudiDAO {
+public interface IpkdanIpsSetiapMahasiswaDAO {
 
     public List<Map> getProdi();
-
-    public List<Map> getStatistikStudi(String kodeProdi, String semester);
 }
