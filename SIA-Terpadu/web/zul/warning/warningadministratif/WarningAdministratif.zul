@@ -14,7 +14,7 @@
                             <row>
                                 <label value="Prodi/Fakultas"></label>
                                 <combobox id="cmbboxProdi" width="300px"
-                                  onSelect="statistikMahasiswaWnd.cmbDataProdiOnSelect()">
+                                  onSelect="warningAdministratifWnd.cmbDataProdiOnSelect()">
                                     <comboitem>
 
                                     </comboitem>
@@ -22,7 +22,7 @@
                             </row>
                             <row>
                                 <label value=""></label>
-                                <button label="Tampilkan" height="25px" width="90px" onClick="statistikMahasiswaWnd.btnShowOnClick()"  ></button>
+                                <button label="Tampilkan" height="25px" width="90px" onClick="warningAdministratifWnd.btnShowOnClick()"  ></button>
                             </row>
                         </rows>
                     </grid>
@@ -31,11 +31,24 @@
             <groupbox>
                 <caption label="Keluaran"></caption>
                 <listbox id="listboxMahasiswa" width="900px" fixedLayout="false" visible = "false">
-                    <listhead>
-                        <listheader label="-"  align="center" ></listheader>
-                    </listhead>
                 </listbox>
-            </groupbox>         
+            </groupbox>
+            <groupbox visible="true">
+                <caption label="Export"></caption>
+                <div style="padding:3px" align="right">
+                    <hbox>
+                        <label value="Format"></label>
+                        <jasperreport id="report" visible="false"/>
+                        <combobox id="cmbExportType">
+                            <comboitem label="PDF" value="pdf" ></comboitem>
+                            <comboitem label="XLS" value="xls"></comboitem>
+                            <comboitem label="DOC" value="rtf"></comboitem>
+                            <comboitem label="RTF" value="rtf"></comboitem>
+                        </combobox>
+                        <button id="btnExport" disabled="true" label="Export" height="25px" width="90px" onClick="warningAdministratifWnd.exportReport()"></button>
+                    </hbox>
+                </div>
+            </groupbox>
         </div>
     </window>
 </zk>

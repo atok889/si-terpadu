@@ -48,6 +48,7 @@ public class JumlahMahasiswaLulusDanBelumLulusWnd extends ClassApplicationModule
         report = (Jasperreport) getFellow("report");
         btnExport = (Button) getFellow("btnExport");
         cmbExportType = (Combobox) getFellow("cmbExportType");
+        cmbExportType.setSelectedIndex(0);
         this.loadDataProdiToCombo();
 
     }

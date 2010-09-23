@@ -14,4 +14,8 @@ import java.util.Map;
 public interface WarningSemesterDAO {
 
     public List<Map> getProdi();
+
+    public List<Map> getSemesterMahasiswa(String kodeProdi, String akademik, String semester);
+
+    public List<Map> getWarningSemester(String kodeProdi, String akademik, String semester);
 }
