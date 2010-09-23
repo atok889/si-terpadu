@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <window title="Rerata IPS" border="normal" width="850px"
+            closable="true" sizable="true"
+            id="rerataIpsWnd"
+            use="org.sadhar.sia.terpadu.ipkdanips.rerataips.RerataIpsWnd">
+        <div style="padding:5px">
+            <groupbox>
+                <caption label="Parameter"></caption>
+                <div style="padding:3px">
+                    <grid>
+                        <columns>
+                            <column align="right" />
+                            <column align="left" />
+                        </columns>
+                        <rows>
+                            <row style="border:none">
+                                <label value="Fakultas/Program Studi"></label>
+                                <combobox id="cmbboxProdi" width="300px"  onSelect="rerataIpsWnd.cmbDataProdiOnSelect()"/>
+                            </row>                         
+                            <row style="border:none">
+                                <label value=""></label>
+                                <button label="Tampilkan" height="25px" width="90px" onClick="rerataIpsWnd.btnShowOnClick()"  ></button>
+                            </row>
+                        </rows>
+                    </grid>
+                </div>
+            </groupbox>
+            <groupbox>
+                <caption label="Keluaran"></caption>
+                <listbox id="listboxMahasiswa" width="700px" fixedLayout="false" visible = "false">
+                    <listhead>
+                        <listheader label="-"  align="center" ></listheader>
+                    </listhead>
+                </listbox>
+            </groupbox>
+            <groupbox visible="true">
+                <caption label="Export"></caption>
+                <div style="padding:3px" align="right">
+                    <hbox>
+                        <label value="Format"></label>
+                        <jasperreport id="report" visible="false"/>
+                        <combobox id="cmbExportType">
+                            <comboitem label="PDF" value="pdf"></comboitem>
+                            <comboitem label="XLS" value="xls"></comboitem>
+                            <comboitem label="DOC" value="rtf"></comboitem>
+                            <comboitem label="RTF" value="rtf"></comboitem>
+                        </combobox>
+                        <button id="btnExport" disabled="true" label="Export" height="25px" width="90px" onClick="ipkDanIpsSetiapMahasiswaWnd.exportReport()"></button>
+                    </hbox>
+                </div>
+            </groupbox>
+        </div>
+    </window>
+</zk>
+
