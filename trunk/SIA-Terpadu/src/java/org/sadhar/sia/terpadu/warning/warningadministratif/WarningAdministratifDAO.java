@@ -15,5 +15,7 @@ public interface WarningAdministratifDAO {
 
     public List<Map> getProdi();
 
-    public List<Map> getSemesterMahasiswa(String kodeProdi, String tahun, String semester);
+    public List<Map> getSemesterMahasiswa(String kodeProdi, String akademik, String semester);
+
+    public List<Map> getWarningAdministratif(String kodeProdi, String akademik, String semester);
 }

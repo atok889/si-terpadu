@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.sadhar.sia.terpadu.warning.warningadministratif;
+package org.sadhar.sia.terpadu.statistiklamastudi;
 
 import java.util.Map;
 import org.sadhar.sia.framework.ClassApplicationModule;
@@ -11,17 +11,16 @@ import org.zkoss.zul.Button;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Listbox;
-import org.zkoss.zul.Listhead;
-import org.zkoss.zul.Listheader;
 
 /**
  *
  * @author kris
  */
-public class WarningAdministratifWnd extends ClassApplicationModule {
+public class StatistikLamaStudiWnd extends ClassApplicationModule {
 
-    private WarningAdministratifDAO warningAdministratifDAO;
+    private StatistikLamaStudiDAO statistikLamaStudiDAO;
     private Combobox cmbboxProdi;
+    private Combobox cmbboxSemester;
     private String kodeProdi;
     private Listbox listboxMahasiswa;
     private Combobox cmbExportType;
@@ -30,26 +29,29 @@ public class WarningAdministratifWnd extends ClassApplicationModule {
     private String tahunAkademik = "2000";
     private String semester = "2";
 
-    public WarningAdministratifWnd() {
-        warningAdministratifDAO = new WarningAdministratifDAOImpl();
+    public StatistikLamaStudiWnd() {
+        statistikLamaStudiDAO = new StatistikLamaStudiDAOImpl();
+
     }
 
     public void onCreate() throws Exception {
         listboxMahasiswa = (Listbox) this.getFellow("listboxMahasiswa");
         cmbboxProdi = (Combobox) this.getFellow("cmbboxProdi");
+        cmbboxSemester = (Combobox) this.getFellow("cmbboxSemester");
         report = (Jasperreport) getFellow("report");
         btnExport = (Button) getFellow("btnExport");
         cmbExportType = (Combobox) getFellow("cmbExportType");
         cmbExportType.setSelectedIndex(0);
         this.loadDataProdiToCombo();
+        this.loadDataSemesterToCombo();
     }
 
     private void loadDataProdiToCombo() {
-        Comboitem item = new Comboitem("--SEMUA FAKULTAS--");
+        Comboitem item = new Comboitem("--Pilih Fakultas--");
         cmbboxProdi.appendChild(item);
         cmbboxProdi.setSelectedItem(item);
 
-        for (Map map : warningAdministratifDAO.getProdi()) {
+        for (Map map : statistikLamaStudiDAO.getProdi()) {
             Comboitem items = new Comboitem();
             items.setValue(map.get("Kd_prg").toString());
             items.setLabel(map.get("Nama_prg").toString());
@@ -57,35 +59,17 @@ public class WarningAdministratifWnd extends ClassApplicationModule {
         }
     }
 
-    private void loadDataToListbox() {
-        this.listboxMahasiswa.getChildren().clear();
-        Listhead listhead = new Listhead();
+    private void loadDataSemesterToCombo() {
+        Comboitem item = new Comboitem("--Pilih Semester--");
+        cmbboxSemester.appendChild(item);
+        cmbboxSemester.setSelectedItem(item);
 
-        Listheader listheaderNo = new Listheader();
-        listheaderNo.setLabel("No");
-        listheaderNo.setWidth("50px");
-        listhead.appendChild(listheaderNo);
-
-        Listheader listheaderNama = new Listheader();
-        listheaderNama.setLabel("Nama");
-        listhead.appendChild(listheaderNama);
-
-        Listheader listheaderProdi = new Listheader();
-        listheaderProdi.setLabel("Prodi");
-        listhead.appendChild(listheaderProdi);
-
-        Listheader listheaderFakultas = new Listheader();
-        listheaderFakultas.setLabel("Fakultas");
-        listhead.appendChild(listheaderFakultas);
-
-        Listheader listheaderAngkatan = new Listheader();
-        listheaderAngkatan.setLabel("Tahun Angkatan");
-        listhead.appendChild(listheaderAngkatan);
-
-        Listheader listheaderIpk = new Listheader();
-        listheaderIpk.setLabel("IPK");
-        listheaderIpk.setWidth("100px");
-        listhead.appendChild(listheaderIpk);
+        for (int i = 1; i <= 12; i++) {
+            Comboitem items = new Comboitem();
+            items.setValue(i);
+            items.setLabel("Semester " + i);
+            cmbboxSemester.appendChild(items);
+        }
     }
 
     public void cmbDataProdiOnSelect() {
@@ -93,7 +77,14 @@ public class WarningAdministratifWnd extends ClassApplicationModule {
             kodeProdi = null;
         } else {
             kodeProdi = (String) cmbboxProdi.getSelectedItem().getValue();
-            warningAdministratifDAO.getWarningAdministratif(kodeProdi, tahunAkademik, semester);
+        }
+    }
+
+    public void cmbDataSemesterOnSelect() {
+        if (cmbboxSemester.getSelectedItem().getValue() == null) {
+            kodeProdi = null;
+        } else {
+            kodeProdi = (String) cmbboxSemester.getSelectedItem().getValue();
         }
     }
 }
