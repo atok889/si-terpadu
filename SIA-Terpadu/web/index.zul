@@ -18,7 +18,16 @@
                                     </menupopup>
                                 </menu>
                                 <menuitem  label="Statistik Mahasiswa" value="/zul/statistikmahasiswa/StatistikMahasiswa.zul" onClick="main.showObject(self.value)" />
-                                <menuitem  label="IPK dan IPS" value="xx" onClick="main.showObject(self.value)" />
+                                <menu label = "IPK dan IPS">
+                                    <menupopup>
+                                        <menuitem  label="IPK dan IPS setiap mahasiswa" value="/zul/ipkdanips/ipkdanipssetiapmahasiswa/IpkdanIpsSetiapMahasiswa.zul" onClick="main.showObject(self.value)" />
+                                        <menuitem  label="Rerata IPS" value="/zul/ipkdanips/rerataips/RerataIps.zul" onClick="main.showObject(self.value)" />
+                                        <menuitem  label="Rerata IPK lulusan" value="/zul/ipkdanips/rerataipklulusan/RerataIpkLulusan.zul" onClick="main.showObject(self.value)" />
+                                        <menuitem  label="Sebaran IPK mahasiswa" value="/zul/ipkdanips/sebaranipkmahasiswa/SebaranIpkMahasiswa.zul" onClick="main.showObject(self.value)" />
+                                        <menuitem  label="Daftar wisuda IPK tertinggi" value="/zul/ipkdanips/daftarwisudaipktertinggi/DaftarWisudaIpkTertinggi.zul" onClick="main.showObject(self.value)" />
+                                        <menuitem  label="Rerata IPS total" value="/zul/ipkdanips/rerataipstotal/RerataIpsTotal.zul" onClick="main.showObject(self.value)" />
+                                    </menupopup>                                   
+                                </menu>                               
                                 <menuitem  label="Jumlah Mahasiswa Lulus dan Belum Lulus" value="/zul/jumlahmahasiswalulusdanbelumlulus/JumlahMahasiswaLulusDanBelumLulus.zul" onClick="main.showObject(self.value)" />
                                 <menu label = "Warning">
                                     <menupopup>
