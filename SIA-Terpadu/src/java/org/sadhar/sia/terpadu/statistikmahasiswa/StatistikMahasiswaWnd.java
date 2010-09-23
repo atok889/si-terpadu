@@ -240,7 +240,11 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
     private void generateDataMahasiswa() {
         statistikMahasiswaDAO.createTabelStatistik();
         statistikMahasiswaDAO.createTabelTempo(kodeProdi);
-        statistikMahasiswaDAO.getMhsCuti(kodeProdi, tahunAkademik, semester);
+        //statistikMahasiswaDAO.getMhsCuti(kodeProdi, tahunAkademik, semester);
+        List<Map> datas = statistikMahasiswaDAO.getMhsCuti(kodeProdi, tahunAkademik, semester);
+        for(Map map : datas){
+            System.out.println(map.get("angkatan"));
+        }
         statistikMahasiswaDAO.getMhsReg(kodeProdi, tahunAkademik, semester);
         statistikMahasiswaDAO.getMhsDO(kodeProdi);
         statistikMahasiswaDAO.getMhsLulus(kodeProdi);
