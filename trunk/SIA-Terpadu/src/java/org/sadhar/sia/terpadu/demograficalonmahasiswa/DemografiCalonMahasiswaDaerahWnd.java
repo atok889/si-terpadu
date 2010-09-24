@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package org.sadhar.sia.terpadu.demograficalonmahasiswa;
 
 import java.awt.Color;
@@ -20,6 +21,10 @@ import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
 import org.sadhar.sia.framework.ClassApplicationModule;
+import org.sadhar.sia.terpadu.demografimahasiswa.DemografiMahasiswaDAO;
+import org.sadhar.sia.terpadu.demografimahasiswa.DemografiMahasiswaDAOImpl;
+import org.sadhar.sia.terpadu.demografimahasiswa.KabKota;
+import org.sadhar.sia.terpadu.demografimahasiswa.Provinsi;
 import org.sadhar.sia.terpadu.jumlahmahasiswa.JumlahMahasiswaDAOImpl;
 import org.sadhar.sia.terpadu.jumlahmahasiswa.JumlahMahasiwaDAO;
 import org.sadhar.sia.terpadu.jumlahmahasiswa.ProgramStudi;
@@ -37,33 +42,95 @@ import org.zkoss.zul.Textbox;
  *
  * @author Hendro Steven
  */
-public class DemografiCalonMahasiswaWnd extends ClassApplicationModule {
-
+public class DemografiCalonMahasiswaDaerahWnd extends ClassApplicationModule{
     Combobox cmbProgdi;
+    Combobox cmbProvinsi;
+    Combobox cmbKabKota;
     Textbox txtTahunPendaftaran;
-    Combobox cmbJenis;
+    Jasperreport report;
     Image chartImg;
     Combobox cmbExportType;
     Button btnExport;
     JFreeChart chart = null;
-    Jasperreport report;
 
-    public DemografiCalonMahasiswaWnd() {
-    }
+    public DemografiCalonMahasiswaDaerahWnd(){}
 
-    public void onCreate() throws Exception {
+    public void onCreate()throws Exception{
         cmbProgdi = (Combobox) getFellow("cmbProgdi");
+        cmbProvinsi = (Combobox) getFellow("cmbProvinsi");
+        cmbKabKota = (Combobox) getFellow("cmbKabKota");
         txtTahunPendaftaran = (Textbox) getFellow("txtTahunPendaftaran");
-        cmbJenis = (Combobox) getFellow("cmbJenis");
         report = (Jasperreport) getFellow("report");
         chartImg = (Image) getFellow("chartImg");
         cmbExportType = (Combobox) getFellow("cmbExportType");
         btnExport = (Button) getFellow("btnExport");
         btnExport.setDisabled(true);
         loadProgdi();
+        loadProvinsi();
         cmbProgdi.setSelectedIndex(0);
+        cmbProvinsi.setSelectedIndex(0);
+
         cmbExportType.setSelectedIndex(0);
-        cmbJenis.setSelectedIndex(0);
+        cmbKabKota.setSelectedIndex(0);
+        cmbKabKota.setDisabled(true);
+    }
+
+    private void loadProvinsi() throws Exception {
+        try {
+            DemografiMahasiswaDAO dao = new DemografiMahasiswaDAOImpl();
+            List<Provinsi> provinsi = dao.getProvinsi();
+            cmbProvinsi.getItems().clear();
+            Comboitem item = new Comboitem();
+            item.setValue(null);
+            item.setLabel("--Seluruh Provinsi--");
+            cmbProvinsi.appendChild(item);
+            for (Provinsi p : provinsi) {
+                Comboitem items = new Comboitem();
+                items.setValue(p);
+                items.setLabel(p.getKode() + " " + p.getNama());
+                cmbProvinsi.appendChild(items);
+            }
+
+            Comboitem itemx = new Comboitem();
+            itemx.setValue(null);
+            itemx.setLabel("--Seluruh Kab/Kota--");
+            cmbKabKota.appendChild(itemx);
+
+        } catch (Exception ex) {
+            Messagebox.show("Ambil data provinsi gagal");
+        }
+    }
+
+    public void cmbProvinsiSelect() throws Exception {
+        if (cmbProvinsi.getSelectedItem().getValue() != null) {
+            cmbKabKota.setDisabled(false);
+            Provinsi prov = (Provinsi) cmbProvinsi.getSelectedItem().getValue();
+            loadKabKota(prov);
+            cmbKabKota.setSelectedIndex(0);
+        } else {
+            cmbKabKota.getItems().clear();
+            cmbKabKota.setDisabled(true);
+        }
+    }
+
+    private void loadKabKota(Provinsi prov) throws Exception {
+        try {
+            DemografiMahasiswaDAO dao = new DemografiMahasiswaDAOImpl();
+            List<KabKota> kabkota = dao.getKabKota(prov);
+            cmbKabKota.getItems().clear();
+            Comboitem item = new Comboitem();
+            item.setValue(null);
+            item.setLabel("--Seluruh Kab/Kota--");
+            cmbKabKota.appendChild(item);
+            for (KabKota kk : kabkota) {
+                Comboitem items = new Comboitem();
+                items.setValue(kk);
+                items.setLabel(kk.getKode() + " " + kk.getNama());
+                cmbKabKota.appendChild(items);
+            }
+        } catch (Exception ex) {
+            Messagebox.show("Ambil data Kab/Kota gagal");
+        }
     }
 
     private void loadProgdi() throws Exception {
@@ -82,28 +149,26 @@ public class DemografiCalonMahasiswaWnd extends ClassApplicationModule {
                 cmbProgdi.appendChild(items);
             }
         } catch (Exception ex) {
-            Messagebox.show(ex.getMessage());
+            Messagebox.show("Ambil data Prodi gagal");
         }
     }
 
-    public void viewReport() throws Exception {
-        try{
+     public void viewReport() throws Exception {
+         try {
             DemografiCalonMahasiswaDAO dao = new DemografiCalonMahasiswaDAOImpl();
-            CategoryDataset dataset = null;
-            if (cmbJenis.getSelectedItem().getLabel().toString().equalsIgnoreCase("Jenis Kelamin")) {
-                dataset = dao.getJenisKelaminDataset((ProgramStudi) cmbProgdi.getSelectedItem().getValue(), txtTahunPendaftaran.getValue());
-            } else if (cmbJenis.getSelectedItem().getLabel().toString().equalsIgnoreCase("Agama")) {
-                dataset = dao.getAgamaDataset((ProgramStudi) cmbProgdi.getSelectedItem().getValue(), txtTahunPendaftaran.getValue());
-            }
+            CategoryDataset dataset = dao.getAsalDaerahDataset((ProgramStudi) cmbProgdi.getSelectedItem().getValue(),
+                    txtTahunPendaftaran.getValue(),
+                    (Provinsi) cmbProvinsi.getSelectedItem().getValue(),
+                    (KabKota) cmbKabKota.getSelectedItem().getValue());
 
             ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
             BarRenderer.setDefaultBarPainter(new StandardBarPainter());
 
             if (cmbProgdi.getSelectedItem().getValue() == null) {
                 chart = ChartFactory.createBarChart(
-                        "Jumlah Calon Mahasiswa", // chart title
+                        "Jumlah Mahasiswa", // chart title
                         "Program Studi", // domain axis label
-                        "Jumlah Calon Mahasiswa", // range axis label
+                        "Jumlah Mahasiswa", // range axis label
                         dataset, // data
                         PlotOrientation.HORIZONTAL,
                         true, // include legend
@@ -111,9 +176,9 @@ public class DemografiCalonMahasiswaWnd extends ClassApplicationModule {
                         false);
             } else {
                 chart = ChartFactory.createBarChart(
-                        "Jumlah Calon Mahasiswa", // chart title
+                        "Jumlah Mahasiswa", // chart title
                         "Program Studi", // domain axis label
-                        "Jumlah Calon Mahasiswa", // range axis label
+                        "Jumlah Mahasiswa", // range axis label
                         dataset, // data
                         PlotOrientation.VERTICAL,
                         true, // include legend
@@ -146,10 +211,10 @@ public class DemografiCalonMahasiswaWnd extends ClassApplicationModule {
             AImage image = new AImage("Bar Chart", bytes);
             chartImg.setContent(image);
             btnExport.setDisabled(false);
-        }catch(Exception ex){
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
             Messagebox.show(ex.getMessage());
         }
-    }
-
-    
+     }
 }
