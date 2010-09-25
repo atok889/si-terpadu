@@ -19,5 +19,7 @@ public interface WarningIPKRendahDAO {
 
     public List<Map> getWarningIPKRendah(String kodeProdi);
 
-    public boolean isTabelExist(String kodeProdi, String tahun);
+    public List<Map> getWarningIPKRendah();
+
+    public boolean isTabelKHExist(String kodeProdi, String tahun);
 }

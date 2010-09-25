@@ -4,10 +4,12 @@
  */
 package org.sadhar.sia.terpadu.warning.warningipkrendah;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.sadhar.sia.common.ClassUtility;
 import org.sadhar.sia.framework.ClassApplicationModule;
 import org.zkoss.zhtml.Messagebox;
 import org.zkoss.zk.ui.Executions;
@@ -87,15 +89,22 @@ public class WarningIPKRendahWnd extends ClassApplicationModule {
 
         Listheader listheaderAngkatan = new Listheader();
         listheaderAngkatan.setLabel("Tahun Angkatan");
+        listheaderAngkatan.setAlign("center");
         listhead.appendChild(listheaderAngkatan);
 
         Listheader listheaderIpk = new Listheader();
         listheaderIpk.setLabel("IPK");
-        listheaderIpk.setWidth("100px");
+        listheaderIpk.setWidth("80px");
+        listheaderIpk.setAlign("right");
         listhead.appendChild(listheaderIpk);
+        List<Map> datas = null;
 
-        List<Map> datas = warningIPKRendahDAO.getWarningIPKRendah(kodeProdi);
-
+        if (kodeProdi == null) {
+            datas = warningIPKRendahDAO.getWarningIPKRendah();
+        } else {
+            datas = warningIPKRendahDAO.getWarningIPKRendah(kodeProdi);
+        }
+        DecimalFormat df = new DecimalFormat("#,0.00");
         int no = 1;
         for (Map data : datas) {
             if (Double.parseDouble(data.get("ipk").toString()) < 2d) {
@@ -105,13 +114,12 @@ public class WarningIPKRendahWnd extends ClassApplicationModule {
                 listitem.appendChild(new Listcell(data.get("Nama_prg").toString()));
                 listitem.appendChild(new Listcell(data.get("Nama_fak").toString()));
                 listitem.appendChild(new Listcell(data.get("angkatan").toString()));
-                listitem.appendChild(new Listcell(data.get("ipk").toString()));
+                listitem.appendChild(new Listcell(df.format(data.get("ipk"))));
                 this.listboxMahasiswa.appendChild(listitem);
                 dataReport.add(data);
                 no++;
             }
         }
-        System.out.println(dataReport.size());
         this.btnExport.setDisabled(false);
         this.listboxMahasiswa.appendChild(listhead);
         this.listboxMahasiswa.setVisible(true);
@@ -127,7 +135,7 @@ public class WarningIPKRendahWnd extends ClassApplicationModule {
 
     public void btnShowOnClick() {
         if (kodeProdi == null) {
-            this.btnExport.setDisabled(false);
+            this.loadDataToListbox();
         } else {
             this.loadDataToListbox();
         }
