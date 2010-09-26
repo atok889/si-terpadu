@@ -14,4 +14,10 @@ import java.util.Map;
 public interface RerataIpsDAO {
 
     public List<Map> getProdi();
+
+    public List<Map> getRerataIps(String kodeProdi, String tahunAngkatan);
+
+    public List<Map> getRerataIps();
+
+    public boolean isTabelKTExist(String kodeProdi, String tahun);
 }

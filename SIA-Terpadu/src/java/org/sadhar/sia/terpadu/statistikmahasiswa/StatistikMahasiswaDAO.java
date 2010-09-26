@@ -86,7 +86,7 @@ public interface StatistikMahasiswaDAO {
     public List<Map> getStatistikMahasiswa();
 
     public List<Map> getDetailStatistikMahasiswa(String kodeProdi, String tahunAngkatan, String database, String status);
-
+    
     public LinkedList getFieldStatistikMahasiswa();
 
     public List<Map> getProdi();
