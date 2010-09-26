@@ -41,7 +41,7 @@ import org.zkoss.zul.Window;
 
 /**
  *
- * @author Hendro Steven
+ * @author Deny Prasetyo
  */
 public class JumlahMahasiswaDOWnd extends ClassApplicationModule {
 
