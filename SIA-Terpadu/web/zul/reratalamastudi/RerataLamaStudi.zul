@@ -2,7 +2,7 @@
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
 
-<window title="Rerata Lama Studi" width="800px" maximizable="true" border="normal"
+    <window title="Rerata Lama Studi" width="800px" maximizable="true" border="normal"
 closable="true" use="org.sadhar.sia.terpadu.reratalamastudi.RerataLamaStudiWnd"
 id="rerataLamaStudi">
 
@@ -10,12 +10,12 @@ id="rerataLamaStudi">
         <div align="center" style="padding-top:2px">
             <groupbox>
                 <caption label="Parameter"></caption>
-                        <div style="padding-top:2px">
+                <div style="padding-top:2px">
 
-                <grid >
-                       <rows>
-                          <row>
-                            <hbox>
+                    <grid >
+                        <rows>
+                            <row>
+                                <hbox>
                                     <label value="Tahun Angkatan"></label>
                                     <space width="3px"/>
                                     <textbox id="txtTahunAwal" width="100px"/>
@@ -23,15 +23,15 @@ id="rerataLamaStudi">
                                     <label value="s/d"/>
                                     <space width="3px"/>
                                     <textbox id="txtTahunAkhir" width="100px"/>
-                               </hbox>
-                           </row>
-                         </rows>
-                 </grid>
-                 </div>
-                 <div style="padding:3px">
+                                </hbox>
+                            </row>
+                        </rows>
+                    </grid>
+                </div>
+                <div style="padding:3px">
                     <button label="Tampilkan" height="25px" width="90px" onClick="rerataanLamaStudi.viewReport()"></button>
                 </div>
-              </groupbox>
+            </groupbox>
             <groupbox>
                 <caption label="Keluaran"></caption>
                 <div style="padding:3px">
@@ -49,14 +49,14 @@ id="rerataLamaStudi">
                 </div>
                 <div align="right" style="padding-top:2px" >
 
-                        <div>
-                            <label value="*dalam semester"></label>
-                                                   </div>
-                        <div>
-                            <label value="Rerata Universitas :"></label>
-                                    <space width="5px"/>
-                                    <textbox id="txtRerataUniversitas" width="50px"/>
-                            </div>
+                    <div>
+                        <label value="*dalam semester"></label>
+                    </div>
+                    <div>
+                        <label value="Rerata Universitas :"></label>
+                        <space width="5px"/>
+                        <textbox id="txtRerataUniversitas" width="50px"/>
+                    </div>
 
                 </div>
 
@@ -75,10 +75,10 @@ id="rerataLamaStudi">
                         <button id="btnExport" disabled="true" label="Export" height="25px" width="90px" onClick="rerataLamaStudi.exportReport()"></button>
                     </hbox>
                 </div>
-           </groupbox>
-         </div>
+            </groupbox>
+        </div>
 
 
-	</window>
+    </window>
 
 </zk>
