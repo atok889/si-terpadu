@@ -42,7 +42,7 @@
                                     </menupopup>
                                 </menu>
                                 <menuitem  label="Statistik Lama Studi" value="/zul/statistiklamastudi/StatistikLamaStudi.zul" onClick="main.showObject(self.value)" />
-                                <menuitem  label="Rerata Lama Studi" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Rerata Lama Studi" value="/zul/reratalamastudi/RerataLamaStudi.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Rerata Lama Pengerjaan TA" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Jumlah Wisudawan dan Wisudawati" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Jumlah Mahasiswa DO" value="/zul/jumlahmahasiswado/JumlahMahasiswaDO.zul" onClick="main.showObject(self.value)" />
