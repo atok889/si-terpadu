@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title="Jumlah Mahasiswa Drop Out" border="normal" width="100%"
+    <window title="Statistik Lama Studi" border="normal" width="100%"
             closable="true"
             id="statistikLamaStudi"
             use="org.sadhar.sia.terpadu.statistiklamastudi.StatistikLamaStudiWnd">
