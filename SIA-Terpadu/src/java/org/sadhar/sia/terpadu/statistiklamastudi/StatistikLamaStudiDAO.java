@@ -11,7 +11,7 @@ import org.sadhar.sia.terpadu.jumlahmahasiswa.ProgramStudi;
 
 /**
  *
- * @author Hendro Steven
+ * @author Deny Prasetyo
  */
 public interface StatistikLamaStudiDAO {
     public List<ProgramStudi> getProgramStudi()throws Exception;

@@ -6,7 +6,7 @@ package org.sadhar.sia.terpadu.statistiklamastudi;
 
 /**
  *
- * @author jasoet
+ * @author Deny Prasetyo
  */
 public class LamaStudi {
 
