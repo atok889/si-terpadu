@@ -17,7 +17,7 @@ import org.springframework.dao.DataAccessException;
 
 /**
  *
- * @author Hendro Steven
+ * @author Deny Prasetyo
  */
 public class StatistikLamaStudiDAOImpl implements StatistikLamaStudiDAO {
 

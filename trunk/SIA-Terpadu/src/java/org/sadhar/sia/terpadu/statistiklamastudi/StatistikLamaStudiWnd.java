@@ -37,12 +37,11 @@ import org.zkoss.zul.Listhead;
 import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
-import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
 /**
  *
- * @author Hendro Steven
+ * @author Deny Prasetyo
  */
 public class StatistikLamaStudiWnd extends ClassApplicationModule {
 
