@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import org.sadhar.sia.common.ClassUtility;
 import org.sadhar.sia.framework.ClassApplicationModule;
 import org.zkoss.zhtml.Messagebox;
 import org.zkoss.zk.ui.Executions;
@@ -89,6 +88,7 @@ public class WarningIPKRendahWnd extends ClassApplicationModule {
 
         Listheader listheaderAngkatan = new Listheader();
         listheaderAngkatan.setLabel("Tahun Angkatan");
+        listheaderAngkatan.setWidth("120px");
         listheaderAngkatan.setAlign("center");
         listhead.appendChild(listheaderAngkatan);
 
