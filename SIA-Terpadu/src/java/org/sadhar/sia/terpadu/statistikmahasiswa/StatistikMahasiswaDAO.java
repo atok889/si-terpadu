@@ -95,5 +95,5 @@ public interface StatistikMahasiswaDAO {
 
     public Object[][] SetDataToCetak(String kodeProdi) throws Exception;
 
-    public List getListDataStatistik(String kodeProdi);
+    public List<Map> getListDataStatistik(String kodeProdi);
 }

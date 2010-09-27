@@ -28,6 +28,8 @@ public class RerataIpsDAOImpl implements RerataIpsDAO {
         return maps;
     }
 
+    //Jika prodi/fakultas dan tahun angkatan ditentukan, maka dihitung rerata IPS dari
+    //prodi dan tahun angkatan yang dipilih tersebut.
     public List<Map> getRerataIps(String kodeProdi, String tahunAngkatan) {
         String sql = "SELECT  IF(LEFT(nomor_mhs, 1)='9', CONCAT('19', LEFT(nomor_mhs, 2))," +
                 " IF(LEFT(nomor_mhs, 1)='8', CONCAT('19', LEFT(nomor_mhs,2)), CONCAT('20', LEFT( nomor_mhs, 2)))) AS angkatan," +
@@ -40,6 +42,8 @@ public class RerataIpsDAOImpl implements RerataIpsDAO {
         return ClassConnection.getJdbc().queryForList(sql);
     }
 
+    //Jika tidak ada parameter yang dipilih, maka dihitung rerata IPS untuk semua mahasiswa,
+    //dari data 5 tahun sebelumnya.
     public List<Map> getRerataIps() {
         List<Map> prodis = this.getProdi();
         Integer currentYear = new DateTime().getYear();
@@ -47,6 +51,7 @@ public class RerataIpsDAOImpl implements RerataIpsDAO {
         List<Map> datas = new ArrayList<Map>();
         for (Integer i = currentYear; i >= currentYear - 5; i--) {
             for (Map prodi : prodis) {
+                System.out.println("------" + prodi.get("Kd_prg").toString());
                 if (isTabelKTExist(prodi.get("Kd_prg").toString(), i.toString())) {
                     rerataIpsPerProdi = getRerataIps(prodi.get("Kd_prg").toString(), i.toString());
                     datas.addAll(rerataIpsPerProdi);
