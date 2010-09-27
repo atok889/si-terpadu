@@ -9,8 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import org.sadhar.sia.framework.ClassApplicationModule;
 import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zkex.zul.Jasperreport;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Listbox;
@@ -29,6 +32,8 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
 
     private StatistikMahasiswaDAO statistikMahasiswaDAO;
     private Combobox cmbboxProdi;
+    private Combobox cmbExportType;
+    private Jasperreport report;
     private String kodeProdi;
     private Listbox listboxMahasiswa;
     private Listbox listboxDetailMahasiswa;
@@ -41,8 +46,11 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
 
     public void onCreate() throws Exception {
         cmbboxProdi = (Combobox) this.getFellow("cmbboxProdi");
+        cmbExportType = (Combobox) getFellow("cmbExportType");
+        cmbExportType.setSelectedIndex(0);
         listboxMahasiswa = (Listbox) this.getFellow("listboxMahasiswa");
         listboxDetailMahasiswa = (Listbox) this.getFellow("listboxDetailMahasiswa");
+        report = (Jasperreport) getFellow("report");
         // tahunAkademik = ClassSession.getInstance().getTahunAkademik();
         //  semester = ClassSession.getInstance().getSemester();
         this.loadDataProdiToCombo();
@@ -219,7 +227,7 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
 
     private void loadAllDataToListbox() {
         this.generateAllDataMahasiswa();
-        listboxMahasiswa.getChildren().clear();       
+        listboxMahasiswa.getChildren().clear();
         Listhead listhead = new Listhead();
         Listheader listheaderProdi = new Listheader("", "", "150px");
         listhead.appendChild(listheaderProdi);
@@ -442,5 +450,17 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
             this.loadDataToListbox();
         }
         this.resetListboxDetail();
+    }
+
+    public void exportReport() throws InterruptedException {
+        try {
+            JRMapCollectionDataSource dataSource = new JRMapCollectionDataSource(statistikMahasiswaDAO.getListDataStatistik(kodeProdi));
+            report.setType(cmbExportType.getSelectedItem().getValue().toString());
+            report.setSrc("reports/statistikmahasiswa/StatistikMahasiswa.jasper");
+            report.setParameters(null);
+            report.setDatasource(dataSource);
+        } catch (Exception ex) {
+            Messagebox.show(ex.getMessage());
+        }
     }
 }

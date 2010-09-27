@@ -4,11 +4,14 @@
  */
 package org.sadhar.sia.terpadu.statistikmahasiswa;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import org.sadhar.sia.common.ClassConnection;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 /**
@@ -23,7 +26,6 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
 
     public List<Map> getListDataStatistik(String kodeProdi) {
         String sql = "select jenis, angkatan, jumlah " + "from tempo.tempmhs" + kodeProdi;
-
         return ClassConnection.getJdbc().queryForList(sql);
     }
 
@@ -543,14 +545,15 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
         }
         return xBufResult;
     }
-//    protected class Mapper implements RowMapper {
-//
-//        public Object mapRow(ResultSet rs, int rowNum) throws SQLException, SQLException {
-//            StatistikMahasiswa xstat = new StatistikMahasiswa();
-//            xstat.setJenis(rs.getString("jenis"));
-//            xstat.setAngkatan(rs.getString("angkatan"));
-//            xstat.setJumlah(rs.getInt("jumlah"));
-//            return xstat;
-//        }
-//    }
+
+    protected class Mapper implements RowMapper {
+
+        public Object mapRow(ResultSet rs, int rowNum) throws SQLException, SQLException {
+            StatistikMahasiswa xstat = new StatistikMahasiswa();
+            xstat.setJenis(rs.getString("jenis"));
+            xstat.setAngkatan(rs.getString("angkatan"));
+            xstat.setJumlah(rs.getInt("jumlah"));
+            return xstat;
+        }
+    }
 }
