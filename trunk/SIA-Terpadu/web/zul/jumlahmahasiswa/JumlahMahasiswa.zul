@@ -13,7 +13,7 @@
                         <rows>
                             <row>
                                 <label value="Program Studi"></label>
-                                <combobox id="cmbProgdi" width="300px"/>
+                                <combobox readonly="true" id="cmbProgdi" width="300px"/>
                             </row>
                             <row>
                                 <label value="Tahun Angkatan"></label>

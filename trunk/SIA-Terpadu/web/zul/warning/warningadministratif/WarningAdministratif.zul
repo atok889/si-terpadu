@@ -13,7 +13,7 @@
                         <rows>
                             <row>
                                 <label value="Prodi/Fakultas"></label>
-                                <combobox id="cmbboxProdi" width="300px"
+                                <combobox readonly="true" id="cmbboxProdi" width="300px"
                                   onSelect="warningAdministratifWnd.cmbDataProdiOnSelect()">
                                     <comboitem>
 
