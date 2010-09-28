@@ -12,6 +12,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.StandardChartTheme;
 import org.jfree.chart.axis.AxisLocation;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.encoders.EncoderUtil;
 import org.jfree.chart.encoders.ImageFormat;
 import org.jfree.chart.plot.CategoryPlot;
@@ -193,6 +194,7 @@ public class DemografiCalonMahasiswaDaerahWnd extends ClassApplicationModule{
             final CategoryPlot plot = chart.getCategoryPlot();
             plot.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
             plot.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
+            plot.getRangeAxis().setStandardTickUnits(NumberAxis.createIntegerTickUnits());
 
             //ngatur warna barchart
             final CategoryItemRenderer renderer1 = plot.getRenderer();
@@ -216,7 +218,7 @@ public class DemografiCalonMahasiswaDaerahWnd extends ClassApplicationModule{
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            Messagebox.show(ex.getMessage());
+            Messagebox.show("Data Program Studi tidak ditemukan");
         }
      }
 }
