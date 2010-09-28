@@ -4,6 +4,7 @@
  */
 package org.sadhar.sia.terpadu.jumlahmahasiswa;
 
+import org.sadhar.sia.terpadu.prodi.ProgramStudi;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,7 +18,7 @@ import org.sadhar.sia.common.ClassConnection;
  *
  * @author Hendro Steven
  */
-public class JumlahMahasiswaDAOImpl implements JumlahMahasiwaDAO {
+public class JumlahMahasiswaDAOImpl implements JumlahMahasiswaDAO {
 
     public JumlahMahasiswaDAOImpl() {
         ClassConnection.getTransactionProxyFactoryBean().setTarget(this);

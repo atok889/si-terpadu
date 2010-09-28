@@ -5,9 +5,9 @@
 package org.sadhar.sia.terpadu.demograficalonmahasiswa;
 
 import org.jfree.data.category.CategoryDataset;
-import org.sadhar.sia.terpadu.demografimahasiswa.KabKota;
-import org.sadhar.sia.terpadu.demografimahasiswa.Provinsi;
-import org.sadhar.sia.terpadu.jumlahmahasiswa.ProgramStudi;
+import org.sadhar.sia.terpadu.kabkota.KabKota;
+import org.sadhar.sia.terpadu.provinsi.Provinsi;
+import org.sadhar.sia.terpadu.prodi.ProgramStudi;
 
 /**
  *

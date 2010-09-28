@@ -12,10 +12,10 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.joda.time.DateTime;
 import org.sadhar.sia.common.ClassConnection;
-import org.sadhar.sia.terpadu.demografimahasiswa.DemografiMahasiswaDAOImpl;
-import org.sadhar.sia.terpadu.demografimahasiswa.KabKota;
-import org.sadhar.sia.terpadu.demografimahasiswa.Provinsi;
-import org.sadhar.sia.terpadu.jumlahmahasiswa.ProgramStudi;
+import org.sadhar.sia.terpadu.kabkota.KabKota;
+import org.sadhar.sia.terpadu.provinsi.Provinsi;
+import org.sadhar.sia.terpadu.prodi.ProgramStudi;
+import org.sadhar.sia.terpadu.prodi.ProgramStudiDAOImpl;
 
 /**
  *
@@ -63,7 +63,7 @@ public class DemografiCalonMahasiswaDAOImpl implements DemografiCalonMahasiswaDA
             }
         } else if (progdi == null && tahun.isEmpty()) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-            progdis = new DemografiMahasiswaDAOImpl().getProgramStudi();
+            progdis = new ProgramStudiDAOImpl().getProgramStudi();
 
 //            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
 //            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
@@ -93,7 +93,7 @@ public class DemografiCalonMahasiswaDAOImpl implements DemografiCalonMahasiswaDA
             }
         } else if (progdi == null && !tahun.isEmpty()) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-            progdis = new DemografiMahasiswaDAOImpl().getProgramStudi();
+            progdis = new ProgramStudiDAOImpl().getProgramStudi();
 
 //            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
 //            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
@@ -170,7 +170,7 @@ public class DemografiCalonMahasiswaDAOImpl implements DemografiCalonMahasiswaDA
             }
         } else if (progdi == null && tahun.isEmpty()) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-            progdis = new DemografiMahasiswaDAOImpl().getProgramStudi();
+            progdis = new ProgramStudiDAOImpl().getProgramStudi();
 
 //            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
 //            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
@@ -222,7 +222,7 @@ public class DemografiCalonMahasiswaDAOImpl implements DemografiCalonMahasiswaDA
             }
         } else if (progdi == null && !tahun.isEmpty()) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-            progdis = new DemografiMahasiswaDAOImpl().getProgramStudi();
+            progdis = new ProgramStudiDAOImpl().getProgramStudi();
 
 //            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
 //            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));

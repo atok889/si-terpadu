@@ -7,7 +7,7 @@ package org.sadhar.sia.terpadu.reratalamastudi;
 
 import java.util.List;
 import org.jfree.data.category.CategoryDataset;
-import org.sadhar.sia.terpadu.jumlahmahasiswa.ProgramStudi;
+import org.sadhar.sia.terpadu.prodi.ProgramStudi;
 
 /**
  *

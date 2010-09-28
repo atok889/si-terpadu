@@ -12,7 +12,7 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.joda.time.DateTime;
 import org.sadhar.sia.common.ClassConnection;
-import org.sadhar.sia.terpadu.jumlahmahasiswa.ProgramStudi;
+import org.sadhar.sia.terpadu.prodi.ProgramStudi;
 import org.springframework.dao.DataAccessException;
 
 /**

@@ -5,6 +5,7 @@
 
 package org.sadhar.sia.terpadu.jumlahmahasiswa;
 
+import org.sadhar.sia.terpadu.prodi.ProgramStudi;
 import java.util.List;
 import org.jfree.data.category.CategoryDataset;
 
@@ -12,7 +13,7 @@ import org.jfree.data.category.CategoryDataset;
  *
  * @author Hendro Steven
  */
-public interface JumlahMahasiwaDAO {
+public interface JumlahMahasiswaDAO {
     public List<ProgramStudi> getProgramStudi()throws Exception;
     public CategoryDataset getDataset(ProgramStudi progdi, String tahun)throws Exception;
 }

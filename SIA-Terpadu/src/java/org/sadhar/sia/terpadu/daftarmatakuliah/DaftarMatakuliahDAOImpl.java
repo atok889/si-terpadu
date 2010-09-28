@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import org.sadhar.errhandler.ClassAntiNull;
 import org.sadhar.sia.common.ClassConnection;
-import org.sadhar.sia.terpadu.jumlahmahasiswa.ProgramStudi;
+import org.sadhar.sia.terpadu.prodi.ProgramStudi;
 
 /**
  *
