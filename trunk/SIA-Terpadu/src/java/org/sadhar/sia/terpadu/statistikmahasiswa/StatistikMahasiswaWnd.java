@@ -67,7 +67,7 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
         for (Map map : statistikMahasiswaDAO.getProdi()) {
             Comboitem items = new Comboitem();
             items.setValue(map.get("Kd_prg").toString());
-            items.setLabel(map.get("Nama_prg").toString());
+            items.setLabel(map.get("Kd_prg").toString()+" "+map.get("Nama_prg").toString());
             cmbboxProdi.appendChild(items);
         }
         cmbboxProdi.setSelectedIndex(0);

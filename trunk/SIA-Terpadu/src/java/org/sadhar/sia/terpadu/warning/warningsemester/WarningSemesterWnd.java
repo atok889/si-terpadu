@@ -67,7 +67,7 @@ public class WarningSemesterWnd extends ClassApplicationModule {
         for (Map map : warningSemesterDAO.getProdi()) {
             Comboitem items = new Comboitem();
             items.setValue(map.get("Kd_prg").toString());
-            items.setLabel(map.get("Nama_prg").toString());
+            items.setLabel(map.get("Kd_prg").toString()+" "+map.get("Nama_prg").toString());
             cmbboxProdi.appendChild(items);
         }
     }

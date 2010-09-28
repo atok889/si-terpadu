@@ -53,7 +53,7 @@ public class RerataIpsWnd extends ClassApplicationModule {
         for (Map data : this.rerataIpsDAO.getProdi()) {
             Comboitem comboitem = new Comboitem();
             comboitem.setValue(data.get("Kd_prg"));
-            comboitem.setLabel(data.get("Nama_prg").toString());
+            comboitem.setLabel(data.get("Kd_prg").toString()+" "+data.get("Nama_prg").toString());
             cmbboxProdi.appendChild(comboitem);
         }
         cmbboxProdi.setSelectedIndex(0);

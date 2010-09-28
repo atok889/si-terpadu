@@ -11,6 +11,7 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.StandardChartTheme;
 import org.jfree.chart.axis.AxisLocation;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.encoders.EncoderUtil;
 import org.jfree.chart.encoders.ImageFormat;
 import org.jfree.chart.plot.CategoryPlot;
@@ -126,11 +127,12 @@ public class DemografiMahasiswaWnd extends ClassApplicationModule {
             }
 
             chart.setBackgroundPaint(new Color(0xCC, 0xFF, 0xCC));
-
+            
             final CategoryPlot plot = chart.getCategoryPlot();
             plot.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
             plot.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
-
+            plot.getRangeAxis().setStandardTickUnits(NumberAxis.createIntegerTickUnits());//mengatur x axis agar bilangan bulat
+            
             //ngatur warna barchart
             final CategoryItemRenderer renderer1 = plot.getRenderer();
             for (int x = 0; x <= 15; x++) {
@@ -140,6 +142,7 @@ public class DemografiMahasiswaWnd extends ClassApplicationModule {
 
             BarRenderer br = (BarRenderer) renderer1;
             br.setShadowVisible(false);
+            //br.setMaximumBarWidth(5);
 
             BufferedImage bi = chart.createBufferedImage(900, 500, BufferedImage.TRANSLUCENT, null);
             if (cmbProgdi.getSelectedItem().getValue() == null) {
@@ -153,8 +156,8 @@ public class DemografiMahasiswaWnd extends ClassApplicationModule {
             btnExport.setDisabled(false);
 
         } catch (Exception ex) {
-            ex.printStackTrace();
-            Messagebox.show(ex.getMessage());
+            //ex.printStackTrace();
+            Messagebox.show("Data Program Studi tidak ditemukan");
         }
     }
 }
