@@ -5,6 +5,7 @@
 package org.sadhar.sia.terpadu.jumlahmahasiswalulusdanbelumlulus;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -37,6 +38,7 @@ public class JumlahMahasiswaLulusDanBelumLulusWnd extends ClassApplicationModule
     private Combobox cmbExportType;
     private Jasperreport report;
     private Button btnExport;
+    List<Map> datas = new ArrayList<Map>();
 
     public JumlahMahasiswaLulusDanBelumLulusWnd() {
         jumlahMahasiswaLulusDanBelumLulusDAO = new JumlahMahasiswaLulusDanBelumLulusDAOImpl();
@@ -55,6 +57,7 @@ public class JumlahMahasiswaLulusDanBelumLulusWnd extends ClassApplicationModule
 
     private void loadDataProdiToCombo() {
         Comboitem item = new Comboitem();
+        item.setValue("all");
         item.setLabel("--Pilih Prodi--");
         cmbboxProdi.appendChild(item);
         cmbboxProdi.setSelectedItem(item);
@@ -70,50 +73,58 @@ public class JumlahMahasiswaLulusDanBelumLulusWnd extends ClassApplicationModule
     private void loadDataToListbox() {
         this.listboxMahasiswa.getChildren().clear();
         Listhead listhead = new Listhead();
+
         Listheader listheaderAngkatan = new Listheader();
         listheaderAngkatan.setLabel("Tahun Angkatan");
-        listheaderAngkatan.setAlign("center");
+        listheaderAngkatan.setAlign("right");
         listheaderAngkatan.setWidth("130px");
         listhead.appendChild(listheaderAngkatan);
+
         Listheader listheaderJumlahMahasiswa = new Listheader();
         listheaderJumlahMahasiswa.setLabel("Jumlah Mahasiswa");
-        listheaderJumlahMahasiswa.setAlign("center");
+        listheaderJumlahMahasiswa.setAlign("right");
         listheaderJumlahMahasiswa.setWidth("130px");
         listhead.appendChild(listheaderJumlahMahasiswa);
 
         Listheader listheaderMhsLulus = new Listheader();
         listheaderMhsLulus.setLabel("Jumlah Lulus");
-        listheaderMhsLulus.setAlign("center");
+        listheaderMhsLulus.setAlign("right");
         listheaderMhsLulus.setWidth("130px");
         listhead.appendChild(listheaderMhsLulus);
-        Listheader listheaderPersenMhsLulus = new Listheader();
 
+        Listheader listheaderPersenMhsLulus = new Listheader();
+        listheaderPersenMhsLulus.setAlign("right");
         listhead.appendChild(listheaderPersenMhsLulus);
 
         Listheader listheaderMhsBelumLulus = new Listheader();
         listheaderMhsBelumLulus.setLabel("Jumlah Belum Lulus");
-        listheaderMhsBelumLulus.setAlign("center");
+        listheaderMhsBelumLulus.setAlign("right");
         listheaderMhsBelumLulus.setWidth("130px");
         listhead.appendChild(listheaderMhsBelumLulus);
-        Listheader listheaderPersenMhsBelumLulus = new Listheader();
 
+        Listheader listheaderPersenMhsBelumLulus = new Listheader();
+        listheaderPersenMhsBelumLulus.setAlign("right");
         listhead.appendChild(listheaderPersenMhsBelumLulus);
 
-        List<Map> mahasiswa = jumlahMahasiswaLulusDanBelumLulusDAO.getJumlahMahasiswaLulusDanBelumLulus(kodeProdi);
+        if (kodeProdi.equalsIgnoreCase("all")) {
+        } else {
+            datas = jumlahMahasiswaLulusDanBelumLulusDAO.getJumlahMahasiswaLulusDanBelumLulus(kodeProdi);
+        }
+
         DecimalFormat df = new DecimalFormat("# 0.00");
-        for (Map data : mahasiswa) {
+        for (Map item : datas) {
             Listitem listitem = new Listitem();
-            listitem.appendChild(new Listcell(data.get("angkatan").toString()));
-            listitem.appendChild(new Listcell(data.get("jumlah_total").toString()));
-            listitem.appendChild(new Listcell(data.get("jumlah_lulus").toString()));
-            if (!data.get("prosentase_lulus").toString().equals("0.0000")) {
-                listitem.appendChild(new Listcell(df.format(Double.parseDouble(data.get("prosentase_lulus").toString())) + "%"));
+            listitem.appendChild(new Listcell(item.get("angkatan").toString()));
+            listitem.appendChild(new Listcell(item.get("jumlah_total").toString()));
+            listitem.appendChild(new Listcell(item.get("jumlah_lulus").toString()));
+            if (!item.get("prosentase_lulus").toString().equals("0.0000")) {
+                listitem.appendChild(new Listcell(df.format(Double.parseDouble(item.get("prosentase_lulus").toString())) + "%"));
             } else {
                 listitem.appendChild(new Listcell("0" + "%"));
             }
-            listitem.appendChild(new Listcell(data.get("jumlah_belum_lulus").toString()));
-            if (!data.get("prosentase_belum_lulus").toString().equals("0.0000")) {
-                listitem.appendChild(new Listcell(df.format(Double.parseDouble(data.get("prosentase_belum_lulus").toString())) + "%"));
+            listitem.appendChild(new Listcell(item.get("jumlah_belum_lulus").toString()));
+            if (!item.get("prosentase_belum_lulus").toString().equals("0.0000")) {
+                listitem.appendChild(new Listcell(df.format(Double.parseDouble(item.get("prosentase_belum_lulus").toString())) + "%"));
             } else {
                 listitem.appendChild(new Listcell("0" + "%"));
             }
@@ -123,30 +134,25 @@ public class JumlahMahasiswaLulusDanBelumLulusWnd extends ClassApplicationModule
     }
 
     public void cmbDataProdiOnSelect() {
-        if (cmbboxProdi.getSelectedItem().getValue() == null) {
-            kodeProdi = null;
-        } else {
-            kodeProdi = (String) cmbboxProdi.getSelectedItem().getValue();
-        }
+        this.listboxMahasiswa.setVisible(false);
+        this.btnExport.setDisabled(true);
+        kodeProdi = (String) cmbboxProdi.getSelectedItem().getValue();
     }
 
     public void btnShowOnClick() throws InterruptedException {
-        if (kodeProdi == null) {
-        } else {
-            try {
-                this.listboxMahasiswa.setVisible(true);
-                this.loadDataToListbox();
-                this.btnExport.setDisabled(false);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                Messagebox.show("Data tidak ditemukan !", "Informasi", Messagebox.OK, Messagebox.INFORMATION);
-                this.listboxMahasiswa.setVisible(false);
-            }
+        try {
+            this.listboxMahasiswa.setVisible(true);
+            this.btnExport.setDisabled(false);
+            this.loadDataToListbox();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            Messagebox.show("Data tidak ditemukan !", "Informasi", Messagebox.OK, Messagebox.INFORMATION);
+            this.listboxMahasiswa.setVisible(false);
         }
+
     }
 
     public void exportReport() throws Exception {
-        List<Map> datas = jumlahMahasiswaLulusDanBelumLulusDAO.getJumlahMahasiswaLulusDanBelumLulus(kodeProdi);
         try {
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(datas);
             if (cmbExportType.getSelectedItem().getValue().toString().equals("pdf")) {

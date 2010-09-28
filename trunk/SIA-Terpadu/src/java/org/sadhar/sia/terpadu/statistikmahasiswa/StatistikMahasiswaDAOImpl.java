@@ -6,10 +6,13 @@ package org.sadhar.sia.terpadu.statistikmahasiswa;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import org.joda.time.DateTime;
 import org.sadhar.sia.common.ClassConnection;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -468,13 +471,27 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
     }
 
     public List getAngkatan(String prodi) {
-        String sql = "SELECT DISTINCT(angkatan) FROM tempo.tempmhs" + prodi + " WHERE angkatan > 1900  ORDER BY angkatan";
-        return ClassConnection.getJdbc().queryForList(sql);
+        String sql = "SELECT DISTINCT MIN(angkatan) FROM tempo.tempmhs" + prodi;
+        int tahun = ClassConnection.getJdbc().queryForInt(sql);
+        List<Map> tahuns = new ArrayList<Map>();
+        for (int i = tahun; i <= new DateTime().getYear(); i++) {
+            Map map = new HashMap();
+            map.put("angkatan", i);
+            tahuns.add(map);
+        }
+        return tahuns;
     }
 
     public List<Map> getAngkatan() {
-        String sql = "select distinct angkatan from tempo.tempstatistik WHERE angkatan > 1900 order by angkatan";
-        return ClassConnection.getJdbc().queryForList(sql);
+        String sql = "select distinct MIN(angkatan) from tempo.tempstatistik";
+        int tahun = ClassConnection.getJdbc().queryForInt(sql);
+        List<Map> tahuns = new ArrayList<Map>();
+        for (int i = tahun; i <= new DateTime().getYear(); i++) {
+            Map map = new HashMap();
+            map.put("angkatan", i);
+            tahuns.add(map);
+        }
+        return tahuns;
     }
 
     public List<Map> getStatistikMahasiswa(String kodeProdi) {
