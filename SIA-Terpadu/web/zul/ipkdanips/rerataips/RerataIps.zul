@@ -17,7 +17,7 @@
                         <rows>
                             <row style="border:none">
                                 <label value="Fakultas/Program Studi"></label>
-                                <combobox id="cmbboxProdi" width="300px"  onSelect="rerataIpsWnd.cmbDataProdiOnSelect()"/>
+                                <combobox readonly="true" id="cmbboxProdi" width="300px"  onSelect="rerataIpsWnd.cmbDataProdiOnSelect()"/>
                             </row>
                             <row style="border:none">
                                 <label value="Tahun Angkatan"></label>

@@ -13,7 +13,7 @@
                         <rows>
                             <row>
                                 <label value="Program Studi"></label>
-                                <combobox id="cmbProgdi" width="300px"/>
+                                <combobox id="cmbProgdi" width="300px" readonly="true"/>
                             </row>
                             <row>
                                 <label value="Tahun Pendaftaran"></label>
@@ -23,11 +23,11 @@
                             </row>
                             <row>
                                 <label value="Provinsi"></label>
-                                <combobox id="cmbProvinsi" width="300px" onChange="demografiCalonMahasiswa.cmbProvinsiSelect()"/>
+                                <combobox readonly="true" id="cmbProvinsi" width="300px" onChange="demografiCalonMahasiswa.cmbProvinsiSelect()"/>
                             </row>
                             <row>
                                 <label value="Kab/Kota"></label>
-                                <combobox id="cmbKabKota" width="300px"/>
+                                <combobox readonly="true" id="cmbKabKota" width="300px"/>
                             </row>
                         </rows>
                     </grid>

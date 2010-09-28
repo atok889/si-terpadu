@@ -12,7 +12,7 @@
                         <rows>
                             <row>
                                 <label value="Program Studi"/>
-                                <combobox id="cmbProdi" width="300px" onChange="daftarMatakuliah.cmbProdiOnChange()"/>
+                                <combobox readonly="true" id="cmbProdi" width="300px" onChange="daftarMatakuliah.cmbProdiOnChange()"/>
                             </row>
                         </rows>
                     </grid>

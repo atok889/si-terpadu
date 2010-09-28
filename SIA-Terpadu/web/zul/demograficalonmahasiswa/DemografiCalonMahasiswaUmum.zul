@@ -12,7 +12,7 @@
                         <rows>
                             <row>
                                 <label value="Program Studi"></label>
-                                <combobox id="cmbProgdi" width="300px"/>
+                                <combobox id="cmbProgdi" width="300px" readonly="true"/>
                             </row>
                             <row>
                                 <label value="Tahun Pendaftaran"></label>
@@ -22,7 +22,7 @@
                             </row>
                             <row>
                                 <label value="Jenis"></label>
-                                <combobox id="cmbJenis" width="300px">
+                                <combobox id="cmbJenis" width="300px" readonly="true">
                                     <comboitem label="Jenis Kelamin"/>
                                     <comboitem label="Agama"/>
                                 </combobox>
