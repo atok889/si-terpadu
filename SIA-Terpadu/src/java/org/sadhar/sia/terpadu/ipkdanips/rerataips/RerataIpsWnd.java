@@ -39,6 +39,7 @@ public class RerataIpsWnd extends ClassApplicationModule {
     public void onCreate() throws Exception {
         listboxMahasiswa = (Listbox) this.getFellow("listboxMahasiswa");
         cmbboxProdi = (Combobox) this.getFellow("cmbboxProdi");
+        cmbboxProdi.setReadonly(true);
         intboxTahunAngkatan = (Intbox) this.getFellow("intboxTahunAngkatan");
         this.loadDataToComboboxProdi();
     }
@@ -69,7 +70,7 @@ public class RerataIpsWnd extends ClassApplicationModule {
         listhead.appendChild(listheaderNo);
         Auxheader auxheaderNo = new Auxheader();
         auxheaderNo.setLabel("No");
-        auxheaderNo.setRowspan(2);
+        //auxheaderNo.setRowspan(2);
         auxheaderNo.setAlign("center");
         auxhead.appendChild(auxheaderNo);
 
@@ -78,7 +79,7 @@ public class RerataIpsWnd extends ClassApplicationModule {
         listhead.appendChild(listheaderFakultas);
         Auxheader auxheaderFakultas = new Auxheader();
         auxheaderFakultas.setLabel("Fakultas");
-        auxheaderFakultas.setRowspan(2);
+        //auxheaderFakultas.setRowspan(2);
         auxheaderFakultas.setAlign("center");
         auxhead.appendChild(auxheaderFakultas);
 
@@ -88,7 +89,7 @@ public class RerataIpsWnd extends ClassApplicationModule {
         Auxheader auxheaderAngkatan = new Auxheader();
         auxheaderAngkatan.setLabel("Tahun Angkatan");
         auxheaderAngkatan.setWidth("120px");
-        auxheaderAngkatan.setRowspan(2);
+        //auxheaderAngkatan.setRowspan(2);
         auxhead.appendChild(auxheaderAngkatan);
 
         Auxheader auxheaderIPS = new Auxheader();

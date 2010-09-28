@@ -4,7 +4,6 @@
  */
 package org.sadhar.sia.terpadu.statistikmahasiswa;
 
-import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;

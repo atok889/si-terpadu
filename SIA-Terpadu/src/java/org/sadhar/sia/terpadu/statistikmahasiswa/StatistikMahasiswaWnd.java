@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import org.sadhar.sia.framework.ClassApplicationModule;
 import org.zkoss.zk.ui.event.Event;
@@ -46,7 +45,9 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
 
     public void onCreate() throws Exception {
         cmbboxProdi = (Combobox) this.getFellow("cmbboxProdi");
+        cmbboxProdi.setReadonly(true);
         cmbExportType = (Combobox) getFellow("cmbExportType");
+        cmbExportType.setReadonly(true);
         cmbExportType.setSelectedIndex(0);
         listboxMahasiswa = (Listbox) this.getFellow("listboxMahasiswa");
         listboxDetailMahasiswa = (Listbox) this.getFellow("listboxDetailMahasiswa");
@@ -87,72 +88,72 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
             Listheader listheaderProdi = new Listheader("", "", "150px");
             listhead.appendChild(listheaderProdi);
             Listheader listheaderTotal = new Listheader("Total", "", "60px");
-            listheaderTotal.setAlign("center");
+            listheaderTotal.setAlign("right");
             listhead.appendChild(listheaderTotal);
 
-            final List<Map> tahun = statistikMahasiswaDAO.getAngkatan(kodeProdi);
-            statistikMahasiswaDAO.createTabelStatistik(kodeProdi, tahun);
+            final List<Map> tahuns = statistikMahasiswaDAO.getAngkatan(kodeProdi);
+            statistikMahasiswaDAO.createTabelStatistik(kodeProdi, tahuns);
 
             //Generate header
             Listheader listheader = new Listheader();
-            List<Map> data = statistikMahasiswaDAO.getStatistikMahasiswa(kodeProdi);
-            for (Map header : tahun) {
+            List<Map> datas = statistikMahasiswaDAO.getStatistikMahasiswa(kodeProdi);
+            for (Map header : tahuns) {
                 listheader = new Listheader();
-                listheader.setAlign("center");
+                listheader.setAlign("right");
                 listheader.setLabel(header.get("angkatan").toString());
                 listheader.setWidth("60px");
                 listhead.appendChild(listheader);
             }
 
             //Generate list total dan status
-            for (final Map row : data) {
+            for (final Map item : datas) {
                 Listcell listcellTotal = new Listcell();
-                Listitem item = new Listitem();
-                item.appendChild(new Listcell(row.get("status").toString()));
+                Listitem listitem = new Listitem();
+                listitem.appendChild(new Listcell(item.get("status").toString()));
                 Toolbarbutton anchorDetailTotal = new Toolbarbutton();
-                anchorDetailTotal.setLabel(row.get("total").toString());
+                anchorDetailTotal.setLabel(item.get("total").toString());
                 listcellTotal.appendChild(anchorDetailTotal);
-                item.appendChild(listcellTotal);
+                listitem.appendChild(listcellTotal);
 
                 anchorDetailTotal.addEventListener("onClick", new org.zkoss.zk.ui.event.EventListener() {
 
                     public void onEvent(Event arg0) throws Exception {
-                        List<Map> detail = new ArrayList<Map>();
+                        List<Map> details = new ArrayList<Map>();
                         String database = null;
-                        String currentStatus = row.get("status").toString();
+                        String currentStatus = item.get("status").toString();
 
                         if (currentStatus.equalsIgnoreCase("Mahasiswa Registrasi")) {
                             database = "db_" + kodeProdi + ".rg" + kodeProdi + tahunAkademik + semester;
-                            detail = statistikMahasiswaDAO.getDetailStatistikMahasiswa(kodeProdi, null, database, "1");
+                            details = statistikMahasiswaDAO.getDetailStatistikMahasiswa(kodeProdi, null, database, "1");
                         } else if (currentStatus.equalsIgnoreCase("Mahasiswa Tidak Aktif")) {
                             database = "db_" + kodeProdi + ".rg" + kodeProdi + tahunAkademik + semester;
-                            detail = statistikMahasiswaDAO.getDetailStatistikMahasiswa(kodeProdi, null, database, "2");
+                            details = statistikMahasiswaDAO.getDetailStatistikMahasiswa(kodeProdi, null, database, "2");
                         } else if (currentStatus.equalsIgnoreCase("Mahasiswa Cuti")) {
                             database = "db_" + kodeProdi + ".rg" + kodeProdi + tahunAkademik + semester;
-                            detail = statistikMahasiswaDAO.getDetailStatistikMahasiswa(kodeProdi, null, database, "3");
+                            details = statistikMahasiswaDAO.getDetailStatistikMahasiswa(kodeProdi, null, database, "3");
                         } else if (currentStatus.equalsIgnoreCase("Mahasiswa DO")) {
                             database = "db_" + kodeProdi + ".do" + kodeProdi;
-                            detail = statistikMahasiswaDAO.getDetailStatistikMahasiswa(kodeProdi, null, database, null);
+                            details = statistikMahasiswaDAO.getDetailStatistikMahasiswa(kodeProdi, null, database, null);
                         } else if (currentStatus.equalsIgnoreCase("Mahasiswa Lulus")) {
                             database = "db_" + kodeProdi + ".ll" + kodeProdi;
-                            detail = statistikMahasiswaDAO.getDetailStatistikMahasiswa(kodeProdi, null, database, null);
+                            details = statistikMahasiswaDAO.getDetailStatistikMahasiswa(kodeProdi, null, database, null);
                         }
 
                         int no = 1;
                         listboxDetailMahasiswa.getChildren().clear();
                         Listhead listhead = new Listhead();
-                        listhead.appendChild(new Listheader("NO", "", "30px"));
+                        listhead.appendChild(new Listheader("NO", "", "50px"));
                         listhead.appendChild(new Listheader("Nama", "", "400px"));
                         listhead.appendChild(new Listheader("Angkatan", "", "150px"));
                         listhead.appendChild(new Listheader("Program Studi", "", "300px"));
                         listboxDetailMahasiswa.appendChild(listhead);
-                        for (Map m : detail) {
-                            Listitem item = new Listitem();
-                            item.appendChild(new Listcell(no + ""));
-                            item.appendChild(new Listcell(m.get("nama_mhs").toString()));
-                            item.appendChild(new Listcell(m.get("angkatan").toString()));
-                            item.appendChild(new Listcell(m.get("nama_prg").toString()));
-                            listboxDetailMahasiswa.appendChild(item);
+                        for (Map item : details) {
+                            Listitem listitem = new Listitem();
+                            listitem.appendChild(new Listcell(no + ""));
+                            listitem.appendChild(new Listcell(item.get("nama_mhs").toString()));
+                            listitem.appendChild(new Listcell(item.get("angkatan").toString()));
+                            listitem.appendChild(new Listcell(item.get("nama_prg").toString()));
+                            listboxDetailMahasiswa.appendChild(listitem);
                             no++;
                         }
                     }
@@ -160,10 +161,10 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
 
 
                 //Generate list tahun ke ?
-                for (final Map header : tahun) {
+                for (final Map header : tahuns) {
                     Listcell listcellDetail = new Listcell();
                     Toolbarbutton anchorDetail = new Toolbarbutton();
-                    anchorDetail.setLabel(row.get("t" + header.get("angkatan")).toString());
+                    anchorDetail.setLabel(item.get("t" + header.get("angkatan")).toString());
                     //anchorDetail.setStyle("color : red");
 
                     anchorDetail.addEventListener("onClick", new org.zkoss.zk.ui.event.EventListener() {
@@ -171,7 +172,7 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
                         public void onEvent(Event event) throws Exception {
                             List<Map> detail = new ArrayList<Map>();
                             String database = null;
-                            String currentStatus = row.get("status").toString();
+                            String currentStatus = item.get("status").toString();
                             if (currentStatus.equalsIgnoreCase("Mahasiswa Registrasi")) {
                                 database = "db_" + kodeProdi + ".rg" + kodeProdi + tahunAkademik + semester;
                                 detail = statistikMahasiswaDAO.getDetailStatistikMahasiswa(kodeProdi, header.get("angkatan").toString(), database, "1");
@@ -192,26 +193,29 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
                             int no = 1;
                             listboxDetailMahasiswa.getChildren().clear();
                             Listhead listhead = new Listhead();
-                            listhead.appendChild(new Listheader("NO", "", "30px"));
+                            Listheader listheaderNo = new Listheader("NO");
+                            listheaderNo.setAlign("right");
+                            listheaderNo.setWidth("50px");
+                            listhead.appendChild(listheaderNo);
                             listhead.appendChild(new Listheader("Nama", "", "400px"));
                             listhead.appendChild(new Listheader("Angkatan", "", "150px"));
                             listhead.appendChild(new Listheader("Program Studi", "", "300px"));
                             listboxDetailMahasiswa.appendChild(listhead);
-                            for (Map m : detail) {
-                                Listitem item = new Listitem();
-                                item.appendChild(new Listcell(no + ""));
-                                item.appendChild(new Listcell(m.get("nama_mhs").toString()));
-                                item.appendChild(new Listcell(header.get("angkatan").toString()));
-                                item.appendChild(new Listcell(m.get("nama_prg").toString()));
-                                listboxDetailMahasiswa.appendChild(item);
+                            for (Map item : detail) {
+                                Listitem listitem = new Listitem();
+                                listitem.appendChild(new Listcell(no + ""));
+                                listitem.appendChild(new Listcell(item.get("nama_mhs").toString()));
+                                listitem.appendChild(new Listcell(header.get("angkatan").toString()));
+                                listitem.appendChild(new Listcell(item.get("nama_prg").toString()));
+                                listboxDetailMahasiswa.appendChild(listitem);
                                 no++;
                             }
                         }
                     });
                     listcellDetail.appendChild(anchorDetail);
-                    item.appendChild(listcellDetail);
+                    listitem.appendChild(listcellDetail);
                 }
-                listboxMahasiswa.appendChild(item);
+                listboxMahasiswa.appendChild(listitem);
             }
             listboxMahasiswa.appendChild(listhead);
         } else {
@@ -232,38 +236,36 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
         Listheader listheaderProdi = new Listheader("", "", "150px");
         listhead.appendChild(listheaderProdi);
         Listheader listheaderTotal = new Listheader("Total", "", "60px");
-        listheaderTotal.setAlign("center");
+        listheaderTotal.setAlign("right");
         listhead.appendChild(listheaderTotal);
 
-
-
-        final List<Map> tahun = statistikMahasiswaDAO.getAngkatan();
+        final List<Map> tahuns = statistikMahasiswaDAO.getAngkatan();
         Listheader listheader = new Listheader();
 
-        List<Map> data = statistikMahasiswaDAO.getStatistikMahasiswa();
-        for (Map header : tahun) {
+        List<Map> datas = statistikMahasiswaDAO.getStatistikMahasiswa();
+        for (Map header : tahuns) {
             listheader = new Listheader();
-            listheader.setAlign("center");
+            listheader.setAlign("right");
             listheader.setLabel(header.get("angkatan").toString());
             listheader.setWidth("60px");
             listhead.appendChild(listheader);
         }
 
-        for (final Map row : data) {
-            Listitem item = new Listitem();
+        for (final Map item : datas) {
+            Listitem listitem = new Listitem();
             Listcell listcellTotal = new Listcell();
-            item.appendChild(new Listcell(row.get("status").toString()));
+            listitem.appendChild(new Listcell(item.get("status").toString()));
             Toolbarbutton anchorDetailTotal = new Toolbarbutton();
-            anchorDetailTotal.setLabel(row.get("total").toString());
+            anchorDetailTotal.setLabel(item.get("total").toString());
             listcellTotal.appendChild(anchorDetailTotal);
-            item.appendChild(listcellTotal);
+            listitem.appendChild(listcellTotal);
 
             anchorDetailTotal.addEventListener("onClick", new org.zkoss.zk.ui.event.EventListener() {
 
                 public void onEvent(Event arg0) throws Exception {
                     List<Map> detail = new ArrayList<Map>();
                     String database = null;
-                    String currentStatus = row.get("status").toString();
+                    String currentStatus = item.get("status").toString();
 
                     if (currentStatus.equalsIgnoreCase("Mahasiswa Registrasi")) {
                         for (Map prodi : statistikMahasiswaDAO.getProdi()) {
@@ -311,7 +313,10 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
                     int no = 1;
                     listboxDetailMahasiswa.getChildren().clear();
                     Listhead listhead = new Listhead();
-                    listhead.appendChild(new Listheader("NO", "", "30px"));
+                    Listheader listheaderNo = new Listheader("NO");
+                    listheaderNo.setAlign("right");
+                    listheaderNo.setWidth("50px");
+                    listhead.appendChild(listheaderNo);
                     listhead.appendChild(new Listheader("Nama", "", "400px"));
                     listhead.appendChild(new Listheader("Angkatan", "", "150px"));
                     listhead.appendChild(new Listheader("Program Studi", "", "300px"));
@@ -328,18 +333,16 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
                 }
             });
 
-            for (final Map header : tahun) {
+            for (final Map header : tahuns) {
                 Listcell listcell = new Listcell();
                 Toolbarbutton anchorDetail = new Toolbarbutton();
-                anchorDetail.setLabel(row.get("t" + header.get("angkatan")).toString());
-                //anchorDetail.setStyle("color : red");
-
+                anchorDetail.setLabel(item.get("t" + header.get("angkatan")).toString());
                 anchorDetail.addEventListener("onClick", new org.zkoss.zk.ui.event.EventListener() {
 
                     public void onEvent(Event event) throws Exception {
                         List<Map> detail = new ArrayList<Map>();
                         String database = null;
-                        String currentStatus = row.get("status").toString();
+                        String currentStatus = item.get("status").toString();
                         if (currentStatus.equalsIgnoreCase("Mahasiswa Registrasi")) {
                             for (Map prodi : statistikMahasiswaDAO.getProdi()) {
                                 if (statistikMahasiswaDAO.isTabelrgXYZZyyyySAda(prodi.get("Kd_prg").toString(), tahunAkademik, semester)) {
@@ -390,21 +393,21 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
                         listhead.appendChild(new Listheader("Angkatan", "", "150px"));
                         listhead.appendChild(new Listheader("Program Studi", "", "300px"));
                         listboxDetailMahasiswa.appendChild(listhead);
-                        for (Map m : detail) {
-                            Listitem item = new Listitem();
-                            item.appendChild(new Listcell(no + ""));
-                            item.appendChild(new Listcell(m.get("nama_mhs").toString()));
-                            item.appendChild(new Listcell(header.get("angkatan").toString()));
-                            item.appendChild(new Listcell(m.get("nama_prg").toString()));
-                            listboxDetailMahasiswa.appendChild(item);
+                        for (Map item : detail) {
+                            Listitem listitem = new Listitem();
+                            listitem.appendChild(new Listcell(no + ""));
+                            listitem.appendChild(new Listcell(item.get("nama_mhs").toString()));
+                            listitem.appendChild(new Listcell(header.get("angkatan").toString()));
+                            listitem.appendChild(new Listcell(item.get("nama_prg").toString()));
+                            listboxDetailMahasiswa.appendChild(listitem);
                             no++;
                         }
                     }
                 });
                 listcell.appendChild(anchorDetail);
-                item.appendChild(listcell);
+                listitem.appendChild(listcell);
             }
-            listboxMahasiswa.appendChild(item);
+            listboxMahasiswa.appendChild(listitem);
         }
         listboxMahasiswa.appendChild(listhead);
     }

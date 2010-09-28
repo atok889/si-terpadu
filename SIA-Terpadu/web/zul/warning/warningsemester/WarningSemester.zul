@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title="Warning Semester" border="normal" width="800px"
+    <window title="Warning Semester" border="normal" width="900px"
             closable="true" sizable="true"
             id="warningSemesterWnd"
             use="org.sadhar.sia.terpadu.warning.warningsemester.WarningSemesterWnd">
@@ -13,16 +13,11 @@
                         <rows>
                             <row>
                                 <label value="Prodi/Fakultas"></label>
-                                <combobox id="cmbboxProdi" width="300px"
-                                  onSelect="warningSemesterWnd.cmbDataProdiOnSelect()">
-                                    <comboitem>
-
-                                    </comboitem>
-                                </combobox>
+                                <combobox id="cmbboxProdi" width="300px" onSelect="warningSemesterWnd.cmbDataProdiOnSelect()"/>
                             </row>
                             <row>
                                 <label value=""></label>
-                                <button label="Tampilkan" height="25px" width="90px" onClick="warningSemesterWnd.btnShowOnClick()"  ></button>
+                                <button label="Tampilkan" height="25px" width="90px" onClick="warningSemesterWnd.btnShowOnClick()" />
                             </row>
                         </rows>
                     </grid>
@@ -30,8 +25,7 @@
             </groupbox>
             <groupbox>
                 <caption label="Keluaran"></caption>
-                <listbox id="listboxMahasiswa" width="900px" fixedLayout="false" visible = "false">
-                </listbox>
+                <listbox id="listboxMahasiswa" width="850px" fixedLayout="true" visible = "false" rows="15"/>
             </groupbox>
             <groupbox visible="true">
                 <caption label="Export"></caption>

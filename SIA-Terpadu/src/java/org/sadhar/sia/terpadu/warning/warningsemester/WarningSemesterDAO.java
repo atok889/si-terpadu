@@ -15,7 +15,11 @@ public interface WarningSemesterDAO {
 
     public List<Map> getProdi();
 
-    public List<Map> getSemesterMahasiswa(String kodeProdi, String akademik, String semester);
+    public List<Map> getSemesterMahasiswa(String kodeProdi, String semester);
 
-    public List<Map> getWarningSemester(String kodeProdi, String akademik, String semester);
+    public List<Map> getWarningSemester(String kodeProdi, String semester);
+
+    public List<Map> getWarningSemester(String semester);
+
+    public boolean isTableMhsExist(String kodeProdi);
 }
