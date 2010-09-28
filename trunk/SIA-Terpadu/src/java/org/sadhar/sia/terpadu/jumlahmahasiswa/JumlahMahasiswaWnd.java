@@ -4,6 +4,7 @@
  */
 package org.sadhar.sia.terpadu.jumlahmahasiswa;
 
+import org.sadhar.sia.terpadu.prodi.ProgramStudi;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -65,7 +66,7 @@ public class JumlahMahasiswaWnd extends ClassApplicationModule {
 
     private void loadProgdi() throws Exception {
         try {
-            JumlahMahasiwaDAO dao = new JumlahMahasiswaDAOImpl();
+            JumlahMahasiswaDAO dao = new JumlahMahasiswaDAOImpl();
             List<ProgramStudi> progdis = dao.getProgramStudi();
             cmbProgdi.getItems().clear();
             Comboitem item = new Comboitem();
@@ -85,7 +86,7 @@ public class JumlahMahasiswaWnd extends ClassApplicationModule {
 
     public void viewReport() throws Exception {
         try {
-            JumlahMahasiwaDAO dao = new JumlahMahasiswaDAOImpl();
+            JumlahMahasiswaDAO dao = new JumlahMahasiswaDAOImpl();
             CategoryDataset dataset = dao.getDataset((ProgramStudi) cmbProgdi.getSelectedItem().getValue(), txtTahunAngkatan.getValue());
             ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
             BarRenderer.setDefaultBarPainter(new StandardBarPainter());
@@ -137,7 +138,7 @@ public class JumlahMahasiswaWnd extends ClassApplicationModule {
             chartImg.setContent(image);
             btnExport.setDisabled(false);
         } catch (Exception ex) {
-            Messagebox.show(ex.getMessage());
+            Messagebox.show("Data Program Studi tidak ditemukan");
         }
     }
 

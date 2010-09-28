@@ -4,6 +4,8 @@
  */
 package org.sadhar.sia.terpadu.demografimahasiswa;
 
+import org.sadhar.sia.terpadu.kabkota.KabKota;
+import org.sadhar.sia.terpadu.provinsi.Provinsi;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.List;
@@ -21,8 +23,10 @@ import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
 import org.sadhar.sia.framework.ClassApplicationModule;
 import org.sadhar.sia.terpadu.jumlahmahasiswa.JumlahMahasiswaDAOImpl;
-import org.sadhar.sia.terpadu.jumlahmahasiswa.JumlahMahasiwaDAO;
-import org.sadhar.sia.terpadu.jumlahmahasiswa.ProgramStudi;
+import org.sadhar.sia.terpadu.jumlahmahasiswa.JumlahMahasiswaDAO;
+import org.sadhar.sia.terpadu.kabkota.KabKotaDAOImpl;
+import org.sadhar.sia.terpadu.prodi.ProgramStudi;
+import org.sadhar.sia.terpadu.provinsi.ProvinsiDAOImpl;
 import org.sadhar.sia.terpadu.util.WarnaBarChart;
 import org.zkoss.image.AImage;
 import org.zkoss.zkex.zul.Jasperreport;
@@ -66,7 +70,7 @@ public class DemografiMahasiswaDaerahWnd extends ClassApplicationModule {
         loadProvinsi();
         cmbProgdi.setSelectedIndex(0);
         cmbProvinsi.setSelectedIndex(0);
-        
+
         cmbExportType.setSelectedIndex(0);
         cmbKabKota.setSelectedIndex(0);
         cmbKabKota.setDisabled(true);
@@ -75,7 +79,7 @@ public class DemografiMahasiswaDaerahWnd extends ClassApplicationModule {
     private void loadProvinsi() throws Exception {
         try {
             DemografiMahasiswaDAO dao = new DemografiMahasiswaDAOImpl();
-            List<Provinsi> provinsi = dao.getProvinsi();
+            List<Provinsi> provinsi = new ProvinsiDAOImpl().getProvinsi();
             cmbProvinsi.getItems().clear();
             Comboitem item = new Comboitem();
             item.setValue(null);
@@ -113,7 +117,7 @@ public class DemografiMahasiswaDaerahWnd extends ClassApplicationModule {
     private void loadKabKota(Provinsi prov) throws Exception {
         try {
             DemografiMahasiswaDAO dao = new DemografiMahasiswaDAOImpl();
-            List<KabKota> kabkota = dao.getKabKota(prov);
+            List<KabKota> kabkota = new KabKotaDAOImpl().getKabKota(prov);
             cmbKabKota.getItems().clear();
             Comboitem item = new Comboitem();
             item.setValue(null);
@@ -132,7 +136,7 @@ public class DemografiMahasiswaDaerahWnd extends ClassApplicationModule {
 
     private void loadProgdi() throws Exception {
         try {
-            JumlahMahasiwaDAO dao = new JumlahMahasiswaDAOImpl();
+            JumlahMahasiswaDAO dao = new JumlahMahasiswaDAOImpl();
             List<ProgramStudi> progdis = dao.getProgramStudi();
             cmbProgdi.getItems().clear();
             Comboitem item = new Comboitem();

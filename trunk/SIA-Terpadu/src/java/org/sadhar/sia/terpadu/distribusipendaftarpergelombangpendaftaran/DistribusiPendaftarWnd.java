@@ -88,7 +88,7 @@ public class DistribusiPendaftarWnd extends ClassApplicationModule {
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            Messagebox.show(ex.getMessage());
+            Messagebox.show("Tahun pendaftaran tidak terdapat dalam database");
         }
     }
 

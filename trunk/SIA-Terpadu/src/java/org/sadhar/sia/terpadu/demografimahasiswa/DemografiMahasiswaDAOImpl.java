@@ -4,16 +4,17 @@
  */
 package org.sadhar.sia.terpadu.demografimahasiswa;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import org.sadhar.sia.terpadu.kabkota.KabKota;
+import org.sadhar.sia.terpadu.provinsi.Provinsi;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.sadhar.sia.common.ClassConnection;
-import org.sadhar.sia.terpadu.jumlahmahasiswa.ProgramStudi;
-import org.springframework.jdbc.core.RowMapper;
+import org.sadhar.sia.terpadu.prodi.ProgramStudi;
+import org.sadhar.sia.terpadu.prodi.ProgramStudiDAOImpl;
+import org.sadhar.sia.terpadu.provinsi.ProvinsiDAOImpl;
 
 /**
  *
@@ -25,18 +26,7 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
         ClassConnection.getTransactionProxyFactoryBean().setTarget(this);
     }
 
-    public List<ProgramStudi> getProgramStudi() throws Exception {
-        List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-        String sql = "SELECT Kd_prg,Nama_prg FROM kamus.prg_std ORDER BY Kd_prg";
-        List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
-        for (Map m : rows) {
-            ProgramStudi ps = new ProgramStudi();
-            ps.setKode(m.get("Kd_prg").toString());
-            ps.setNama(m.get("Nama_prg").toString());
-            progdis.add(ps);
-        }
-        return progdis;
-    }
+   
 
     public CategoryDataset getJenisKelaminDataset(ProgramStudi progdi, String tahun) throws Exception {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -59,7 +49,7 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
             }
         } else if (progdi == null && tahun.isEmpty()) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-            progdis = getProgramStudi();
+            progdis = new ProgramStudiDAOImpl().getProgramStudi();
 
 //            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
 //            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
@@ -76,7 +66,7 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
             }
         } else if (progdi == null && !tahun.isEmpty()) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-            progdis = getProgramStudi();
+            progdis = new ProgramStudiDAOImpl().getProgramStudi();
 
 //            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
 //            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
@@ -116,7 +106,7 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
             }
         } else if (progdi == null && tahun.isEmpty()) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-            progdis = getProgramStudi();
+            progdis = new ProgramStudiDAOImpl().getProgramStudi();
 
 //            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
 //            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
@@ -133,7 +123,7 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
             }
         } else if (progdi == null && !tahun.isEmpty()) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-            progdis = getProgramStudi();
+            progdis = new ProgramStudiDAOImpl().getProgramStudi();
 
 //            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
 //            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
@@ -176,7 +166,7 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
             }
         } else if (progdi == null && tahun.isEmpty()) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-            progdis = getProgramStudi();
+            progdis = new ProgramStudiDAOImpl().getProgramStudi();
 
 //            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
 //            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
@@ -193,7 +183,7 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
             }
         } else if (progdi == null && !tahun.isEmpty()) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-            progdis = getProgramStudi();
+            progdis = new ProgramStudiDAOImpl().getProgramStudi();
 
 //            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
 //            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
@@ -237,7 +227,7 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
             }
         } else if (progdi == null && tahun.isEmpty()) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-            progdis = getProgramStudi();
+            progdis = new ProgramStudiDAOImpl().getProgramStudi();
 
 //            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
 //            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
@@ -254,7 +244,7 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
             }
         } else if (progdi == null && !tahun.isEmpty()) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-            progdis = getProgramStudi();
+            progdis = new ProgramStudiDAOImpl().getProgramStudi();
 
 //            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
 //            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
@@ -285,7 +275,7 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
                     + "GROUP BY SUBSTRING(db_" + progdi.getKode() + ".mhs" + progdi.getKode() + ".kd_kab_asal,1,2)";
             List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
             for (Map m : rows) {
-                Provinsi p = getProv(m.get("provinsi").toString());
+                Provinsi p = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
                 dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), p.getNama(), progdi.getNama());
             }
         } else if (progdi != null && !tahun.isEmpty() && prov == null) {
@@ -297,7 +287,7 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
 
             List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
             for (Map m : rows) {
-                Provinsi p = getProv(m.get("provinsi").toString());
+                Provinsi p = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
                 dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), p.getNama(), progdi.getNama());
             }
         } else if (progdi != null && !tahun.isEmpty() && prov != null && kabkota == null) {
@@ -349,7 +339,7 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
         } //progdi tdk kosong
         else if (progdi == null && tahun.isEmpty() && prov == null) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-            progdis = getProgramStudi();
+            progdis = new ProgramStudiDAOImpl().getProgramStudi();
 
 //            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
 //            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
@@ -363,13 +353,13 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
 
                 List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
                 for (Map m : rows) {
-                    Provinsi provinsi = getProv(m.get("provinsi").toString());
+                    Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
                     dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), provinsi.getNama(), ps.getNama());
                 }
             }
         } else if (progdi == null && !tahun.isEmpty() && prov == null) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-            progdis = getProgramStudi();
+            progdis = new ProgramStudiDAOImpl().getProgramStudi();
 
 //            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
 //            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
@@ -384,13 +374,13 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
 
                 List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
                 for (Map m : rows) {
-                    Provinsi provinsi = getProv(m.get("provinsi").toString());
+                    Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
                     dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), provinsi.getNama(), ps.getNama());
                 }
             }
         } else if (progdi == null && !tahun.isEmpty() && prov != null && kabkota == null) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-            progdis = getProgramStudi();
+            progdis = new ProgramStudiDAOImpl().getProgramStudi();
 
 //            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
 //            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
@@ -411,7 +401,7 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
             }
         } else if (progdi == null && !tahun.isEmpty() && prov != null && kabkota != null) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-            progdis = getProgramStudi();
+            progdis = new ProgramStudiDAOImpl().getProgramStudi();
 
 //            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
 //            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
@@ -432,7 +422,7 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
             }
         } else if (progdi == null && tahun.isEmpty() && prov != null && kabkota == null) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-            progdis = getProgramStudi();
+            progdis = new ProgramStudiDAOImpl().getProgramStudi();
 
 //            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
 //            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
@@ -452,7 +442,7 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
             }
         } else if (progdi == null && tahun.isEmpty() && prov != null && kabkota != null) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-            progdis = getProgramStudi();
+            progdis = new ProgramStudiDAOImpl().getProgramStudi();
 
 //            progdis.add(new ProgramStudi("5013", "MEKATRONIKA (D3)"));
 //            progdis.add(new ProgramStudi("5314", "TEKNIK INFORMATIKA"));
@@ -474,44 +464,5 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
         }
         return dataset;
     }
-
-    public List<Provinsi> getProvinsi() throws Exception {
-        List<Provinsi> prov = new ArrayList<Provinsi>();
-        String sql = "SELECT kd_prop,nama_prop FROM kamus.propinsi ORDER BY kd_prop";
-        List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
-        for (Map m : rows) {
-            Provinsi p = new Provinsi();
-            p.setKode(m.get("kd_prop").toString());
-            p.setNama(m.get("nama_prop").toString());
-            prov.add(p);
-        }
-        return prov;
-    }
-
-    public List<KabKota> getKabKota(Provinsi provinsi) throws Exception {
-        List<KabKota> kk = new ArrayList<KabKota>();
-        String sql = "SELECT kd_kab,nama_kab FROM kamus.kabupaten WHERE SUBSTRING(kd_kab,1,2)='" + provinsi.getKode() + "'";
-        List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
-        for (Map m : rows) {
-            KabKota kab = new KabKota();
-            kab.setKode(m.get("kd_kab").toString());
-            kab.setNama(m.get("nama_kab").toString());
-            kk.add(kab);
-        }
-        return kk;
-    }
-
-    public Provinsi getProv(String kode) throws Exception {
-        String sql = "SELECT kd_prop,nama_prop FROM kamus.propinsi WHERE kd_prop=?";
-        return (Provinsi) ClassConnection.getJdbc().queryForObject(sql, new Object[]{kode},
-                new RowMapper() {
-
-                    public Object mapRow(ResultSet rs, int rowNum)
-                            throws SQLException {
-                        return new Provinsi(
-                                rs.getString("kd_prop"),
-                                rs.getString("nama_prop"));
-                    }
-                });
-    }
+ 
 }

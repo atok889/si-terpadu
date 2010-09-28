@@ -21,8 +21,8 @@ import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
 import org.sadhar.sia.framework.ClassApplicationModule;
 import org.sadhar.sia.terpadu.jumlahmahasiswa.JumlahMahasiswaDAOImpl;
-import org.sadhar.sia.terpadu.jumlahmahasiswa.JumlahMahasiwaDAO;
-import org.sadhar.sia.terpadu.jumlahmahasiswa.ProgramStudi;
+import org.sadhar.sia.terpadu.jumlahmahasiswa.JumlahMahasiswaDAO;
+import org.sadhar.sia.terpadu.prodi.ProgramStudi;
 import org.sadhar.sia.terpadu.util.WarnaBarChart;
 import org.zkoss.image.AImage;
 import org.zkoss.zkex.zul.Jasperreport;
@@ -68,7 +68,7 @@ public class DemografiCalonMahasiswaWnd extends ClassApplicationModule {
 
     private void loadProgdi() throws Exception {
         try {
-            JumlahMahasiwaDAO dao = new JumlahMahasiswaDAOImpl();
+            JumlahMahasiswaDAO dao = new JumlahMahasiswaDAOImpl();
             List<ProgramStudi> progdis = dao.getProgramStudi();
             cmbProgdi.getItems().clear();
             Comboitem item = new Comboitem();

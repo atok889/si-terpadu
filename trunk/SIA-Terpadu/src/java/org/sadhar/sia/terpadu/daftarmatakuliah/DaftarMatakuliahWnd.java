@@ -9,8 +9,8 @@ import java.util.List;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.sadhar.sia.framework.ClassApplicationModule;
 import org.sadhar.sia.terpadu.jumlahmahasiswa.JumlahMahasiswaDAOImpl;
-import org.sadhar.sia.terpadu.jumlahmahasiswa.JumlahMahasiwaDAO;
-import org.sadhar.sia.terpadu.jumlahmahasiswa.ProgramStudi;
+import org.sadhar.sia.terpadu.jumlahmahasiswa.JumlahMahasiswaDAO;
+import org.sadhar.sia.terpadu.prodi.ProgramStudi;
 import org.zkoss.zhtml.Messagebox;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zkex.zul.Jasperreport;
@@ -52,7 +52,7 @@ public class DaftarMatakuliahWnd extends ClassApplicationModule {
 
     private void loadProgdi() throws Exception {
         try {
-            JumlahMahasiwaDAO dao = new JumlahMahasiswaDAOImpl();
+            JumlahMahasiswaDAO dao = new JumlahMahasiswaDAOImpl();
             List<ProgramStudi> progdis = dao.getProgramStudi();
             cmbProdi.getItems().clear();
             for (ProgramStudi ps : progdis) {

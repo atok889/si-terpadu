@@ -6,7 +6,7 @@
 package org.sadhar.sia.terpadu.daftarmatakuliah;
 
 import java.util.List;
-import org.sadhar.sia.terpadu.jumlahmahasiswa.ProgramStudi;
+import org.sadhar.sia.terpadu.prodi.ProgramStudi;
 
 /**
  *

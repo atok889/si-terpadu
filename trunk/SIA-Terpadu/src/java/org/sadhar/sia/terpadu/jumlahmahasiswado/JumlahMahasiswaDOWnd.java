@@ -22,7 +22,7 @@ import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
 import org.sadhar.sia.framework.ClassApplicationModule;
-import org.sadhar.sia.terpadu.jumlahmahasiswa.ProgramStudi;
+import org.sadhar.sia.terpadu.prodi.ProgramStudi;
 import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zkex.zul.Jasperreport;
