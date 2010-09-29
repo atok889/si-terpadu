@@ -4,11 +4,9 @@
  */
 package org.sadhar.sia.terpadu.reratalamastudi;
 
-import org.sadhar.sia.terpadu.statistiklamastudi.*;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
@@ -23,15 +21,12 @@ import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
 import org.sadhar.sia.framework.ClassApplicationModule;
-import org.sadhar.sia.terpadu.prodi.ProgramStudi;
 import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zkex.zul.Jasperreport;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Combobox;
-import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Image;
-import org.zkoss.zul.Intbox;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listhead;
@@ -47,7 +42,7 @@ import org.zkoss.zul.Window;
 public class RerataLamaStudiWnd extends ClassApplicationModule {
 
     Jasperreport report;
-    Image chartImg;
+//    Image chartImg;
     Combobox cmbExportType;
     Button btnExport;
     Listbox listb;
@@ -59,7 +54,7 @@ public class RerataLamaStudiWnd extends ClassApplicationModule {
     public void onCreate() throws Exception {
         listb = (Listbox) getFellow("listb");
         report = (Jasperreport) getFellow("report");
-        chartImg = (Image) getFellow("chartImg");
+//        chartImg = (Image) getFellow("chartImg");
         cmbExportType = (Combobox) getFellow("cmbExportType");
         btnExport = (Button) getFellow("btnExport");
         btnExport.setDisabled(true);
@@ -76,9 +71,7 @@ public class RerataLamaStudiWnd extends ClassApplicationModule {
             RerataLamaStudiDAO dao = new RerataLamaStudiDAOImpl();
             CategoryDataset dataset = dao.getDataset();
 
-
             listb.getItems().clear();
-
 
             Listhead lhead;
             if (listb.getListhead() != null) {
@@ -92,14 +85,11 @@ public class RerataLamaStudiWnd extends ClassApplicationModule {
             lheader.setLabel("Program Studi");
             lhead.appendChild(lheader);
 
-
             for (Object s : dataset.getRowKeys()) {
                 Listheader inlhd = new Listheader();
                 inlhd.setLabel(s.toString());
                 lhead.appendChild(inlhd);
             }
-
-
 
             for (Object s : dataset.getColumnKeys()) {
                 Listitem item = new Listitem();
@@ -119,18 +109,19 @@ public class RerataLamaStudiWnd extends ClassApplicationModule {
                 listb.appendChild(item);
             }
 
+            /*
             ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
             BarRenderer.setDefaultBarPainter(new StandardBarPainter());
 
             chart = ChartFactory.createBarChart(
-                    "Statistik lama Studi", // chart title
-                    "Program Studi", // domain axis label
-                    "Jumlah Mahasiswa", // range axis label
-                    dataset, // data
-                    PlotOrientation.VERTICAL,
-                    true, // include legend
-                    true,
-                    false);
+            "Statistik lama Studi", // chart title
+            "Program Studi", // domain axis label
+            "Jumlah Mahasiswa", // range axis label
+            dataset, // data
+            PlotOrientation.VERTICAL,
+            true, // include legend
+            true,
+            false);
 
             chart.setBackgroundPaint(new Color(0xCC, 0xFF, 0xCC));
 
@@ -155,6 +146,8 @@ public class RerataLamaStudiWnd extends ClassApplicationModule {
 
             AImage image = new AImage("Bar Chart", bytes);
             chartImg.setContent(image);
+             */
+            
             btnExport.setDisabled(false);
         } catch (Exception ex) {
             ex.printStackTrace();
