@@ -1,64 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title="Statistik Lama Studi" border="normal" width="100%"
-            closable="true"
-            id="statistikLamaStudi"
+    <window title="Statistik Lama Studi" border="normal" width="950px"
+            closable="true" sizable="true"
+            id="statistikLamaStudiWnd"
             use="org.sadhar.sia.terpadu.statistiklamastudi.StatistikLamaStudiWnd">
+        <label id="labelPilihan" visible="false"></label>
         <div style="padding:5px">
             <groupbox>
                 <caption label="Parameter"></caption>
                 <div style="padding:3px">
-                    <grid>
-                        <rows>
-                            <row>
-                                <label value="Program Studi"></label>
-                                <combobox readonly="true" id="cmbProgdi" width="300px"/>
-                            </row>
-                            <row>
-                                <label value="Semester"></label>
-                                <hbox>
-                                    <intbox id="txtSemester" width="80px" value="0"/>
-                                    <label value="Ex. 6"/>
-                                </hbox>
-                            </row>
-                        </rows>
-                    </grid>
-                </div>
-                <div style="padding:3px">
-                    <button label="Tampilkan" height="25px" width="90px" onClick="statistikLamaStudi.viewReport()"></button>
-                </div>
-            </groupbox>
-            <groupbox>
-                <caption label="Table"></caption>
-                <div id="tableDiv" style="height:250px;overflow:auto;padding:10px">
-                    <listbox id="listb">
-                        
-                    </listbox>
+                    <radiogroup onCheck="labelPilihan.value = self.selectedItem.value">
+                        <grid>
+                            <columns>
+                                <column></column>
+                                <column></column>
+                                <column></column>
+                            </columns>
+                            <rows>
+                                <row>
+                                    <label value="Berdasarkan"></label>
+                                    <radio label="Berdasarkan Prodi" value="prodi" />
+                                    <radio label="Berdasarkan Semester" value="semester" />
+                                </row>
+                                <row>
+                                    <label value=""></label>
+                                    <combobox id="cmbboxProdi" width="300px"
+                                  onSelect="statistikLamaStudiWnd.cmbDataProdiOnSelect()">
+                                    </combobox>
+                                    <combobox id="cmbboxSemester" width="300px"
+                                  onSelect="statistikLamaStudiWnd.cmbDataSemesterOnSelect()">
+                                    </combobox>
+                                </row>
+                                <row>
+                                    <label value=""></label>
+                                    <button label="Tampilkan" height="25px" width="90px" onClick="statistikLamaStudiWnd.btnShowOnClick()"  ></button>
+                                </row>
+                            </rows>
+                        </grid>
+                    </radiogroup>
                 </div>
             </groupbox>
             <groupbox>
                 <caption label="Keluaran"></caption>
-                <div id="contentDiv" style="height:400px;overflow:auto;padding:10px">
-                    <jasperreport id="report" visible="false"/>
-                    <image id="chartImg"/>
-                </div>
+                <listbox id="listboxMahasiswa" width="900px" fixedLayout="true" visible = "false">
+                </listbox>
             </groupbox>
             <groupbox visible="true">
                 <caption label="Export"></caption>
                 <div style="padding:3px" align="right">
                     <hbox>
                         <label value="Format"></label>
+                        <jasperreport id="report" visible="false"/>
                         <combobox id="cmbExportType">
-                            <comboitem label="PDF" value="pdf"></comboitem>
+                            <comboitem label="PDF" value="pdf" ></comboitem>
                             <comboitem label="XLS" value="xls"></comboitem>
                             <comboitem label="DOC" value="rtf"></comboitem>
                             <comboitem label="RTF" value="rtf"></comboitem>
                         </combobox>
-                        <button id="btnExport" disabled="true" label="Export" height="25px" width="90px" onClick="statistikLamaStudi.exportReport()"></button>
+                        <button id="btnExport" disabled="true" label="Export" height="25px" width="90px" onClick="statistikLamaStudiWnd.exportReport()"></button>
                     </hbox>
                 </div>
             </groupbox>
         </div>
     </window>
 </zk>
+
