@@ -53,7 +53,7 @@ public class JumlahMahasiswaDODAOImpl implements JumlahMahasiwaDODAO {
                         dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("tahun").toString(), progdi.getNama());
                     }
                 } catch (DataAccessException dae) {
-                    dataset.addValue(0, "database_missing", progdi.getNama()+"(Database Missing)");
+                    System.out.println("Data invalid Silahkan perbaiki Validitas dan Integritas Data");
                 }
 
         } else if (progdi != null && !tahun.isEmpty()) {
@@ -66,7 +66,7 @@ public class JumlahMahasiswaDODAOImpl implements JumlahMahasiwaDODAO {
                     dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("tahun").toString(), progdi.getNama());
                 }
             } catch (DataAccessException dae) {
-                dataset.addValue(0, "database_missing", progdi.getNama() + "(Database Missing)");
+              System.out.println("Data invalid Silahkan perbaiki Validitas dan Integritas Data");
             }
 
         } else if (progdi == null && !tahun.isEmpty()) {
@@ -86,7 +86,7 @@ public class JumlahMahasiswaDODAOImpl implements JumlahMahasiwaDODAO {
                         dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("tahun").toString(), ps.getNama());
                     }
                 } catch (DataAccessException dae) {
-                    dataset.addValue(0, "database_missing", ps.getNama() + "(Database Missing)");
+                    System.out.println("Data invalid Silahkan perbaiki Validitas dan Integritas Data");
                 }
 
             }
@@ -108,7 +108,7 @@ public class JumlahMahasiswaDODAOImpl implements JumlahMahasiwaDODAO {
                         dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("tahun").toString(), ps.getNama());
                     }
                 } catch (DataAccessException dae) {
-                    dataset.addValue(0, "database_missing", ps.getNama() + "(Database Missing)");
+                    System.out.println("Data invalid Silahkan perbaiki Validitas dan Integritas Data");
                 }
 
             }
