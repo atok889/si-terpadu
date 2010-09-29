@@ -32,19 +32,19 @@
             <groupbox>
                 <caption label="Table"></caption>
                 <div id="tableDiv" style="height:250px;overflow:auto;padding:10px">
-                    <listbox id="listb">
+                    <listbox id="listb"  width="100%" fixedLayout="false">
                         
                     </listbox>
                 </div>
             </groupbox>
-            <groupbox>
+<!--            <groupbox>
                 <caption label="Keluaran"></caption>
                 <div id="contentDiv" style="height:400px;overflow:auto;padding:10px">
-                    <jasperreport id="report" visible="false"/>
                     <image id="chartImg"/>
                 </div>
-            </groupbox>
+            </groupbox>-->
             <groupbox visible="true">
+                <jasperreport id="report" visible="false"/>
                 <caption label="Export"></caption>
                 <div style="padding:3px" align="right">
                     <hbox>
