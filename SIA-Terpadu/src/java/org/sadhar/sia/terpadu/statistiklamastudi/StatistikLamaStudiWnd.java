@@ -5,11 +5,15 @@
 package org.sadhar.sia.terpadu.statistiklamastudi;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.sadhar.sia.framework.ClassApplicationModule;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zkex.zul.Jasperreport;
 import org.zkoss.zul.Auxhead;
 import org.zkoss.zul.Auxheader;
@@ -23,6 +27,7 @@ import org.zkoss.zul.Listhead;
 import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
+import org.zkoss.zul.Window;
 
 /**
  *
@@ -42,7 +47,6 @@ public class StatistikLamaStudiWnd extends ClassApplicationModule {
     private String tahunAkademik = "2000";
     private String semester = "2";
     private int smstr = 0;
-    private List<Map> datas = new ArrayList<Map>();
 
     public StatistikLamaStudiWnd() {
         statistikLamaStudiDAO = new StatistikLamaStudiDAOImpl();
@@ -81,12 +85,22 @@ public class StatistikLamaStudiWnd extends ClassApplicationModule {
         cmbboxSemester.appendChild(item);
         cmbboxSemester.setSelectedItem(item);
 
-        for (int i = 1; i <= 12; i++) {
+        for (int i = 1; i <= 16; i++) {
             Comboitem items = new Comboitem();
             items.setValue(i);
             items.setLabel("Semester " + i);
             cmbboxSemester.appendChild(items);
         }
+    }
+
+    private void componentDisable() {
+        listboxMahasiswa.setVisible(false);
+        btnExport.setDisabled(true);
+    }
+
+    private void componentEnable() {
+        listboxMahasiswa.setVisible(true);
+        btnExport.setDisabled(false);
     }
 
     private void loadDataToListbox() throws InterruptedException {
@@ -130,7 +144,7 @@ public class StatistikLamaStudiWnd extends ClassApplicationModule {
         auxhead.appendChild(auxheaderProdi);
 
         Auxheader auxheaderSemester = new Auxheader();
-        auxheaderSemester.setLabel("Semester");
+        auxheaderSemester.setLabel("Jumlah Mahasiswa");
         auxheaderSemester.setColspan(colspanSemester);
         auxheaderSemester.setAlign("center");
         auxhead.appendChild(auxheaderSemester);
@@ -155,15 +169,15 @@ public class StatistikLamaStudiWnd extends ClassApplicationModule {
 
         listboxMahasiswa.appendChild(auxhead);
         listboxMahasiswa.appendChild(listhead);
-
-
     }
 
     public void cmbDataProdiOnSelect() {
+        this.componentDisable();
         kodeProdi = (String) cmbboxProdi.getSelectedItem().getValue();
     }
 
     public void cmbDataSemesterOnSelect() {
+        this.componentDisable();
         if (cmbboxSemester.getSelectedItem().getValue() == null) {
             smstr = 0;
         } else {
@@ -172,7 +186,73 @@ public class StatistikLamaStudiWnd extends ClassApplicationModule {
     }
 
     public void btnShowOnClick() throws InterruptedException {
-        listboxMahasiswa.setVisible(true);
-        loadDataToListbox();
+        try {
+            this.componentEnable();
+            loadDataToListbox();
+        } catch (Exception e) {
+            this.componentDisable();
+            Messagebox.show("Data tidak ditemukan", "Konfirmasi", Messagebox.OK, Messagebox.EXCLAMATION);
+        }
+    }
+
+    public void exportReport() throws Exception {
+        try {
+            JRMapCollectionDataSource dataSource = new JRMapCollectionDataSource(this.generateReportForAllProdi(kodeProdi));
+            if (cmbExportType.getSelectedItem().getValue().toString().equals("pdf")) {
+                Window pdfPreviewWnd = (Window) Executions.createComponents("/zul/pdfpreview/PdfPreview.zul", null, null);
+                Jasperreport pdfReport = (Jasperreport) pdfPreviewWnd.getFellow("report");
+                pdfReport.setType(cmbExportType.getSelectedItem().getValue().toString());
+                pdfReport.setSrc("reports/statistiklamastudi/StatistikLamaStudi.jasper");
+                pdfReport.setParameters(null);
+                pdfReport.setDatasource(dataSource);
+                pdfPreviewWnd.doModal();
+            } else {
+                report.setType(cmbExportType.getSelectedItem().getValue().toString());
+                report.setSrc("reports/statistiklamastudi/StatistikLamaStudi.jasper");
+                report.setParameters(null);
+                report.setDatasource(dataSource);
+            }
+        } catch (Exception ex) {
+            Messagebox.show(ex.getMessage());
+        }
+    }
+
+    private List<Map> generateReportForAllProdi(String kodeProdi) {
+        List<Map> datas = new ArrayList<Map>();
+        if (labelPilihan.getValue().equalsIgnoreCase("prodi")) {
+            if (kodeProdi == null || kodeProdi.equalsIgnoreCase("all")) {
+                List<StatistikLamaStudi> statistikLamaStudis = statistikLamaStudiDAO.getStatistikLamaStudi();
+                for (StatistikLamaStudi statistikLamaStudi : statistikLamaStudis) {
+
+                    for (int i = 1; i <= 16; i++) {
+                        Map map = new HashMap();
+                        map.put("prodi", statistikLamaStudi.getProdi());
+                        map.put("semester", i);
+                        map.put("jumlah", statistikLamaStudi.getSemesterValue(i));
+                        datas.add(map);
+                    }
+                }
+            } else {
+                StatistikLamaStudi statistikLamaStudi = statistikLamaStudiDAO.getStatistikLamaStudi(kodeProdi);
+                for (int i = 1; i <= 16; i++) {
+                    Map map = new HashMap();
+                    map.put("prodi", statistikLamaStudi.getProdi());
+                    map.put("semester", i);
+                    map.put("jumlah", statistikLamaStudi.getSemesterValue(i));
+                    datas.add(map);
+                }
+            }
+        } else {
+            List<StatistikLamaStudi> statistikLamaStudis = statistikLamaStudiDAO.getStatistikLamaStudi();
+            for (StatistikLamaStudi statistikLamaStudi : statistikLamaStudis) {
+                Map map = new HashMap();
+                map.put("prodi", statistikLamaStudi.getProdi());
+                map.put("semester", smstr);
+                map.put("jumlah", statistikLamaStudi.getSemesterValue(smstr));
+                datas.add(map);
+
+            }
+        }
+        return datas;
     }
 }

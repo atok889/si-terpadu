@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import org.sadhar.sia.framework.ClassApplicationModule;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zk.ui.event.Event;
 import org.zkoss.zkex.zul.Jasperreport;
 import org.zkoss.zul.Combobox;
@@ -22,6 +23,7 @@ import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Toolbarbutton;
+import org.zkoss.zul.Window;
 
 /**
  *
@@ -67,7 +69,7 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
         for (Map map : statistikMahasiswaDAO.getProdi()) {
             Comboitem items = new Comboitem();
             items.setValue(map.get("Kd_prg").toString());
-            items.setLabel(map.get("Kd_prg").toString()+" "+map.get("Nama_prg").toString());
+            items.setLabel(map.get("Kd_prg").toString() + " " + map.get("Nama_prg").toString());
             cmbboxProdi.appendChild(items);
         }
         cmbboxProdi.setSelectedIndex(0);
@@ -458,10 +460,20 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
     public void exportReport() throws InterruptedException {
         try {
             JRMapCollectionDataSource dataSource = new JRMapCollectionDataSource(statistikMahasiswaDAO.getListDataStatistik(kodeProdi));
-            report.setType(cmbExportType.getSelectedItem().getValue().toString());
-            report.setSrc("reports/statistikmahasiswa/StatistikMahasiswa.jasper");
-            report.setParameters(null);
-            report.setDatasource(dataSource);
+            if (cmbExportType.getSelectedItem().getValue().toString().equals("pdf")) {
+                Window pdfPreviewWnd = (Window) Executions.createComponents("/zul/pdfpreview/PdfPreview.zul", null, null);
+                Jasperreport pdfReport = (Jasperreport) pdfPreviewWnd.getFellow("report");
+                pdfReport.setType(cmbExportType.getSelectedItem().getValue().toString());
+                pdfReport.setSrc("reports/statistikmahasiswa/StatistikMahasiswa.jasper");
+                pdfReport.setParameters(null);
+                pdfReport.setDatasource(dataSource);
+                pdfPreviewWnd.doModal();
+            } else {
+                report.setType(cmbExportType.getSelectedItem().getValue().toString());
+                report.setSrc("reports/statistiklamastudi/StatistikLamaStudi.jasper");
+                report.setParameters(null);
+                report.setDatasource(dataSource);
+            }
         } catch (Exception ex) {
             Messagebox.show(ex.getMessage());
         }
