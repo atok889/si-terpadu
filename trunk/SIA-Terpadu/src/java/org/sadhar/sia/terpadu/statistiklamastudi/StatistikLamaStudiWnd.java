@@ -197,7 +197,7 @@ public class StatistikLamaStudiWnd extends ClassApplicationModule {
 
     public void exportReport() throws Exception {
         try {
-            JRMapCollectionDataSource dataSource = new JRMapCollectionDataSource(this.generateReportForAllProdi(kodeProdi));
+            JRMapCollectionDataSource dataSource = new JRMapCollectionDataSource(this.generateReport(kodeProdi));
             if (cmbExportType.getSelectedItem().getValue().toString().equals("pdf")) {
                 Window pdfPreviewWnd = (Window) Executions.createComponents("/zul/pdfpreview/PdfPreview.zul", null, null);
                 Jasperreport pdfReport = (Jasperreport) pdfPreviewWnd.getFellow("report");
@@ -217,7 +217,7 @@ public class StatistikLamaStudiWnd extends ClassApplicationModule {
         }
     }
 
-    private List<Map> generateReportForAllProdi(String kodeProdi) {
+    private List<Map> generateReport(String kodeProdi) {
         List<Map> datas = new ArrayList<Map>();
         if (labelPilihan.getValue().equalsIgnoreCase("prodi")) {
             if (kodeProdi == null || kodeProdi.equalsIgnoreCase("all")) {
