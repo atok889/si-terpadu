@@ -26,8 +26,8 @@
 	<parameter name="DB_NAME" isForPrompting="true" class="java.lang.String"/>
 	<queryString><![CDATA[select *from tempo.tempmhs1114 GROUP BY jenis ORDER by jenis]]></queryString>
 
-	<field name="jenis" class="java.lang.String"/>
-	<field name="angkatan" class="java.lang.String"/>
+	<field name="status" class="java.lang.String"/>
+	<field name="tahun" class="java.lang.String"/>
 	<field name="jumlah" class="java.lang.Integer"/>
 
 		<background>
@@ -80,13 +80,12 @@
 						width="503"
 						height="29"
 						key="crosstab-1"/>
-					
 					<crosstabHeaderCell>						<cellContents mode="Transparent">
 					<box></box>
 						</cellContents>
-					</crosstabHeaderCell>					<rowGroup name="jenis" width="100" totalPosition="End">
+					</crosstabHeaderCell>					<rowGroup name="status" width="100" totalPosition="End">
 						<bucket>
-							<bucketExpression class="java.lang.String"><![CDATA[$F{jenis}]]></bucketExpression>
+							<bucketExpression class="java.lang.String"><![CDATA[$F{status}]]></bucketExpression>
 						</bucket>
 						<crosstabRowHeader>
 						<cellContents mode="Transparent">
@@ -102,7 +101,7 @@
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$V{jenis}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$V{status}]]></textFieldExpression>
 				</textField>
 						</cellContents>
 						</crosstabRowHeader>
@@ -125,9 +124,9 @@
 						</cellContents>
 						</crosstabTotalRowHeader>
 					</rowGroup>
-					<columnGroup name="angkatan" height="25" totalPosition="End" headerPosition="Center">
+					<columnGroup name="tahun" height="25" totalPosition="End" headerPosition="Center">
 						<bucket>
-							<bucketExpression class="java.lang.String"><![CDATA[$F{angkatan}]]></bucketExpression>
+							<bucketExpression class="java.lang.Integer"><![CDATA[$F{tahun}]]></bucketExpression>
 						</bucket>
 						<crosstabColumnHeader>
 						<cellContents mode="Transparent">
@@ -148,7 +147,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$V{angkatan}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{tahun}]]></textFieldExpression>
 				</textField>
 						</cellContents>
 						</crosstabColumnHeader>
@@ -198,7 +197,7 @@
 				</textField>
 						</cellContents>
 					</crosstabCell>
-					<crosstabCell width="50" height="30" columnTotalGroup="angkatan">
+					<crosstabCell width="50" height="30" columnTotalGroup="tahun">
 						<cellContents mode="Transparent">
 					<box></box>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
@@ -216,7 +215,7 @@
 				</textField>
 						</cellContents>
 					</crosstabCell>
-					<crosstabCell width="50" height="30" rowTotalGroup="jenis">
+					<crosstabCell width="50" height="30" rowTotalGroup="status">
 						<cellContents mode="Transparent">
 					<box></box>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
@@ -234,7 +233,7 @@
 				</textField>
 						</cellContents>
 					</crosstabCell>
-					<crosstabCell width="50" height="30" rowTotalGroup="jenis" columnTotalGroup="angkatan">
+					<crosstabCell width="50" height="30" rowTotalGroup="status" columnTotalGroup="tahun">
 						<cellContents mode="Transparent">
 					<box></box>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
