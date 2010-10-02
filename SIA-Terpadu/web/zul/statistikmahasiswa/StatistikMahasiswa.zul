@@ -26,12 +26,11 @@
             </groupbox>
             <groupbox>
                 <caption label="Keluaran"></caption>
-                <listbox id="listboxMahasiswa" width="900px" fixedLayout="true" visible = "false" rows="6">
-                </listbox>
+                <listbox id="listboxMahasiswa" width="900px" fixedLayout="true" visible = "false" rows="6"/>
             </groupbox>
             <groupbox>
                 <caption label="Detail"></caption>
-                <listbox id="listboxDetailMahasiswa" width="900px" fixedLayout="false" visible = "false" rows ="20">
+                <listbox id="listboxDetailMahasiswa" width="900px" fixedLayout="true" visible = "false" rows ="20">
                 </listbox>
             </groupbox>
             <groupbox visible="true">
