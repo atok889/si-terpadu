@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <window title="Pangkatan dan Jabatan Akademik Dosen" border="normal" width="100%"
+            closable="true"
+            id="pangkatanDanJabatanAkademikDosen"
+            use="org.sadhar.sia.terpadu.pangkatandanjabatanakademikdosen.PangkatanDanJabatanAkademikDosenWnd">
+        <div style="padding:5px">
+            <groupbox>
+                   <caption label="Parameter"></caption>
+                <div style="padding:3px" >
+                    <grid>
+                        <rows>
+                            <row>
+                            <div align="right"><hbox><label value="Prodi/Fakultas"></label></hbox></div>
+                             <div align="center"><hbox ><label value=":"></label></hbox></div>
+                              <div align="left"><hbox><combobox id="cmbProdi" width="300px" readonly="true"/></hbox></div>
+                            </row>
+                            <row>
+                             <div align="right"><hbox><label value="Jenis Laporan "></label></hbox></div>
+                              <div align="center"><hbox ><label value=":"></label></hbox>
+                             </div>
+                               <div align="left"><hbox>
+                               <combobox id="cmbJenisLaporan" width="200px" readonly="true"/>
+
+                              </hbox></div>
+                            </row>
+
+                        </rows>
+                    </grid>
+                </div>
+                <div style="padding:3px">
+                    <button label="Tampilkan" height="25px" width="90px" onClick="PangkatDanJabatanAkademikDosen.viewReport()"></button>
+                </div>
+            </groupbox>
+
+            <groupbox visible="true">
+                <jasperreport id="report" visible="false"/>
+                <caption label="Export"></caption>
+                <div style="padding:3px" align="right">
+                    <hbox>
+                        <label value="Format"></label>
+                        <combobox id="cmbExportType">
+                            <comboitem label="PDF" value="pdf"></comboitem>
+                            <comboitem label="XLS" value="xls"></comboitem>
+                            <comboitem label="DOC" value="rtf"></comboitem>
+                            <comboitem label="RTF" value="rtf"></comboitem>
+                        </combobox>
+                        <button id="btnExport" disabled="true" label="Export" height="25px" width="90px" onClick="reratalamastudi.exportReport()"></button>
+                    </hbox>
+                </div>
+            </groupbox>
+        </div>
+    </window>
+</zk>
