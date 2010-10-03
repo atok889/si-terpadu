@@ -46,7 +46,7 @@ public class RerataLamaStudi {
         int yearNow = dt.getYear();
         String subYearString = Integer.toString(yearNow).substring(2);
 
-        for (int i = 10; i < Integer.parseInt(subYearString); i++) {
+        for (int i = 11; i <= Integer.parseInt(subYearString); i++) {
             tahunAngkatanList.add("" + i);
         }
     }
