@@ -68,7 +68,7 @@ public class StatistikLamaStudiWnd extends ClassApplicationModule {
 
     private void loadDataProdiToCombo() {
         Comboitem item = new Comboitem("--Pilih Fakultas--");
-        item.setValue("all");
+        item.setValue(null);
         cmbboxProdi.appendChild(item);
         cmbboxProdi.setSelectedItem(item);
 
@@ -78,6 +78,7 @@ public class StatistikLamaStudiWnd extends ClassApplicationModule {
             items.setLabel(map.get("Kd_prg").toString() + " " + map.get("Nama_prg").toString());
             cmbboxProdi.appendChild(items);
         }
+        cmbboxProdi.setReadonly(true);
     }
 
     private void loadDataSemesterToCombo() {
@@ -91,6 +92,7 @@ public class StatistikLamaStudiWnd extends ClassApplicationModule {
             items.setLabel("Semester " + i);
             cmbboxSemester.appendChild(items);
         }
+        cmbboxSemester.setReadonly(true);
     }
 
     private void componentDisable() {
@@ -109,7 +111,7 @@ public class StatistikLamaStudiWnd extends ClassApplicationModule {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         List<StatistikLamaStudi> statistikLamaStudis = new ArrayList<StatistikLamaStudi>();
         if (labelPilihan.getValue().equalsIgnoreCase("prodi")) {
-            if (kodeProdi == null || kodeProdi.equalsIgnoreCase("all")) {
+            if (kodeProdi == null) {
                 statistikLamaStudis = statistikLamaStudiDAO.getStatistikLamaStudi();
                 for (StatistikLamaStudi lamaStudi : statistikLamaStudis) {
                     for (int i = 1; i <= 16; i++) {
