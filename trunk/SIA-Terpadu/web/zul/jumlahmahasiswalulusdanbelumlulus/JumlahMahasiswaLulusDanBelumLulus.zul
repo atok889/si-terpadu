@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title="Jumlah Mahasiswa Lulus Dan Belum Lulus" border="normal" width="750px"
+    <window title="Jumlah Mahasiswa Lulus Dan Belum Lulus" border="normal" width="900px"
             closable="true" sizable="true"
             id="jumlahMahasiswaLulusDanBelumLulusWnd"
             use="org.sadhar.sia.terpadu.jumlahmahasiswalulusdanbelumlulus.JumlahMahasiswaLulusDanBelumLulusWnd">
@@ -29,10 +29,7 @@
             </groupbox>
             <groupbox>
                 <caption label="Keluaran"></caption>
-                <listbox id="listboxMahasiswa" width="700px" fixedLayout="false" visible = "false">
-                    <listhead>
-                        <listheader label="-"  align="center" ></listheader>
-                    </listhead>
+                <listbox id="listboxMahasiswa" width="850px" fixedLayout="true" visible = "false" rows="10">
                 </listbox>
             </groupbox>
             <groupbox visible="true">
