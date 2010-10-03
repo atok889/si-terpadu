@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <window title="Rerata Lama Pengerjaan TA" border="normal" width="100%"
+            closable="true"
+            id="rerataLamaPengerjaanTA"
+            use="org.sadhar.sia.terpadu.reratalamapengerjaanta.RerataLamaPengerjaanTAWnd">
+        <div style="padding:5px">
+            <groupbox>
+                <caption label="Table"></caption>
+                <div id="tableDiv" style="height:250px;overflow:auto;padding:10px">
+                    <listbox id="listb" width="100%" fixedLayout="false">
+
+                    </listbox>
+                </div>
+            </groupbox>
+
+            <groupbox visible="true">
+                <jasperreport id="report" visible="false"/>
+                <caption label="Export"></caption>
+                <div style="padding:3px" align="right">
+                    <hbox>
+                        <label value="Format"></label>
+                        <combobox id="cmbExportType">
+                            <comboitem label="PDF" value="pdf"></comboitem>
+                            <comboitem label="XLS" value="xls"></comboitem>
+                            <comboitem label="DOC" value="rtf"></comboitem>
+                            <comboitem label="RTF" value="rtf"></comboitem>
+                        </combobox>
+                        <button id="btnExport" disabled="true" label="Export" height="25px" width="90px" onClick="reratalamastudi.exportReport()"></button>
+                    </hbox>
+                </div>
+            </groupbox>
+        </div>
+    </window>
+</zk>
+v
