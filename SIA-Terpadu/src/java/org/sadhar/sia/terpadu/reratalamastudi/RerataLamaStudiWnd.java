@@ -35,8 +35,7 @@ public class RerataLamaStudiWnd extends ClassApplicationModule {
     Button btnExport;
     Listbox listb;
     JFreeChart chart = null;
-
-    private DecimalFormat df = new DecimalFormat("##.#");
+    private DecimalFormat df = new DecimalFormat("#0.00");
 
     public RerataLamaStudiWnd() {
     }
@@ -63,7 +62,7 @@ public class RerataLamaStudiWnd extends ClassApplicationModule {
 
             listb.getItems().clear();
 
-            
+
             Listhead lhead;
             if (listb.getListhead() != null) {
                 lhead = listb.getListhead();
@@ -85,6 +84,10 @@ public class RerataLamaStudiWnd extends ClassApplicationModule {
                 lhead.appendChild(inlhd);
             }
 
+            lheader = new Listheader();
+            lheader.setLabel("Rerata Prodi");
+            lhead.appendChild(lheader);
+
             for (Object s : dataset.getColumnKeys()) {
                 Listitem item = new Listitem();
                 Listcell cell = new Listcell();
@@ -101,11 +104,32 @@ public class RerataLamaStudiWnd extends ClassApplicationModule {
                     }
                     item.appendChild(cell);
                 }
+                cell = new Listcell();
+                cell.setLabel(df.format(dao.getAvSemesterByProdi(s.toString())));
+                cell.setStyle("text-align:right");
+                item.appendChild(cell);
                 listb.appendChild(item);
             }
 
+            Listitem item = new Listitem();
+            Listcell cell = new Listcell();
+            cell.setLabel("Rerata Universitas");
+            item.appendChild(cell);
+            for (Object f : dataset.getRowKeys()) {
+                cell = new Listcell();
+                cell.setLabel(df.format(dao.getAvSemesterByTahun(f.toString())));
+                item.appendChild(cell);
+            }
+            cell = new Listcell();
+            cell.setLabel(df.format(dao.getAvTotal()));
+            cell.setStyle("text-align:right");
+            item.appendChild(cell);
+            listb.appendChild(item);
+
             btnExport.setDisabled(false);
-            
+
+
+
             /*
             ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
             BarRenderer.setDefaultBarPainter(new StandardBarPainter());
@@ -144,8 +168,8 @@ public class RerataLamaStudiWnd extends ClassApplicationModule {
             AImage image = new AImage("Bar Chart", bytes);
             chartImg.setContent(image);
              */
-            
-            
+
+
         } catch (Exception ex) {
             ex.printStackTrace();
             Messagebox.show(ex.getMessage());
