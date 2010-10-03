@@ -83,11 +83,14 @@ public class RerataLamaStudiWnd extends ClassApplicationModule {
             }
             Listheader lheader = new Listheader();
             lheader.setLabel("Program Studi");
+            lheader.setWidth("220px");
             lhead.appendChild(lheader);
 
             for (Object s : dataset.getRowKeys()) {
                 Listheader inlhd = new Listheader();
                 inlhd.setLabel(s.toString());
+                inlhd.setWidth("40px");
+                inlhd.setAlign("right");
                 lhead.appendChild(inlhd);
             }
 
