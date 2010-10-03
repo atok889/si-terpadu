@@ -13,26 +13,13 @@ import java.util.Map;
  */
 public interface JumlahMahasiswaLulusDanBelumLulusDAO {
 
-
-    public List<Map> getDataMahasiswa(String kodeProdi);
-
-    public List<Map> getDataFromTableTahun(String kodeProdi);
-
-    public List<Map> getJumlahMahasiswaLulusDanBelumLulus(String kodeProdi);
-
-    public void createDatabaseTempo();
-
-    public void createTableTahun(String kodeProdi);
-
-    public void createTableLulus(String kodeProdi);
-
-    public void updateTableLulus(String kodeProde);
-
-    public void dropTableTahun(String kodeProdi);
-
-    public void dropTableLulus(String kodeProdi);
-
     public List<Map> getProdi();
 
-    public List<Map> getTahunAngkatan(String kodeProdi);
+    public List<Map> getJumlahMahasiswa(String kodeProdi);
+
+    public List<Map> getJumlahMahasiswaLulus(String kodeProdi);
+
+    public boolean isTableMhsExist(String kodeProdi);
+
+    public boolean isTableLulusExist(String kodeProdi);
 }
