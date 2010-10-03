@@ -4,29 +4,17 @@
  */
 package org.sadhar.sia.terpadu.reratalamastudi;
 
-import java.awt.Color;
-import java.awt.image.BufferedImage;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Map;
-import org.jfree.chart.ChartFactory;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.StandardChartTheme;
-import org.jfree.chart.axis.AxisLocation;
-import org.jfree.chart.encoders.EncoderUtil;
-import org.jfree.chart.encoders.ImageFormat;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.renderer.category.BarRenderer;
-import org.jfree.chart.renderer.category.CategoryItemRenderer;
-import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
 import org.sadhar.sia.framework.ClassApplicationModule;
-import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zkex.zul.Jasperreport;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Combobox;
-import org.zkoss.zul.Image;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listhead;
@@ -47,6 +35,8 @@ public class RerataLamaStudiWnd extends ClassApplicationModule {
     Button btnExport;
     Listbox listb;
     JFreeChart chart = null;
+
+    private DecimalFormat df = new DecimalFormat("##.#");
 
     public RerataLamaStudiWnd() {
     }
@@ -73,6 +63,7 @@ public class RerataLamaStudiWnd extends ClassApplicationModule {
 
             listb.getItems().clear();
 
+            
             Listhead lhead;
             if (listb.getListhead() != null) {
                 lhead = listb.getListhead();
@@ -103,7 +94,8 @@ public class RerataLamaStudiWnd extends ClassApplicationModule {
                     cell = new Listcell();
                     Number nbr = dataset.getValue((Comparable) f, (Comparable) s);
                     if (nbr != null) {
-                        cell.setLabel(nbr.intValue() + "");
+                        String rerataString = df.format(nbr.doubleValue());
+                        cell.setLabel(rerataString);
                     } else {
                         cell.setLabel("0");
                     }
@@ -112,6 +104,8 @@ public class RerataLamaStudiWnd extends ClassApplicationModule {
                 listb.appendChild(item);
             }
 
+            btnExport.setDisabled(false);
+            
             /*
             ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
             BarRenderer.setDefaultBarPainter(new StandardBarPainter());
@@ -151,7 +145,7 @@ public class RerataLamaStudiWnd extends ClassApplicationModule {
             chartImg.setContent(image);
              */
             
-            btnExport.setDisabled(false);
+            
         } catch (Exception ex) {
             ex.printStackTrace();
             Messagebox.show(ex.getMessage());
@@ -160,24 +154,25 @@ public class RerataLamaStudiWnd extends ClassApplicationModule {
 
     public void exportReport() throws Exception {
         try {
-            //JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(datas);
+            RerataLamaStudiDAO dao = new RerataLamaStudiDAOImpl();
+            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(dao.getRecord());
             if (cmbExportType.getSelectedItem().getValue().toString().equals("pdf")) {
                 Window pdfPreviewWnd = (Window) Executions.createComponents("/zul/pdfpreview/PdfPreview.zul", null, null);
                 Jasperreport pdfReport = (Jasperreport) pdfPreviewWnd.getFellow("report");
                 pdfReport.setType(cmbExportType.getSelectedItem().getValue().toString());
-                pdfReport.setSrc("reports/statistiklamastudi/StatistikLamaStudi.jasper");
+                pdfReport.setSrc("reports/reratalamastudi/RerataLamaStudi.jasper");
                 Map parameters = new HashMap();
-                parameters.put("chart", chart.createBufferedImage(500, 300));
+//                parameters.put("chart", chart.createBufferedImage(500, 300));
                 pdfReport.setParameters(parameters);
-                pdfReport.setDatasource(null);
+                pdfReport.setDatasource(dataSource);
                 pdfPreviewWnd.doModal();
             } else {
                 report.setType(cmbExportType.getSelectedItem().getValue().toString());
-                report.setSrc("reports/statistiklamastudi/StatistikLamaStudi.jasper");
+                report.setSrc("reports/reratalamastudi/RerataLamaStudi.jasper");
                 Map parameters = new HashMap();
-                parameters.put("chart", chart.createBufferedImage(500, 300, BufferedImage.TRANSLUCENT, null));
+//                parameters.put("chart", chart.createBufferedImage(500, 300, BufferedImage.TRANSLUCENT, null));
                 report.setParameters(parameters);
-                report.setDatasource(null);
+                report.setDatasource(dataSource);
             }
         } catch (Exception ex) {
             Messagebox.show(ex.getMessage());

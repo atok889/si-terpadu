@@ -15,16 +15,15 @@ import org.joda.time.DateTime;
  */
 public class RerataLamaStudi {
 
-    private List<String> tahunAngkatanList;
-    
+    public static List<String> tahunAngkatanList;
 
-    public RerataLamaStudi() {
+    static {
         tahunAngkatanList = new ArrayList<String>();
-        tahunAngkatanList.add("90");
-        tahunAngkatanList.add("91");
-        tahunAngkatanList.add("92");
-        tahunAngkatanList.add("93");
-        tahunAngkatanList.add("94");
+//        tahunAngkatanList.add("90");
+//        tahunAngkatanList.add("91");
+//        tahunAngkatanList.add("92");
+//        tahunAngkatanList.add("93");
+//        tahunAngkatanList.add("94");
         tahunAngkatanList.add("95");
         tahunAngkatanList.add("96");
         tahunAngkatanList.add("97");
@@ -50,6 +49,36 @@ public class RerataLamaStudi {
         for (int i = 10; i < Integer.parseInt(subYearString); i++) {
             tahunAngkatanList.add("" + i);
         }
+    }
+    private String tahun;
+    private String prodi;
+    private double lama;
+
+    public String getProdi() {
+        return prodi;
+    }
+
+    public void setProdi(String prodi) {
+        this.prodi = prodi;
+    }
+
+    public double getLama() {
+        return lama;
+    }
+
+    public void setLama(double lama) {
+        this.lama = lama;
+    }
+
+    public String getTahun() {
+        return tahun;
+    }
+
+    public void setTahun(String tahun) {
+        this.tahun = tahun;
+    }
+
+    public RerataLamaStudi() {
     }
 
     public List<String> getTahunAngkatanList() {

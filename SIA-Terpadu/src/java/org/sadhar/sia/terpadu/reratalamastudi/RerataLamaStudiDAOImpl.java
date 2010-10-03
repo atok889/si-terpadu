@@ -91,10 +91,15 @@ public class RerataLamaStudiDAOImpl implements RerataLamaStudiDAO {
                         if (!nim.isEmpty() && tanggalYudisium != null) {
                             int semesters = lamaStudiBySemester(nim, tanggalYudisium);
                             count++;
-                            total += semesters;
+                            total += (double) semesters;
                         }
                     }
-                    double result = (double)total / (double) count;
+                    double result;
+                    if (count == 0) {
+                        result = 0;
+                    } else {
+                        result = (double) total / (double) count;
+                    }
                     String year = "";
 
                     if (Integer.parseInt(thnAngkatan) > 80) {
@@ -111,5 +116,52 @@ public class RerataLamaStudiDAOImpl implements RerataLamaStudiDAO {
             }
         }
         return dataset;
+    }
+
+    public List<RerataLamaStudi> getRecord() throws Exception {
+        List<RerataLamaStudi> listRerata = new ArrayList<RerataLamaStudi>();
+        String sql = "";
+
+        List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
+        progdis = getProgramStudi();
+
+       
+
+        for (ProgramStudi ps : progdis) {
+
+            for (String thnAngkatan : RerataLamaStudi.tahunAngkatanList) {
+                sql = "SELECT nomor_mhs AS NIM,tgl_yudisium AS YUD "
+                        + "FROM db_" + ps.getKode() + ".yud" + ps.getKode() + " WHERE nomor_mhs LIKE '" + thnAngkatan + "%'";
+
+                List<Map> rows = null;
+
+                String year = "";
+
+                if (Integer.parseInt(thnAngkatan) > 80) {
+                    year = "19" + thnAngkatan;
+                } else {
+                    year = "20" + thnAngkatan;
+                }
+                try {
+                    rows = ClassConnection.getJdbc().queryForList(sql);
+                    for (Map m : rows) {
+                        String nim = m.get("NIM").toString();
+                        Date tanggalYudisium = (Date) m.get("YUD");
+                        if (!nim.isEmpty() && tanggalYudisium != null) {
+                            int semesters = lamaStudiBySemester(nim, tanggalYudisium);
+                             RerataLamaStudi rls = new RerataLamaStudi();
+                             rls.setTahun(year);
+                             rls.setLama((double)semesters);
+                             rls.setProdi(ps.getNama());
+                             listRerata.add(rls);
+                        }
+                    }
+
+                } catch (DataAccessException dae) {
+                    System.out.println("Data invalid Silahkan perbaiki Validitas dan Integritas Data");
+                }
+            }
+        }
+        return listRerata;
     }
 }
