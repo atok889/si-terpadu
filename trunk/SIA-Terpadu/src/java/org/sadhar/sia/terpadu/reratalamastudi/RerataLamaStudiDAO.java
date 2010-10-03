@@ -16,4 +16,5 @@ import org.sadhar.sia.terpadu.prodi.ProgramStudi;
 public interface RerataLamaStudiDAO {
     public List<ProgramStudi> getProgramStudi()throws Exception;
     public CategoryDataset getDataset()throws Exception;
+    public List<RerataLamaStudi> getRecord() throws Exception;
 }
