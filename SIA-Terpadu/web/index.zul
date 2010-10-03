@@ -43,8 +43,8 @@
                                 </menu>
                                 <menuitem  label="Statistik Lama Studi" value="/zul/statistiklamastudi/StatistikLamaStudi.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Rerata Lama Studi" value="/zul/reratalamastudi/RerataLamaStudi.zul" onClick="main.showObject(self.value)" />
-                                <menuitem  label="Rerata Lama Pengerjaan TA" value="xx" onClick="main.showObject(self.value)" />
-                                <menuitem  label="Jumlah Wisudawan dan Wisudawati" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Rerata Lama Pengerjaan TA" value="/zul/reratalamapengerjaanta/RerataLamaPengerjaanTA.zul" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Jumlah Wisudawan dan Wisudawati" value="/zul/jumlahwisudawanwisudawati/JumlahWisudawanWisudawati.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Jumlah Mahasiswa DO" value="/zul/jumlahmahasiswado/JumlahMahasiswaDO.zul" onClick="main.showObject(self.value)" />
                             </menupopup>
                         </menu>
@@ -52,7 +52,7 @@
                             <menupopup id="2">
                                 <menuitem  label="Daftar Matakuliah" value="/zul/daftarmatakuliah/DaftarMatakuliah.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Daftar Matakuliah Yang Paling Sering Diulang" value="xx" onClick="main.showObject(self.value)" />
-                                <menuitem  label="Rerata Nilai Per Matakuliah" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Rerata Nilai Per Matakuliah" value="/zul/reratanilaipermatakuliah/RerataNilaiPerMataKuliah.zul" onClick="main.showObject(self.value)" />
                             </menupopup>
                         </menu>
                         <menu label="Dosen" height="30px">
@@ -64,7 +64,8 @@
                                 <menuitem  label="Jumlah Penelitian" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Rasio Dosen-Mahasiswa" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Statistik Pendidikan Dosen" value="xx" onClick="main.showObject(self.value)" />
-                                <menuitem  label="Daftar Dosen Yang Sedang Menempuh Studi" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Daftar Dosen Yang Sedang Menempuh Studi" value="/zul/daftardosenyangsedangmenempuhstudi/DaftarDosenYangSedangMenempuhStudi.zul" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Pangkatan Dan Jabatan Akademik Dosen" value="/zul/pangkatandanjabatanakademikdosen/PangkatanDanJabatanAkademikDoseni.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="DP3 Dosen" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Nilai Evaluasi Perkuliahan Dosen" value="xx" onClick="main.showObject(self.value)" />
                             </menupopup>
