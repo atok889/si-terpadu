@@ -21,6 +21,8 @@ import org.springframework.dao.DataAccessException;
  */
 public class RerataLamaStudiDAOImpl implements RerataLamaStudiDAO {
 
+    private List<RerataLamaStudi> data;
+
     private int lamaStudiBySemester(String nim, Date tanggalYudisium) {
 
         int tahunAngkatan = Integer.parseInt(nim.substring(0, 2));
@@ -118,6 +120,63 @@ public class RerataLamaStudiDAOImpl implements RerataLamaStudiDAO {
         return dataset;
     }
 
+    public double getAvSemesterByProdi(String prodi) throws Exception {
+        if (data == null) {
+            data = getRecord();
+        }
+        double count = 0;
+        double total = 0;
+        for (RerataLamaStudi rls : data) {
+            if (rls.getProdi().equalsIgnoreCase(prodi)) {
+                total = total + rls.getLama();
+                count += 1;
+            }
+        }
+
+        if (count == 0) {
+            return 0;
+        } else {
+            return total / count;
+        }
+    }
+
+    public double getAvSemesterByTahun(String tahun) throws Exception {
+        if (data == null) {
+            data = getRecord();
+        }
+        double count = 0;
+        double total = 0;
+        for (RerataLamaStudi rls : data) {
+            if (rls.getTahun().equalsIgnoreCase(tahun)) {
+                total = total + rls.getLama();
+                count += 1;
+            }
+        }
+
+        if (count == 0) {
+            return 0;
+        } else {
+            return total / count;
+        }
+    }
+
+    public double getAvTotal() throws Exception {
+        if (data == null) {
+            data = getRecord();
+        }
+        double count = 0;
+        double total = 0;
+        for (RerataLamaStudi rls : data) {
+            total = total + rls.getLama();
+            count += 1;
+        }
+        if (count == 0) {
+            return 0;
+        } else {
+            return total / count;
+        }
+    }
+
     public List<RerataLamaStudi> getRecord() throws Exception {
         List<RerataLamaStudi> listRerata = new ArrayList<RerataLamaStudi>();
         String sql = "";
@@ -125,7 +184,7 @@ public class RerataLamaStudiDAOImpl implements RerataLamaStudiDAO {
         List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
         progdis = getProgramStudi();
 
-       
+
 
         for (ProgramStudi ps : progdis) {
 
@@ -149,11 +208,11 @@ public class RerataLamaStudiDAOImpl implements RerataLamaStudiDAO {
                         Date tanggalYudisium = (Date) m.get("YUD");
                         if (!nim.isEmpty() && tanggalYudisium != null) {
                             int semesters = lamaStudiBySemester(nim, tanggalYudisium);
-                             RerataLamaStudi rls = new RerataLamaStudi();
-                             rls.setTahun(year);
-                             rls.setLama((double)semesters);
-                             rls.setProdi(ps.getNama());
-                             listRerata.add(rls);
+                            RerataLamaStudi rls = new RerataLamaStudi();
+                            rls.setTahun(year);
+                            rls.setLama((double) semesters);
+                            rls.setProdi(ps.getNama());
+                            listRerata.add(rls);
                         }
                     }
 
@@ -162,6 +221,7 @@ public class RerataLamaStudiDAOImpl implements RerataLamaStudiDAO {
                 }
             }
         }
+        data = listRerata;
         return listRerata;
     }
 }
