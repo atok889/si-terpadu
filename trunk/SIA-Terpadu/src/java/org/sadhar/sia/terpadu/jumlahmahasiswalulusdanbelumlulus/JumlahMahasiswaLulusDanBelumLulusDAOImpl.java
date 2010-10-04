@@ -35,7 +35,17 @@ public class JumlahMahasiswaLulusDanBelumLulusDAOImpl implements JumlahMahasiswa
                     String sql = "SELECT DISTINCT  'totalMahasiswa', IF(LEFT(nomor_mhs,1)='9', CONCAT('19', LEFT(nomor_mhs,2))," +
                             " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan, " +
                             " COUNT(LEFT(nomor_mhs,2)) AS jumlah " +
-                            " FROM db_" + kodeProdi + ".mhs" + kodeProdi + "   GROUP BY angkatan";
+                            " FROM db_" + kodeProdi + ".mhs" + kodeProdi + "   GROUP BY angkatan" +
+                            " UNION " +
+                            " SELECT DISTINCT  'totalMahasiswa', IF(LEFT(nomor_mhs,1)='9', CONCAT('19', LEFT(nomor_mhs,2))," +
+                            " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan, " +
+                            " COUNT(LEFT(nomor_mhs,2)) AS jumlah " +
+                            " FROM db_" + kodeProdi + ".ll" + kodeProdi + "   GROUP BY angkatan" +
+                            " UNION " +
+                            " SELECT DISTINCT  'totalMahasiswa', IF(LEFT(nomor_mhs,1)='9', CONCAT('19', LEFT(nomor_mhs,2))," +
+                            " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan, " +
+                            " COUNT(LEFT(nomor_mhs,2)) AS jumlah " +
+                            " FROM db_" + kodeProdi + ".do" + kodeProdi + "   GROUP BY angkatan";
                     results.addAll(ClassConnection.getJdbc().queryForList(sql));
                 }
             }
@@ -44,7 +54,17 @@ public class JumlahMahasiswaLulusDanBelumLulusDAOImpl implements JumlahMahasiswa
                 String sql = "SELECT DISTINCT  'totalMahasiswa', IF(LEFT(nomor_mhs,1)='9', CONCAT('19', LEFT(nomor_mhs,2))," +
                         " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan, " +
                         " COUNT(LEFT(nomor_mhs,2)) AS jumlah " +
-                        " FROM db_" + kodeProdi + ".mhs" + kodeProdi + "   GROUP BY angkatan";
+                        " FROM db_" + kodeProdi + ".mhs" + kodeProdi + "   GROUP BY angkatan" +
+                        " UNION " +
+                        " SELECT DISTINCT  'totalMahasiswa', IF(LEFT(nomor_mhs,1)='9', CONCAT('19', LEFT(nomor_mhs,2))," +
+                        " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan, " +
+                        " COUNT(LEFT(nomor_mhs,2)) AS jumlah " +
+                        " FROM db_" + kodeProdi + ".ll" + kodeProdi + "   GROUP BY angkatan" +
+                        " UNION " +
+                        " SELECT DISTINCT  'totalMahasiswa', IF(LEFT(nomor_mhs,1)='9', CONCAT('19', LEFT(nomor_mhs,2))," +
+                        " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan, " +
+                        " COUNT(LEFT(nomor_mhs,2)) AS jumlah " +
+                        " FROM db_" + kodeProdi + ".do" + kodeProdi + "   GROUP BY angkatan";
                 results.addAll(ClassConnection.getJdbc().queryForList(sql));
             }
         }
