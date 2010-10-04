@@ -4,6 +4,8 @@
  */
 package org.sadhar.sia.terpadu.reratalamapengerjaanta;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,33 +24,6 @@ import org.springframework.dao.DataAccessException;
 public class RerataLamaPengerjaanTADAOImpl implements RerataLamaPengerjaanTADAO {
 
     private List<RerataLamaPengerjaanTA> data;
-
-    private int lamaStudiBySemester(String nim, Date tanggalYudisium) {
-
-        int tahunAngkatan = Integer.parseInt(nim.substring(0, 2));
-        if (tahunAngkatan > 80) {
-            tahunAngkatan = tahunAngkatan + 1900;
-        } else {
-            tahunAngkatan = tahunAngkatan + 2000;
-        }
-
-
-        DateTime dt = new DateTime(tanggalYudisium);
-
-
-        int yearLulus = dt.getYear();
-
-        int yearTempuh = yearLulus - tahunAngkatan;
-        int semester = yearTempuh * 2;
-
-        if (dt.getMonthOfYear() <= 1) {
-            semester -= 2;
-        } else if (dt.getMonthOfYear() <= 8) {
-            semester -= 1;
-        }
-
-        return semester;
-    }
 
     public RerataLamaPengerjaanTADAOImpl() {
         ClassConnection.getTransactionProxyFactoryBean().setTarget(this);
@@ -79,29 +54,21 @@ public class RerataLamaPengerjaanTADAOImpl implements RerataLamaPengerjaanTADAO 
         for (ProgramStudi ps : progdis) {
 
             for (String thnAngkatan : rls.getTahunAngkatanList()) {
-                sql = "SELECT nomor_mhs AS NIM,tgl_yudisium AS YUD "
-                        + "FROM db_" + ps.getKode() + ".yud" + ps.getKode() + " WHERE nomor_mhs LIKE '" + thnAngkatan + "%'";
+                sql = "SELECT s.nomor_mhs,"
+                        + "avg( PERIOD_DIFF(DATE_FORMAT(s.tglUjian,'%Y%m'),DATE_FORMAT(s.tgl_awal_ambil,'%Y%m'))) AS rerata_pengerjaan"
+                        + " FROM db_" + ps.getKode() + ".skr" + ps.getKode() + " s WHERE s.nomor_mhs LIKE '" + thnAngkatan + "%'";
 
+                System.out.println(sql);
                 List<Map> rows = null;
                 try {
                     rows = ClassConnection.getJdbc().queryForList(sql);
-                    int count = 0;
-                    double total = 0;
+                    BigDecimal result = new BigDecimal(0);
                     for (Map m : rows) {
-                        String nim = m.get("NIM").toString();
-                        Date tanggalYudisium = (Date) m.get("YUD");
-                        if (!nim.isEmpty() && tanggalYudisium != null) {
-                            int semesters = lamaStudiBySemester(nim, tanggalYudisium);
-                            count++;
-                            total += (double) semesters;
+                        if(m.get("rerata_pengerjaan") !=null){
+                            result = (BigDecimal) m.get("rerata_pengerjaan");
                         }
                     }
-                    double result;
-                    if (count == 0) {
-                        result = 0;
-                    } else {
-                        result = (double) total / (double) count;
-                    }
+
                     String year = "";
 
                     if (Integer.parseInt(thnAngkatan) > 80) {
@@ -110,9 +77,9 @@ public class RerataLamaPengerjaanTADAOImpl implements RerataLamaPengerjaanTADAO 
                         year = "20" + thnAngkatan;
                     }
 
-                    System.out.println(year + " hasil " + result + " dari Total " + total + " jumlah " + count);
-                    dataset.addValue(result, year, ps.getNama());
+                    dataset.addValue(result.doubleValue(), year, ps.getNama());
                 } catch (DataAccessException dae) {
+//                    dae.printStackTrace();
                     System.out.println("Data invalid Silahkan perbaiki Validitas dan Integritas Data");
                 }
             }
@@ -120,7 +87,7 @@ public class RerataLamaPengerjaanTADAOImpl implements RerataLamaPengerjaanTADAO 
         return dataset;
     }
 
-    public double getAvSemesterByProdi(String prodi) throws Exception {
+    public double getAvBulanByProdi(String prodi) throws Exception {
         if (data == null) {
             data = getRecord();
         }
@@ -140,7 +107,7 @@ public class RerataLamaPengerjaanTADAOImpl implements RerataLamaPengerjaanTADAO 
         }
     }
 
-    public double getAvSemesterByTahun(String tahun) throws Exception {
+    public double getAvBulanByTahun(String tahun) throws Exception {
         if (data == null) {
             data = getRecord();
         }
@@ -189,8 +156,10 @@ public class RerataLamaPengerjaanTADAOImpl implements RerataLamaPengerjaanTADAO 
         for (ProgramStudi ps : progdis) {
 
             for (String thnAngkatan : RerataLamaPengerjaanTA.tahunAngkatanList) {
-                sql = "SELECT nomor_mhs AS NIM,tgl_yudisium AS YUD "
-                        + "FROM db_" + ps.getKode() + ".yud" + ps.getKode() + " WHERE nomor_mhs LIKE '" + thnAngkatan + "%'";
+                sql = "SELECT s.nomor_mhs AS NIM,DATE_FORMAT(s.tglUjian,'%Y%m') AS tanggal_ujian,"
+                        + " DATE_FORMAT(s.tgl_awal_ambil,'%Y%m') AS tanggal_ambil, "
+                        + " PERIOD_DIFF(DATE_FORMAT(s.tglUjian,'%Y%m'),DATE_FORMAT(s.tgl_awal_ambil,'%Y%m')) AS lama_pengerjaan"
+                        + "FROM db_" + ps.getKode() + ".skr" + ps.getKode() + " s WHERE s.nomor_mhs LIKE '" + thnAngkatan + "%'";
 
                 List<Map> rows = null;
 
@@ -204,16 +173,16 @@ public class RerataLamaPengerjaanTADAOImpl implements RerataLamaPengerjaanTADAO 
                 try {
                     rows = ClassConnection.getJdbc().queryForList(sql);
                     for (Map m : rows) {
-                        String nim = m.get("NIM").toString();
-                        Date tanggalYudisium = (Date) m.get("YUD");
-                        if (!nim.isEmpty() && tanggalYudisium != null) {
-                            int semesters = lamaStudiBySemester(nim, tanggalYudisium);
-                            RerataLamaPengerjaanTA rls = new RerataLamaPengerjaanTA();
-                            rls.setTahun(year);
-                            rls.setLama((double) semesters);
-                            rls.setProdi(ps.getNama());
-                            listRerata.add(rls);
+                        BigDecimal lamaPengerjaan = new BigDecimal(0);
+                        try {
+                            lamaPengerjaan = (BigDecimal) m.get("lama_pengerjaan");
+                        } catch (NullPointerException e) {
                         }
+                        RerataLamaPengerjaanTA rls = new RerataLamaPengerjaanTA();
+                        rls.setTahun(year);
+                        rls.setLama(lamaPengerjaan.doubleValue());
+                        rls.setProdi(ps.getNama());
+                        listRerata.add(rls);
                     }
 
                 } catch (DataAccessException dae) {
