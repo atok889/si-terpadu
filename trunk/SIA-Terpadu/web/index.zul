@@ -44,7 +44,7 @@
                                 <menuitem  label="Statistik Lama Studi" value="/zul/statistiklamastudi/StatistikLamaStudi.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Rerata Lama Studi" value="/zul/reratalamastudi/RerataLamaStudi.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Rerata Lama Pengerjaan TA" value="/zul/reratalamapengerjaanta/RerataLamaPengerjaanTA.zul" onClick="main.showObject(self.value)" />
-                                <menuitem  label="Jumlah Wisudawan dan Wisudawati" value="/zul/jumlahwisudawanwisudawati/JumlahWisudawanWisudawati.zul" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Jumlah Wisudawan dan Wisudawati" value="/zul/jumlahwisudawan/JumlahWisudawan.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Jumlah Mahasiswa DO" value="/zul/jumlahmahasiswado/JumlahMahasiswaDO.zul" onClick="main.showObject(self.value)" />
                             </menupopup>
                         </menu>
