@@ -67,7 +67,7 @@ public class RerataLamaPengerjaanTADAOImpl implements RerataLamaPengerjaanTADAO 
                     if (rlpta.getProdi().equalsIgnoreCase(ps.getNama()) && rlpta.getTahun().equalsIgnoreCase(year)) {
                         total = total + rlpta.getLama();
                         count += 1;
-                        System.out.println(ps.getNama() + "-" + year + " ==> " + rlpta.getLama());
+//                        System.out.println(ps.getNama() + "-" + year + " ==> " + rlpta.getLama());
                     }
                 }
                 double rerata = 0.0;
@@ -76,6 +76,7 @@ public class RerataLamaPengerjaanTADAOImpl implements RerataLamaPengerjaanTADAO 
                 } else {
                     rerata = total / count;
                 }
+
                 dataset.addValue(rerata, year, ps.getNama());
             }
         }
@@ -219,11 +220,14 @@ public class RerataLamaPengerjaanTADAOImpl implements RerataLamaPengerjaanTADAO 
                         try {
                             if (tglUjian == null || tglAwalAmbil == null || lamaO == null) {
                             } else {
-                                System.out.println(tglUjian.getTime() + "-" + tglAwalAmbil.getTime());
+//                                System.out.println(tglUjian.getTime() + "-" + tglAwalAmbil.getTime());
                                 if (lamaO instanceof BigDecimal) {
                                     lamaPengerjaan = ((BigDecimal) m.get("lama_pengerjaan")).doubleValue();
                                 } else {
                                     lamaPengerjaan = ((Long) m.get("lama_pengerjaan")).doubleValue();
+                                }
+                                if (lamaPengerjaan < 0) {
+                                    lamaPengerjaan = 0;
                                 }
                             }
                         } catch (NullPointerException e) {
