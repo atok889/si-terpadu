@@ -59,7 +59,7 @@ public class WarningSemesterWnd extends ClassApplicationModule {
 
     private void loadDataProdiToCombo() {
         Comboitem item = new Comboitem();
-        item.setValue("all");
+        item.setValue(null);
         item.setLabel("--SEMUA FAKULTAS--");
         cmbboxProdi.appendChild(item);
         cmbboxProdi.setSelectedItem(item);
@@ -101,7 +101,7 @@ public class WarningSemesterWnd extends ClassApplicationModule {
         listheaderAngkatan.setWidth("120px");
         listhead.appendChild(listheaderAngkatan);
 
-        if (kodeProdi.equalsIgnoreCase("all")) {
+        if (kodeProdi == null) {
             datas = warningSemesterDAO.getWarningSemester(semester);
         } else {
             try {
