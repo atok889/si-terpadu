@@ -121,7 +121,7 @@ public class JumlahMahasiswaLulusDanBelumLulusWnd extends ClassApplicationModule
                     value = "0";
                 } else {
                     if (column.toString().equalsIgnoreCase("Jumlah Mahasiswa") || column.toString().equalsIgnoreCase("Jumlah Lulus") || column.toString().equalsIgnoreCase("Jumlah Belum Lulus")) {
-                        value = String.valueOf(number.doubleValue());
+                        value = dfJumlah.format(number.doubleValue());
                     } else {
                         value = dfProsen.format(number.doubleValue()) + " %";
                     }
@@ -189,17 +189,19 @@ public class JumlahMahasiswaLulusDanBelumLulusWnd extends ClassApplicationModule
                 jumlah = 0;
                 mahasiswa = new HashMap();
                 for (Map map : jumlahMahasiswas) {
-                    angkatan = Integer.parseInt(map.get("angkatan").toString());
-                    if (angkatan != i) {
-                        angkatan = i;
-                        mahasiswa.put("jumlah", jumlah);
-                        mahasiswa.put("tahun", angkatan);
-                        mahasiswa.put("header", "Jumlah Mahasiswa");
-                    } else {
-                        jumlah += Double.parseDouble(map.get("jumlah").toString());
-                        mahasiswa.put("jumlah", jumlah);
-                        mahasiswa.put("tahun", angkatan);
-                        mahasiswa.put("header", "Jumlah Mahasiswa");
+                    if (!map.get("angkatan").toString().matches(".*[A-Z].*")) {
+                        angkatan = Integer.parseInt(map.get("angkatan").toString());
+                        if (angkatan != i) {
+                            angkatan = i;
+                            mahasiswa.put("jumlah", jumlah);
+                            mahasiswa.put("tahun", angkatan);
+                            mahasiswa.put("header", "Jumlah Mahasiswa");
+                        } else {
+                            jumlah += Double.parseDouble(map.get("jumlah").toString());
+                            mahasiswa.put("jumlah", jumlah);
+                            mahasiswa.put("tahun", angkatan);
+                            mahasiswa.put("header", "Jumlah Mahasiswa");
+                        }
                     }
                 }
                 jumlahMahasiswa = (Double) mahasiswa.get("jumlah");
@@ -247,17 +249,19 @@ public class JumlahMahasiswaLulusDanBelumLulusWnd extends ClassApplicationModule
                 }
 
                 for (Map map : jumlahMahasiswas) {
-                    angkatan = Integer.parseInt(map.get("angkatan").toString());
-                    if (angkatan != i) {
-                        angkatan = i;
-                        mahasiswa.put("jumlah", prosentaseLulus);
-                        mahasiswa.put("tahun", angkatan);
-                        mahasiswa.put("header", "Prosentase Lulus");
-                    } else {
-                        jumlah += Double.parseDouble(map.get("jumlah").toString());
-                        mahasiswa.put("jumlah", prosentaseLulus);
-                        mahasiswa.put("tahun", angkatan);
-                        mahasiswa.put("header", "Prosentase Lulus");
+                    if (!map.get("angkatan").toString().matches(".*[A-Z].*")) {
+                        angkatan = Integer.parseInt(map.get("angkatan").toString());
+                        if (angkatan != i) {
+                            angkatan = i;
+                            mahasiswa.put("jumlah", prosentaseLulus);
+                            mahasiswa.put("tahun", angkatan);
+                            mahasiswa.put("header", "Prosentase Lulus");
+                        } else {
+                            jumlah += Double.parseDouble(map.get("jumlah").toString());
+                            mahasiswa.put("jumlah", prosentaseLulus);
+                            mahasiswa.put("tahun", angkatan);
+                            mahasiswa.put("header", "Prosentase Lulus");
+                        }
                     }
                 }
             }
@@ -271,17 +275,19 @@ public class JumlahMahasiswaLulusDanBelumLulusWnd extends ClassApplicationModule
             } else {
                 mahasiswa = new HashMap();
                 for (Map map : jumlahMahasiswas) {
-                    angkatan = Integer.parseInt(map.get("angkatan").toString());
-                    if (angkatan != i) {
-                        angkatan = i;
-                        mahasiswa.put("jumlah", jumlahMahasiswa - jumlahMahasiswaLulus);
-                        mahasiswa.put("tahun", angkatan);
-                        mahasiswa.put("header", "Jumlah Belum Lulus");
-                    } else {
-                        jumlah += Double.parseDouble(map.get("jumlah").toString());
-                        mahasiswa.put("jumlah", jumlahMahasiswa - jumlahMahasiswaLulus);
-                        mahasiswa.put("tahun", angkatan);
-                        mahasiswa.put("header", "Jumlah Belum Lulus");
+                    if (!map.get("angkatan").toString().matches(".*[A-Z].*")) {
+                        angkatan = Integer.parseInt(map.get("angkatan").toString());
+                        if (angkatan != i) {
+                            angkatan = i;
+                            mahasiswa.put("jumlah", jumlahMahasiswa - jumlahMahasiswaLulus);
+                            mahasiswa.put("tahun", angkatan);
+                            mahasiswa.put("header", "Jumlah Belum Lulus");
+                        } else {
+                            jumlah += Double.parseDouble(map.get("jumlah").toString());
+                            mahasiswa.put("jumlah", jumlahMahasiswa - jumlahMahasiswaLulus);
+                            mahasiswa.put("tahun", angkatan);
+                            mahasiswa.put("header", "Jumlah Belum Lulus");
+                        }
                     }
                 }
             }
@@ -300,17 +306,19 @@ public class JumlahMahasiswaLulusDanBelumLulusWnd extends ClassApplicationModule
                     prosentasiBelumLulus = 100 - prosentaseLulus;
                 }
                 for (Map map : jumlahMahasiswas) {
-                    angkatan = Integer.parseInt(map.get("angkatan").toString());
-                    if (angkatan != i) {
-                        angkatan = i;
-                        mahasiswa.put("jumlah", prosentasiBelumLulus);
-                        mahasiswa.put("tahun", angkatan);
-                        mahasiswa.put("header", "Prosentase Belum Lulus");
-                    } else {
-                        jumlah += Double.parseDouble(map.get("jumlah").toString());
-                        mahasiswa.put("jumlah", prosentasiBelumLulus);
-                        mahasiswa.put("tahun", angkatan);
-                        mahasiswa.put("header", "Prosentase Belum Lulus");
+                    if (!map.get("angkatan").toString().matches(".*[A-Z].*")) {
+                        angkatan = Integer.parseInt(map.get("angkatan").toString());
+                        if (angkatan != i) {
+                            angkatan = i;
+                            mahasiswa.put("jumlah", prosentasiBelumLulus);
+                            mahasiswa.put("tahun", angkatan);
+                            mahasiswa.put("header", "Prosentase Belum Lulus");
+                        } else {
+                            jumlah += Double.parseDouble(map.get("jumlah").toString());
+                            mahasiswa.put("jumlah", prosentasiBelumLulus);
+                            mahasiswa.put("tahun", angkatan);
+                            mahasiswa.put("header", "Prosentase Belum Lulus");
+                        }
                     }
                 }
             }
