@@ -14,4 +14,6 @@ import java.util.Map;
 public interface RerataIpkLulusanDAO {
 
     public List<Map> getProdi();
+
+    public List<Map> getRerataIPKLulusan();
 }

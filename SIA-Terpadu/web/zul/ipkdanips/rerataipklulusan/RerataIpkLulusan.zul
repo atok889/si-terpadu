@@ -7,33 +7,8 @@
             use="org.sadhar.sia.terpadu.ipkdanips.rerataipklulusan.RerataIpkLulusanWnd">
         <div style="padding:5px">
             <groupbox>
-                <caption label="Parameter"></caption>
-                <div style="padding:3px">
-                    <grid>
-                        <columns>
-                            <column align="right" />
-                            <column align="left" />
-                        </columns>
-                        <rows>
-                            <row style="border:none">
-                                <label value="Fakultas/Program Studi"></label>
-                                <combobox id="cmbboxProdi" width="300px"  onSelect="rerataIpkLulusanWnd.cmbDataProdiOnSelect()"/>
-                            </row>
-                            <row style="border:none">
-                                <label value="Tahun Angkatan"></label>
-                                <combobox id="cmbboxAngkatan" width="300px"  onSelect="rerataIpkLulusanWnd.cmbDataAngkatanOnSelect()"/>
-                            </row>
-                            <row style="border:none">
-                                <label value=""></label>
-                                <button label="Tampilkan" height="25px" width="90px" onClick="rerataIpkLulusanWnd.btnShowOnClick()"  ></button>
-                            </row>
-                        </rows>
-                    </grid>
-                </div>
-            </groupbox>
-            <groupbox>
                 <caption label="Keluaran"></caption>
-                <listbox id="listboxMahasiswa" width="700px" fixedLayout="false" visible = "false">
+                <listbox id="listboxMahasiswa" width="800px" fixedLayout="false" visible = "true" rows="15">
                     <listhead>
                         <listheader label="-"  align="center" ></listheader>
                     </listhead>
@@ -51,7 +26,7 @@
                             <comboitem label="DOC" value="rtf"></comboitem>
                             <comboitem label="RTF" value="rtf"></comboitem>
                         </combobox>
-                        <button id="btnExport" disabled="true" label="Export" height="25px" width="90px" onClick="ipkDanIpsSetiapMahasiswaWnd.exportReport()"></button>
+                        <button id="btnExport" disabled="false" label="Export" height="25px" width="90px" onClick="rerataIpkLulusanWnd.exportReport()"></button>
                     </hbox>
                 </div>
             </groupbox>
