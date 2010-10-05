@@ -32,6 +32,7 @@ public class WarningAdministratifDAOImpl implements WarningAdministratifDAO {
                 + " IF(LEFT(rg.nomor_mhs,1)='8',CONCAT('19',LEFT(rg.nomor_mhs,2)),CONCAT('20',LEFT(rg.nomor_mhs,2))))))*2 +1   AS semester,  "
                 + " masalah_keuangan.* FROM db_" + kodeProdi + ".rg" + kodeProdi + akademik + semester + " rg"
                 + " INNER JOIN db_" + kodeProdi + ".masalahkeuangan" + kodeProdi + " masalah_keuangan ON rg.nomor_mhs = masalah_keuangan.nomor_mhs";
+     
         return ClassConnection.getJdbc().queryForList(sql);
     }
 

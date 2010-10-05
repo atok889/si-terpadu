@@ -48,7 +48,7 @@
                             <comboitem label="DOC" value="rtf"></comboitem>
                             <comboitem label="RTF" value="rtf"></comboitem>
                         </combobox>
-                        <button id="btnExport" disabled="true" label="Export" height="25px" width="90px" onClick="ipkDanIpsSetiapMahasiswaWnd.exportReport()"></button>
+                        <button id="btnExport" disabled="true" label="Export" height="25px" width="90px" onClick="rerataIpsWnd.exportReport()"></button>
                     </hbox>
                 </div>
             </groupbox>
