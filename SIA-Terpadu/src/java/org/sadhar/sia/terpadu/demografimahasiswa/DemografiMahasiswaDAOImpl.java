@@ -26,8 +26,6 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
         ClassConnection.getTransactionProxyFactoryBean().setTarget(this);
     }
 
-   
-
     public CategoryDataset getJenisKelaminDataset(ProgramStudi progdi, String tahun) throws Exception {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         String sql = "";
@@ -265,7 +263,7 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
         return dataset;
     }
 
-    public CategoryDataset getAsalDaerahDataset(ProgramStudi progdi, String tahun, Provinsi prov, KabKota kabkota) throws Exception {
+    public CategoryDataset getAsalDaerahDataset(ProgramStudi progdi, String tahun, Provinsi prov, KabKota kabkota, int jumlah) throws Exception {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         String sql = "";
         if (progdi != null && tahun.isEmpty() && prov == null) {
@@ -273,10 +271,53 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
                     + "FROM kamus.kabupaten kabupaten INNER JOIN db_" + progdi.getKode() + ".mhs" + progdi.getKode() + " mhs" + progdi.getKode() + " "
                     + "ON (kabupaten.kd_kab = mhs" + progdi.getKode() + ".kd_kab_asal) "
                     + "GROUP BY SUBSTRING(db_" + progdi.getKode() + ".mhs" + progdi.getKode() + ".kd_kab_asal,1,2)";
+
             List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
-            for (Map m : rows) {
-                Provinsi p = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
-                dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), p.getNama(), progdi.getNama());
+            if (jumlah == 0) {
+                for (Map m : rows) {
+                    Provinsi p = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                    dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), p.getNama(), progdi.getNama());
+                }
+            } else if (jumlah == 1) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml < 50) {
+                        Provinsi p = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), p.getNama(), progdi.getNama());
+                    }
+                }
+            } else if (jumlah == 2) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml >= 50 && jml < 100) {
+                        Provinsi p = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), p.getNama(), progdi.getNama());
+                    }
+                }
+            } else if (jumlah == 3) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml >= 100 && jml < 250) {
+                        Provinsi p = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), p.getNama(), progdi.getNama());
+                    }
+                }
+            } else if (jumlah == 4) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml >= 250 && jml < 500) {
+                        Provinsi p = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), p.getNama(), progdi.getNama());
+                    }
+                }
+            } else if (jumlah == 5) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml >= 500) {
+                        Provinsi p = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), p.getNama(), progdi.getNama());
+                    }
+                }
             }
         } else if (progdi != null && !tahun.isEmpty() && prov == null) {
             sql = "SELECT SUBSTRING(db_" + progdi.getKode() + ".mhs" + progdi.getKode() + ".kd_kab_asal,1,2) AS provinsi, COUNT(db_" + progdi.getKode() + ".mhs" + progdi.getKode() + ".nomor_mhs) AS jumlah "
@@ -286,11 +327,54 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
                     + "GROUP BY SUBSTRING(db_" + progdi.getKode() + ".mhs" + progdi.getKode() + ".kd_kab_asal,1,2)";
 
             List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
-            for (Map m : rows) {
-                Provinsi p = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
-                dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), p.getNama(), progdi.getNama());
+            if (jumlah == 0) {
+                for (Map m : rows) {
+                    Provinsi p = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                    dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), p.getNama(), progdi.getNama());
+                }
+            } else if (jumlah == 1) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml < 50) {
+                        Provinsi p = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), p.getNama(), progdi.getNama());
+                    }
+                }
+            } else if (jumlah == 2) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml >= 50 && jml < 100) {
+                        Provinsi p = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), p.getNama(), progdi.getNama());
+                    }
+                }
+            } else if (jumlah == 3) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml >= 100 && jml < 250) {
+                        Provinsi p = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), p.getNama(), progdi.getNama());
+                    }
+                }
+            } else if (jumlah == 4) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml >= 250 && jml < 500) {
+                        Provinsi p = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), p.getNama(), progdi.getNama());
+                    }
+                }
+            } else if (jumlah == 5) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml >= 500) {
+                        Provinsi p = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), p.getNama(), progdi.getNama());
+                    }
+                }
             }
         } else if (progdi != null && !tahun.isEmpty() && prov != null && kabkota == null) {
+
             sql = "SELECT kamus.kabupaten.nama_kab AS kab, COUNT(db_" + progdi.getKode() + ".mhs" + progdi.getKode() + ".nomor_mhs) AS jumlah "
                     + "FROM kamus.kabupaten kabupaten INNER JOIN db_" + progdi.getKode() + ".mhs" + progdi.getKode() + " mhs" + progdi.getKode() + " "
                     + "ON (kabupaten.kd_kab = mhs" + progdi.getKode() + ".kd_kab_asal) "
@@ -299,8 +383,45 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
                     + "GROUP BY db_" + progdi.getKode() + ".mhs" + progdi.getKode() + ".kd_kab_asal";
 
             List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
-            for (Map m : rows) {
-                dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+            if (jumlah == 0) {
+                for (Map m : rows) {
+                    dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+                }
+            } else if (jumlah == 1) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml < 50) {
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+                    }
+                }
+            } else if (jumlah == 2) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml >= 50 && jml < 100) {
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+                    }
+                }
+            } else if (jumlah == 3) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml >= 100 && jml < 250) {
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+                    }
+                }
+            } else if (jumlah == 4) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml >= 250 && jml < 500) {
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+                    }
+                }
+            } else if (jumlah == 5) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml >= 500) {
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+                    }
+                }
             }
         } else if (progdi != null && !tahun.isEmpty() && prov != null && kabkota != null) {
             sql = "SELECT kamus.kabupaten.nama_kab AS kab, COUNT(db_" + progdi.getKode() + ".mhs" + progdi.getKode() + ".nomor_mhs) AS jumlah "
@@ -309,34 +430,149 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
                     + "WHERE YEAR(db_" + progdi.getKode() + ".mhs" + progdi.getKode() + ".tglmskusd)='" + tahun + "' "
                     + "AND db_" + progdi.getKode() + ".mhs" + progdi.getKode() + ".kd_kab_asal='" + kabkota.getKode() + "' "
                     + " GROUP BY mhs" + progdi.getKode() + ".kd_kab_asal";
-            System.out.println(sql);
+
             List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
-            for (Map m : rows) {
-                dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+            if (jumlah == 0) {
+                for (Map m : rows) {
+                    dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+                }
+            } else if (jumlah == 1) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml < 50) {
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+                    }
+                }
+            } else if (jumlah == 2) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml >= 50 && jml < 100) {
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+                    }
+                }
+            } else if (jumlah == 3) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml >= 100 && jml < 250) {
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+                    }
+                }
+            } else if (jumlah == 4) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml >= 250 && jml < 500) {
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+                    }
+                }
+            } else if (jumlah == 5) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml >= 500) {
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+                    }
+                }
             }
         } else if (progdi != null && tahun.isEmpty() && prov != null && kabkota == null) {
+
             sql = "SELECT kamus.kabupaten.nama_kab AS kab, COUNT(db_" + progdi.getKode() + ".mhs" + progdi.getKode() + ".nomor_mhs) AS jumlah "
                     + "FROM kamus.kabupaten kabupaten INNER JOIN db_" + progdi.getKode() + ".mhs" + progdi.getKode() + " mhs" + progdi.getKode() + " "
                     + "ON (kabupaten.kd_kab = mhs" + progdi.getKode() + ".kd_kab_asal) "
                     + "WHERE SUBSTRING(db_" + progdi.getKode() + ".mhs" + progdi.getKode() + ".kd_kab_asal,1,2)='" + prov.getKode() + "'  "
                     + "GROUP BY db_" + progdi.getKode() + ".mhs" + progdi.getKode() + ".kd_kab_asal";
 
+
             List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
-            for (Map m : rows) {
-                dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+            if (jumlah == 0) {
+                for (Map m : rows) {
+                    dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+                }
+            } else if (jumlah == 1) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml < 50) {
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+                    }
+                }
+            } else if (jumlah == 2) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml >= 50 && jml < 100) {
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+                    }
+                }
+            } else if (jumlah == 3) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml >= 100 && jml < 250) {
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+                    }
+                }
+            } else if (jumlah == 4) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml >= 250 && jml < 500) {
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+                    }
+                }
+            } else if (jumlah == 5) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml >= 500) {
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+                    }
+                }
             }
         } else if (progdi != null && tahun.isEmpty() && prov != null && kabkota != null) {
+
             sql = "SELECT kamus.kabupaten.nama_kab AS kab, COUNT(db_" + progdi.getKode() + ".mhs" + progdi.getKode() + ".nomor_mhs) AS jumlah "
                     + "FROM kamus.kabupaten kabupaten INNER JOIN db_" + progdi.getKode() + ".mhs" + progdi.getKode() + " mhs" + progdi.getKode() + " "
                     + "ON (kabupaten.kd_kab = mhs" + progdi.getKode() + ".kd_kab_asal) "
                     + "WHERE db_" + progdi.getKode() + ".mhs" + progdi.getKode() + ".kd_kab_asal='" + kabkota.getKode() + "' "
                     + "GROUP BY db_" + progdi.getKode() + ".mhs" + progdi.getKode() + ".kd_kab_asal";
 
+
             List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
-            for (Map m : rows) {
-                dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+            if (jumlah == 0) {
+                for (Map m : rows) {
+                    dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+                }
+            } else if (jumlah == 1) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml < 50) {
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+                    }
+                }
+            } else if (jumlah == 2) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml >= 50 && jml < 100) {
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+                    }
+                }
+            } else if (jumlah == 3) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml >= 100 && jml < 250) {
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+                    }
+                }
+            } else if (jumlah == 4) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml >= 250 && jml < 500) {
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+                    }
+                }
+            } else if (jumlah == 5) {
+                for (Map m : rows) {
+                    int jml = Integer.valueOf(m.get("jumlah").toString());
+                    if (jml >= 500) {
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), progdi.getNama());
+                    }
+                }
             }
-        } //progdi tdk kosong
+        } //progdi  kosong
         else if (progdi == null && tahun.isEmpty() && prov == null) {
             List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
             progdis = new ProgramStudiDAOImpl().getProgramStudi();
@@ -346,15 +582,58 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
 
 
             for (ProgramStudi ps : progdis) {
+
                 sql = "SELECT SUBSTRING(db_" + ps.getKode() + ".mhs" + ps.getKode() + ".kd_kab_asal,1,2) AS provinsi, COUNT(db_" + ps.getKode() + ".mhs" + ps.getKode() + ".nomor_mhs) AS jumlah "
                         + "FROM kamus.kabupaten kabupaten INNER JOIN db_" + ps.getKode() + ".mhs" + ps.getKode() + " mhs" + ps.getKode() + " "
                         + "ON (kabupaten.kd_kab = mhs" + ps.getKode() + ".kd_kab_asal) "
                         + "GROUP BY SUBSTRING(db_" + ps.getKode() + ".mhs" + ps.getKode() + ".kd_kab_asal,1,2)";
 
                 List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
-                for (Map m : rows) {
-                    Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
-                    dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), provinsi.getNama(), ps.getNama());
+                if (jumlah == 0) {
+                    for (Map m : rows) {
+                        Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), provinsi.getNama(), ps.getNama());
+                    }
+                } else if (jumlah == 1) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml < 50) {
+                            Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), provinsi.getNama(), ps.getNama());
+                        }
+                    }
+                } else if (jumlah == 2) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml >= 50 && jml < 100) {
+                            Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), provinsi.getNama(), ps.getNama());
+                        }
+                    }
+                } else if (jumlah == 3) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml >= 100 && jml < 250) {
+                            Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), provinsi.getNama(), ps.getNama());
+                        }
+                    }
+                } else if (jumlah == 4) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml >= 250 && jml < 500) {
+                            Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), provinsi.getNama(), ps.getNama());
+                        }
+                    }
+                } else if (jumlah == 5) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml >= 500) {
+                            Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), provinsi.getNama(), ps.getNama());
+                        }
+                    }
                 }
             }
         } else if (progdi == null && !tahun.isEmpty() && prov == null) {
@@ -366,6 +645,7 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
 
 
             for (ProgramStudi ps : progdis) {
+
                 sql = "SELECT SUBSTRING(db_" + ps.getKode() + ".mhs" + ps.getKode() + ".kd_kab_asal,1,2) AS provinsi, COUNT(db_" + ps.getKode() + ".mhs" + ps.getKode() + ".nomor_mhs) AS jumlah "
                         + "FROM kamus.kabupaten kabupaten INNER JOIN db_" + ps.getKode() + ".mhs" + ps.getKode() + " mhs" + ps.getKode() + " "
                         + "ON (kabupaten.kd_kab = mhs" + ps.getKode() + ".kd_kab_asal) "
@@ -373,9 +653,51 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
                         + "GROUP BY SUBSTRING(db_" + ps.getKode() + ".mhs" + ps.getKode() + ".kd_kab_asal,1,2)";
 
                 List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
-                for (Map m : rows) {
-                    Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
-                    dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), provinsi.getNama(), ps.getNama());
+                if (jumlah == 0) {
+                    for (Map m : rows) {
+                        Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), provinsi.getNama(), ps.getNama());
+                    }
+                } else if (jumlah == 1) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml < 50) {
+                            Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), provinsi.getNama(), ps.getNama());
+                        }
+                    }
+                } else if (jumlah == 2) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml >= 50 && jml < 100) {
+                            Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), provinsi.getNama(), ps.getNama());
+                        }
+                    }
+                } else if (jumlah == 3) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml >= 100 && jml < 250) {
+                            Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), provinsi.getNama(), ps.getNama());
+                        }
+                    }
+                } else if (jumlah == 4) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml >= 250 && jml < 500) {
+                            Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), provinsi.getNama(), ps.getNama());
+                        }
+                    }
+                } else if (jumlah == 5) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml >= 500) {
+                            Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), provinsi.getNama(), ps.getNama());
+                        }
+                    }
                 }
             }
         } else if (progdi == null && !tahun.isEmpty() && prov != null && kabkota == null) {
@@ -387,6 +709,7 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
 
 
             for (ProgramStudi ps : progdis) {
+
                 sql = "SELECT kamus.kabupaten.nama_kab AS kab, COUNT(db_" + ps.getKode() + ".mhs" + ps.getKode() + ".nomor_mhs) AS jumlah "
                         + "FROM kamus.kabupaten kabupaten INNER JOIN db_" + ps.getKode() + ".mhs" + ps.getKode() + " mhs" + ps.getKode() + " "
                         + "ON (kabupaten.kd_kab = mhs" + ps.getKode() + ".kd_kab_asal) "
@@ -394,9 +717,47 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
                         + "AND SUBSTRING(db_" + ps.getKode() + ".mhs" + ps.getKode() + ".kd_kab_asal,1,2)='" + prov.getKode() + "' "
                         + "GROUP BY db_" + ps.getKode() + ".mhs" + ps.getKode() + ".kd_kab_asal";
 
+
                 List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
-                for (Map m : rows) {
-                    dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                if (jumlah == 0) {
+                    for (Map m : rows) {
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                    }
+                } else if (jumlah == 1) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml < 50) {
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                        }
+                    }
+                } else if (jumlah == 2) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml >= 50 && jml < 100) {
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                        }
+                    }
+                } else if (jumlah == 3) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml >= 100 && jml < 250) {
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                        }
+                    }
+                } else if (jumlah == 4) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml >= 250 && jml < 500) {
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                        }
+                    }
+                } else if (jumlah == 5) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml >= 500) {
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                        }
+                    }
                 }
             }
         } else if (progdi == null && !tahun.isEmpty() && prov != null && kabkota != null) {
@@ -408,6 +769,7 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
 
 
             for (ProgramStudi ps : progdis) {
+
                 sql = "SELECT kamus.kabupaten.nama_kab AS kab, COUNT(db_" + ps.getKode() + ".mhs" + ps.getKode() + ".nomor_mhs) AS jumlah "
                         + "FROM kamus.kabupaten kabupaten INNER JOIN db_" + ps.getKode() + ".mhs" + ps.getKode() + " mhs" + ps.getKode() + " "
                         + "ON (kabupaten.kd_kab = mhs" + ps.getKode() + ".kd_kab_asal) "
@@ -416,8 +778,45 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
                         + " GROUP BY mhs" + ps.getKode() + ".kd_kab_asal";
 
                 List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
-                for (Map m : rows) {
-                    dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                if (jumlah == 0) {
+                    for (Map m : rows) {
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                    }
+                } else if (jumlah == 1) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml < 50) {
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                        }
+                    }
+                } else if (jumlah == 2) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml >= 50 && jml < 100) {
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                        }
+                    }
+                } else if (jumlah == 3) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml >= 100 && jml < 250) {
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                        }
+                    }
+                } else if (jumlah == 4) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml >= 250 && jml < 500) {
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                        }
+                    }
+                } else if (jumlah == 5) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml >= 500) {
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                        }
+                    }
                 }
             }
         } else if (progdi == null && tahun.isEmpty() && prov != null && kabkota == null) {
@@ -429,15 +828,54 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
 
 
             for (ProgramStudi ps : progdis) {
+
                 sql = "SELECT kamus.kabupaten.nama_kab AS kab, COUNT(db_" + ps.getKode() + ".mhs" + ps.getKode() + ".nomor_mhs) AS jumlah "
                         + "FROM kamus.kabupaten kabupaten INNER JOIN db_" + ps.getKode() + ".mhs" + ps.getKode() + " mhs" + ps.getKode() + " "
                         + "ON (kabupaten.kd_kab = mhs" + ps.getKode() + ".kd_kab_asal) "
                         + "WHERE SUBSTRING(db_" + ps.getKode() + ".mhs" + ps.getKode() + ".kd_kab_asal,1,2)='" + prov.getKode() + "'  "
                         + "GROUP BY db_" + ps.getKode() + ".mhs" + ps.getKode() + ".kd_kab_asal";
 
+
                 List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
-                for (Map m : rows) {
-                    dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                if (jumlah == 0) {
+                    for (Map m : rows) {
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                    }
+                } else if (jumlah == 1) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml < 50) {
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                        }
+                    }
+                } else if (jumlah == 2) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml >= 50 && jml < 100) {
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                        }
+                    }
+                } else if (jumlah == 3) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml >= 100 && jml < 250) {
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                        }
+                    }
+                } else if (jumlah == 4) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml >= 250 && jml < 500) {
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                        }
+                    }
+                } else if (jumlah == 5) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml >= 500) {
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                        }
+                    }
                 }
             }
         } else if (progdi == null && tahun.isEmpty() && prov != null && kabkota != null) {
@@ -449,6 +887,7 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
 
 
             for (ProgramStudi ps : progdis) {
+
                 sql = "SELECT kamus.kabupaten.nama_kab AS kab, COUNT(db_" + ps.getKode() + ".mhs" + ps.getKode() + ".nomor_mhs) AS jumlah "
                         + "FROM kamus.kabupaten kabupaten INNER JOIN db_" + ps.getKode() + ".mhs" + ps.getKode() + " mhs" + ps.getKode() + " "
                         + "ON (kabupaten.kd_kab = mhs" + ps.getKode() + ".kd_kab_asal) "
@@ -457,12 +896,48 @@ public class DemografiMahasiswaDAOImpl implements DemografiMahasiswaDAO {
 
 
                 List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
-                for (Map m : rows) {
-                    dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                if (jumlah == 0) {
+                    for (Map m : rows) {
+                        dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                    }
+                } else if (jumlah == 1) {
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml < 50) {
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                        }
+                    }
+                }else if(jumlah==2){
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml >= 50 && jml<100) {
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                        }
+                    }
+                }else if(jumlah==3){
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml >= 100 && jml<250) {
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                        }
+                    }
+                }else if(jumlah==4){
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml >= 250 && jml<500) {
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                        }
+                    }
+                }else if(jumlah==5){
+                    for (Map m : rows) {
+                        int jml = Integer.valueOf(m.get("jumlah").toString());
+                        if (jml >= 500) {
+                            dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kab").toString(), ps.getNama());
+                        }
+                    }
                 }
             }
         }
         return dataset;
     }
- 
 }

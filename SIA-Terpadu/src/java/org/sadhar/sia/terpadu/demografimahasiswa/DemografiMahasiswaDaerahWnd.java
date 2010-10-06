@@ -53,6 +53,7 @@ public class DemografiMahasiswaDaerahWnd extends ClassApplicationModule {
     Combobox cmbExportType;
     Button btnExport;
     JFreeChart chart = null;
+    Combobox cmbJumlah;
 
     public DemografiMahasiswaDaerahWnd() {
     }
@@ -66,15 +67,51 @@ public class DemografiMahasiswaDaerahWnd extends ClassApplicationModule {
         chartImg = (Image) getFellow("chartImg");
         cmbExportType = (Combobox) getFellow("cmbExportType");
         btnExport = (Button) getFellow("btnExport");
+        cmbJumlah = (Combobox) getFellow("cmbJumlah");
         btnExport.setDisabled(true);
         loadProgdi();
         loadProvinsi();
+        loadJumlah();
+        cmbJumlah.setSelectedIndex(0);
         cmbProgdi.setSelectedIndex(0);
         cmbProvinsi.setSelectedIndex(0);
 
         cmbExportType.setSelectedIndex(0);
         cmbKabKota.setSelectedIndex(0);
         cmbKabKota.setDisabled(true);
+    }
+
+    private void loadJumlah() throws Exception {
+        cmbJumlah.getItems().clear();
+        Comboitem item1 = new Comboitem();
+        item1.setValue(0);
+        item1.setLabel("--Seluruh Jumlah--");
+        cmbJumlah.appendChild(item1);
+
+        Comboitem item2 = new Comboitem();
+        item2.setValue(1);
+        item2.setLabel("< 50");
+        cmbJumlah.appendChild(item2);
+
+        Comboitem item3 = new Comboitem();
+        item3.setValue(2);
+        item3.setLabel("50 - 100");
+        cmbJumlah.appendChild(item3);
+
+        Comboitem item4 = new Comboitem();
+        item4.setValue(3);
+        item4.setLabel("100 - 250");
+        cmbJumlah.appendChild(item4);
+
+        Comboitem item5 = new Comboitem();
+        item5.setValue(4);
+        item5.setLabel("250 - 500");
+        cmbJumlah.appendChild(item5);
+
+        Comboitem item6 = new Comboitem();
+        item6.setValue(5);
+        item6.setLabel("> 500");
+        cmbJumlah.appendChild(item6);
     }
 
     private void loadProvinsi() throws Exception {
@@ -158,7 +195,8 @@ public class DemografiMahasiswaDaerahWnd extends ClassApplicationModule {
     public void viewReport() throws Exception {
         try {
             DemografiMahasiswaDAO dao = new DemografiMahasiswaDAOImpl();
-            CategoryDataset dataset = dao.getAsalDaerahDataset((ProgramStudi) cmbProgdi.getSelectedItem().getValue(), txtTahunAngkatan.getValue(), (Provinsi) cmbProvinsi.getSelectedItem().getValue(), (KabKota) cmbKabKota.getSelectedItem().getValue());
+            CategoryDataset dataset = dao.getAsalDaerahDataset((ProgramStudi) cmbProgdi.getSelectedItem().getValue(), txtTahunAngkatan.getValue(), (Provinsi) cmbProvinsi.getSelectedItem().getValue(), (KabKota) cmbKabKota.getSelectedItem().getValue(), 
+                    Integer.valueOf(cmbJumlah.getSelectedItem().getValue().toString()));
 
             ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
             BarRenderer.setDefaultBarPainter(new StandardBarPainter());
