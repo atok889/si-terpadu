@@ -163,6 +163,8 @@ public class SebaranIpkMahasiswaWnd extends ClassApplicationModule {
             map.put("prosentaseE", prosentaseE);
             rerata.add(map);
         }
+        dataReport.clear();
+        dataReport.addAll(rerata);
         return rerata;
     }
 }
