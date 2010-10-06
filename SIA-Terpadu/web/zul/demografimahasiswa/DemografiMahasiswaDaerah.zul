@@ -29,6 +29,10 @@
                                 <label value="Kab/Kota"></label>
                                 <combobox readonly="true" id="cmbKabKota" width="300px"/>
                             </row>
+                            <row>
+                                <label value="Jumlah"/>
+                                <combobox readonly="true" id="cmbJumlah" width="300px"/>
+                            </row>
                         </rows>
                     </grid>
                 </div>
