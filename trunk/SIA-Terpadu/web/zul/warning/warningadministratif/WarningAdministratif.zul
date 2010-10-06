@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title="Warning Administratif" border="normal" width="800px"
+    <window title="Warning Administratif" border="normal" width="950px"
             closable="true" sizable="true"
             id="warningAdministratifWnd"
             use="org.sadhar.sia.terpadu.warning.warningadministratif.WarningAdministratifWnd">
@@ -14,10 +14,8 @@
                             <row>
                                 <label value="Prodi/Fakultas"></label>
                                 <combobox readonly="true" id="cmbboxProdi" width="300px"
-                                  onSelect="warningAdministratifWnd.cmbDataProdiOnSelect()">
-                                    <comboitem>
-
-                                    </comboitem>
+                                onSelect="warningAdministratifWnd.cmbDataProdiOnSelect()">
+                                  
                                 </combobox>
                             </row>
                             <row>
@@ -30,7 +28,7 @@
             </groupbox>
             <groupbox>
                 <caption label="Keluaran"></caption>
-                <listbox id="listboxMahasiswa" width="900px" fixedLayout="false" visible = "false">
+                <listbox id="listboxMahasiswa" width="900px" fixedLayout="false" visible = "false" rows="15">
                 </listbox>
             </groupbox>
             <groupbox visible="true">
