@@ -72,6 +72,7 @@ public class WarningIPKRendahWnd extends ClassApplicationModule {
         Listheader listheaderNo = new Listheader();
         listheaderNo.setLabel("No");
         listheaderNo.setWidth("50px");
+        listheaderNo.setAlign("right");
         listhead.appendChild(listheaderNo);
 
         Listheader listheaderNama = new Listheader();
