@@ -13,6 +13,7 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.joda.time.DateTime;
 import org.sadhar.sia.common.ClassConnection;
+import org.sadhar.sia.terpadu.prodi.ProgramStudiDAOImpl;
 
 /**
  *
@@ -25,15 +26,7 @@ public class JumlahMahasiswaDAOImpl implements JumlahMahasiswaDAO {
     }
 
     public List<ProgramStudi> getProgramStudi() throws Exception {
-        List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-        String sql = "SELECT Kd_prg,Nama_prg FROM kamus.prg_std ORDER BY Kd_prg";
-        List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
-        for (Map m : rows) {            
-            ProgramStudi ps = new ProgramStudi();
-            ps.setKode(m.get("Kd_prg").toString());
-            ps.setNama(m.get("Nama_prg").toString());
-            progdis.add(ps);
-        }
+        List<ProgramStudi> progdis = new ProgramStudiDAOImpl().getProgramStudi();        
         return progdis;
     }
 
