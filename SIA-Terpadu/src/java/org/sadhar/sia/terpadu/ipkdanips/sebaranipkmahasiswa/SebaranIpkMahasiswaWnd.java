@@ -2,25 +2,24 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.sadhar.sia.terpadu.ipkdanips.sebaranipklulusan;
+package org.sadhar.sia.terpadu.ipkdanips.sebaranipkmahasiswa;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.sadhar.sia.framework.ClassApplicationModule;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zkex.zul.Jasperreport;
-import org.zkoss.zul.Auxhead;
-import org.zkoss.zul.Auxheader;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
-import org.zkoss.zul.Listhead;
-import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Listitem;
+import org.zkoss.zul.Window;
 
 /**
  *
@@ -68,6 +67,28 @@ public class SebaranIpkMahasiswaWnd extends ClassApplicationModule {
             listitem.appendChild(new Listcell(new DecimalFormat("# 0.00 ").format(Double.parseDouble(row.get("prosentaseA").toString())) + "%"));
             listboxMahasiswa.appendChild(listitem);
             no++;
+        }
+    }
+
+    public void exportReport() throws Exception {
+        try {
+            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(dataReport);
+            if (cmbExportType.getSelectedItem().getValue().toString().equals("pdf")) {
+                Window pdfPreviewWnd = (Window) Executions.createComponents("/zul/pdfpreview/PdfPreview.zul", null, null);
+                Jasperreport pdfReport = (Jasperreport) pdfPreviewWnd.getFellow("report");
+                pdfReport.setType(cmbExportType.getSelectedItem().getValue().toString());
+                pdfReport.setSrc("reports/ipkdanips/sebaranipkmahasiswa/SebaranIpkMahasiswa.jasper");
+                pdfReport.setParameters(null);
+                pdfReport.setDatasource(dataSource);
+                pdfPreviewWnd.doModal();
+            } else {
+                report.setType(cmbExportType.getSelectedItem().getValue().toString());
+                report.setSrc("reports/ipkdanips/sebaranipkmahasiswa/SebaranIpkMahasiswa.jasper");
+                report.setParameters(null);
+                report.setDatasource(dataSource);
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
