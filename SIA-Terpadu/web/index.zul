@@ -1,6 +1,6 @@
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title=".: Sistem Informasi Terpadu -  USD :." id="main" width="100%" height="100%" use="org.sadhar.sia.terpadu.application.IndexWnd" >
+    <window id="main" width="100%" height="100%" use="org.sadhar.sia.terpadu.application.IndexWnd" >
         <borderlayout style="background:#c5e6ef;">
             <north size="30px" border="0" style="background:#c5e6ef;">
                 <div>
