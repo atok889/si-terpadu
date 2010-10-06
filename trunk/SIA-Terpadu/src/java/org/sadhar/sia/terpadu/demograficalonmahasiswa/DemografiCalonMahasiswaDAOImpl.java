@@ -6,6 +6,7 @@ package org.sadhar.sia.terpadu.demograficalonmahasiswa;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.jfree.data.category.CategoryDataset;
@@ -13,9 +14,11 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.joda.time.DateTime;
 import org.sadhar.sia.common.ClassConnection;
 import org.sadhar.sia.terpadu.kabkota.KabKota;
+import org.sadhar.sia.terpadu.kabkota.KabKotaDAOImpl;
 import org.sadhar.sia.terpadu.provinsi.Provinsi;
 import org.sadhar.sia.terpadu.prodi.ProgramStudi;
 import org.sadhar.sia.terpadu.prodi.ProgramStudiDAOImpl;
+import org.sadhar.sia.terpadu.provinsi.ProvinsiDAOImpl;
 
 /**
  *
@@ -242,6 +245,277 @@ public class DemografiCalonMahasiswaDAOImpl implements DemografiCalonMahasiswaDA
     }
 
     public CategoryDataset getAsalDaerahDataset(ProgramStudi progdi, String tahun, Provinsi prov, KabKota kabkota) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet.");
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        String sql = "";
+        if (progdi == null && tahun.isEmpty() && prov == null) {
+            List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
+            progdis = new ProgramStudiDAOImpl().getProgramStudi();
+            DateTime dt = new DateTime(new Date());
+            int year = dt.getYear();
+            for (ProgramStudi ps : progdis) {
+                Map temp = new HashMap();
+                List<Provinsi> provinsi = new ArrayList<Provinsi>();
+                for (int x = year; x > year - 5; x--) {
+                    sql = "SELECT SUBSTR(kamus.kabupaten.kd_kab,1,2) AS provinsi, COUNT(pmb.pdf" + x + ".nomor) AS jumlah "
+                            + "FROM kamus.kabupaten kabupaten INNER JOIN pmb.pdf" + x + " pdf" + x + " "
+                            + "ON (kabupaten.kd_kab = pdf" + x + ".kabupsek) "
+                            + "GROUP BY SUBSTR(kabupaten.kd_kab,1,2)";
+                    List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
+
+                    for (Map m : rows) {
+                        //Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                        String kdProv = m.get("provinsi").toString();
+                        if (temp.get(kdProv) == null) {
+                            provinsi.add(new ProvinsiDAOImpl().getProv(m.get("provinsi").toString()));
+                            temp.put(kdProv, Integer.valueOf(m.get("jumlah").toString()));
+                        } else {
+                            int jml = Integer.valueOf(temp.get(kdProv).toString());
+                            jml += Integer.valueOf(m.get("jumlah").toString());
+                            temp.put(kdProv, jml);
+                        }
+                        //dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), provinsi.getNama(), ps.getNama());
+                    }
+                }
+                for (Provinsi p : provinsi) {
+                    dataset.addValue(Integer.valueOf(temp.get(p.getKode()).toString()), p.getNama(), ps.getNama());
+                }
+            }
+        } else if (progdi != null && tahun.isEmpty() && prov == null) {
+            DateTime dt = new DateTime(new Date());
+            int year = dt.getYear();
+            for (int x = year; x > year - 5; x--) {
+                sql = "SELECT SUBSTR(kabupaten.kd_kab,1,2) AS provinsi, COUNT(pdf" + x + ".nomor) AS jumlah "
+                        + "FROM kamus.kabupaten kabupaten INNER JOIN pmb.pdf" + x + " pdf" + x + " "
+                        + "ON (kabupaten.kd_kab = pdf" + x + ".kabupsek) "
+                        + "WHERE (pdf" + x + ".pil1 = " + progdi.getKode() + ") "
+                        + "GROUP BY SUBSTR(kabupaten.kd_kab,1,2)";
+                List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
+                Map temp = new HashMap();
+                List<Provinsi> provinsi = new ArrayList<Provinsi>();
+                for (Map m : rows) {
+                    String kdProv = m.get("provinsi").toString();
+                    if (temp.get(kdProv) == null) {
+                        provinsi.add(new ProvinsiDAOImpl().getProv(m.get("provinsi").toString()));
+                        temp.put(kdProv, Integer.valueOf(m.get("jumlah").toString()));
+                    } else {
+                        int jml = Integer.valueOf(temp.get(kdProv).toString());
+                        jml += Integer.valueOf(m.get("jumlah").toString());
+                        temp.put(kdProv, jml);
+                    }
+                }
+                for (Provinsi p : provinsi) {
+                    dataset.addValue(Integer.valueOf(temp.get(p.getKode()).toString()), p.getNama(), progdi.getNama());
+                }
+            }
+        } else if (progdi != null && !tahun.isEmpty() && prov == null) {
+            sql = "SELECT SUBSTR(kabupaten.kd_kab,1,2) AS provinsi, COUNT(pdf" + tahun + ".nomor) AS jumlah "
+                    + "FROM kamus.kabupaten kabupaten INNER JOIN pmb.pdf" + tahun + " pdf" + tahun + " "
+                    + "ON (kabupaten.kd_kab = pdf" + tahun + ".kabupsek) "
+                    + "WHERE (pdf" + tahun + ".pil1 = " + progdi.getKode() + ") "
+                    + "GROUP BY SUBSTR(kabupaten.kd_kab,1,2)";
+            List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
+            for (Map m : rows) {
+                Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), provinsi.getNama(), progdi.getNama());
+            }
+        } else if (progdi != null && !tahun.isEmpty() && prov != null && kabkota == null) {
+            sql = "SELECT kabupaten.nama_kab AS kabupaten, COUNT(pdf" + tahun + ".nomor) AS jumlah "
+                    + "FROM kamus.kabupaten kabupaten INNER JOIN pmb.pdf" + tahun + " pdf" + tahun + " "
+                    + "ON (kabupaten.kd_kab = pdf" + tahun + ".kabupsek) "
+                    + "WHERE (pdf" + tahun + ".pil1 = " + progdi.getKode() + ") "
+                    + "AND SUBSTR(kabupaten.kd_kab,1,2)=" + prov.getKode() + " "
+                    + "GROUP BY kabupaten.kd_kab";
+            List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
+            for (Map m : rows) {
+                dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kabupaten").toString(), progdi.getNama());
+            }
+        } else if (progdi != null && !tahun.isEmpty() && prov != null && kabkota != null) {
+            sql = "SELECT kabupaten.nama_kab AS kabupaten, COUNT(pdf" + tahun + ".nomor) AS jumlah "
+                    + "FROM kamus.kabupaten kabupaten INNER JOIN pmb.pdf" + tahun + " pdf" + tahun + " "
+                    + "ON (kabupaten.kd_kab = pdf" + tahun + ".kabupsek) "
+                    + "WHERE (pdf" + tahun + ".pil1 = " + progdi.getKode() + ") "
+                    + "AND kabupaten.kd_kab=" + kabkota.getKode() + " "
+                    + "GROUP BY kabupaten.kd_kab";
+            List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
+            for (Map m : rows) {
+                dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kabupaten").toString(), progdi.getNama());
+            }
+        } else if (progdi == null && !tahun.isEmpty() && prov == null) {
+            List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
+            progdis = new ProgramStudiDAOImpl().getProgramStudi();
+            for (ProgramStudi ps : progdis) {
+                sql = "SELECT SUBSTR(kamus.kabupaten.kd_kab,1,2) AS provinsi, COUNT(pmb.pdf" + tahun + ".nomor) AS jumlah "
+                        + "FROM kamus.kabupaten kabupaten INNER JOIN pmb.pdf" + tahun + " pdf" + tahun + " "
+                        + "ON (kabupaten.kd_kab = pdf" + tahun + ".kabupsek) "
+                        + "GROUP BY SUBSTR(kabupaten.kd_kab,1,2)";
+                List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
+                for (Map m : rows) {
+                    Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                    dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), provinsi.getNama(), ps.getNama());
+                }
+            }
+        } else if (progdi == null && !tahun.isEmpty() && prov != null && kabkota == null) {
+            List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
+            progdis = new ProgramStudiDAOImpl().getProgramStudi();
+            for (ProgramStudi ps : progdis) {
+                sql = "SELECT kamus.kabupaten.nama_kab AS kabupaten, COUNT(pmb.pdf" + tahun + ".nomor) AS jumlah "
+                        + "FROM kamus.kabupaten kabupaten INNER JOIN pmb.pdf" + tahun + " pdf" + tahun + " "
+                        + "ON (kabupaten.kd_kab = pdf" + tahun + ".kabupsek) "
+                        + "WHERE SUBSTR(kamus.kabupaten.kd_kab,1,2)=" + prov.getKode() + " "
+                        + "GROUP BY kabupaten.kd_kab";
+                List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
+                for (Map m : rows) {
+                    //Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                    dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kabupaten").toString(), ps.getNama());
+                }
+            }
+        } else if (progdi == null && !tahun.isEmpty() && prov != null && kabkota != null) {
+            List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
+            progdis = new ProgramStudiDAOImpl().getProgramStudi();
+            for (ProgramStudi ps : progdis) {
+                sql = "SELECT kamus.kabupaten.nama_kab AS kabupaten, COUNT(pmb.pdf" + tahun + ".nomor) AS jumlah "
+                        + "FROM kamus.kabupaten kabupaten INNER JOIN pmb.pdf" + tahun + " pdf" + tahun + " "
+                        + "ON (kabupaten.kd_kab = pdf" + tahun + ".kabupsek) "
+                        + "WHERE kamus.kabupaten.kd_kab)=" + kabkota.getKode() + " "
+                        + "GROUP BY kabupaten.kd_kab";
+                List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
+                for (Map m : rows) {
+                    //Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                    dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("kabupaten").toString(), ps.getNama());
+                }
+            }
+        } else if (progdi == null && tahun.isEmpty() && prov != null && kabkota == null) {
+            List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
+            progdis = new ProgramStudiDAOImpl().getProgramStudi();
+            DateTime dt = new DateTime(new Date());
+            int year = dt.getYear();
+            for (ProgramStudi ps : progdis) {
+                Map temp = new HashMap();
+                List<String> kabupaten = new ArrayList<String>();
+                for (int x = year; x > year - 5; x--) {
+                    sql = "SELECT kamus.kabupaten.nama_kab AS kabupaten, COUNT(pmb.pdf" + x + ".nomor) AS jumlah "
+                            + "FROM kamus.kabupaten kabupaten INNER JOIN pmb.pdf" + x + " pdf" + x + " "
+                            + "ON (kabupaten.kd_kab = pdf" + x + ".kabupsek) "
+                            + "WHERE SUBSTR(kamus.kabupaten.kd_kab,1,2)=" + prov.getKode() + " "
+                            + "GROUP BY kabupaten.nama_kab";
+                    List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
+                    for (Map m : rows) {
+                        //Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                        String nmKab = m.get("kabupaten").toString();
+                        if (temp.get(nmKab) == null) {
+                            //kabupaten.add(new KabKotaDAOImpl().getKabKota(m.get("kabupaten").toString()));
+                            kabupaten.add(nmKab);
+                            temp.put(nmKab, Integer.valueOf(m.get("jumlah").toString()));
+                        } else {
+                            int jml = Integer.valueOf(temp.get(nmKab).toString());
+                            jml += Integer.valueOf(m.get("jumlah").toString());
+                            temp.put(nmKab, jml);
+                        }
+                        //dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), provinsi.getNama(), ps.getNama());
+                    }
+                }
+                for (String p : kabupaten) {
+                    dataset.addValue(Integer.valueOf(temp.get(p).toString()), p, ps.getNama());
+                }
+            }
+        } else if (progdi == null && tahun.isEmpty() && prov != null && kabkota != null) {
+            List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
+            progdis = new ProgramStudiDAOImpl().getProgramStudi();
+            DateTime dt = new DateTime(new Date());
+            int year = dt.getYear();
+            for (ProgramStudi ps : progdis) {
+                Map temp = new HashMap();
+                List<String> kabupaten = new ArrayList<String>();
+                for (int x = year; x > year - 5; x--) {
+                    sql = "SELECT kamus.kabupaten.nama_kab AS kabupaten, COUNT(pmb.pdf" + x + ".nomor) AS jumlah "
+                            + "FROM kamus.kabupaten kabupaten INNER JOIN pmb.pdf" + x + " pdf" + x + " "
+                            + "ON (kabupaten.kd_kab = pdf" + x + ".kabupsek) "
+                            + "WHERE kamus.kabupaten.kd_kab=" + kabkota.getKode() + " "
+                            + "GROUP BY kabupaten.nama_kab";
+                    List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
+                    for (Map m : rows) {
+                        //Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                        String nmKab = m.get("kabupaten").toString();
+                        if (temp.get(nmKab) == null) {
+                            //kabupaten.add(new KabKotaDAOImpl().getKabKota(m.get("kabupaten").toString()));
+                            kabupaten.add(nmKab);
+                            temp.put(nmKab, Integer.valueOf(m.get("jumlah").toString()));
+                        } else {
+                            int jml = Integer.valueOf(temp.get(nmKab).toString());
+                            jml += Integer.valueOf(m.get("jumlah").toString());
+                            temp.put(nmKab, jml);
+                        }
+                        //dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), provinsi.getNama(), ps.getNama());
+                    }
+                }
+                for (String p : kabupaten) {
+                    dataset.addValue(Integer.valueOf(temp.get(p).toString()), p, ps.getNama());
+                }
+            }
+        } else if (progdi != null && tahun.isEmpty() && prov != null && kabkota == null) {
+            DateTime dt = new DateTime(new Date());
+            int year = dt.getYear();
+            Map temp = new HashMap();
+            List<String> kabupaten = new ArrayList<String>();
+            for (int x = year; x > year - 5; x--) {
+                sql = "SELECT kamus.kabupaten.nama_kab AS kabupaten, COUNT(pmb.pdf" + x + ".nomor) AS jumlah "
+                        + "FROM kamus.kabupaten kabupaten INNER JOIN pmb.pdf" + x + " pdf" + x + " "
+                        + "ON (kabupaten.kd_kab = pdf" + x + ".kabupsek) "
+                        + "WHERE SUBSTR(kamus.kabupaten.kd_kab,1,2)=" + prov.getKode() + " "
+                        + "AND pmb.pdf" + x + ".pil1=" + progdi.getKode() + " "
+                        + "GROUP BY kabupaten.kd_kab";
+                List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
+                for (Map m : rows) {
+                    //Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                    String nmKab = m.get("kabupaten").toString();
+                    if (temp.get(nmKab) == null) {
+                        //kabupaten.add(new KabKotaDAOImpl().getKabKota(m.get("kabupaten").toString()));
+                        kabupaten.add(nmKab);
+                        temp.put(nmKab, Integer.valueOf(m.get("jumlah").toString()));
+                    } else {
+                        int jml = Integer.valueOf(temp.get(nmKab).toString());
+                        jml += Integer.valueOf(m.get("jumlah").toString());
+                        temp.put(nmKab, jml);
+                    }
+                    //dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), provinsi.getNama(), ps.getNama());
+                }
+            }
+            for (String p : kabupaten) {
+                dataset.addValue(Integer.valueOf(temp.get(p).toString()), p, progdi.getNama());
+            }
+
+        } else if (progdi != null && tahun.isEmpty() && prov != null && kabkota != null) {
+            DateTime dt = new DateTime(new Date());
+            int year = dt.getYear();
+            Map temp = new HashMap();
+            List<String> kabupaten = new ArrayList<String>();
+            for (int x = year; x > year - 5; x--) {
+                sql = "SELECT kamus.kabupaten.nama_kab AS kabupaten, COUNT(pmb.pdf" + x + ".nomor) AS jumlah "
+                        + "FROM kamus.kabupaten kabupaten INNER JOIN pmb.pdf" + x + " pdf" + x + " "
+                        + "ON (kabupaten.kd_kab = pdf" + x + ".kabupsek) "
+                        + "WHERE kamus.kabupaten.kd_kab=" + kabkota.getKode() + " "
+                        + "AND pmb.pdf" + x + ".pil1=" + progdi.getKode() + " "
+                        + "GROUP BY kabupaten.kd_kab";
+                List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
+                for (Map m : rows) {
+                    //Provinsi provinsi = new ProvinsiDAOImpl().getProv(m.get("provinsi").toString());
+                    String nmKab = m.get("kabupaten").toString();
+                    if (temp.get(nmKab) == null) {
+                        //kabupaten.add(new KabKotaDAOImpl().getKabKota(m.get("kabupaten").toString()));
+                        kabupaten.add(nmKab);
+                        temp.put(nmKab, Integer.valueOf(m.get("jumlah").toString()));
+                    } else {
+                        int jml = Integer.valueOf(temp.get(nmKab).toString());
+                        jml += Integer.valueOf(m.get("jumlah").toString());
+                        temp.put(nmKab, jml);
+                    }
+                    //dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), provinsi.getNama(), ps.getNama());
+                }
+            }
+            for (String p : kabupaten) {
+                dataset.addValue(Integer.valueOf(temp.get(p).toString()), p, progdi.getNama());
+            }
+        }
+        return dataset;
     }
 }
