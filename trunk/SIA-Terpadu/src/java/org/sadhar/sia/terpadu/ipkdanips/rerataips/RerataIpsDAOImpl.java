@@ -83,6 +83,7 @@ public class RerataIpsDAOImpl implements RerataIpsDAO {
                     results.add(mapSemester2);
                 }
 
+
             }
 
         } else if (kodeProdi == null && tahunAngkatan != null) {
@@ -123,7 +124,7 @@ public class RerataIpsDAOImpl implements RerataIpsDAO {
 
     public Map getNamaFakultas(String kodeProdi) {
         String sql = "SELECT fak.Nama_fak FROM kamus.prg_std prg " +
-                " INNER JOIN fakultas fak ON fak.Kd_fakultas = prg.Kd_fak " +
+                " INNER JOIN kamus.fakultas fak ON fak.Kd_fakultas = prg.Kd_fak " +
                 " where prg.Kd_prg = '" + kodeProdi + "';";
         return ClassConnection.getJdbc().queryForMap(sql);
     }
@@ -138,6 +139,5 @@ public class RerataIpsDAOImpl implements RerataIpsDAO {
             return false;
         }
         return rs.next();
-    } 
-  
+    }
 }

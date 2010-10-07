@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
+import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.joda.time.DateTime;
 import org.sadhar.sia.framework.ClassApplicationModule;
@@ -42,7 +43,7 @@ public class RerataIpsWnd extends ClassApplicationModule {
     private Combobox cmbExportType;
     private Jasperreport report;
     private Button btnExport;
-    private List<Map> reportData = new ArrayList<Map>();
+    private List<Map> dataReport = new ArrayList<Map>();
     // private String tahunAngkatan = "1996";
 
     public RerataIpsWnd() {
@@ -87,66 +88,14 @@ public class RerataIpsWnd extends ClassApplicationModule {
 
     private void loadDataToListbox() {
         listboxMahasiswa.getChildren().clear();
-        System.out.println(intboxTahunAngkatan.getValue());
-        System.out.println(kodeProdi);
-        //Export data to dataset
-        int colspanIPS = 36;
+
+        int colspanIPS = 40;
         String angkatan = "";
-        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        if (intboxTahunAngkatan.getValue() != null) {
+            angkatan = String.valueOf(intboxTahunAngkatan.getValue());
+            colspanIPS = (new DateTime().getYear() - Integer.valueOf(angkatan)) * 2 + 2;
 
-        if (kodeProdi == null && intboxTahunAngkatan.getValue() != null) {
-            dataset = new DefaultCategoryDataset();
-            colspanIPS = 0;
-            for (Map data : rerataIpsDAO.getRerataIps(null, intboxTahunAngkatan.getValue().toString())) {
-                Double ips = null;
-                if (data.get("ips") == null) {
-                    ips = 0d;
-                } else {
-                    ips = Double.parseDouble(data.get("ips").toString().substring(0, 4));
-                }
-                dataset.addValue(ips, data.get("tahun").toString() + "-" + data.get("semester").toString(), data.get("Nama_fak").toString());
-            }
-            //For positive only exception
-            if (colspanIPS == 0) {
-                colspanIPS = 1;
-            }
-            colspanIPS = (new DateTime().getYear() - intboxTahunAngkatan.getValue()) * 2 + 1;
-            angkatan = intboxTahunAngkatan.getValue() + "";
-
-        } else if (kodeProdi == null && intboxTahunAngkatan.getValue() == null) {
-            dataset = new DefaultCategoryDataset();
-            for (Map data : rerataIpsDAO.getRerataIps(null, null)) {
-                dataset.addValue(Double.parseDouble(data.get("ips").toString().substring(0, 4)),
-                        data.get("tahun").toString() + "-" + data.get("semester").toString(), data.get("Nama_fak").toString());
-            }
-        } else if (kodeProdi != null && intboxTahunAngkatan.getValue() == null) {
-            dataset = new DefaultCategoryDataset();
-            for (Map data : rerataIpsDAO.getRerataIps(kodeProdi, null)) {
-                dataset.addValue(Double.parseDouble(data.get("ips").toString().substring(0, 4)),
-                        data.get("tahun").toString() + "-" + data.get("semester").toString(), data.get("Nama_fak").toString());
-            }
-
-        } else if (kodeProdi != null && intboxTahunAngkatan.getValue() != null) {
-            colspanIPS = 0;
-            dataset = new DefaultCategoryDataset();
-            for (Map data : rerataIpsDAO.getRerataIps(kodeProdi, intboxTahunAngkatan.getValue().toString())) {
-                Double ips = null;
-                if (data.get("ips") == null) {
-                    ips = 0d;
-                } else {
-                    ips = Double.parseDouble(data.get("ips").toString().substring(0, 4));
-                }
-                dataset.addValue(ips, data.get("tahun").toString() + "-" + data.get("semester").toString(), data.get("Nama_fak").toString());
-                colspanIPS++;
-            }
-            //For positive only exception
-            if (colspanIPS == 0) {
-                colspanIPS = 1;
-            }
-            angkatan = intboxTahunAngkatan.getValue() + "";
         }
-
-        System.out.println(colspanIPS);
 
         Listhead listhead = new Listhead();
         Auxhead auxhead = new Auxhead();
@@ -185,13 +134,8 @@ public class RerataIpsWnd extends ClassApplicationModule {
         auxhead.appendChild(auxheaderIPS);
         listboxMahasiswa.appendChild(auxhead);
 
-        int totalFakultas = 0;
-        for (Object column : dataset.getColumnKeys()) {
-            totalFakultas++;
-        }
-
-        //Untuk mencari total jika pilihan tidak ada pilihan
-        double[] ips = new double[dataset.getRowKeys().size()];
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        dataset = (DefaultCategoryDataset) this.generateData(kodeProdi, String.valueOf(intboxTahunAngkatan.getValue()));
 
         int no = 1;
         for (Object row : dataset.getRowKeys()) {
@@ -208,7 +152,7 @@ public class RerataIpsWnd extends ClassApplicationModule {
             Listitem listitem = new Listitem();
             listitem.appendChild(new Listcell(no + ""));
             listitem.appendChild(new Listcell(column.toString()));
-            listitem.appendChild(new Listcell(angkatan));
+            listitem.appendChild(new Listcell(angkatan + ""));
             for (Object row : dataset.getRowKeys()) {
                 Number number = dataset.getValue((Comparable) row, (Comparable) column);
                 Double data = null;
@@ -217,31 +161,12 @@ public class RerataIpsWnd extends ClassApplicationModule {
                 } else {
                     data = 0d;
                 }
-
-                if (kodeProdi != null && intboxTahunAngkatan.getValue() != null) {
-                    listitem.appendChild(new Listcell(data + ""));
-                    listboxMahasiswa.appendChild(listitem);
-                } else if (kodeProdi != null && intboxTahunAngkatan.getValue() == null) {
-                    listitem.appendChild(new Listcell(data + ""));
-                    listboxMahasiswa.appendChild(listitem);
-                } else {
-                    ips[index] += data / totalFakultas;
-                    index++;
-                }
+                listitem.appendChild(new Listcell(new DecimalFormat("# 0.00").format(data) + ""));
+                listboxMahasiswa.appendChild(listitem);
             }
             no++;
         }
 
-        if (kodeProdi == null && (intboxTahunAngkatan.getValue() == null || intboxTahunAngkatan.getValue() != null)) {
-            Listitem listitem = new Listitem();
-            listitem.appendChild(new Listcell("1"));
-            listitem.appendChild(new Listcell("Seluruh Prodi"));
-            listitem.appendChild(new Listcell(angkatan));
-            for (double i : ips) {
-                listitem.appendChild(new Listcell(new DecimalFormat("# 0.00").format(i) + ""));
-                listboxMahasiswa.appendChild(listitem);
-            }
-        }
         listboxMahasiswa.appendChild(listhead);
 
     }
@@ -257,13 +182,14 @@ public class RerataIpsWnd extends ClassApplicationModule {
             loadDataToListbox();
         } catch (Exception e) {
             this.componentDisable();
+            e.printStackTrace();
             //Messagebox.show("Data tidak ditemukan", "Konfirmasi", Messagebox.OK, Messagebox.EXCLAMATION);
         }
     }
 
     public void exportReport() throws Exception {
         try {
-            JRMapCollectionDataSource dataSource = new JRMapCollectionDataSource(this.generateReport());
+            JRMapCollectionDataSource dataSource = new JRMapCollectionDataSource(dataReport);
             if (cmbExportType.getSelectedItem().getValue().toString().equals("pdf")) {
                 Window pdfPreviewWnd = (Window) Executions.createComponents("/zul/pdfpreview/PdfPreview.zul", null, null);
                 Jasperreport pdfReport = (Jasperreport) pdfPreviewWnd.getFellow("report");
@@ -310,5 +236,71 @@ public class RerataIpsWnd extends ClassApplicationModule {
             }
         }
         return datas;
+    }
+
+    private CategoryDataset generateData(String kodeProdi, String angkatan) {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        int currentYear = new DateTime().getYear() - 5;
+        int maxYear = new DateTime().getYear();
+        dataReport.clear();
+
+        if (angkatan.equalsIgnoreCase("null")) {
+            angkatan = null;
+        }
+        List<Map> result = new ArrayList<Map>();
+
+        if (angkatan == null) {
+            result = rerataIpsDAO.getRerataIps(kodeProdi, angkatan);
+        } else {
+            currentYear = Integer.valueOf(angkatan);
+            result = rerataIpsDAO.getRerataIps(kodeProdi, angkatan);
+        }
+
+        //Tahun
+        for (int i = currentYear; i <= maxYear; i++) {
+            //Semester
+            for (int j = 1; j <= 2; j++) {
+                int count = 0;
+                Map map = new HashMap();
+                Double ips = null;
+                Double ipsTotal = 0d;
+                //Data
+                for (Map data : result) {
+                    if (data.get("ips") == null || data.get("ips") == "") {
+                        ips = 0d;
+                    } else {
+                        ips = Double.parseDouble(data.get("ips").toString().substring(0, 4));
+                    }
+                    if (Integer.valueOf(data.get("tahun").toString()) == i && Integer.valueOf(data.get("semester").toString()) == j) {
+                        ipsTotal += ips;
+                        count++;
+                    }
+
+                    if (ipsTotal > 0) {
+                        map.put("ips", new DecimalFormat("# 0.00").format(ipsTotal / count));
+                    } else {
+                        map.put("ips", ipsTotal.toString());
+                    }
+
+                    if (kodeProdi == null) {
+                        map.put("angkatan", "");
+                        map.put("fakultas", "Seluruh Prodi");
+                    } else {
+                        if (angkatan == null) {
+                            angkatan = "";
+                        }
+                        map.put("angkatan", angkatan);
+                        map.put("fakultas", data.get("Nama_fak"));
+                    }
+                    map.put("tahun", i);
+
+                }
+                map.put("semester", j);
+                dataset.addValue(Double.valueOf(map.get("ips").toString()), map.get("tahun") + "-" + map.get("semester").toString(), map.get("fakultas").toString());
+                map.put("tahun", map.get("tahun") + "-" + map.get("semester").toString());
+                dataReport.add(map);
+            }
+        }
+        return dataset;
     }
 }
