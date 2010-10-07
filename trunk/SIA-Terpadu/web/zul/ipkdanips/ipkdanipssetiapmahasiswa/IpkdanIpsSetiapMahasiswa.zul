@@ -24,21 +24,21 @@
                             </row>
                             <row style="border:none">
                                 <label value="Tahun Angkatan"></label>
-                                <combobox id="cmbboxAngkatan" width="300px"  onSelect="ipkDanIpsSetiapMahasiswaWnd.cmbDataAngkatanOnSelect()"/>
+                                <combobox id="cmbboxAngkatan" width="300px"  />
                                 <label value="Kolom 1"></label>
-                                <combobox id="cmbboxKolom1" width="150px"  onSelect="ipkDanIpsSetiapMahasiswaWnd.cmbDataKolom3OnSelect()"/>
+                                <combobox id="cmbboxKolom1" width="150px" readonly="true"/>
                             </row>
                             <row style="border:none">
                                 <label value="Semester"></label>
-                                <combobox id="cmbboxSemester" width="300px"  onSelect="ipkDanIpsSetiapMahasiswaWnd.cmbDataSemesterOnSelect()"/>
+                                <combobox id="cmbboxSemester" width="300px"  />
                                 <label value="Kolom 2"></label>
-                                <combobox id="cmbboxKolom2" width="150px"  onSelect="ipkDanIpsSetiapMahasiswaWnd.cmbDataKolom2OnSelect()"/>
+                                <combobox id="cmbboxKolom2" width="150px"  readonly="true"/>
                             </row>
                             <row style="border:none">
                                 <label value=""></label>
                                 <button label="Tampilkan" height="25px" width="90px" onClick="ipkDanIpsSetiapMahasiswaWnd.btnShowOnClick()"  ></button>
                                 <label value="Kolom 3"></label>
-                                <combobox id="cmbboxKolom3" width="150px"  onSelect="ipkDanIpsSetiapMahasiswaWnd.cmbDataKolom3OnSelect()"/>
+                                <combobox id="cmbboxKolom3" width="150px" readonly="true" />
                             </row>
                         </rows>
                     </grid>

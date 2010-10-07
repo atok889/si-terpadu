@@ -19,7 +19,7 @@ public class IpkdanIpsSetiapMahasiswaDAOImpl implements IpkdanIpsSetiapMahasiswa
     }
 
     public List<Map> getProdi() {
-        String sql = "SELECT Kd_prg, Nama_prg FROM kamus.prg_std ORDER BY Nama_prg";
+        String sql = "SELECT Kd_prg, Nama_prg FROM kamus.prg_std WHERE Kd_prg != '0000' ORDER BY Nama_prg";
         List<Map> maps = ClassConnection.getJdbc().queryForList(sql);
         return maps;
     }

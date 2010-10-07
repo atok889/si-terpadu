@@ -33,7 +33,7 @@ public class SebaranIpkMahasiswaDAOImpl implements SebaranIpkMahasiswaDAO {
             String kodeProdi = prodi.get("Kd_prg").toString();
             for (int i = new DateTime().getYear() - 5; i <= new DateTime().getYear(); i++) {
                 if (isTabelKhExist(kodeProdi, String.valueOf(i))) {
-                    String sql = "SELECT kh.Nomor_mhs, COUNT(Nomor_mhs) AS jumlah,SUM(SKS * angka)/SUM(SKS) as ipk,prg.Nama_prg,prg.Kd_prg " +
+                    String sql = "SELECT kh.Nomor_mhs, COUNT(Nomor_mhs) AS jumlah,SUM(sks * angka)/SUM(sks) as ipk,prg.Nama_prg,prg.Kd_prg " +
                             " FROM db_" + kodeProdi + ".kh" + kodeProdi + i + " kh " +
                             " INNER JOIN kamus.nilai nilai ON (nilai.huruf = kh.Nilai) " +
                             " INNER JOIN kamus.prg_std prg  ON (prg.Kd_prg='" + kodeProdi + "') GROUP BY kh.Nomor_mhs";

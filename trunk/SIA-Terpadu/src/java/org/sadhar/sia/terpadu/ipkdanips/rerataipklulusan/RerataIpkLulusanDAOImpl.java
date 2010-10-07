@@ -37,7 +37,7 @@ public class RerataIpkLulusanDAOImpl implements RerataIpkLulusanDAO {
                     if (isTabelTrExist(kodeProdi, String.valueOf(i))) {
                         String sql = "SELECT  IF(LEFT(ll.nomor_mhs,1)='9', CONCAT('19', LEFT(ll.nomor_mhs,2))," +
                                 " IF(LEFT(ll.nomor_mhs,1)='8',CONCAT('19',LEFT(ll.nomor_mhs,2)),CONCAT('20',LEFT(ll.nomor_mhs,2)))) AS angkatan," +
-                                " ll.nomor_mhs,ll.nama_mhs, SUM(SKS * angka)/SUM(SKS) as ipk, prg.Nama_prg,prg.Kd_prg " +
+                                " ll.nomor_mhs,ll.nama_mhs, SUM(sks * angka)/SUM(sks) as ipk, prg.Nama_prg,prg.Kd_prg " +
                                 " FROM db_" + kodeProdi + ".ll" + kodeProdi + " as ll " +
                                 " INNER JOIN db_" + kodeProdi + ".tr" + kodeProdi + i + " tr ON ll.nomor_mhs = tr.nomor_mhs " +
                                 " INNER JOIN kamus.nilai nilai ON nilai.huruf = tr.Nilai " +

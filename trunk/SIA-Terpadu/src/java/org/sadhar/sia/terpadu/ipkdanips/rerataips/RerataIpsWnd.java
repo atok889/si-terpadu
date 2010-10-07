@@ -208,36 +208,7 @@ public class RerataIpsWnd extends ClassApplicationModule {
             ex.printStackTrace();
         }
     }
-
-    private List<Map> generateReport() {
-        List<Map> datas = new ArrayList<Map>();
-
-        if (kodeProdi != null && intboxTahunAngkatan.getValue() != null) {
-            // System.out.println("MAsuk 1" + tahun);
-            datas = new ArrayList<Map>();
-            for (Map ips : rerataIpsDAO.getRerataIps(kodeProdi, intboxTahunAngkatan.getValue().toString())) {
-                Map map = new HashMap();
-                map.put("tahun", ips.get("tahun").toString() + "-" + ips.get("semester").toString());
-                map.put("fakultas", ips.get("Nama_fak").toString());
-                map.put("angkatan", ips.get("angkatan").toString());
-                map.put("ips", ips.get("ips").toString().substring(0, 4));
-                datas.add(map);
-            }
-        } else if (kodeProdi != null && intboxTahunAngkatan.getValue() == null) {
-            datas = new ArrayList<Map>();
-            System.out.println("MAsuk 2");
-            for (Map ips : rerataIpsDAO.getRerataIps(kodeProdi, null)) {
-                Map map = new HashMap();
-                map.put("tahun", ips.get("tahun").toString() + "-" + ips.get("semester").toString());
-                map.put("fakultas", ips.get("Nama_fak").toString());
-                map.put("angkatan", "");
-                map.put("ips", ips.get("ips").toString().substring(0, 4));
-                datas.add(map);
-            }
-        }
-        return datas;
-    }
-
+    
     private CategoryDataset generateData(String kodeProdi, String angkatan) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         int currentYear = new DateTime().getYear() - 5;

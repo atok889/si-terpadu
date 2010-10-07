@@ -39,12 +39,12 @@ public class RerataIpsDAOImpl implements RerataIpsDAO {
                 String sql = "SELECT  IF(LEFT(nomor_mhs, 1)='9', CONCAT('19', LEFT(nomor_mhs, 2))," +
                         " IF(LEFT(nomor_mhs, 1)='8', CONCAT('19', LEFT(nomor_mhs,2)), CONCAT('20', LEFT( nomor_mhs, 2)))) AS angkatan," +
                         " SUBSTRING(ambil,1,4) as tahun, SUBSTRING(ambil,5,1) AS semester, " +
-                        " SUM(SKS * angka)/SUM(SKS) as ips,fak.Nama_fak FROM db_" + kodeProdi + ".kt" + kodeProdi + tahunAngkatan + " as kt " +
+                        " SUM(sks * angka)/SUM(sks) as ips,fak.Nama_fak FROM db_" + kodeProdi + ".kt" + kodeProdi + tahunAngkatan + " as kt " +
                         " INNER JOIN kamus.nilai nilai ON (nilai.huruf = kt.Nilai)" +
                         " INNER JOIN kamus.prg_std prg ON (prg.Kd_prg = '" + kodeProdi + "') " +
                         " INNER JOIN kamus.fakultas fak ON (prg.Kd_fak = fak.Kd_fakultas)" +
                         " WHERE SUBSTRING(ambil,5,1) = 1 OR SUBSTRING(ambil,5,1) = 2" +
-                        " GROUP BY tahun, semester order by tahun,semester";
+                        " GROUP BY nomor_mhs, tahun, semester order by tahun,semester";
 
                 results.addAll(ClassConnection.getJdbc().queryForList(sql));
             }
@@ -56,12 +56,12 @@ public class RerataIpsDAOImpl implements RerataIpsDAO {
                     String sql = " SELECT  IF(LEFT(nomor_mhs, 1)='9', CONCAT('19', LEFT(nomor_mhs, 2))," +
                             " IF(LEFT(nomor_mhs, 1)='8', CONCAT('19', LEFT(nomor_mhs,2)), CONCAT('20', LEFT( nomor_mhs, 2)))) AS angkatan," +
                             " SUBSTRING(ambil,1,4) as tahun, SUBSTRING(ambil,5,1) AS semester, " +
-                            " SUM(SKS * angka)/SUM(SKS) as ips,fak.Nama_fak FROM db_" + kodeProdi + ".kt" + kodeProdi + String.valueOf(i) + " as kt " +
+                            " SUM(sks * angka)/SUM(sks) as ips,fak.Nama_fak FROM db_" + kodeProdi + ".kt" + kodeProdi + String.valueOf(i) + " as kt " +
                             " INNER JOIN kamus.nilai nilai ON (nilai.huruf = kt.Nilai)" +
                             " INNER JOIN kamus.prg_std prg ON (prg.Kd_prg = '" + kodeProdi + "') " +
                             " INNER JOIN kamus.fakultas fak ON (prg.Kd_fak = fak.Kd_fakultas)" +
                             " WHERE SUBSTRING(ambil,5,1) = 1 OR SUBSTRING(ambil,5,1) = 2" +
-                            " GROUP BY tahun, semester order by tahun,semester";
+                            " GROUP BY nomor_mhs, tahun, semester order by tahun,semester";
 
                     results.addAll(ClassConnection.getJdbc().queryForList(sql));
                 } else {
@@ -96,12 +96,12 @@ public class RerataIpsDAOImpl implements RerataIpsDAO {
                     String sql = "SELECT  IF(LEFT(nomor_mhs, 1)='9', CONCAT('19', LEFT(nomor_mhs, 2))," +
                             " IF(LEFT(nomor_mhs, 1)='8', CONCAT('19', LEFT(nomor_mhs,2)), CONCAT('20', LEFT( nomor_mhs, 2)))) AS angkatan," +
                             " SUBSTRING(ambil,1,4) as tahun, SUBSTRING(ambil,5,1) AS semester, " +
-                            " SUM(SKS * angka)/SUM(SKS) as ips,fak.Nama_fak,prg.Kd_prg FROM db_" + kodeProdi + ".kt" + kodeProdi + tahunAngkatan + " as kt " +
+                            " SUM(sks * angka)/SUM(sks) as ips,fak.Nama_fak,prg.Kd_prg FROM db_" + kodeProdi + ".kt" + kodeProdi + tahunAngkatan + " as kt " +
                             " INNER JOIN kamus.nilai nilai ON (nilai.huruf = kt.Nilai)" +
                             " INNER JOIN kamus.prg_std prg ON (prg.Kd_prg = '" + kodeProdi + "') " +
                             " INNER JOIN kamus.fakultas fak ON (prg.Kd_fak = fak.Kd_fakultas)" +
                             " WHERE SUBSTRING(ambil,5,1) = 1 OR SUBSTRING(ambil,5,1) = 2" +
-                            " GROUP BY tahun, semester order by tahun,semester";
+                            " GROUP BY nomor_mhs, tahun, semester order by tahun,semester";
                     results.addAll(ClassConnection.getJdbc().queryForList(sql));
                 }
             }
