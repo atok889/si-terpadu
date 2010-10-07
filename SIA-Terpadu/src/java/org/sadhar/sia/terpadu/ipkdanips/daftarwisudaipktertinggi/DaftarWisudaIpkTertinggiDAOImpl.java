@@ -35,7 +35,7 @@ public class DaftarWisudaIpkTertinggiDAOImpl implements DaftarWisudaIpkTertinggi
                 for (int i = new DateTime().getYear() - 10; i <= new DateTime().getYear(); i++) {
                     if (isTabelTrExist(kodeProdi, String.valueOf(i))) {
                         String sql = "SELECT urut.TglWsd, ll.nomor_mhs,ll.nama_mhs,prg.Nama_prg, " +
-                                " SUM(SKS * angka)/SUM(SKS) as ipk " +
+                                " SUM(sks * angka)/SUM(sks) as ipk " +
                                 " FROM db_" + kodeProdi + ".ll" + kodeProdi + " as ll " +
                                 " INNER JOIN db_" + kodeProdi + ".tr" + kodeProdi + i + " tr ON ll.nomor_mhs = tr.nomor_mhs " +
                                 " INNER JOIN kamus.nilai nilai ON (nilai.huruf = tr.Nilai) " +
