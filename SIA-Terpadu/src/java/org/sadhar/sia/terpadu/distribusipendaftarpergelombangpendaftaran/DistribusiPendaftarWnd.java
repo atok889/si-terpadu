@@ -77,8 +77,8 @@ public class DistribusiPendaftarWnd extends ClassApplicationModule {
                 }
                 if (datas.size() > 0) {
                     btnExport.setDisabled(false);
-                }else{
-                     btnExport.setDisabled(true);
+                } else {
+                    btnExport.setDisabled(true);
                 }
             } else {
                 Messagebox.show("Silahkan input tahun pendaftaran");
