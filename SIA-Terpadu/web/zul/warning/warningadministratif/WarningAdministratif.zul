@@ -37,7 +37,7 @@
                     <hbox>
                         <label value="Format"></label>
                         <jasperreport id="report" visible="false"/>
-                        <combobox id="cmbExportType">
+                        <combobox id="cmbExportType" readonly="true">
                             <comboitem label="PDF" value="pdf" ></comboitem>
                             <comboitem label="XLS" value="xls"></comboitem>
                             <comboitem label="DOC" value="rtf"></comboitem>

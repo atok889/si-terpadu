@@ -1,27 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title="Rerata IPS" border="normal" width="850px"
+    <window title="Rerata IPS" border="normal" width="950px"
             closable="true" sizable="true"
-            id="rerataIpsWnd"
-            use="org.sadhar.sia.terpadu.ipkdanips.rerataips.RerataIpsWnd">
+            id="pendidikanKaryawanWnd"
+            use="org.sadhar.sia.terpadu.pendidikankaryawan.PendidikanKaryawanWnd">
         <div style="padding:5px">
             <groupbox>
                 <caption label="Parameter"></caption>
                 <div style="padding:3px">
                     <grid>
-                        <columns>
-                            <column align="right" />
-                            <column align="left" />
-                        </columns>
                         <rows>
-                            <row style="border:none">
-                                <label value="Fakultas/Program Studi"></label>
-                                <combobox id="cmbboxProdi" width="300px"  onSelect="rerataIpsWnd.cmbDataProdiOnSelect()"/>
-                            </row>                         
-                            <row style="border:none">
+                            <row>
+                                <label value="Unit Kerja"></label>
+                                <combobox readonly="true" id="cmbboxUnitKerja" width="300px"  onSelect="pendidikanKaryawanWnd.cmbUnitKerjaOnSelect()"/>
+                            </row>
+                            <row>
                                 <label value=""></label>
-                                <button label="Tampilkan" height="25px" width="90px" onClick="rerataIpsWnd.btnShowOnClick()"  ></button>
+                                <button label="Tampilkan" height="25px" width="90px" onClick="pendidikanKaryawanWnd.btnShowOnClick()"  ></button>
                             </row>
                         </rows>
                     </grid>
@@ -29,10 +25,7 @@
             </groupbox>
             <groupbox>
                 <caption label="Keluaran"></caption>
-                <listbox id="listboxMahasiswa" width="700px" fixedLayout="false" visible = "false">
-                    <listhead>
-                        <listheader label="-"  align="center" ></listheader>
-                    </listhead>
+                <listbox id="listboxKaryawan" width="900px" fixedLayout="true" visible = "false" rows="15">
                 </listbox>
             </groupbox>
             <groupbox visible="true">
@@ -47,7 +40,7 @@
                             <comboitem label="DOC" value="rtf"></comboitem>
                             <comboitem label="RTF" value="rtf"></comboitem>
                         </combobox>
-                        <button id="btnExport" disabled="true" label="Export" height="25px" width="90px" onClick="ipkDanIpsSetiapMahasiswaWnd.exportReport()"></button>
+                        <button id="btnExport" disabled="true" label="Export" height="25px" width="90px" onClick="pendidikanKaryawanWnd.exportReport()"></button>
                     </hbox>
                 </div>
             </groupbox>

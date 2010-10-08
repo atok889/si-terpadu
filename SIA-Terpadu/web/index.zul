@@ -31,8 +31,8 @@
                                         <menuitem  label="Sebaran IPK mahasiswa" value="/zul/ipkdanips/sebaranipkmahasiswa/SebaranIpkMahasiswa.zul" onClick="main.showObject(self.value)" />
                                         <menuitem  label="Daftar wisuda IPK tertinggi" value="/zul/ipkdanips/daftarwisudaipktertinggi/DaftarWisudaIpkTertinggi.zul" onClick="main.showObject(self.value)" />
                                         <menuitem  label="Rerata IPS total" value="/zul/ipkdanips/rerataipstotal/RerataIpsTotal.zul" onClick="main.showObject(self.value)" />
-                                    </menupopup>                                   
-                                </menu>                               
+                                    </menupopup>
+                                </menu>
                                 <menuitem  label="Jumlah Mahasiswa Lulus dan Belum Lulus" value="/zul/jumlahmahasiswalulusdanbelumlulus/JumlahMahasiswaLulusDanBelumLulus.zul" onClick="main.showObject(self.value)" />
                                 <menu label = "Warning">
                                     <menupopup>
@@ -76,6 +76,7 @@
                                 <menuitem  label="Jumlah Pegawai Administratif" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Jumlah Status Izin atau Cuti Pegawai (Non Akademis)" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Distribusi Umur Dosen dan Pegawai" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Pendidikan Karyawan (Staf Non Akademis)" value="/zul/pendidikankaryawan/PendidikanKaryawan.zul" onClick="main.showObject(self.value)" />
                             </menupopup>
                         </menu>
                         <menu label="MA" height="30px">
