@@ -61,7 +61,12 @@
                                 <menuitem  label="Jumlah Dosen" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Riwayat Dosen" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Beban SKS Dosen" value="xx" onClick="main.showObject(self.value)" />
-                                <menuitem  label="Jumlah Penelitian" value="xx" onClick="main.showObject(self.value)" />
+                                <menu  label="Jumlah Penelitian">
+                                    <menupopup>
+                                        <menuitem  label="Jumlah Penelitian PerProdi" value="/zul/jumlahpenelitian/jumlahpenelitianperprodi/JumlahPenelitianPerProdi.zul" onClick="main.showObject(self.value)" />
+                                        <menuitem  label="Jumlah Dan Daftar Penelitian PerDosen" value="/zul/jumlahpenelitian/jumlahdandaftarpenelitianperdosen/JumlahDanDaftarPenelitianPerDosen.zul" onClick="main.showObject(self.value)" />
+                                    </menupopup>
+                                </menu>
                                 <menuitem  label="Rasio Dosen-Mahasiswa" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Statistik Pendidikan Dosen" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Daftar Dosen Yang Sedang Menempuh Studi" value="/zul/daftardosenyangsedangmenempuhstudi/DaftarDosenYangSedangMenempuhStudi.zul" onClick="main.showObject(self.value)" />
