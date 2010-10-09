@@ -4,7 +4,6 @@
  */
 package org.sadhar.sia.terpadu.pendidikankaryawan;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
@@ -119,18 +118,18 @@ public class PendidikanKaryawanWnd extends ClassApplicationModule {
 
     public void exportReport() throws Exception {
         try {
-            JRMapCollectionDataSource dataSource = new JRMapCollectionDataSource(new ArrayList());
+            JRMapCollectionDataSource dataSource = new JRMapCollectionDataSource(datas);
             if (cmbExportType.getSelectedItem().getValue().toString().equals("pdf")) {
                 Window pdfPreviewWnd = (Window) Executions.createComponents("/zul/pdfpreview/PdfPreview.zul", null, null);
                 Jasperreport pdfReport = (Jasperreport) pdfPreviewWnd.getFellow("report");
                 pdfReport.setType(cmbExportType.getSelectedItem().getValue().toString());
-                pdfReport.setSrc("reports/ipkdanips/rerataips/RerataIps.jasper");
+                pdfReport.setSrc("reports/pendidikankaryawan/PendidikanKaryawan.jasper");
                 pdfReport.setParameters(null);
                 pdfReport.setDatasource(dataSource);
                 pdfPreviewWnd.doModal();
             } else {
                 report.setType(cmbExportType.getSelectedItem().getValue().toString());
-                report.setSrc("reports/ipkdanips/rerataips/RerataIps.jasper");
+                report.setSrc("reports/pendidikankaryawan/PendidikanKaryawan.jasper");
                 report.setParameters(null);
                 report.setDatasource(dataSource);
             }
