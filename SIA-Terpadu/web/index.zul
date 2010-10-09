@@ -68,7 +68,7 @@
                                     </menupopup>
                                 </menu>
                                 <menuitem  label="Rasio Dosen-Mahasiswa" value="xx" onClick="main.showObject(self.value)" />
-                                <menuitem  label="Statistik Pendidikan Dosen" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Statistik Pendidikan Dosen" value="/zul/statistikpendidikandosen/StatistikPendidikanDosen.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Daftar Dosen Yang Sedang Menempuh Studi" value="/zul/daftardosenyangsedangmenempuhstudi/DaftarDosenYangSedangMenempuhStudi.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Pangkatan Dan Jabatan Akademik Dosen" value="/zul/pangkatandanjabatanakademikdosen/PangkatanDanJabatanAkademikDoseni.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="DP3 Dosen" value="xx" onClick="main.showObject(self.value)" />
