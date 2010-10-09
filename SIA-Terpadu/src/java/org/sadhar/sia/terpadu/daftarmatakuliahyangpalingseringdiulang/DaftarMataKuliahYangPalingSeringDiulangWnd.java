@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
+import org.joda.time.DateTime;
 import org.sadhar.sia.framework.ClassApplicationModule;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zkex.zul.Jasperreport;
@@ -15,8 +16,10 @@ import org.zkoss.zul.Button;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listhead;
 import org.zkoss.zul.Listheader;
+import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
@@ -33,7 +36,9 @@ public class DaftarMataKuliahYangPalingSeringDiulangWnd extends ClassApplication
     private Combobox cmbExportType;
     private Jasperreport report;
     private String kodeProdi;
+    private String tahunSemester;
     private Button btnExport;
+    private List<Map> datas = new ArrayList<Map>();
 
     public DaftarMataKuliahYangPalingSeringDiulangWnd() {
         daftarMataKuliahYangPalingSeringDiulangDAO = new DaftarMataKuliahYangPalingSeringDiulangDAOImpl();
@@ -71,11 +76,13 @@ public class DaftarMataKuliahYangPalingSeringDiulangWnd extends ClassApplication
         cmbboxSemester.appendChild(item);
         cmbboxSemester.setSelectedItem(item);
 
-        for (int i = 1; i <= 16; i++) {
-            Comboitem items = new Comboitem();
-            items.setValue(i);
-            items.setLabel("Semester " + i);
-            cmbboxSemester.appendChild(items);
+        for (int i = 1980; i <= new DateTime().getYear(); i++) {
+            for (int j = 1; j <= 2; j++) {
+                Comboitem items = new Comboitem();
+                items.setValue(String.valueOf(i) + String.valueOf(j));
+                items.setLabel(i + "-" + j);
+                cmbboxSemester.appendChild(items);
+            }
         }
         cmbboxSemester.setReadonly(true);
     }
@@ -120,9 +127,20 @@ public class DaftarMataKuliahYangPalingSeringDiulangWnd extends ClassApplication
         Listheader listheaderDosen = new Listheader("Dosen");
         listhead.appendChild(listheaderDosen);
 
+        int no = 1;
+        datas = daftarMataKuliahYangPalingSeringDiulangDAO.getDaftarMataKuliahYangPalingSeringDiulang(kodeProdi, tahunSemester);
+        for (Map data : datas) {
+            Listitem listitem = new Listitem();
+            listitem.appendChild(new Listcell(no + ""));
+            listitem.appendChild(new Listcell(data.get("mataKuliah").toString()));
+            listitem.appendChild(new Listcell(data.get("sks").toString()));
+            listitem.appendChild(new Listcell(data.get("semester").toString()));
+            listitem.appendChild(new Listcell(data.get("jumlah").toString()));
+            listitem.appendChild(new Listcell(data.get("dosen").toString()));
+            listboxData.appendChild(listitem);
+            no++;
+        }
         listboxData.appendChild(listhead);
-
-
     }
 
     public void cmbDataProdiOnSelect() {
@@ -132,38 +150,39 @@ public class DaftarMataKuliahYangPalingSeringDiulangWnd extends ClassApplication
 
     public void btnShowOnClick() throws InterruptedException {
         try {
-            loadDataToListbox();
-            this.componentEnable();
+            if (cmbboxSemester.getSelectedItem().getValue() != null || cmbboxProdi.getSelectedItem().getValue() != null) {
+                tahunSemester = (String) cmbboxSemester.getSelectedItem().getValue();
+                loadDataToListbox();
+                this.componentEnable();
+            } else {
+                this.componentDisable();
+                Messagebox.show("Pilih parameter", "Konfirmasi", Messagebox.OK,  Messagebox.INFORMATION);
+            }
         } catch (Exception e) {
             this.componentDisable();
-            Messagebox.show("Data tidak ditemukan", "Konfirmasi", Messagebox.OK, Messagebox.EXCLAMATION);
+            Messagebox.show("Database tidak ditemukan", "Konfirmasi", Messagebox.OK,  Messagebox.INFORMATION);
         }
     }
 
     public void exportReport() throws Exception {
         try {
-            JRMapCollectionDataSource dataSource = new JRMapCollectionDataSource(this.generateReport(kodeProdi));
+            JRMapCollectionDataSource dataSource = new JRMapCollectionDataSource(datas);
             if (cmbExportType.getSelectedItem().getValue().toString().equals("pdf")) {
                 Window pdfPreviewWnd = (Window) Executions.createComponents("/zul/pdfpreview/PdfPreview.zul", null, null);
                 Jasperreport pdfReport = (Jasperreport) pdfPreviewWnd.getFellow("report");
                 pdfReport.setType(cmbExportType.getSelectedItem().getValue().toString());
-                pdfReport.setSrc("reports/statistiklamastudi/StatistikLamaStudi.jasper");
+                pdfReport.setSrc("reports/daftarmatakuliahyangpalingseringdiulang/DaftarMataKuliahYangPalingSeringDiulang.jasper");
                 pdfReport.setParameters(null);
                 pdfReport.setDatasource(dataSource);
                 pdfPreviewWnd.doModal();
             } else {
                 report.setType(cmbExportType.getSelectedItem().getValue().toString());
-                report.setSrc("reports/statistiklamastudi/StatistikLamaStudi.jasper");
+                report.setSrc("reports/daftarmatakuliahyangpalingseringdiulang/DaftarMataKuliahYangPalingSeringDiulang.jasper");
                 report.setParameters(null);
                 report.setDatasource(dataSource);
             }
         } catch (Exception ex) {
             Messagebox.show(ex.getMessage());
         }
-    }
-
-    private List<Map> generateReport(String kodeProdi) {
-        List<Map> datas = new ArrayList<Map>();
-        return datas;
-    }
+    } 
 }
