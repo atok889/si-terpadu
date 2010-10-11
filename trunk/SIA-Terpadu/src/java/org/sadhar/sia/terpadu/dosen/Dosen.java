@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package org.sadhar.sia.dosen;
+package org.sadhar.sia.terpadu.dosen;
 
 /**
  *

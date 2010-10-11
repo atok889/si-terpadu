@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.sadhar.sia.common.ClassConnection;
-import org.sadhar.sia.dosen.Dosen;
+import org.sadhar.sia.terpadu.dosen.Dosen;
 import org.sadhar.sia.terpadu.prodi.ProgramStudi;
 
 /**

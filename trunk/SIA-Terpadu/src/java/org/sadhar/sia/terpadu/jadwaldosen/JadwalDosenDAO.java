@@ -6,7 +6,7 @@
 package org.sadhar.sia.terpadu.jadwaldosen;
 
 import java.util.List;
-import org.sadhar.sia.dosen.Dosen;
+import org.sadhar.sia.terpadu.dosen.Dosen;
 import org.sadhar.sia.terpadu.prodi.ProgramStudi;
 
 /**
