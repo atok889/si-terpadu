@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <window title="Jadwal Dosen" border="normal" width="800px"
+            closable="true"
+            id="jadwalDosen"
+            use="org.sadhar.sia.terpadu.jadwaldosen.JadwalDosenWnd">
+        <div style="padding:5px">
+            <groupbox>
+                <caption label="Parameter"></caption>
+                <div style="padding:3px">
+                    <grid>
+                        <rows>
+                            <row>
+                                <label value="Nama Dosen"></label>
+                                <hbox>                                    
+                                   <combobox autodrop="true" onChanging="jadwalDosen.loadDosenOnChanging(event.value)" id="cmbNamaDosen" width="300px"/>
+                                </hbox>
+                            </row>
+                            <row>
+                                <label value="Program Studi"></label>
+                                <hbox>
+                                   <combobox readonly="true" id="cmbProgdi" width="300px"/>
+                                </hbox>
+                            </row>
+                            <row>
+                                <label value="Tahun Ajaran"></label>
+                                <hbox>
+                                   <textbox id="txtTahun" width="100px" />
+                                   <label value="Ex.2010"/>
+                                </hbox>
+                            </row>
+                            <row>
+                                <label value="Semester"></label>
+                                <hbox>
+                                   <combobox readonly="true" id="cmbSemester" width="150px"/>
+                                </hbox>
+                            </row>
+                        </rows>
+                    </grid>
+                </div>
+                <div style="padding:3px">
+                    <button label="Tampilkan" height="25px" width="90px" onClick="jadwalDosen.viewReport()"></button>
+                </div>
+            </groupbox>
+            <groupbox>
+                <caption label="Keluaran"></caption>
+                <div style="padding:3px">
+                    <jasperreport id="report" visible="false"/>
+                    <listbox id="lstData" rows="10">
+                        <listhead>
+                            <listheader label="Jam" width="100px" align="center"/>
+                            <listheader label="Senin" width="100px" align="center"/>
+                            <listheader label="Selasa" width="100px" align="center"/>
+                            <listheader label="Rabu" width="100px" align="center"/>
+                            <listheader label="Kamis" width="100px" align="center"/>
+                            <listheader label="Jumat" width="100px" align="center"/>
+                            <listheader label="Sabtu" width="100px" align="center"/>
+                        </listhead>
+                    </listbox>
+                </div>
+            </groupbox>
+            <groupbox>
+                <caption label="Export"></caption>
+                <div style="padding:3px" align="right">
+                    <hbox>
+                        <label value="Format"></label>
+                        <combobox id="cmbExportType">
+                            <comboitem label="PDF" value="pdf"></comboitem>
+                            <comboitem label="XLS" value="xls"></comboitem>
+                            <comboitem label="DOC" value="rtf"></comboitem>
+                            <comboitem label="RTF" value="rtf"></comboitem>
+                        </combobox>
+                        <button id="btnExport" disabled="true" label="Export" height="25px" width="90px" onClick="jadwalDosen.exportReport()"></button>
+                    </hbox>
+                </div>
+        </groupbox></div>
+    </window>
+</zk>
