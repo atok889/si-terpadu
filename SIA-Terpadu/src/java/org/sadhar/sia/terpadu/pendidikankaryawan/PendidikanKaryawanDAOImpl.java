@@ -29,8 +29,15 @@ public class PendidikanKaryawanDAOImpl implements PendidikanKaryawanDAO {
                 " INNER JOIN kamus.jenjang jenjang ON jenjang.Kd_jenjang = ps.Jenjang  " +
                 " INNER JOIN personalia.unit_peg pu ON pu.npp = pg.NPP " +
                 " INNER JOIN kamus.unkerja ku ON ku.Kd_unit_kerja = pu.kd_unit " +
-                " WHERE pg.stat_peg = '1' OR pg.stat_peg = '2' AND ku.Kd_unit_kerja = " + unitKerja +
-                " ORDER BY ps.Jenjang";
+                " WHERE pg.stat_peg BETWEEN '1' AND '2' AND ku.Kd_unit_kerja = " + unitKerja + " AND pg.AdmEdu = '1'" +
+                "  AND ps.Jenjang = (SELECT MAX(ps.Jenjang) FROM personalia.pegawai pg  " +
+                " INNER JOIN personalia.pendidikan ps ON pg.NPP = ps.NPP" +
+                " INNER JOIN kamus.jenjang jenjang ON jenjang.Kd_jenjang = ps.Jenjang " +
+                " INNER JOIN personalia.unit_peg pu ON pu.npp = pg.NPP " +
+                " INNER JOIN kamus.unkerja ku ON ku.Kd_unit_kerja = pu.kd_unit " +
+                " WHERE pg.stat_peg BETWEEN '1' AND '2' AND ku.Kd_unit_kerja = " + unitKerja + " AND pg.AdmEdu = '1' " +
+                " ORDER BY ps.Jenjang DESC)";
+
         return ClassConnection.getJdbc().queryForList(sql);
 
     }
