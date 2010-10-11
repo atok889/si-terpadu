@@ -57,7 +57,7 @@
                         </menu>
                         <menu label="Dosen" height="30px">
                             <menupopup id="3">
-                                <menuitem  label="Jadwal Dosen" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Jadwal Dosen" value="/zul/jadwaldosen/JadwalDosen.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Jumlah Dosen" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Riwayat Dosen" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Beban SKS Dosen" value="xx" onClick="main.showObject(self.value)" />
