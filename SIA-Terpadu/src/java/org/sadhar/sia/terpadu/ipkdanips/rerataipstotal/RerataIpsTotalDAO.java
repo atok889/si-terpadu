@@ -14,4 +14,6 @@ import java.util.Map;
 public interface RerataIpsTotalDAO {
 
     public List<Map> getProdi();
+
+    public List<Map> getRerataIpsTotal(String kodeProdi);
 }
