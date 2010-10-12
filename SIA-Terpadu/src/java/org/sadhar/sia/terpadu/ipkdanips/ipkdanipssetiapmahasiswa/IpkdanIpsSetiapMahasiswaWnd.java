@@ -16,6 +16,11 @@ import org.zkoss.zul.Button;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listcell;
+import org.zkoss.zul.Listhead;
+import org.zkoss.zul.Listheader;
+import org.zkoss.zul.Listitem;
+import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
 
 /**
@@ -29,14 +34,19 @@ public class IpkdanIpsSetiapMahasiswaWnd extends ClassApplicationModule {
     private Combobox cmbboxProdi;
     private Combobox cmbboxAngkatan;
     private Combobox cmbboxSemester;
-    private Combobox cmbboxKolom1;
-    private Combobox cmbboxKolom2;
-    private Combobox cmbboxKolom3;
+    private Combobox cmbboxParam1;
+    private Combobox cmbboxParam2;
+    private Combobox cmbboxParam3;
+    private String param1;
+    private String param2;
+    private String param3;
     private String kodeProdi;
+    private String angkatan;
+    private String tahunSemester;
     private Combobox cmbExportType;
     private Jasperreport report;
     private Button btnExport;
-    private List<Map> dataReport = new ArrayList<Map>();
+    private List<Map> datas = new ArrayList<Map>();
 
     public IpkdanIpsSetiapMahasiswaWnd() {
         ipkDanIpsSetiapMahasiswaDAO = new IpkdanIpsSetiapMahasiswaDAOImpl();
@@ -47,9 +57,9 @@ public class IpkdanIpsSetiapMahasiswaWnd extends ClassApplicationModule {
         cmbboxProdi = (Combobox) this.getFellow("cmbboxProdi");
         cmbboxAngkatan = (Combobox) this.getFellow("cmbboxAngkatan");
         cmbboxSemester = (Combobox) this.getFellow("cmbboxSemester");
-        cmbboxKolom1 = (Combobox) this.getFellow("cmbboxKolom1");
-        cmbboxKolom2 = (Combobox) this.getFellow("cmbboxKolom2");
-        cmbboxKolom3 = (Combobox) this.getFellow("cmbboxKolom3");
+        cmbboxParam1 = (Combobox) this.getFellow("cmbboxParam1");
+        cmbboxParam2 = (Combobox) this.getFellow("cmbboxParam2");
+        cmbboxParam3 = (Combobox) this.getFellow("cmbboxParam3");
         cmbboxProdi.setReadonly(true);
         btnExport = (Button) getFellow("btnExport");
         cmbExportType = (Combobox) getFellow("cmbExportType");
@@ -57,6 +67,9 @@ public class IpkdanIpsSetiapMahasiswaWnd extends ClassApplicationModule {
         this.loadDataToComboboxProdi();
         this.loadDataToComboboxAngkatan();
         this.loadDataToComboboxSemester();
+        this.loadDataToComboParam1();
+        this.loadDataToComboParam2();
+        this.loadDataToComboParam3();
     }
 
     public void loadDataToComboboxProdi() {
@@ -95,15 +108,45 @@ public class IpkdanIpsSetiapMahasiswaWnd extends ClassApplicationModule {
         cmbboxSemester.appendChild(item);
         cmbboxSemester.setSelectedItem(item);
 
-        for (int i = 1; i <= 16; i++) {
+        for (int i = 1980; i <= new DateTime().getYear(); i++) {
             for (int j = 1; j <= 2; j++) {
                 Comboitem items = new Comboitem();
-                items.setValue(i);
-                items.setLabel("Semester " + i + "-" + j);
+                items.setValue(i + "-" + j);
+                items.setLabel(i + "-" + j);
                 cmbboxSemester.appendChild(items);
             }
         }
         cmbboxSemester.setReadonly(true);
+    }
+
+    private void loadDataToComboParam1() {
+        Comboitem item = new Comboitem("--Pilih Kolom--");
+        item.setValue(null);
+        cmbboxParam1.appendChild(item);
+        item = new Comboitem("Urut berdasarkan IPK");
+        item.setValue("ipk");
+        cmbboxParam1.appendChild(item);
+        cmbboxParam1.setSelectedIndex(0);
+    }
+
+    private void loadDataToComboParam2() {
+        Comboitem item = new Comboitem("--Pilih Kolom--");
+        item.setValue(null);
+        cmbboxParam2.appendChild(item);
+        item = new Comboitem("Urut berdasarkan IPS");
+        item.setValue("ips");
+        cmbboxParam2.appendChild(item);
+        cmbboxParam2.setSelectedIndex(0);
+    }
+
+    private void loadDataToComboParam3() {
+        Comboitem item = new Comboitem("--Pilih Kolom--");
+        item.setValue(null);
+        cmbboxParam3.appendChild(item);
+        item = new Comboitem("Urut berdasarkan nama");
+        item.setValue("nama");
+        cmbboxParam3.appendChild(item);
+        cmbboxParam3.setSelectedIndex(0);
     }
 
     private void componentDisable() {
@@ -117,38 +160,99 @@ public class IpkdanIpsSetiapMahasiswaWnd extends ClassApplicationModule {
     }
 
     private void loadDataToListbox() {
+        listboxMahasiswa.getChildren().clear();
+        Listhead listhead = new Listhead();
+
+        Listheader listheaderNo = new Listheader("No");
+        listheaderNo.setAlign("right");
+        listheaderNo.setWidth("40px");
+        listhead.appendChild(listheaderNo);
+
+        Listheader listheaderNama = new Listheader("Nama");
+        listheaderNama.setWidth("200px");
+        listhead.appendChild(listheaderNama);
+
+        Listheader listheaderProdi = new Listheader("Prodi");
+        listheaderProdi.setWidth("200px");
+        listhead.appendChild(listheaderProdi);
+
+        Listheader listheaderFakultas = new Listheader("Fakultas");
+        listheaderFakultas.setWidth("200px");
+        listhead.appendChild(listheaderFakultas);
+
+        Listheader listheaderAngkatan = new Listheader("Tahun Angkatan");
+        listheaderAngkatan.setWidth("120px");
+        listheaderAngkatan.setAlign("right");
+        listhead.appendChild(listheaderAngkatan);
+
+        Listheader listheaderIPK = new Listheader("IPK");
+        listheaderIPK.setAlign("right");
+        //listheaderIPK.setSort("auto");
+        listhead.appendChild(listheaderIPK);
+
+        Listheader listheaderIPS = new Listheader("IPS");
+        listheaderIPS.setAlign("right");
+        listhead.appendChild(listheaderIPS);
+
+        datas = ipkDanIpsSetiapMahasiswaDAO.getIpkDanIpsSetiapMahasiswa(kodeProdi, angkatan, tahunSemester.substring(0, 4),
+                tahunSemester.substring(5, 6), param1, param2, param3);
+
+        int no = 1;
+        for (Map row : datas) {
+            Listitem listitem = new Listitem();
+            listitem.appendChild(new Listcell(no + ""));
+            listitem.appendChild(new Listcell(row.get("nama_mhs").toString()));
+            listitem.appendChild(new Listcell(row.get("Nama_prg").toString()));
+            listitem.appendChild(new Listcell(row.get("fakultas").toString()));
+            listitem.appendChild(new Listcell(row.get("angkatan").toString()));
+            listitem.appendChild(new Listcell(row.get("ipk").toString().substring(0, 4)));
+            listitem.appendChild(new Listcell(row.get("ips").toString().substring(0, 4)));
+            listboxMahasiswa.appendChild(listitem);
+            no++;
+        }
+        listboxMahasiswa.appendChild(listhead);
     }
 
     public void cmbDataProdiOnSelect() {
         this.componentDisable();
-        kodeProdi = (String) cmbboxProdi.getSelectedItem().getValue();
     }
 
     public void btnShowOnClick() throws InterruptedException {
-        try {
-            this.componentEnable();
-            loadDataToListbox();
-        } catch (Exception e) {
-            this.componentDisable();
-            e.printStackTrace();
-            //Messagebox.show("Data tidak ditemukan", "Konfirmasi", Messagebox.OK, Messagebox.EXCLAMATION);
+        kodeProdi = (String) cmbboxProdi.getSelectedItem().getValue();
+        angkatan = String.valueOf(cmbboxAngkatan.getSelectedItem().getValue());
+        tahunSemester = String.valueOf(cmbboxSemester.getSelectedItem().getValue());
+        param1 = (String) cmbboxParam1.getSelectedItem().getValue();
+        param2 = (String) cmbboxParam2.getSelectedItem().getValue();
+        param3 = (String) cmbboxParam3.getSelectedItem().getValue();
+
+        if (kodeProdi != null && angkatan != null && tahunSemester != null) {
+            try {
+                this.componentEnable();
+                loadDataToListbox();
+            } catch (Exception e) {
+                this.componentDisable();
+                e.printStackTrace();
+                Messagebox.show("Data tidak ditemukan", "Informasi", Messagebox.OK, Messagebox.INFORMATION);
+            }
+        } else {
+            Messagebox.show("Parameter tidak lengkap", "Informasi", Messagebox.OK, Messagebox.INFORMATION);
         }
     }
 
     public void exportReport() throws Exception {
         try {
-            JRMapCollectionDataSource dataSource = new JRMapCollectionDataSource(dataReport);
+            JRMapCollectionDataSource dataSource = new JRMapCollectionDataSource(datas);
             if (cmbExportType.getSelectedItem().getValue().toString().equals("pdf")) {
                 Window pdfPreviewWnd = (Window) Executions.createComponents("/zul/pdfpreview/PdfPreview.zul", null, null);
                 Jasperreport pdfReport = (Jasperreport) pdfPreviewWnd.getFellow("report");
                 pdfReport.setType(cmbExportType.getSelectedItem().getValue().toString());
-                pdfReport.setSrc("reports/ipkdanips/rerataips/RerataIps.jasper");
+                pdfReport.setSrc("reports/ipkdanips/ipkdanipssetiapmahasiswa/IpkDanIpsSetiapMahasiswa.jasper");
                 pdfReport.setParameters(null);
                 pdfReport.setDatasource(dataSource);
                 pdfPreviewWnd.doModal();
             } else {
                 report.setType(cmbExportType.getSelectedItem().getValue().toString());
-                report.setSrc("reports/ipkdanips/rerataips/RerataIps.jasper");
+                report.setSrc("reports/ipkdanips/ipkdanipssetiapmahasiswa/IpkDanIpsSetiapMahasiswa.jasper");
                 report.setParameters(null);
                 report.setDatasource(dataSource);
             }
