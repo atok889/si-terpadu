@@ -13,7 +13,7 @@
                         <rows>
                             <row>
                                 <label value="Prodi/Fakultas"></label>
-                                <combobox readonly="true" id="cmbboxProdi" width="300px">                                
+                                <combobox readonly="true" id="cmbboxProdi" width="300px">
                                 </combobox>
                             </row>
                             <row>
@@ -30,12 +30,12 @@
                 </div>
             </groupbox>
             <groupbox>
-                <groupbox>
-                    <caption label="Keluaran"></caption>
+                <caption label="Keluaran"></caption>
+                <div style="padding:3px" align="right">
                     <div id="contentDiv" style="height:400px;overflow:auto;padding:10px:width900px">
                         <image id="chartImg"/>
                     </div>
-                </groupbox>
+                </div>
             </groupbox>
             <groupbox visible="false">
                 <caption label="Export"></caption>
