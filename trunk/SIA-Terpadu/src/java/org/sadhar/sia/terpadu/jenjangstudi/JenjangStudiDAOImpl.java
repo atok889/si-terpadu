@@ -59,4 +59,18 @@ public class JenjangStudiDAOImpl implements JenjangStudiDAO {
         }
         return list;
     }
+
+    public List<JenjangStudi> getUnfinised() throws Exception {
+        List<JenjangStudi> list = new ArrayList<JenjangStudi>();
+        String sql = "Select kj.Kd_jenjang as kode,kj.Nm_jenjang as nama,kj.jenjang_ing as namaEng from kamus.jenjang kj Where kj.Kd_jenjang = 4 or kj.Kd_jenjang = 5 or kj.Kd_jenjang = 6 or kj.Kd_jenjang = 7 or kj.Kd_jenjang = 8 or kj.Kd_jenjang = 9 or kj.Kd_jenjang = 11 or kj.Kd_jenjang = 12 or kj.Kd_jenjang = 13 or kj.Kd_jenjang = 14";
+        List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
+        for (Map m : rows) {
+            JenjangStudi o = new JenjangStudi();
+            o.setKode(m.get("kode").toString());
+            o.setNama(m.get("nama").toString());
+            o.setNamaEng(m.get("namaEng").toString());
+            list.add(o);
+        }
+        return list;
+    }
 }

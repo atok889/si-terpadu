@@ -17,4 +17,6 @@ public interface JenjangStudiDAO {
     public JenjangStudi get(String kode) throws Exception;
 
     public List<JenjangStudi> getsByName(String nama) throws Exception;
+
+    public List<JenjangStudi> getUnfinised() throws Exception;
 }
