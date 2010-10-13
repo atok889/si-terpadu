@@ -5,18 +5,15 @@
 package org.sadhar.sia.terpadu.dosensedangmenempuhstudi;
 
 import org.sadhar.sia.terpadu.jumlahmahasiswado.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.jfree.chart.JFreeChart;
-import org.jfree.data.category.CategoryDataset;
 import org.sadhar.sia.framework.ClassApplicationModule;
 import org.sadhar.sia.terpadu.jenjangstudi.JenjangStudi;
 import org.sadhar.sia.terpadu.jenjangstudi.JenjangStudiDAO;
 import org.sadhar.sia.terpadu.jenjangstudi.JenjangStudiDAOImpl;
-import org.sadhar.sia.terpadu.prodi.ProgramStudi;
 import org.sadhar.sia.terpadu.ukprogramstudi.UKProgramStudi;
 import org.sadhar.sia.terpadu.ukprogramstudi.UKProgramStudiDAO;
 import org.sadhar.sia.terpadu.ukprogramstudi.UKProgramStudiDAOImpl;
@@ -27,11 +24,8 @@ import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
-import org.zkoss.zul.Listhead;
-import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
-import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
 /**
@@ -48,7 +42,7 @@ public class DosenSedangMenempuhStudiWnd extends ClassApplicationModule {
     Button btnExport;
     Listbox listb;
     JFreeChart chart = null;
-    List<JumlahMahasiswaDO> datas;
+    List<DosenSedangMenempuhStudi> datas;
 
     public DosenSedangMenempuhStudiWnd() {
     }
@@ -113,9 +107,9 @@ public class DosenSedangMenempuhStudiWnd extends ClassApplicationModule {
         try {
             listb.getItems().clear();
             DosenSedangMenempuhStudiDAO dao = new DosenSedangMenempuhStudiDAOImpl();
-            List<DosenSedangMenempuhStudi> data = dao.getData((UKProgramStudi) cmbProgdi.getSelectedItem().getValue(), (JenjangStudi) cmbJenjangStudi.getSelectedItem().getValue());
+            datas = dao.getData((UKProgramStudi) cmbProgdi.getSelectedItem().getValue(), (JenjangStudi) cmbJenjangStudi.getSelectedItem().getValue());
 
-            for(DosenSedangMenempuhStudi o : data){
+            for (DosenSedangMenempuhStudi o : datas) {
                 Listitem li = new Listitem();
                 Listcell cell = new Listcell(o.getNama());
                 li.appendChild(cell);
@@ -129,56 +123,7 @@ public class DosenSedangMenempuhStudiWnd extends ClassApplicationModule {
 
             }
             btnExport.setDisabled(false);
-            /*
-            ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
-            BarRenderer.setDefaultBarPainter(new StandardBarPainter());
-            if (cmbProgdi.getSelectedItem().getValue() == null) {
-            chart = ChartFactory.createBarChart(
-            "Jumlah Mahasiswa Drop Out", // chart title
-            "Program Studi", // domain axis label
-            "Jumlah Mahasiswa", // range axis label
-            dataset, // data
-            PlotOrientation.HORIZONTAL,
-            true, // include legend
-            true,
-            false);
-            } else {
-            chart = ChartFactory.createBarChart(
-            "Jumlah Mahasiswa Drop Out", // chart title
-            "Program Studi", // domain axis label
-            "Jumlah Mahasiswa", // range axis label
-            dataset, // data
-            PlotOrientation.VERTICAL,
-            true, // include legend
-            true,
-            false);
-            }
-            chart.setBackgroundPaint(new Color(0xCC, 0xFF, 0xCC));
 
-            final CategoryPlot plot = chart.getCategoryPlot();
-            plot.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
-            plot.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
-
-            final CategoryItemRenderer renderer1 = plot.getRenderer();
-            renderer1.setSeriesPaint(0, Color.red);
-            renderer1.setSeriesPaint(1, Color.yellow);
-            renderer1.setSeriesPaint(2, Color.green);
-            renderer1.setSeriesPaint(3, Color.blue);
-            renderer1.setSeriesPaint(4, Color.cyan);
-            BarRenderer br = (BarRenderer) renderer1;
-            br.setShadowVisible(false);
-
-
-            BufferedImage bi = chart.createBufferedImage(800, 400, BufferedImage.TRANSLUCENT, null);
-            if (cmbProgdi.getSelectedItem().getValue() == null) {
-            bi = chart.createBufferedImage(800, 1500, BufferedImage.TRANSLUCENT, null);
-            }
-
-            byte[] bytes = EncoderUtil.encode(bi, ImageFormat.PNG, true);
-
-            AImage image = new AImage("Bar Chart", bytes);
-            chartImg.setContent(image);
-             */
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -193,7 +138,7 @@ public class DosenSedangMenempuhStudiWnd extends ClassApplicationModule {
                 Window pdfPreviewWnd = (Window) Executions.createComponents("/zul/pdfpreview/PdfPreview.zul", null, null);
                 Jasperreport pdfReport = (Jasperreport) pdfPreviewWnd.getFellow("report");
                 pdfReport.setType(cmbExportType.getSelectedItem().getValue().toString());
-                pdfReport.setSrc("reports/jumlahmahasiswado/JumlahMahasiswaDO.jasper");
+                pdfReport.setSrc("reports/dosensedangmenempuhstudi/dosensedangmenempuhstudi.jasper");
                 Map parameters = new HashMap();
 //                parameters.put("chart", chart.createBufferedImage(500, 300));
                 pdfReport.setParameters(parameters);
@@ -201,7 +146,7 @@ public class DosenSedangMenempuhStudiWnd extends ClassApplicationModule {
                 pdfPreviewWnd.doModal();
             } else {
                 report.setType(cmbExportType.getSelectedItem().getValue().toString());
-                report.setSrc("reports/jumlahmahasiswado/JumlahMahasiswaDO.jasper");
+                report.setSrc("reports/dosensedangmenempuhstudi/dosensedangmenempuhstudi.jasper");
                 Map parameters = new HashMap();
 //                parameters.put("chart", chart.createBufferedImage(500, 300, BufferedImage.TRANSLUCENT, null));
                 report.setParameters(parameters);
