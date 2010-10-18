@@ -17,7 +17,7 @@
                         <rows>
                             <row style="border:none">
                                 <label value="Fakultas/Program Studi"></label>
-                                <combobox id="cmbboxProdi" width="300px"/>
+                                <combobox id="cmbboxProdi" width="300px" readonly="true"/>
                             </row>
                             <row style="border:none">
                                 <label value=""></label>
