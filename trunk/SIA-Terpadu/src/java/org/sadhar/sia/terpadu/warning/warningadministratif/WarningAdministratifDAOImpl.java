@@ -55,8 +55,7 @@ public class WarningAdministratifDAOImpl implements WarningAdministratifDAO {
                                 " INNER JOIN db_" + kodeProdi + ".mhs" + kodeProdi + " mhs ON rg1.nomor_mhs = mhs.nomor_mhs " +
                                 " INNER JOIN kamus.prg_std prg ON prg.Kd_prg = '" + kodeProdi + "' " +
                                 " INNER JOIN kamus.fakultas fak ON fak.Kd_fakultas = prg.Kd_fak " +
-                                " WHERE rg1.st_mhs = '2'";
-                        System.out.println(sql);
+                                " WHERE rg1.st_mhs = '2'";                      
                         datas.addAll(ClassConnection.getJdbc().queryForList(sql));
                     }
                 }
@@ -74,8 +73,7 @@ public class WarningAdministratifDAOImpl implements WarningAdministratifDAO {
                             " INNER JOIN db_" + kodeProdi + ".mhs" + kodeProdi + " mhs ON rg1.nomor_mhs = mhs.nomor_mhs " +
                             " INNER JOIN kamus.prg_std prg ON prg.Kd_prg = '" + kodeProdi + "' " +
                             " INNER JOIN kamus.fakultas fak ON fak.Kd_fakultas = prg.Kd_fak " +
-                            " WHERE rg1.st_mhs = '2'";
-                    System.out.println(sql);
+                            " WHERE rg1.st_mhs = '2'";                   
                     datas.addAll(ClassConnection.getJdbc().queryForList(sql));
                 }
             }

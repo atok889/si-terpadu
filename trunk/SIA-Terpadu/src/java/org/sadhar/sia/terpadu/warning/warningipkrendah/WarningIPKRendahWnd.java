@@ -66,38 +66,7 @@ public class WarningIPKRendahWnd extends ClassApplicationModule {
     }
 
     private void loadDataToListbox() {
-        this.listboxMahasiswa.getChildren().clear();
-        Listhead listhead = new Listhead();
-
-        Listheader listheaderNo = new Listheader();
-        listheaderNo.setLabel("No");
-        listheaderNo.setWidth("50px");
-        listheaderNo.setAlign("right");
-        listhead.appendChild(listheaderNo);
-
-        Listheader listheaderNama = new Listheader();
-        listheaderNama.setLabel("Nama");
-        listhead.appendChild(listheaderNama);
-
-        Listheader listheaderProdi = new Listheader();
-        listheaderProdi.setLabel("Prodi");
-        listhead.appendChild(listheaderProdi);
-
-        Listheader listheaderFakultas = new Listheader();
-        listheaderFakultas.setLabel("Fakultas");
-        listhead.appendChild(listheaderFakultas);
-
-        Listheader listheaderAngkatan = new Listheader();
-        listheaderAngkatan.setLabel("Tahun Angkatan");
-        listheaderAngkatan.setWidth("120px");
-        listheaderAngkatan.setAlign("center");
-        listhead.appendChild(listheaderAngkatan);
-
-        Listheader listheaderIpk = new Listheader();
-        listheaderIpk.setLabel("IPK");
-        listheaderIpk.setWidth("80px");
-        listheaderIpk.setAlign("right");
-        listhead.appendChild(listheaderIpk);
+        this.listboxMahasiswa.getItems().clear();       
         List<Map> datas = null;
 
         if (kodeProdi == null) {
@@ -121,8 +90,7 @@ public class WarningIPKRendahWnd extends ClassApplicationModule {
                 no++;
             }
         }
-        this.btnExport.setDisabled(false);
-        this.listboxMahasiswa.appendChild(listhead);
+        this.btnExport.setDisabled(false);      
         this.listboxMahasiswa.setVisible(true);
     }
 
