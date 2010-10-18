@@ -73,34 +73,7 @@ public class WarningSemesterWnd extends ClassApplicationModule {
     }
 
     private void loadDataToListbox() {
-        this.listboxMahasiswa.getChildren().clear();
-        Listhead listhead = new Listhead();
-
-        Listheader listheaderNo = new Listheader();
-        listheaderNo.setLabel("No");
-        listheaderNo.setWidth("50px");
-        listheaderNo.setAlign("right");
-        listhead.appendChild(listheaderNo);
-
-        Listheader listheaderNama = new Listheader();
-        listheaderNama.setLabel("Nama");
-        listheaderNama.setWidth("300px");
-        listhead.appendChild(listheaderNama);
-
-        Listheader listheaderProdi = new Listheader();
-        listheaderProdi.setLabel("Prodi");
-        listhead.appendChild(listheaderProdi);
-
-        Listheader listheaderFakultas = new Listheader();
-        listheaderFakultas.setLabel("Fakultas");
-        listhead.appendChild(listheaderFakultas);
-
-        Listheader listheaderAngkatan = new Listheader();
-        listheaderAngkatan.setLabel("Tahun Angkatan");
-        listheaderAngkatan.setAlign("right");
-        listheaderAngkatan.setWidth("120px");
-        listhead.appendChild(listheaderAngkatan);
-
+        this.listboxMahasiswa.getItems().clear();
         if (kodeProdi == null) {
             datas = warningSemesterDAO.getWarningSemester(semester);
         } else {
@@ -125,8 +98,7 @@ public class WarningSemesterWnd extends ClassApplicationModule {
             listitem.appendChild(new Listcell(item.get("angkatan").toString()));
             listboxMahasiswa.appendChild(listitem);
             no++;
-        }
-        listboxMahasiswa.appendChild(listhead);
+        }        
         listboxMahasiswa.setVisible(true);
     }
 

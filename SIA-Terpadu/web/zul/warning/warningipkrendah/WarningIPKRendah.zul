@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title="Warning IPK Rendah" border="normal" width="950px"
+    <window title="Warning IPK Rendah" border="normal" width="900px"
             closable="true" sizable="true"
             id="warningIPKRendahWnd"
             use="org.sadhar.sia.terpadu.warning.warningipkrendah.WarningIPKRendahWnd">
@@ -30,7 +30,15 @@
             </groupbox>
             <groupbox>
                 <caption label="Keluaran"></caption>
-                <listbox id="listboxMahasiswa" width="900px" fixedLayout="true" visible = "false" rows="20">
+                <listbox id="listboxMahasiswa" mold="paging" pageSize="50" width="850px" fixedLayout="true" visible = "false" rows="15">
+                    <listhead>
+                        <listheader label="No" align="right" width="50px"></listheader>
+                        <listheader label="Nama"></listheader>
+                        <listheader label="Program Studi"></listheader>
+                        <listheader label="Fakultas"></listheader>
+                        <listheader label="Angkatan" align="right" width="100px"></listheader>
+                        <listheader label="IPK" align="right" width="80px"></listheader>
+                    </listhead>
                 </listbox>
             </groupbox>
             <groupbox visible="true">

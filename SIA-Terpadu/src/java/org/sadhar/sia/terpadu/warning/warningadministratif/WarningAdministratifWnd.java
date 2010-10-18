@@ -78,34 +78,7 @@ public class WarningAdministratifWnd extends ClassApplicationModule {
     }
 
     private void loadDataToListbox() {
-        this.listboxMahasiswa.getChildren().clear();
-        Listhead listhead = new Listhead();
-
-        Listheader listheaderNo = new Listheader();
-        listheaderNo.setLabel("No");
-        listheaderNo.setWidth("50px");
-        listheaderNo.setAlign("right");
-        listhead.appendChild(listheaderNo);
-
-        Listheader listheaderNama = new Listheader();
-        listheaderNama.setLabel("Nama");
-        listhead.appendChild(listheaderNama);
-
-        Listheader listheaderProdi = new Listheader();
-        listheaderProdi.setLabel("Prodi");
-        listhead.appendChild(listheaderProdi);
-
-        Listheader listheaderFakultas = new Listheader();
-        listheaderFakultas.setLabel("Fakultas");
-        listhead.appendChild(listheaderFakultas);
-
-        Listheader listheaderAngkatan = new Listheader();
-        listheaderAngkatan.setLabel("Tahun Angkatan");
-        listheaderAngkatan.setWidth("80px");
-        listheaderAngkatan.setAlign("right");
-        listhead.appendChild(listheaderAngkatan);
-
-
+        this.listboxMahasiswa.getItems().clear();
         datas = warningAdministratifDAO.getWarningAdministratif(kodeProdi);
 
         int no = 1;
@@ -119,8 +92,6 @@ public class WarningAdministratifWnd extends ClassApplicationModule {
             listboxMahasiswa.appendChild(listitem);
             no++;
         }
-
-        listboxMahasiswa.appendChild(listhead);
     }
 
     public void cmbDataProdiOnSelect() {
