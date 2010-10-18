@@ -30,7 +30,13 @@
             </groupbox>
             <groupbox>
                 <caption label="Detail"></caption>
-                <listbox id="listboxDetailMahasiswa" width="900px" fixedLayout="true" visible = "false" rows ="20">
+                <listbox id="listboxDetailMahasiswa" mold="paging" pageSize="50" width="900px" fixedLayout="true" visible = "false" rows ="20"  >
+                    <listhead>
+                        <listheader label="No" align="right" width="60px"></listheader>
+                        <listheader label="Nama"></listheader>
+                        <listheader label="Angkatan" align="right" width="100px"></listheader>
+                        <listheader label="Program Studi"></listheader>
+                    </listhead>
                 </listbox>
             </groupbox>
             <groupbox visible="true">

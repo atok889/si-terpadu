@@ -45,7 +45,7 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
     private String tahunAkademik = "2000";
     private String semester = "2";
     List<Map> datas = new ArrayList<Map>();
-    Integer tahunMulai = 1980;
+    Integer tahunMulai = 1998;
 
     public StatistikMahasiswaWnd() {
         statistikMahasiswaDAO = new StatistikMahasiswaDAOImpl();
@@ -89,7 +89,7 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
 
     private void componentEnable() {
         listboxMahasiswa.setVisible(true);
-        listboxDetailMahasiswa.getChildren().clear();
+        listboxDetailMahasiswa.getItems().clear();
         listboxDetailMahasiswa.setVisible(true);
         btnExport.setDisabled(false);
     }
@@ -164,16 +164,7 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
                         }
 
                         int no = 1;
-                        listboxDetailMahasiswa.getChildren().clear();
-                        Listhead listhead = new Listhead();
-                        Listheader listheaderNo = new Listheader("NO");
-                        listheaderNo.setAlign("right");
-                        listheaderNo.setWidth("50px");
-                        listhead.appendChild(listheaderNo);
-                        listhead.appendChild(new Listheader("Nama", "", "400px"));
-                        listhead.appendChild(new Listheader("Angkatan", "", "150px"));
-                        listhead.appendChild(new Listheader("Program Studi", "", "300px"));
-                        listboxDetailMahasiswa.appendChild(listhead);
+                        listboxDetailMahasiswa.getItems().clear();
                         for (Map m : detail) {
                             Listitem item = new Listitem();
                             item.appendChild(new Listcell(no + ""));
@@ -215,16 +206,7 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
                     }
 
                     int no = 1;
-                    listboxDetailMahasiswa.getChildren().clear();
-                    Listhead listhead = new Listhead();
-                    Listheader listheaderNo = new Listheader("NO");
-                    listheaderNo.setAlign("right");
-                    listheaderNo.setWidth("50px");
-                    listhead.appendChild(listheaderNo);
-                    listhead.appendChild(new Listheader("Nama", "", "400px"));
-                    listhead.appendChild(new Listheader("Angkatan", "", "150px"));
-                    listhead.appendChild(new Listheader("Program Studi", "", "300px"));
-                    listboxDetailMahasiswa.appendChild(listhead);
+                    listboxDetailMahasiswa.getItems().clear();
                     for (Map m : detail) {
                         Listitem item = new Listitem();
                         item.appendChild(new Listcell(no + ""));
@@ -252,18 +234,8 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
                 List<Map> detail = new ArrayList<Map>();
 
                 detail = statistikMahasiswaDAO.getDetailAllMahasiswa(kodeProdi, String.valueOf(tahunMulai));
-
                 int no = 1;
-                listboxDetailMahasiswa.getChildren().clear();
-                Listhead listhead = new Listhead();
-                Listheader listheaderNo = new Listheader("NO");
-                listheaderNo.setAlign("right");
-                listheaderNo.setWidth("50px");
-                listhead.appendChild(listheaderNo);
-                listhead.appendChild(new Listheader("Nama", "", "400px"));
-                listhead.appendChild(new Listheader("Angkatan", "", "150px"));
-                listhead.appendChild(new Listheader("Program Studi", "", "300px"));
-                listboxDetailMahasiswa.appendChild(listhead);
+                listboxDetailMahasiswa.getItems().clear();
                 for (Map m : detail) {
                     Listitem item = new Listitem();
                     item.appendChild(new Listcell(no + ""));
@@ -290,20 +262,9 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
 
                 public void onEvent(Event evt) throws Exception {
                     List<Map> detail = new ArrayList<Map>();
-
                     detail = statistikMahasiswaDAO.getDetailMahasiswa(kodeProdi, evt.getTarget().getId());
-
                     int no = 1;
-                    listboxDetailMahasiswa.getChildren().clear();
-                    Listhead listhead = new Listhead();
-                    Listheader listheaderNo = new Listheader("NO");
-                    listheaderNo.setAlign("right");
-                    listheaderNo.setWidth("50px");
-                    listhead.appendChild(listheaderNo);
-                    listhead.appendChild(new Listheader("Nama", "", "400px"));
-                    listhead.appendChild(new Listheader("Angkatan", "", "150px"));
-                    listhead.appendChild(new Listheader("Program Studi", "", "300px"));
-                    listboxDetailMahasiswa.appendChild(listhead);
+                    listboxDetailMahasiswa.getItems().clear();
                     for (Map m : detail) {
                         Listitem item = new Listitem();
                         item.appendChild(new Listcell(no + ""));
@@ -313,7 +274,6 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
                         listboxDetailMahasiswa.appendChild(item);
                         no++;
                     }
-
                 }
             });
         }
