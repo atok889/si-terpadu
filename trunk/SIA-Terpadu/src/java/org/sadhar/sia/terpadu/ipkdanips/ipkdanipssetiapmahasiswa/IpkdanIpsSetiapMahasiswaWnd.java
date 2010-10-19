@@ -93,7 +93,7 @@ public class IpkdanIpsSetiapMahasiswaWnd extends ClassApplicationModule {
         cmbboxAngkatan.appendChild(item);
         cmbboxAngkatan.setSelectedItem(item);
 
-        for (int i = 1980; i <= new DateTime().getYear(); i++) {
+        for (int i = 1998; i <= new DateTime().getYear(); i++) {
             Comboitem items = new Comboitem();
             items.setValue(i);
             items.setLabel(i + "");
@@ -108,7 +108,7 @@ public class IpkdanIpsSetiapMahasiswaWnd extends ClassApplicationModule {
         cmbboxSemester.appendChild(item);
         cmbboxSemester.setSelectedItem(item);
 
-        for (int i = 1980; i <= new DateTime().getYear(); i++) {
+        for (int i = 1998; i <= new DateTime().getYear(); i++) {
             for (int j = 1; j <= 2; j++) {
                 Comboitem items = new Comboitem();
                 items.setValue(i + "-" + j);
@@ -160,39 +160,7 @@ public class IpkdanIpsSetiapMahasiswaWnd extends ClassApplicationModule {
     }
 
     private void loadDataToListbox() {
-        listboxMahasiswa.getChildren().clear();
-        Listhead listhead = new Listhead();
-
-        Listheader listheaderNo = new Listheader("No");
-        listheaderNo.setAlign("right");
-        listheaderNo.setWidth("40px");
-        listhead.appendChild(listheaderNo);
-
-        Listheader listheaderNama = new Listheader("Nama");
-        listheaderNama.setWidth("200px");
-        listhead.appendChild(listheaderNama);
-
-        Listheader listheaderProdi = new Listheader("Prodi");
-        listheaderProdi.setWidth("200px");
-        listhead.appendChild(listheaderProdi);
-
-        Listheader listheaderFakultas = new Listheader("Fakultas");
-        listheaderFakultas.setWidth("200px");
-        listhead.appendChild(listheaderFakultas);
-
-        Listheader listheaderAngkatan = new Listheader("Tahun Angkatan");
-        listheaderAngkatan.setWidth("120px");
-        listheaderAngkatan.setAlign("right");
-        listhead.appendChild(listheaderAngkatan);
-
-        Listheader listheaderIPK = new Listheader("IPK");
-        listheaderIPK.setAlign("right");
-        //listheaderIPK.setSort("auto");
-        listhead.appendChild(listheaderIPK);
-
-        Listheader listheaderIPS = new Listheader("IPS");
-        listheaderIPS.setAlign("right");
-        listhead.appendChild(listheaderIPS);
+        listboxMahasiswa.getItems().clear();
 
         datas = ipkDanIpsSetiapMahasiswaDAO.getIpkDanIpsSetiapMahasiswa(kodeProdi, angkatan, tahunSemester.substring(0, 4),
                 tahunSemester.substring(5, 6), param1, param2, param3);
@@ -209,8 +177,7 @@ public class IpkdanIpsSetiapMahasiswaWnd extends ClassApplicationModule {
             listitem.appendChild(new Listcell(row.get("ips").toString().substring(0, 4)));
             listboxMahasiswa.appendChild(listitem);
             no++;
-        }
-        listboxMahasiswa.appendChild(listhead);
+        }      
     }
 
     public void cmbDataProdiOnSelect() {
