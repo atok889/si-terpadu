@@ -31,12 +31,14 @@ public class StatistikPendidikanDAOImpl implements StatistikPendidikanDosenDAO {
         for (Map prodi : this.getProdi()) {
             String kodeProdi = prodi.get("Kd_prg").toString();
             if (isTabelDosendExist(kodeProdi)) {
-                String sql = "SELECT dosen.npp,dosen.nama_peg, jenjang.Nm_jenjang, prg.Nama_prg FROM db_" + kodeProdi + ".dosen" + kodeProdi + " dosen " +
+                String sql = "SELECT dosen.npp,dosen.nama_peg, MAX(jenjang.Nm_jenjang) as Nm_jenjang ,prg.Nama_prg FROM db_" + kodeProdi + ".dosen" + kodeProdi + " dosen " +
                         " INNER JOIN personalia.pendidikan ps ON dosen.npp = ps.kdPegawai " +
                         " INNER JOIN kamus.jenjang jenjang ON jenjang.Kd_jenjang = ps.Jenjang" +
-                        " INNER JOIN kamus.prg_std prg ON prg.Kd_prg = '" + kodeProdi + "'";
+                        " INNER JOIN kamus.prg_std prg ON prg.Kd_prg = '" + kodeProdi + "' " +
+                        " GROUP BY dosen.nama_peg";
 
                 results.addAll(ClassConnection.getJdbc().queryForList(sql));
+                System.out.println(sql);
             }
         }
         return results;
