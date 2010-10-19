@@ -89,7 +89,7 @@ public class RasioDosenMahasiswaWnd extends ClassApplicationModule {
         cmbboxSemester.appendChild(item);
         cmbboxSemester.setSelectedItem(item);
 
-        for (int i = 1980; i <= new DateTime().getYear(); i++) {
+        for (int i = 1998; i <= new DateTime().getYear(); i++) {
             for (int j = 1; j <= 2; j++) {
                 Comboitem items = new Comboitem();
                 items.setValue(String.valueOf(i) + String.valueOf(j));
@@ -128,6 +128,7 @@ public class RasioDosenMahasiswaWnd extends ClassApplicationModule {
         final CategoryItemRenderer renderer = plot.getRenderer();
         renderer.setSeriesPaint(0, Color.red);
         BarRenderer br = (BarRenderer) renderer;
+        br.setMaximumBarWidth(.05);
         br.setShadowVisible(false);
 
         br.setShadowVisible(false);
