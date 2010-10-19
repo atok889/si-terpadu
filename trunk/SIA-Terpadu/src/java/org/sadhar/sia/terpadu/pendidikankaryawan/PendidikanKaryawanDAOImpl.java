@@ -37,7 +37,7 @@ public class PendidikanKaryawanDAOImpl implements PendidikanKaryawanDAO {
                 " INNER JOIN kamus.unkerja ku ON ku.Kd_unit_kerja = pu.kd_unit " +
                 " WHERE pg.stat_peg BETWEEN '1' AND '2' AND ku.Kd_unit_kerja = " + unitKerja + " AND pg.AdmEdu = '1' " +
                 " ORDER BY ps.Jenjang DESC)";
-
+        
         return ClassConnection.getJdbc().queryForList(sql);
 
     }

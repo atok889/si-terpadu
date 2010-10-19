@@ -15,7 +15,7 @@
                                 <label value="Fakultas/Program Studi"></label>
                                 <combobox readonly="true" id="cmbboxProdi" width="300px"  onSelect="rerataIpsWnd.cmbDataProdiOnSelect()"/>
                             </row>
-                            <row style="border:none">
+                            <row>
                                 <label value="Tahun Angkatan"></label>
                                 <intbox id="intboxTahunAngkatan" width="300px"/>
                             </row>
@@ -29,7 +29,7 @@
             </groupbox>
             <groupbox>
                 <caption label="Keluaran"></caption>
-                <listbox id="listboxMahasiswa" width="900px" fixedLayout="true" visible = "true">             
+                <listbox id="listboxMahasiswa" width="900px" fixedLayout="true" visible = "false" rows="10">
                 </listbox>
             </groupbox>
             <groupbox visible="true">

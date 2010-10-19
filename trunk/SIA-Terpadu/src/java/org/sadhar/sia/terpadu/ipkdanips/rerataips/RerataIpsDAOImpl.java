@@ -51,12 +51,12 @@ public class RerataIpsDAOImpl implements RerataIpsDAO {
         } else if (kodeProdi != null && tahunAngkatan == null) {
             //Jika prodi/fakultas ditentukan, maka dihitung rerata IPS untuk tiap prodi atau
             //fakultas yang dipilih, dengan tiap tahun angkatan dipisah dalam baris data yang berbeda
-            for (int i = currentYear - 5; i <= currentYear; i++) {
+            for (int i = 1998; i <= currentYear; i++) {
                 if (isTabelKTExist(kodeProdi, String.valueOf(i))) {
                     String sql = " SELECT  IF(LEFT(nomor_mhs, 1)='9', CONCAT('19', LEFT(nomor_mhs, 2))," +
                             " IF(LEFT(nomor_mhs, 1)='8', CONCAT('19', LEFT(nomor_mhs,2)), CONCAT('20', LEFT( nomor_mhs, 2)))) AS angkatan," +
                             " SUBSTRING(ambil,1,4) as tahun, SUBSTRING(ambil,5,1) AS semester, " +
-                            " SUM(sks * angka)/SUM(sks) as ips,fak.Nama_fak FROM db_" + kodeProdi + ".kt" + kodeProdi + String.valueOf(i) + " as kt " +
+                            " SUM(sks * angka)/SUM(sks) as ips,prg.Nama_prg FROM db_" + kodeProdi + ".kt" + kodeProdi + String.valueOf(i) + " as kt " +
                             " INNER JOIN kamus.nilai nilai ON (nilai.huruf = kt.Nilai)" +
                             " INNER JOIN kamus.prg_std prg ON (prg.Kd_prg = '" + kodeProdi + "') " +
                             " INNER JOIN kamus.fakultas fak ON (prg.Kd_fak = fak.Kd_fakultas)" +
@@ -65,13 +65,13 @@ public class RerataIpsDAOImpl implements RerataIpsDAO {
 
                     results.addAll(ClassConnection.getJdbc().queryForList(sql));
                 } else {
-                    String namaFakultas = this.getNamaFakultas(kodeProdi).get("Nama_fak").toString();
+                    String namaFakultas = this.getNamaFakultas(kodeProdi).get("Nama_prg").toString();
                     Map mapSemester1 = new HashMap();
                     mapSemester1.put("tahun", i);
                     mapSemester1.put("semester", 1);
                     mapSemester1.put("angkatan", i);
                     mapSemester1.put("ips", "0.0000");
-                    mapSemester1.put("Nama_fak", namaFakultas);
+                    mapSemester1.put("Nama_prg", namaFakultas);
                     results.add(mapSemester1);
 
                     Map mapSemester2 = new HashMap();
@@ -79,7 +79,7 @@ public class RerataIpsDAOImpl implements RerataIpsDAO {
                     mapSemester2.put("semester", 2);
                     mapSemester2.put("angkatan", i);
                     mapSemester2.put("ips", "0.0000");
-                    mapSemester2.put("Nama_fak", namaFakultas);
+                    mapSemester2.put("Nama_prg", namaFakultas);
                     results.add(mapSemester2);
                 }
 
@@ -96,7 +96,7 @@ public class RerataIpsDAOImpl implements RerataIpsDAO {
                     String sql = "SELECT  IF(LEFT(nomor_mhs, 1)='9', CONCAT('19', LEFT(nomor_mhs, 2))," +
                             " IF(LEFT(nomor_mhs, 1)='8', CONCAT('19', LEFT(nomor_mhs,2)), CONCAT('20', LEFT( nomor_mhs, 2)))) AS angkatan," +
                             " SUBSTRING(ambil,1,4) as tahun, SUBSTRING(ambil,5,1) AS semester, " +
-                            " SUM(sks * angka)/SUM(sks) as ips,fak.Nama_fak,prg.Kd_prg FROM db_" + kodeProdi + ".kt" + kodeProdi + tahunAngkatan + " as kt " +
+                            " SUM(sks * angka)/SUM(sks) as ips,prg.Nama_prg FROM db_" + kodeProdi + ".kt" + kodeProdi + tahunAngkatan + " as kt " +
                             " INNER JOIN kamus.nilai nilai ON (nilai.huruf = kt.Nilai)" +
                             " INNER JOIN kamus.prg_std prg ON (prg.Kd_prg = '" + kodeProdi + "') " +
                             " INNER JOIN kamus.fakultas fak ON (prg.Kd_fak = fak.Kd_fakultas)" +
@@ -123,9 +123,8 @@ public class RerataIpsDAOImpl implements RerataIpsDAO {
     }
 
     public Map getNamaFakultas(String kodeProdi) {
-        String sql = "SELECT fak.Nama_fak FROM kamus.prg_std prg " +
-                " INNER JOIN kamus.fakultas fak ON fak.Kd_fakultas = prg.Kd_fak " +
-                " where prg.Kd_prg = '" + kodeProdi + "';";
+        String sql = "SELECT prg.Nama_prg FROM kamus.prg_std prg " +
+                "  where prg.Kd_prg = '" + kodeProdi + "';";
         return ClassConnection.getJdbc().queryForMap(sql);
     }
 
