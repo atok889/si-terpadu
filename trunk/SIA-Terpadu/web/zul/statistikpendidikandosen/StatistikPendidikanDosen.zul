@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title="Statistik Lama Studi" border="normal" width="950px"
+    <window title="Statistik Pendidikan Dosen" border="normal" width="950px"
             closable="true" sizable="true"
             id="statistikPendidikanDosenWnd"
             use="org.sadhar.sia.terpadu.statistikpendidikandosen.StatistikPendidikanDosenWnd">
