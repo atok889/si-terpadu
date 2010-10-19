@@ -86,7 +86,7 @@
 		</pageFooter>
 		<summary>
 			<band height="132"  isSplitAllowed="true" >
-				<crosstab isRepeatRowHeaders="false" >
+				<crosstab >
 					<reportElement
 						x="0"
 						y="0"
@@ -110,7 +110,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font/>
 					</textElement>
-				<text><![CDATA[Fakultas
+				<text><![CDATA[Prodi
 ]]></text>
 				</staticText>
 				<staticText>
@@ -140,7 +140,8 @@
 						y="0"
 						width="131"
 						height="30"
-						key="textField"/>
+						key="textField"
+						isPrintWhenDetailOverflows="true"/>
 					<box></box>
 					<textElement textAlignment="Left" verticalAlignment="Middle">
 						<font/>
@@ -218,14 +219,18 @@
 					<reportElement
 						x="0"
 						y="0"
-						width="42"
+						width="41"
 						height="30"
 						key="textField"/>
 					<box></box>
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$V{ips_Nothing}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[
+
+
+($V{ips_Nothing} != null) ? $V{ips_Nothing} : new String("0.00")
+]]></textFieldExpression>
 				</textField>
 						</cellContents>
 					</crosstabCell>
