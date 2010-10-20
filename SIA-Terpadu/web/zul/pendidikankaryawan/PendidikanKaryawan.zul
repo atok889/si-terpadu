@@ -13,7 +13,7 @@
                         <rows>
                             <row>
                                 <label value="Unit Kerja"></label>
-                                <combobox readonly="true" id="cmbboxUnitKerja" width="300px"  onSelect="pendidikanKaryawanWnd.cmbUnitKerjaOnSelect()"/>
+                                <combobox readonly="true" id="cmbboxUnitKerja" width="500px"  onSelect="pendidikanKaryawanWnd.cmbUnitKerjaOnSelect()"/>
                             </row>
                             <row>
                                 <label value=""></label>
