@@ -12,6 +12,7 @@ import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.joda.time.DateTime;
+import org.sadhar.errhandler.ClassAntiNull;
 import org.sadhar.sia.framework.ClassApplicationModule;
 import org.zkoss.zhtml.Messagebox;
 import org.zkoss.zk.ui.Executions;
@@ -125,6 +126,7 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
 
         for (final Object column : dataset.getColumnKeys()) {
             int totalPerProdi = 0;
+            int totalPerProdiSpecial = 1;
             int index = 0;
             Listitem listitem = new Listitem();
             listitem.appendChild(new Listcell(column.toString()));
@@ -168,9 +170,9 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
                         for (Map m : detail) {
                             Listitem item = new Listitem();
                             item.appendChild(new Listcell(no + ""));
-                            item.appendChild(new Listcell(m.get("nama_mhs").toString()));
-                            item.appendChild(new Listcell(m.get("angkatan").toString()));
-                            item.appendChild(new Listcell(m.get("Nama_prg").toString()));
+                            item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("nama_mhs").toString())));
+                            item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("angkatan").toString())));
+                            item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("Nama_prg").toString())));
                             listboxDetailMahasiswa.appendChild(item);
                             no++;
                         }
@@ -181,7 +183,12 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
                 totalPerProdi += number.intValue();
                 totalPerAngkatan[index] += number.intValue();
                 totalKeseluruhan += number.intValue();
-                anchorDetailTotal.setLabel(totalPerProdi + "");
+                //!!!
+                if (kodeProdi == null && column.toString().equalsIgnoreCase("Mahasiswa Lulus")) {
+                    anchorDetailTotal.setLabel(totalPerProdiSpecial + totalPerProdi + "");
+                } else {
+                    anchorDetailTotal.setLabel(totalPerProdi + "");
+                }
                 index++;
                 listboxMahasiswa.appendChild(listitem);
 
@@ -210,9 +217,15 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
                     for (Map m : detail) {
                         Listitem item = new Listitem();
                         item.appendChild(new Listcell(no + ""));
-                        item.appendChild(new Listcell(m.get("nama_mhs").toString()));
-                        item.appendChild(new Listcell(m.get("angkatan").toString()));
-                        item.appendChild(new Listcell(m.get("Nama_prg").toString()));
+                        String namaMahasiswa = null;
+                        if (m.get("nama_mhs") == null) {
+                            namaMahasiswa = "";
+                        } else {
+                            namaMahasiswa = m.get("nama_mhs").toString();
+                        }
+                        item.appendChild(new Listcell(namaMahasiswa));
+                        item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("angkatan").toString())));
+                        item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("Nama_prg").toString())));
                         listboxDetailMahasiswa.appendChild(item);
                         no++;
                     }
@@ -224,6 +237,10 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
         //Anchor for total data
         Toolbarbutton anchorDetailTotalAll = new Toolbarbutton();
         Listcell listcellTotalKeseluruhan = new Listcell();
+        //!!!
+        if (kodeProdi == null) {
+            totalKeseluruhan = totalKeseluruhan + 1;
+        }
         anchorDetailTotalAll.setLabel(totalKeseluruhan + "");
         listcellTotalKeseluruhan.appendChild(anchorDetailTotalAll);
         listitemTotal.appendChild(listcellTotalKeseluruhan);
@@ -239,9 +256,15 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
                 for (Map m : detail) {
                     Listitem item = new Listitem();
                     item.appendChild(new Listcell(no + ""));
-                    item.appendChild(new Listcell(m.get("nama_mhs").toString()));
-                    item.appendChild(new Listcell(m.get("angkatan").toString()));
-                    item.appendChild(new Listcell(m.get("Nama_prg").toString()));
+                    String namaMahasiswa = null;
+                    if (m.get("nama_mhs") == null) {
+                        namaMahasiswa = "";
+                    } else {
+                        namaMahasiswa = m.get("nama_mhs").toString();
+                    }
+                    item.appendChild(new Listcell(namaMahasiswa));
+                    item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("angkatan").toString())));
+                    item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("Nama_prg").toString())));
                     listboxDetailMahasiswa.appendChild(item);
                     no++;
                 }
@@ -268,9 +291,9 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
                     for (Map m : detail) {
                         Listitem item = new Listitem();
                         item.appendChild(new Listcell(no + ""));
-                        item.appendChild(new Listcell(m.get("nama_mhs").toString()));
-                        item.appendChild(new Listcell(m.get("angkatan").toString()));
-                        item.appendChild(new Listcell(m.get("Nama_prg").toString()));
+                        item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("nama_mhs").toString())));
+                        item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("angkatan").toString())));
+                        item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("Nama_prg").toString())));
                         listboxDetailMahasiswa.appendChild(item);
                         no++;
                     }
