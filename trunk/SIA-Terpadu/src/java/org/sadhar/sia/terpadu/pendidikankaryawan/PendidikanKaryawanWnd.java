@@ -111,8 +111,12 @@ public class PendidikanKaryawanWnd extends ClassApplicationModule {
         if (unitKerja == null) {
             Messagebox.show("Pilih unit kerja !", "Error", Messagebox.OK, Messagebox.INFORMATION);
         } else {
-            this.loadDataToListbox();
-            this.componentEnable();
+            try {
+                this.loadDataToListbox();
+                this.componentEnable();
+            } catch (Exception e) {
+                Messagebox.show("Data tidak ditemukan", "Informasi", Messagebox.OK, Messagebox.INFORMATION);
+            }
         }
     }
 
