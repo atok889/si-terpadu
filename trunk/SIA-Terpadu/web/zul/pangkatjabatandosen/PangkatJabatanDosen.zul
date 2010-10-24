@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <window title="Pangkat dan Jabatan Akademik Dosen" border="normal" width="1000px"
+            closable="true"
+            id="o"
+            use="org.sadhar.sia.terpadu.pangkatjabatandosen.PangkatJabatanDosenWnd">
+        <div style="padding:5px">
+            <groupbox>
+                <caption label="Parameter"></caption>
+                <div style="padding:3px">
+                    <grid>
+                        <rows>
+                            <row>
+                                <label value="Jenis Laporan"></label>
+                                <combobox readonly="true" id="cmbJenis" width="300px" onChange="o.cmbJenisSelect()" >
+                                    <comboitem label="Jabatan Akademik" value="akademik"></comboitem>
+                                    <comboitem label="Pangkat" value="pangkat"></comboitem>
+                                </combobox>
+                            </row>
+                            <row>
+                                <label value="Cakupan"></label>
+                                <combobox readonly="true" id="cmbCakupan" width="300px" onChange="o.cmbCakupanSelect()">
+                                    <comboitem label="Universitas" value="universitas"></comboitem>
+                                    <comboitem label="Fakultas" value="fakultas"></comboitem>
+                                </combobox>
+                            </row>
+                            <row>
+                                <label value="Fakultas"></label>
+                                <combobox readonly="true" id="cmbFakultas" width="300px" disabled="true" onChange="o.cmbFakultasSelect()"/>
+                            </row>
+                        </rows>
+                    </grid>
+                </div>
+                <div style="padding:3px">
+                    <button label="Tampilkan" height="25px" width="90px" onClick="o.viewReport()"></button>
+                </div>
+            </groupbox>
+            <groupbox>
+                <caption label="Keluaran"></caption>
+                <div id="contentDiv" style="height:400px;overflow:auto;padding:10px">
+                    <jasperreport id="report" visible="false"/>
+                    <image id="chartImg"/>
+                </div>
+            </groupbox>
+            <groupbox>
+                <caption label="Daftar"></caption>
+                <div id="daftarDiv" style="height:400px;overflow:auto;padding:10px">
+                </div>
+            </groupbox>
+            <groupbox visible="false">
+                <caption label="Export"></caption>
+                <div style="padding:3px" align="right">
+                    <hbox>
+                        <label value="Format"></label>
+                        <combobox id="cmbExportType">
+                            <comboitem label="PDF" value="pdf"></comboitem>
+                            <comboitem label="XLS" value="xls"></comboitem>
+                            <comboitem label="DOC" value="rtf"></comboitem>
+                            <comboitem label="RTF" value="rtf"></comboitem>
+                        </combobox>
+                        <button id="btnExport" disabled="true" label="Export" height="25px" width="90px" onClick="demografiMahasiswa.exportReport()"></button>
+                    </hbox>
+                </div>
+            </groupbox>
+        </div>
+    </window>
+</zk>
