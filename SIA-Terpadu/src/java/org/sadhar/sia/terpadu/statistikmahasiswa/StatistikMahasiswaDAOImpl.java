@@ -29,7 +29,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
     }
 
     public List<Map> getAngkatan() {
-        int tahun = 1980;
+        int tahun = 2000;
         List<Map> tahuns = new ArrayList<Map>();
         for (int i = tahun; i <= new DateTime().getYear(); i++) {
             Map map = new HashMap();
@@ -189,7 +189,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
             for (Map prodi : getProdi()) {
                 kodeProdi = prodi.get("Kd_prg").toString();
                 if (isTableDOExist(kodeProdi)) {
-                    String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+                    String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                             " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan" +
                             " FROM db_" + kodeProdi + ".do" + kodeProdi + " mhs " +
                             " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -200,7 +200,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                 }
             }
         } else {
-            String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+            String sql = "SELECT mhs.nomor_mhs, mhs.nomor_mhs,mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                     " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan" +
                     " FROM db_" + kodeProdi + ".do" + kodeProdi + " mhs " +
                     " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -220,7 +220,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
             for (Map prodi : getProdi()) {
                 kodeProdi = prodi.get("Kd_prg").toString();
                 if (isTableDOExist(kodeProdi)) {
-                    String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+                    String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                             " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan" +
                             " FROM db_" + kodeProdi + ".do" + kodeProdi + " mhs " +
                             " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -230,7 +230,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                 }
             }
         } else {
-            String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+            String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                     " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan" +
                     " FROM db_" + kodeProdi + ".do" + kodeProdi + " mhs " +
                     " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -250,7 +250,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
             for (Map prodi : getProdi()) {
                 kodeProdi = prodi.get("Kd_prg").toString();
                 if (isTableMhsExist(kodeProdi)) {
-                    String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+                    String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                             " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan" +
                             " FROM db_" + kodeProdi + ".mhs" + kodeProdi + " mhs " +
                             " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -262,7 +262,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                 }
             }
         } else {
-            String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+            String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                     " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan" +
                     " FROM db_" + kodeProdi + ".mhs" + kodeProdi + " mhs " +
                     " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -283,7 +283,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
             for (Map prodi : getProdi()) {
                 kodeProdi = prodi.get("Kd_prg").toString();
                 if (isTableMhsExist(kodeProdi)) {
-                    String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+                    String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                             " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan" +
                             " FROM db_" + kodeProdi + ".mhs" + kodeProdi + " mhs " +
                             " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -295,7 +295,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                 }
             }
         } else {
-            String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+            String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                     " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan" +
                     " FROM db_" + kodeProdi + ".mhs" + kodeProdi + " mhs " +
                     " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -316,7 +316,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
             for (Map prodi : getProdi()) {
                 kodeProdi = prodi.get("Kd_prg").toString();
                 if (isTableMhsExist(kodeProdi)) {
-                    String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+                    String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                             " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan" +
                             " FROM db_" + kodeProdi + ".mhs" + kodeProdi + " mhs " +
                             " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -328,7 +328,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                 }
             }
         } else {
-            String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+            String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                     " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan" +
                     " FROM db_" + kodeProdi + ".mhs" + kodeProdi + " mhs " +
                     " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -349,7 +349,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
             for (Map prodi : getProdi()) {
                 kodeProdi = prodi.get("Kd_prg").toString();
                 if (isTableMhsExist(kodeProdi)) {
-                    String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+                    String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                             " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan" +
                             " FROM db_" + kodeProdi + ".mhs" + kodeProdi + " mhs " +
                             " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -361,7 +361,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                 }
             }
         } else {
-            String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+            String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                     " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan" +
                     " FROM db_" + kodeProdi + ".mhs" + kodeProdi + " mhs " +
                     " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -382,7 +382,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
             for (Map prodi : getProdi()) {
                 kodeProdi = prodi.get("Kd_prg").toString();
                 if (isTableMhsExist(kodeProdi)) {
-                    String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+                    String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                             " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan" +
                             " FROM db_" + kodeProdi + ".mhs" + kodeProdi + " mhs " +
                             " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -394,7 +394,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                 }
             }
         } else {
-            String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+            String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                     " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan" +
                     " FROM db_" + kodeProdi + ".mhs" + kodeProdi + " mhs " +
                     " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -415,7 +415,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
             for (Map prodi : getProdi()) {
                 kodeProdi = prodi.get("Kd_prg").toString();
                 if (isTableMhsExist(kodeProdi)) {
-                    String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+                    String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                             " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan" +
                             " FROM db_" + kodeProdi + ".mhs" + kodeProdi + " mhs " +
                             " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -426,7 +426,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                 }
             }
         } else {
-            String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+            String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                     " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan" +
                     " FROM db_" + kodeProdi + ".mhs" + kodeProdi + " mhs " +
                     " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -447,7 +447,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
             for (Map prodi : getProdi()) {
                 kodeProdi = prodi.get("Kd_prg").toString();
                 if (isTableLulusExist(kodeProdi)) {
-                    String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+                    String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                             " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan" +
                             " FROM db_" + kodeProdi + ".ll" + kodeProdi + " mhs " +
                             " RIGHT JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -459,7 +459,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                 }
             }
         } else {
-            String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+            String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                     " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan" +
                     " FROM db_" + kodeProdi + ".ll" + kodeProdi + " mhs " +
                     " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -480,7 +480,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
             for (Map prodi : getProdi()) {
                 kodeProdi = prodi.get("Kd_prg").toString();
                 if (isTableLulusExist(kodeProdi)) {
-                    String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+                    String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                             " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan" +
                             " FROM db_" + kodeProdi + ".ll" + kodeProdi + " mhs " +
                             " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -491,7 +491,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                 }
             }
         } else {
-            String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+            String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                     " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan" +
                     " FROM db_" + kodeProdi + ".ll" + kodeProdi + " mhs " +
                     " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -512,7 +512,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
             for (Map prodi : getProdi()) {
                 kodeProdi = prodi.get("Kd_prg").toString();
                 if (isTableMhsExist(kodeProdi)) {
-                    String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2)), " +
+                    String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2)), " +
                             " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan " +
                             " FROM db_" + kodeProdi + ".mhs" + kodeProdi + " mhs  " +
                             " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -523,7 +523,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                     results.addAll(ClassConnection.getJdbc().queryForList(sql));
                 }
                 if (isTableDOExist(kodeProdi)) {
-                    String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+                    String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                             " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan " +
                             " FROM db_" + kodeProdi + ".do" + kodeProdi + " mhs " +
                             " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -533,7 +533,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                     results.addAll(ClassConnection.getJdbc().queryForList(sql));
                 }
                 if (isTableLulusExist(kodeProdi)) {
-                    String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+                    String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                             " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan " +
                             " FROM db_" + kodeProdi + ".ll" + kodeProdi + " mhs " +
                             " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -545,7 +545,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
             }
         } else {
             if (isTableMhsExist(kodeProdi)) {
-                String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2)), " +
+                String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2)), " +
                         " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan " +
                         " FROM db_" + kodeProdi + ".mhs" + kodeProdi + " mhs  " +
                         " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -556,7 +556,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                 results.addAll(ClassConnection.getJdbc().queryForList(sql));
             }
             if (isTableDOExist(kodeProdi)) {
-                String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+                String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                         " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan " +
                         " FROM db_" + kodeProdi + ".do" + kodeProdi + " mhs " +
                         " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -566,7 +566,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                 results.addAll(ClassConnection.getJdbc().queryForList(sql));
             }
             if (isTableLulusExist(kodeProdi)) {
-                String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+                String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                         " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan " +
                         " FROM db_" + kodeProdi + ".ll" + kodeProdi + " mhs " +
                         " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -585,7 +585,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
             for (Map prodi : getProdi()) {
                 kodeProdi = prodi.get("Kd_prg").toString();
                 if (isTableMhsExist(kodeProdi)) {
-                    String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2)), " +
+                    String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2)), " +
                             " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan " +
                             " FROM db_" + kodeProdi + ".mhs" + kodeProdi + " mhs  " +
                             " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -596,7 +596,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                     results.addAll(ClassConnection.getJdbc().queryForList(sql));
                 }
                 if (isTableDOExist(kodeProdi)) {
-                    String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+                    String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                             " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan " +
                             " FROM db_" + kodeProdi + ".do" + kodeProdi + " mhs " +
                             " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -606,7 +606,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                     results.addAll(ClassConnection.getJdbc().queryForList(sql));
                 }
                 if (isTableLulusExist(kodeProdi)) {
-                    String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+                    String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                             " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan " +
                             " FROM db_" + kodeProdi + ".ll" + kodeProdi + " mhs " +
                             " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -618,7 +618,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
             }
         } else {
             if (isTableMhsExist(kodeProdi)) {
-                String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2)), " +
+                String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2)), " +
                         " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan " +
                         " FROM db_" + kodeProdi + ".mhs" + kodeProdi + " mhs  " +
                         " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -629,7 +629,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                 results.addAll(ClassConnection.getJdbc().queryForList(sql));
             }
             if (isTableDOExist(kodeProdi)) {
-                String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+                String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                         " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan " +
                         " FROM db_" + kodeProdi + ".do" + kodeProdi + " mhs " +
                         " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
@@ -639,7 +639,7 @@ public class StatistikMahasiswaDAOImpl implements StatistikMahasiswaDAO {
                 results.addAll(ClassConnection.getJdbc().queryForList(sql));
             }
             if (isTableLulusExist(kodeProdi)) {
-                String sql = "SELECT mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
+                String sql = "SELECT mhs.nomor_mhs, mhs.nama_mhs,prodi.Nama_prg,IF(LEFT(nomor_mhs,1)='9',CONCAT('19',LEFT(nomor_mhs,2))," +
                         " IF(LEFT(nomor_mhs,1)='8',CONCAT('19',LEFT(nomor_mhs,2)),CONCAT('20',LEFT(nomor_mhs,2)))) AS angkatan " +
                         " FROM db_" + kodeProdi + ".ll" + kodeProdi + " mhs " +
                         " INNER JOIN kamus.prg_std prodi ON prodi.Kd_prg = '" + kodeProdi + "' " +
