@@ -69,7 +69,7 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
     private void loadDataProdiToCombo() {
         Comboitem item = new Comboitem();
         item.setValue(null);
-        item.setLabel("--TOTAL--");
+        item.setLabel("--Universitas--");
         cmbboxProdi.appendChild(item);
 
         for (Map map : statistikMahasiswaDAO.getProdi()) {
