@@ -7,8 +7,11 @@ package org.sadhar.sia.terpadu.pangkatdosen;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.sadhar.errhandler.ClassAntiNull;
 import org.sadhar.sia.common.ClassConnection;
+import org.sadhar.sia.terpadu.fakultas.*;
 
 /**
  *
@@ -58,5 +61,38 @@ public class PangkatDosenDAOImpl implements PangkatDosenDAO {
 
         }
         return result;
+    }
+
+    public CategoryDataset getCountPangkatByFaculty(Fakultas f) throws Exception {
+        String sql = "select count(pd.kode_pang) as jumlah,kp.Nama_pang as nama"
+                + " from tempo.pangkatdosen pd "
+                + " inner join kamus.pangkat kp on (pd.kode_pang=kp.Kd_pang) "
+                + " where pd.kd_unit LIKE '" + f.getPrefix() + "%' "
+                + " group by pd.kode_pang";
+        List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        for (Map m : rows) {
+            dataset.addValue(ClassAntiNull.AntiNullInt(m.get("jumlah")), ClassAntiNull.AntiNullString(m.get("nama")), f.getNama());
+        }
+        return dataset;
+
+    }
+
+    public CategoryDataset getCountPangkatAll() throws Exception {
+        FakultasDAO fdao = new FakultasDAOImpl();
+        List<Fakultas> fall = fdao.gets();
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        for(Fakultas f:fall){
+            String sql = "select count(pd.kode_pang) as jumlah,kp.Nama_pang as nama"
+                    + " from tempo.pangkatdosen pd "
+                    + " inner join kamus.pangkat kp on (pd.kode_pang=kp.Kd_pang) "
+                    + " where pd.kd_unit LIKE '" + f.getPrefix() + "%' "
+                    + " group by pd.kode_pang";
+            List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
+            for (Map m : rows) {
+                dataset.addValue(ClassAntiNull.AntiNullInt(m.get("jumlah")), ClassAntiNull.AntiNullString(m.get("nama")), f.getNama());
+            }
+        }
+        return dataset;
     }
 }

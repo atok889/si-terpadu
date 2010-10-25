@@ -6,6 +6,8 @@ package org.sadhar.sia.terpadu.jabatanakademikdosen;
 
 import org.sadhar.sia.terpadu.jabatanakademik.*;
 import java.util.List;
+import org.sadhar.sia.terpadu.fakultas.Fakultas;
+import org.jfree.data.category.CategoryDataset;
 
 /**
  *
@@ -15,4 +17,7 @@ public interface JabatanAkademikDosenDAO {
 
     public List<JabatanAkademikDosen> gets() throws Exception;
 
+    public CategoryDataset getCountJabatanByFaculty(Fakultas f) throws Exception;
+
+    public CategoryDataset getCountJabatanAll() throws Exception;
 }

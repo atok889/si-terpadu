@@ -7,8 +7,11 @@ package org.sadhar.sia.terpadu.jabatanakademikdosen;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.sadhar.errhandler.ClassAntiNull;
 import org.sadhar.sia.common.ClassConnection;
+import org.sadhar.sia.terpadu.fakultas.*;
 
 /**
  *
@@ -60,5 +63,37 @@ public class JabatanAkademikDosenDAOImpl implements JabatanAkademikDosenDAO {
 
         }
         return result;
+    }
+
+    public CategoryDataset getCountJabatanByFaculty(Fakultas f) throws Exception {
+        String sql = "select count(tjd.Kd_jabak) as jumlah , kja.Nama_jab_akad as nama "
+                + "  From tempo.jabatandosen tjd "
+                + " INNER JOIN kamus.jab_akad kja on (tjd.Kd_jabak=kja.Kd_jab_akad) "
+                + " where tjd.kd_unit LIKE '" + f.getPrefix() + "%' "
+                + " group by tjd.Kd_jabak";
+        List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        for (Map m : rows) {
+            dataset.addValue(ClassAntiNull.AntiNullInt(m.get("jumlah")), ClassAntiNull.AntiNullString(m.get("nama")), f.getNama());
+        }
+        return dataset;
+    }
+
+    public CategoryDataset getCountJabatanAll() throws Exception {
+        FakultasDAO fdao = new FakultasDAOImpl();
+        List<Fakultas> fall = fdao.gets();
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        for (Fakultas f : fall) {
+            String sql = "select count(tjd.Kd_jabak) as jumlah , kja.Nama_jab_akad as nama "
+                    + "  From tempo.jabatandosen tjd "
+                    + " INNER JOIN kamus.jab_akad kja on (tjd.Kd_jabak=kja.Kd_jab_akad) "
+                    + " where tjd.kd_unit LIKE '" + f.getPrefix() + "%' "
+                    + " group by tjd.Kd_jabak";
+            List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
+            for (Map m : rows) {
+                dataset.addValue(ClassAntiNull.AntiNullInt(m.get("jumlah")), ClassAntiNull.AntiNullString(m.get("nama")), f.getNama());
+            }
+        }
+        return dataset;
     }
 }
