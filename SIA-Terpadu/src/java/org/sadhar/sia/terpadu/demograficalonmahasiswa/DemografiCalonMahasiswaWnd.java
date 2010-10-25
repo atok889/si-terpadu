@@ -20,6 +20,7 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
+import org.joda.time.DateTime;
 import org.sadhar.sia.framework.ClassApplicationModule;
 import org.sadhar.sia.terpadu.jumlahmahasiswa.JumlahMahasiswaDAOImpl;
 import org.sadhar.sia.terpadu.jumlahmahasiswa.JumlahMahasiswaDAO;
@@ -32,7 +33,6 @@ import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Messagebox;
-import org.zkoss.zul.Textbox;
 
 /**
  *
@@ -41,7 +41,8 @@ import org.zkoss.zul.Textbox;
 public class DemografiCalonMahasiswaWnd extends ClassApplicationModule {
 
     Combobox cmbProgdi;
-    Textbox txtTahunPendaftaran;
+    //Textbox txtTahunPendaftaran;
+    Combobox cmbTahunPendaftaran;
     Combobox cmbJenis;
     Image chartImg;
     Combobox cmbExportType;
@@ -54,7 +55,8 @@ public class DemografiCalonMahasiswaWnd extends ClassApplicationModule {
 
     public void onCreate() throws Exception {
         cmbProgdi = (Combobox) getFellow("cmbProgdi");
-        txtTahunPendaftaran = (Textbox) getFellow("txtTahunPendaftaran");
+        //txtTahunPendaftaran = (Textbox) getFellow("txtTahunPendaftaran");
+        cmbTahunPendaftaran = (Combobox) getFellow("cmbTahunPendaftaran");
         cmbJenis = (Combobox) getFellow("cmbJenis");
         report = (Jasperreport) getFellow("report");
         chartImg = (Image) getFellow("chartImg");
@@ -62,9 +64,27 @@ public class DemografiCalonMahasiswaWnd extends ClassApplicationModule {
         btnExport = (Button) getFellow("btnExport");
         btnExport.setDisabled(true);
         loadProgdi();
+        loadTahun();
+        cmbTahunPendaftaran.setSelectedIndex(0);
         cmbProgdi.setSelectedIndex(0);
         cmbExportType.setSelectedIndex(0);
-        cmbJenis.setSelectedIndex(0);       
+        cmbJenis.setSelectedIndex(0);
+    }
+
+    private void loadTahun() throws Exception {
+        int currentYear = new DateTime().getYear();
+        cmbTahunPendaftaran.getItems().clear();
+        Comboitem item = new Comboitem();
+        item.setValue("");
+        item.setLabel("-- Pilih Tahun --");
+        cmbTahunPendaftaran.appendChild(item);
+        System.out.println(currentYear);
+        for (int x = 2000; x <= currentYear; x++) {
+            Comboitem itm = new Comboitem();
+            itm.setValue(x);
+            itm.setLabel(x + "");
+            cmbTahunPendaftaran.appendChild(itm);
+        }
     }
 
     private void loadProgdi() throws Exception {
@@ -88,13 +108,13 @@ public class DemografiCalonMahasiswaWnd extends ClassApplicationModule {
     }
 
     public void viewReport() throws Exception {
-        try{
+        try {
             DemografiCalonMahasiswaDAO dao = new DemografiCalonMahasiswaDAOImpl();
             CategoryDataset dataset = null;
             if (cmbJenis.getSelectedItem().getLabel().toString().equalsIgnoreCase("Jenis Kelamin")) {
-                dataset = dao.getJenisKelaminDataset((ProgramStudi) cmbProgdi.getSelectedItem().getValue(), txtTahunPendaftaran.getValue());
+                dataset = dao.getJenisKelaminDataset((ProgramStudi) cmbProgdi.getSelectedItem().getValue(), cmbTahunPendaftaran.getSelectedItem().getValue().toString());
             } else if (cmbJenis.getSelectedItem().getLabel().toString().equalsIgnoreCase("Agama")) {
-                dataset = dao.getAgamaDataset((ProgramStudi) cmbProgdi.getSelectedItem().getValue(), txtTahunPendaftaran.getValue());
+                dataset = dao.getAgamaDataset((ProgramStudi) cmbProgdi.getSelectedItem().getValue(), cmbTahunPendaftaran.getSelectedItem().getValue().toString());
             }
 
             ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
@@ -149,11 +169,9 @@ public class DemografiCalonMahasiswaWnd extends ClassApplicationModule {
             AImage image = new AImage("Bar Chart", bytes);
             chartImg.setContent(image);
             btnExport.setDisabled(false);
-        }catch(Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             Messagebox.show("Data Program Studi tidak ditemukan");
         }
     }
-
-    
 }
