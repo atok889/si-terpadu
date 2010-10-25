@@ -22,7 +22,7 @@ public class SebaranIpkMahasiswaDAOImpl implements SebaranIpkMahasiswaDAO {
     }
 
     public List<Map> getProdi() {
-        String sql = "SELECT Kd_prg, Nama_prg FROM kamus.prg_std WHERE Kd_prg != '0000' ORDER BY Nama_prg";
+        String sql = "SELECT Kd_prg, Nama_prg FROM kamus.prg_std WHERE Kd_prg != '0000' ORDER BY Kd_prg";
         List<Map> maps = ClassConnection.getJdbc().queryForList(sql);
         return maps;
     }
@@ -36,7 +36,7 @@ public class SebaranIpkMahasiswaDAOImpl implements SebaranIpkMahasiswaDAO {
                     String sql = "SELECT kh.Nomor_mhs, COUNT(Nomor_mhs) AS jumlah,SUM(sks * angka)/SUM(sks) as ipk,prg.Nama_prg,prg.Kd_prg " +
                             " FROM db_" + kodeProdi + ".kh" + kodeProdi + i + " kh " +
                             " INNER JOIN kamus.nilai nilai ON (nilai.huruf = kh.Nilai) " +
-                            " INNER JOIN kamus.prg_std prg  ON (prg.Kd_prg='" + kodeProdi + "') GROUP BY kh.Nomor_mhs";
+                            " INNER JOIN kamus.prg_std prg  ON (prg.Kd_prg='" + kodeProdi + "') GROUP BY kh.Nomor_mhs ORDER BY prg.Kd_prg";
                     results.addAll(ClassConnection.getJdbc().queryForList(sql));
                 }
             }
