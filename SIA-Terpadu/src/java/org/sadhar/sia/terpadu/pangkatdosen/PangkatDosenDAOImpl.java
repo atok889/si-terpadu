@@ -4,6 +4,7 @@
  */
 package org.sadhar.sia.terpadu.pangkatdosen;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +32,11 @@ public class PangkatDosenDAOImpl implements PangkatDosenDAO {
                 + " INNER JOIN kamus.pangkat kp ON (kp.Kd_pang = ppp.Kd_pang) "
                 + " group by up.npp  order by up.npp";
 
-        ClassConnection.getJdbc().queryForInt(sql);
+        try {
+            ClassConnection.getConnection().createStatement().executeUpdate(sql);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public PangkatDosenDAOImpl() {
@@ -82,7 +87,7 @@ public class PangkatDosenDAOImpl implements PangkatDosenDAO {
         FakultasDAO fdao = new FakultasDAOImpl();
         List<Fakultas> fall = fdao.gets();
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        for(Fakultas f:fall){
+        for (Fakultas f : fall) {
             String sql = "select count(pd.kode_pang) as jumlah,kp.Nama_pang as nama"
                     + " from tempo.pangkatdosen pd "
                     + " inner join kamus.pangkat kp on (pd.kode_pang=kp.Kd_pang) "
