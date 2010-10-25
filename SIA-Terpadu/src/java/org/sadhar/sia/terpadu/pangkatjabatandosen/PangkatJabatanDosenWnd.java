@@ -6,7 +6,10 @@ package org.sadhar.sia.terpadu.pangkatjabatandosen;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.StandardChartTheme;
@@ -38,9 +41,11 @@ import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Image;
 import org.sadhar.sia.terpadu.util.WarnaBarChart;
+import org.zkoss.zk.ui.Executions;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
+import org.zkoss.zul.Window;
 
 /**
  *
@@ -251,5 +256,31 @@ public class PangkatJabatanDosenWnd extends ClassApplicationModule {
             ex.printStackTrace();
             Messagebox.show(ex.getMessage());
         }
+    }
+
+     public void exportReport() throws Exception {
+//        try {
+//            JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(datas);
+//            if (cmbExportType.getSelectedItem().getValue().toString().equals("pdf")) {
+//                Window pdfPreviewWnd = (Window) Executions.createComponents("/zul/pdfpreview/PdfPreview.zul", null, null);
+//                Jasperreport pdfReport = (Jasperreport) pdfPreviewWnd.getFellow("report");
+//                pdfReport.setType(cmbExportType.getSelectedItem().getValue().toString());
+//                pdfReport.setSrc("reports/jumlahmahasiswado/JumlahMahasiswaDO.jasper");
+//                Map parameters = new HashMap();
+////                parameters.put("chart", chart.createBufferedImage(500, 300));
+//                pdfReport.setParameters(parameters);
+//                pdfReport.setDatasource(dataSource);
+//                pdfPreviewWnd.doModal();
+//            } else {
+//                report.setType(cmbExportType.getSelectedItem().getValue().toString());
+//                report.setSrc("reports/jumlahmahasiswado/JumlahMahasiswaDO.jasper");
+//                Map parameters = new HashMap();
+////                parameters.put("chart", chart.createBufferedImage(500, 300, BufferedImage.TRANSLUCENT, null));
+//                report.setParameters(parameters);
+//                report.setDatasource(dataSource);
+//            }
+//        } catch (Exception ex) {
+//            Messagebox.show(ex.getMessage());
+//        }
     }
 }
