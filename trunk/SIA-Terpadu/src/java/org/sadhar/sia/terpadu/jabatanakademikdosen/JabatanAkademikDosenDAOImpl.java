@@ -4,9 +4,12 @@
  */
 package org.sadhar.sia.terpadu.jabatanakademikdosen;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.sadhar.errhandler.ClassAntiNull;
@@ -31,8 +34,11 @@ public class JabatanAkademikDosenDAOImpl implements JabatanAkademikDosenDAO {
                 + " LEFT OUTER JOIN kamus.unkerja ku on ku.`kd_unit_kerja`=ppu.`kd_unit` "
                 + " INNER JOIN kamus.jab_akad kja on kja.`kd_jab_akad` =pjap.`Kd_jabak` "
                 + " group by pjap.npp  order by pjap.npp ) ";
-
-        ClassConnection.getJdbc().queryForInt(sql);
+        try {
+            ClassConnection.getConnection().createStatement().executeUpdate(sql);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public JabatanAkademikDosenDAOImpl() {
