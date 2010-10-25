@@ -26,7 +26,7 @@ public class IpkdanIpsSetiapMahasiswaDAOImpl implements IpkdanIpsSetiapMahasiswa
         return maps;
     }
 
-    public List<Map> getIpkDanIpsSetiapMahasiswa(String kodeProdi, String angkatan, String tahun, String semester, String param1, String param2, String param3) {
+    public List<Map> getIpkDanIpsSetiapMahasiswa(String kodeProdi, String angkatan, String tahun, String semester, String param1) {
         List<Map> results = new ArrayList<Map>();
         String sqlCreateView = "create or replace view  kamus.ipkDanIpsSetiapMahasiswa(" +
                 "  nomor_mhs, nama_mhs, angkatan, tahun, semester, ipk, ips, Nama_prg, fakultas ) as" +
@@ -61,21 +61,20 @@ public class IpkdanIpsSetiapMahasiswaDAOImpl implements IpkdanIpsSetiapMahasiswa
                 String param = "ORDER BY ";
 
                 if (param1 != null) {
-                    param += " ipk,";
+                    if (param1.equalsIgnoreCase("nama_mhs")) {
+                        param += param1 + " ASC";
+                    } else {
+                        param += param1 + " DESC";
+                    }
+                } else {
+                    param = "";
                 }
-                if (param2 != null) {
-                    param += " ips,";
-                }
-                if (param3 != null) {
-                    param += " nama_mhs,";
-                }
-                param += " nomor_mhs";
 
                 String sql = "select  nomor_mhs, nama_mhs, angkatan, tahun, semester, SUM(ipk) ipk, SUM(ips) ips, Nama_prg, fakultas " +
                         " FROM kamus.ipkDanIpsSetiapMahasiswa " +
-                        "  WHERE tahun = '" + tahun + "' and semester = '" + semester + "'" +
+                        " WHERE tahun = '" + tahun + "' and semester = '" + semester + "'" +
                         " GROUP BY nomor_mhs, semester " + param;
-                System.out.println(sql);
+
                 results = ClassConnection.getJdbc().queryForList(sql);
             }
         } catch (Exception exception) {

@@ -15,5 +15,5 @@ public interface IpkdanIpsSetiapMahasiswaDAO {
 
     public List<Map> getProdi();
 
-    public List<Map> getIpkDanIpsSetiapMahasiswa(String kodeProdi, String angkatan, String tahun, String semester, String param1, String param2, String param3);
+    public List<Map> getIpkDanIpsSetiapMahasiswa(String kodeProdi, String angkatan, String tahun, String semester, String param1);
 }

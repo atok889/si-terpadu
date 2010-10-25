@@ -17,8 +17,6 @@ import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
-import org.zkoss.zul.Listhead;
-import org.zkoss.zul.Listheader;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Window;
@@ -34,12 +32,8 @@ public class IpkdanIpsSetiapMahasiswaWnd extends ClassApplicationModule {
     private Combobox cmbboxProdi;
     private Combobox cmbboxAngkatan;
     private Combobox cmbboxSemester;
-    private Combobox cmbboxParam1;
-    private Combobox cmbboxParam2;
-    private Combobox cmbboxParam3;
+    private Combobox cmbboxParam1;   
     private String param1;
-    private String param2;
-    private String param3;
     private String kodeProdi;
     private String angkatan;
     private String tahunSemester;
@@ -57,9 +51,7 @@ public class IpkdanIpsSetiapMahasiswaWnd extends ClassApplicationModule {
         cmbboxProdi = (Combobox) this.getFellow("cmbboxProdi");
         cmbboxAngkatan = (Combobox) this.getFellow("cmbboxAngkatan");
         cmbboxSemester = (Combobox) this.getFellow("cmbboxSemester");
-        cmbboxParam1 = (Combobox) this.getFellow("cmbboxParam1");
-        cmbboxParam2 = (Combobox) this.getFellow("cmbboxParam2");
-        cmbboxParam3 = (Combobox) this.getFellow("cmbboxParam3");
+        cmbboxParam1 = (Combobox) this.getFellow("cmbboxParam1");    
         cmbboxProdi.setReadonly(true);
         btnExport = (Button) getFellow("btnExport");
         cmbExportType = (Combobox) getFellow("cmbExportType");
@@ -67,9 +59,7 @@ public class IpkdanIpsSetiapMahasiswaWnd extends ClassApplicationModule {
         this.loadDataToComboboxProdi();
         this.loadDataToComboboxAngkatan();
         this.loadDataToComboboxSemester();
-        this.loadDataToComboParam1();
-        this.loadDataToComboParam2();
-        this.loadDataToComboParam3();
+        this.loadDataToComboParam1();     
     }
 
     public void loadDataToComboboxProdi() {
@@ -93,7 +83,7 @@ public class IpkdanIpsSetiapMahasiswaWnd extends ClassApplicationModule {
         cmbboxAngkatan.appendChild(item);
         cmbboxAngkatan.setSelectedItem(item);
 
-        for (int i = 1998; i <= new DateTime().getYear(); i++) {
+        for (int i = 2000; i <= new DateTime().getYear(); i++) {
             Comboitem items = new Comboitem();
             items.setValue(i);
             items.setLabel(i + "");
@@ -108,7 +98,7 @@ public class IpkdanIpsSetiapMahasiswaWnd extends ClassApplicationModule {
         cmbboxSemester.appendChild(item);
         cmbboxSemester.setSelectedItem(item);
 
-        for (int i = 1998; i <= new DateTime().getYear(); i++) {
+        for (int i = 2000; i <= new DateTime().getYear(); i++) {
             for (int j = 1; j <= 2; j++) {
                 Comboitem items = new Comboitem();
                 items.setValue(i + "-" + j);
@@ -123,32 +113,19 @@ public class IpkdanIpsSetiapMahasiswaWnd extends ClassApplicationModule {
         Comboitem item = new Comboitem("--Pilih Kolom--");
         item.setValue(null);
         cmbboxParam1.appendChild(item);
-        item = new Comboitem("Urut berdasarkan IPK");
+        item = new Comboitem("IPK");
         item.setValue("ipk");
+        cmbboxParam1.appendChild(item);
+        item = new Comboitem("IPS");
+        item.setValue("ips");
+        cmbboxParam1.appendChild(item);
+        item = new Comboitem("Nama");
+        item.setValue("nama_mhs");
         cmbboxParam1.appendChild(item);
         cmbboxParam1.setSelectedIndex(0);
     }
 
-    private void loadDataToComboParam2() {
-        Comboitem item = new Comboitem("--Pilih Kolom--");
-        item.setValue(null);
-        cmbboxParam2.appendChild(item);
-        item = new Comboitem("Urut berdasarkan IPS");
-        item.setValue("ips");
-        cmbboxParam2.appendChild(item);
-        cmbboxParam2.setSelectedIndex(0);
-    }
-
-    private void loadDataToComboParam3() {
-        Comboitem item = new Comboitem("--Pilih Kolom--");
-        item.setValue(null);
-        cmbboxParam3.appendChild(item);
-        item = new Comboitem("Urut berdasarkan nama");
-        item.setValue("nama");
-        cmbboxParam3.appendChild(item);
-        cmbboxParam3.setSelectedIndex(0);
-    }
-
+   
     private void componentDisable() {
         listboxMahasiswa.setVisible(false);
         btnExport.setDisabled(true);
@@ -163,7 +140,7 @@ public class IpkdanIpsSetiapMahasiswaWnd extends ClassApplicationModule {
         listboxMahasiswa.getItems().clear();
 
         datas = ipkDanIpsSetiapMahasiswaDAO.getIpkDanIpsSetiapMahasiswa(kodeProdi, angkatan, tahunSemester.substring(0, 4),
-                tahunSemester.substring(5, 6), param1, param2, param3);
+                tahunSemester.substring(5, 6), param1);
 
         int no = 1;
         for (Map row : datas) {
@@ -189,8 +166,7 @@ public class IpkdanIpsSetiapMahasiswaWnd extends ClassApplicationModule {
         angkatan = String.valueOf(cmbboxAngkatan.getSelectedItem().getValue());
         tahunSemester = String.valueOf(cmbboxSemester.getSelectedItem().getValue());
         param1 = (String) cmbboxParam1.getSelectedItem().getValue();
-        param2 = (String) cmbboxParam2.getSelectedItem().getValue();
-        param3 = (String) cmbboxParam3.getSelectedItem().getValue();
+    
 
         if (kodeProdi != null && angkatan != null && tahunSemester != null) {
             try {
