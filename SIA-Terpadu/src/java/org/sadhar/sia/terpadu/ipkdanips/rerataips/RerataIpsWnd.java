@@ -64,7 +64,7 @@ public class RerataIpsWnd extends ClassApplicationModule {
     public void loadDataToComboboxProdi() {
         Comboitem item = new Comboitem();
         item.setValue(null);
-        item.setLabel("--Pilih Fakultas/Prodi--");
+        item.setLabel("--Universitas--");
         cmbboxProdi.appendChild(item);
 
         for (Map data : this.rerataIpsDAO.getProdi()) {
