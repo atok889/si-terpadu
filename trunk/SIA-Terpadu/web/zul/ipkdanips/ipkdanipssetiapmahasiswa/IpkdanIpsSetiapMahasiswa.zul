@@ -30,15 +30,11 @@
                             </row>
                             <row style="border:none">
                                 <label value="Semester"></label>
-                                <combobox id="cmbboxSemester" width="300px"  />
-                                <label value="Kolom 2"></label>
-                                <combobox id="cmbboxParam2" width="150px"  readonly="true"/>
+                                <combobox id="cmbboxSemester" width="300px"  />                                                           
                             </row>
                             <row style="border:none">
                                 <label value=""></label>
-                                <button label="Tampilkan" height="25px" width="90px" onClick="ipkDanIpsSetiapMahasiswaWnd.btnShowOnClick()"  ></button>
-                                <label value="Kolom 3"></label>
-                                <combobox id="cmbboxParam3" width="150px" readonly="true" />
+                                <button label="Tampilkan" height="25px" width="90px" onClick="ipkDanIpsSetiapMahasiswaWnd.btnShowOnClick()"  ></button>                                                   
                             </row>
                         </rows>
                     </grid>
