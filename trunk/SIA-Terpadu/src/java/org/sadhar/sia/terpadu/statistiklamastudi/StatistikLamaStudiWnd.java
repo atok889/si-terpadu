@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
-import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.sadhar.sia.framework.ClassApplicationModule;
 import org.zkoss.zk.ui.Executions;
@@ -171,6 +169,16 @@ public class StatistikLamaStudiWnd extends ClassApplicationModule {
 
         listboxMahasiswa.appendChild(auxhead);
         listboxMahasiswa.appendChild(listhead);
+    }
+
+    public void radioProdiOnCheck() {
+        cmbboxProdi.setDisabled(false);
+        cmbboxSemester.setDisabled(true);
+    }
+
+    public void radioSemesterCheck() {
+        cmbboxProdi.setDisabled(true);
+        cmbboxSemester.setDisabled(false);
     }
 
     public void cmbDataProdiOnSelect() {
