@@ -46,7 +46,7 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
     private String tahunAkademik = "2000";
     private String semester = "2";
     List<Map> datas = new ArrayList<Map>();
-    Integer tahunMulai = 1998;
+    Integer tahunMulai = 2000;
 
     public StatistikMahasiswaWnd() {
         statistikMahasiswaDAO = new StatistikMahasiswaDAOImpl();
@@ -170,6 +170,7 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
                         for (Map m : detail) {
                             Listitem item = new Listitem();
                             item.appendChild(new Listcell(no + ""));
+                            item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("nomor_mhs").toString())));
                             item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("nama_mhs").toString())));
                             item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("angkatan").toString())));
                             item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("Nama_prg").toString())));
@@ -223,6 +224,13 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
                         } else {
                             namaMahasiswa = m.get("nama_mhs").toString();
                         }
+                        String nomorMahasiswa = null;
+                        if (m.get("nomor_mhs") == null) {
+                            nomorMahasiswa = "";
+                        } else {
+                            nomorMahasiswa = m.get("nomor_mhs").toString();
+                        }
+                        item.appendChild(new Listcell(nomorMahasiswa));
                         item.appendChild(new Listcell(namaMahasiswa));
                         item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("angkatan").toString())));
                         item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("Nama_prg").toString())));
@@ -262,6 +270,13 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
                     } else {
                         namaMahasiswa = m.get("nama_mhs").toString();
                     }
+                    String nomorMahasiswa = null;
+                    if (m.get("nomor_mhs") == null) {
+                        nomorMahasiswa = "";
+                    } else {
+                        nomorMahasiswa = m.get("nomor_mhs").toString();
+                    }
+                    item.appendChild(new Listcell(nomorMahasiswa));
                     item.appendChild(new Listcell(namaMahasiswa));
                     item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("angkatan").toString())));
                     item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("Nama_prg").toString())));
@@ -291,6 +306,7 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
                     for (Map m : detail) {
                         Listitem item = new Listitem();
                         item.appendChild(new Listcell(no + ""));
+                        item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("nomor_mhs").toString())));
                         item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("nama_mhs").toString())));
                         item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("angkatan").toString())));
                         item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("Nama_prg").toString())));
