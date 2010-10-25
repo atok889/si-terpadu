@@ -46,6 +46,15 @@
             <groupbox>
                 <caption label="Daftar"></caption>
                 <div id="daftarDiv" style="height:400px;overflow:auto;padding:10px">
+                    <listbox id="listb" width="810px" fixedLayout="false">
+                        <listhead>
+                            <listheader label="NPP"></listheader>
+                            <listheader label="Nama"></listheader>
+                            <listheader label="Umur"></listheader>
+                            <listheader label="Prodi"></listheader>
+                            <listheader label="Jabatan/Pangkat"></listheader>
+                        </listhead>
+                    </listbox>
                 </div>
             </groupbox>
             <groupbox>
