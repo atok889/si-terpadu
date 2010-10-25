@@ -22,7 +22,7 @@ public class RerataIpkLulusanDAOImpl implements RerataIpkLulusanDAO {
     }
 
     public List<Map> getProdi() {
-        String sql = "SELECT Kd_prg, Nama_prg FROM kamus.prg_std WHERE Kd_prg != '0000' ORDER BY Nama_prg";
+        String sql = "SELECT Kd_prg, Nama_prg FROM kamus.prg_std WHERE Kd_prg != '0000' ORDER BY Kd_prg";
         List<Map> maps = ClassConnection.getJdbc().queryForList(sql);
         return maps;
     }
@@ -42,7 +42,7 @@ public class RerataIpkLulusanDAOImpl implements RerataIpkLulusanDAO {
                                 " INNER JOIN db_" + kodeProdi + ".tr" + kodeProdi + i + " tr ON ll.nomor_mhs = tr.nomor_mhs " +
                                 " INNER JOIN kamus.nilai nilai ON nilai.huruf = tr.Nilai " +
                                 " INNER JOIN kamus.prg_std prg ON prg.Kd_prg = '" + kodeProdi + "'" +
-                                " GROUP BY ll.nomor_mhs ORDER by angkatan";
+                                " GROUP BY ll.nomor_mhs ORDER by angkatan, prg.Kd_prg";
                         results.addAll(ClassConnection.getJdbc().queryForList(sql));
                     }
                 }

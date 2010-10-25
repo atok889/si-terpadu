@@ -129,6 +129,7 @@ public class RerataIpkLulusanWnd extends ClassApplicationModule {
                 } else {
                     map.put("ipk", totalIpk / count);
                 }
+                System.out.println(prodi.get("Nama_prg"));
                 map.put("prodi", prodi.get("Nama_prg"));
                 rerata.add(map);
             }
