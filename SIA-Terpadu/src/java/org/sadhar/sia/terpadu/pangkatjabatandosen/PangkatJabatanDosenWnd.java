@@ -24,8 +24,10 @@ import org.sadhar.sia.framework.ClassApplicationModule;
 import org.sadhar.sia.terpadu.fakultas.Fakultas;
 import org.sadhar.sia.terpadu.fakultas.FakultasDAOImpl;
 import org.sadhar.sia.terpadu.fakultas.FakultasDAO;
+import org.sadhar.sia.terpadu.jabatanakademikdosen.JabatanAkademikDosen;
 import org.sadhar.sia.terpadu.jabatanakademikdosen.JabatanAkademikDosenDAO;
 import org.sadhar.sia.terpadu.jabatanakademikdosen.JabatanAkademikDosenDAOImpl;
+import org.sadhar.sia.terpadu.pangkatdosen.PangkatDosen;
 import org.sadhar.sia.terpadu.pangkatdosen.PangkatDosenDAO;
 import org.sadhar.sia.terpadu.pangkatdosen.PangkatDosenDAOImpl;
 import org.zkoss.image.AImage;
@@ -36,6 +38,9 @@ import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Image;
 import org.sadhar.sia.terpadu.util.WarnaBarChart;
+import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listcell;
+import org.zkoss.zul.Listitem;
 
 /**
  *
@@ -43,20 +48,23 @@ import org.sadhar.sia.terpadu.util.WarnaBarChart;
  */
 public class PangkatJabatanDosenWnd extends ClassApplicationModule {
 
-    Jasperreport report;
-    Image chartImg;
-    Combobox cmbExportType;
-    Button btnExport;
-    JFreeChart chart = null;
-    Combobox cmbCakupan;
-    Combobox cmbFakultas;
-    Combobox cmbJenis;
+    private Jasperreport report;
+    private Image chartImg;
+    private Combobox cmbExportType;
+    private Button btnExport;
+    private JFreeChart chart = null;
+    private Combobox cmbCakupan;
+    private Combobox cmbFakultas;
+    private Combobox cmbJenis;
+    private Listbox listB;
     private int cmbJenisIndex;
     private int cmbCakupanIndex;
     private int cmbFakultasIndex;
     private FakultasDAO fakultasDAO;
     private JabatanAkademikDosenDAO jabatanDAO;
     private PangkatDosenDAO pangkatDAO;
+    private List<PangkatDosen> listPangkat;
+    private List<JabatanAkademikDosen> listJabatan;
 
     public PangkatJabatanDosenWnd() {
         fakultasDAO = new FakultasDAOImpl();
@@ -73,6 +81,7 @@ public class PangkatJabatanDosenWnd extends ClassApplicationModule {
         cmbCakupan = (Combobox) getFellow("cmbCakupan");
         cmbFakultas = (Combobox) getFellow("cmbFakultas");
         cmbJenis = (Combobox) getFellow("cmbJenis");
+        listB = (Listbox) getFellow("listb");
         btnExport.setDisabled(true);
 
         cmbCakupan.setSelectedIndex(0);
@@ -122,8 +131,10 @@ public class PangkatJabatanDosenWnd extends ClassApplicationModule {
 
                 if (cmbJenisIndex == 0) {
                     dataset = jabatanDAO.getCountJabatanAll();
+                    listJabatan = jabatanDAO.gets();
                 } else {
                     dataset = pangkatDAO.getCountPangkatAll();
+                    listPangkat = pangkatDAO.gets();
                 }
                 chart = ChartFactory.createBarChart(
                         "Jumlah", // chart title
@@ -140,8 +151,10 @@ public class PangkatJabatanDosenWnd extends ClassApplicationModule {
 
                 if (cmbJenisIndex == 0) {
                     dataset = jabatanDAO.getCountJabatanByFaculty(f);
+                    listJabatan = jabatanDAO.getByFaculty(f);
                 } else {
                     dataset = pangkatDAO.getCountPangkatByFaculty(f);
+                    listPangkat = pangkatDAO.getByFaculty(f);
                 }
                 chart = ChartFactory.createBarChart(
                         "Jumlah", // chart title
@@ -181,6 +194,58 @@ public class PangkatJabatanDosenWnd extends ClassApplicationModule {
             AImage image = new AImage("Bar Chart", bytes);
             chartImg.setContent(image);
             btnExport.setDisabled(false);
+
+            listB.getItems().clear();
+            if (cmbJenisIndex == 0) {
+                for (JabatanAkademikDosen o : listJabatan) {
+                    Listitem item = new Listitem();
+                    Listcell cell = new Listcell();
+                    cell.setLabel(o.getNpp());
+                    item.appendChild(cell);
+
+                    cell = new Listcell();
+                    cell.setLabel(o.getNama());
+                    item.appendChild(cell);
+
+                    cell = new Listcell();
+                    cell.setLabel(o.getUmur() + "");
+                    item.appendChild(cell);
+
+                    cell = new Listcell();
+                    cell.setLabel(o.getNamaUnitKerja());
+                    item.appendChild(cell);
+
+                    cell = new Listcell();
+                    cell.setLabel(o.getNamaJabatan());
+                    item.appendChild(cell);
+                    listB.appendChild(item);
+                }
+            } else {
+                for (PangkatDosen o : listPangkat) {
+                    Listitem item = new Listitem();
+                    Listcell cell = new Listcell();
+                    cell.setLabel(o.getNpp());
+                    item.appendChild(cell);
+
+                    cell = new Listcell();
+                    cell.setLabel(o.getNama());
+                    item.appendChild(cell);
+
+                    cell = new Listcell();
+                    cell.setLabel(o.getUmur() + "");
+                    item.appendChild(cell);
+
+                    cell = new Listcell();
+                    cell.setLabel(o.getNamaUnitKerja());
+                    item.appendChild(cell);
+
+                    cell = new Listcell();
+                    cell.setLabel(o.getNamaPangkat());
+                    item.appendChild(cell);
+                    listB.appendChild(item);
+                }
+            }
+
 
         } catch (Exception ex) {
             ex.printStackTrace();
