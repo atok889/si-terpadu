@@ -21,6 +21,7 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
+import org.joda.time.DateTime;
 import org.sadhar.sia.framework.ClassApplicationModule;
 import org.sadhar.sia.terpadu.demografimahasiswa.DemografiMahasiswaDAO;
 import org.sadhar.sia.terpadu.demografimahasiswa.DemografiMahasiswaDAOImpl;
@@ -39,7 +40,6 @@ import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Messagebox;
-import org.zkoss.zul.Textbox;
 
 /**
  *
@@ -49,7 +49,8 @@ public class DemografiCalonMahasiswaDaerahWnd extends ClassApplicationModule{
     Combobox cmbProgdi;
     Combobox cmbProvinsi;
     Combobox cmbKabKota;
-    Textbox txtTahunPendaftaran;
+    //Textbox txtTahunPendaftaran;
+    Combobox cmbTahunPendaftaran;
     Jasperreport report;
     Image chartImg;
     Combobox cmbExportType;
@@ -62,7 +63,8 @@ public class DemografiCalonMahasiswaDaerahWnd extends ClassApplicationModule{
         cmbProgdi = (Combobox) getFellow("cmbProgdi");
         cmbProvinsi = (Combobox) getFellow("cmbProvinsi");
         cmbKabKota = (Combobox) getFellow("cmbKabKota");
-        txtTahunPendaftaran = (Textbox) getFellow("txtTahunPendaftaran");
+        //txtTahunPendaftaran = (Textbox) getFellow("txtTahunPendaftaran");
+        cmbTahunPendaftaran = (Combobox)getFellow("cmbTahunPendaftaran");
         report = (Jasperreport) getFellow("report");
         chartImg = (Image) getFellow("chartImg");
         cmbExportType = (Combobox) getFellow("cmbExportType");
@@ -70,12 +72,31 @@ public class DemografiCalonMahasiswaDaerahWnd extends ClassApplicationModule{
         btnExport.setDisabled(true);
         loadProgdi();
         loadProvinsi();
+        loadTahun();
+        cmbTahunPendaftaran.setSelectedIndex(0);
         cmbProgdi.setSelectedIndex(0);
         cmbProvinsi.setSelectedIndex(0);
 
         cmbExportType.setSelectedIndex(0);
         cmbKabKota.setSelectedIndex(0);
         cmbKabKota.setDisabled(true);
+    }
+
+
+    private void loadTahun() throws Exception {
+        int currentYear = new DateTime().getYear();
+        cmbTahunPendaftaran.getItems().clear();
+        Comboitem item = new Comboitem();
+        item.setValue("");
+        item.setLabel("-- Pilih Tahun --");
+        cmbTahunPendaftaran.appendChild(item);
+        System.out.println(currentYear);
+        for (int x = 2000; x <= currentYear; x++) {
+            Comboitem itm = new Comboitem();
+            itm.setValue(x);
+            itm.setLabel(x + "");
+            cmbTahunPendaftaran.appendChild(itm);
+        }
     }
 
     private void loadProvinsi() throws Exception {
@@ -160,7 +181,7 @@ public class DemografiCalonMahasiswaDaerahWnd extends ClassApplicationModule{
          try {
             DemografiCalonMahasiswaDAO dao = new DemografiCalonMahasiswaDAOImpl();
             CategoryDataset dataset = dao.getAsalDaerahDataset((ProgramStudi) cmbProgdi.getSelectedItem().getValue(),
-                    txtTahunPendaftaran.getValue(),
+                    cmbTahunPendaftaran.getSelectedItem().getValue().toString(),
                     (Provinsi) cmbProvinsi.getSelectedItem().getValue(),
                     (KabKota) cmbKabKota.getSelectedItem().getValue());
 
