@@ -57,7 +57,7 @@
                     </listbox>
                 </div>
             </groupbox>
-            <groupbox>
+            <groupbox visible="false">
                 <caption label="Export"></caption>
                 <div style="padding:3px" align="right">
                     <hbox>
