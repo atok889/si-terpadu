@@ -17,6 +17,9 @@ public interface PangkatDosenDAO {
 
     public List<PangkatDosen> gets() throws Exception;
 
+    public List<PangkatDosen> getByFaculty(Fakultas f) throws Exception;
+
     public CategoryDataset getCountPangkatByFaculty(Fakultas f) throws Exception;
+
     public CategoryDataset getCountPangkatAll() throws Exception;
 }

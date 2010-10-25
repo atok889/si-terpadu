@@ -16,6 +16,7 @@ import org.jfree.data.category.CategoryDataset;
 public interface JabatanAkademikDosenDAO {
 
     public List<JabatanAkademikDosen> gets() throws Exception;
+    public List<JabatanAkademikDosen> getByFaculty(Fakultas f) throws Exception;
 
     public CategoryDataset getCountJabatanByFaculty(Fakultas f) throws Exception;
 
