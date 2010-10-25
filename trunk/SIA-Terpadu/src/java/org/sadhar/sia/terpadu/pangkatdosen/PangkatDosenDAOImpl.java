@@ -68,6 +68,32 @@ public class PangkatDosenDAOImpl implements PangkatDosenDAO {
         return result;
     }
 
+    public List<PangkatDosen> getByFaculty(Fakultas f) throws Exception {
+        String sql = "select pd.npp as npp,pd.Nama_peg as nama,pd.umur as umur, "
+                + " pd.tgl_sk as tanggalsk,pd.kd_unit as kodeunit,pd.Nama_unit_kerja as namaunit,"
+                + " pd.kode_pang as kodepangkat,  kp.Nama_pang as namapangkat from tempo.pangkatdosen pd"
+                + " inner join kamus.pangkat kp on (pd.kode_pang=kp.Kd_pang)"
+                + " where pd.kd_unit LIKE '" + f.getPrefix() + "%' ";
+        List<PangkatDosen> result = new ArrayList<PangkatDosen>();
+        List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
+        for (Map m : rows) {
+            PangkatDosen pd = new PangkatDosen();
+            pd.setNpp(ClassAntiNull.AntiNullString(m.get("npp")));
+            pd.setNama(ClassAntiNull.AntiNullString(m.get("nama")));
+            pd.setUmur(ClassAntiNull.AntiNullInt(m.get("umur")));
+            pd.setTanggalSK(ClassAntiNull.AntiNullString(m.get("tanggalsk")));
+            pd.setKodeUnitKerja(ClassAntiNull.AntiNullString(m.get("kodeunit")));
+            pd.setNamaUnitKerja(ClassAntiNull.AntiNullString(m.get("namaunit")));
+            pd.setKodePangkat(ClassAntiNull.AntiNullString(m.get("kodepangkat")));
+            pd.setNamaPangkat(ClassAntiNull.AntiNullString(m.get("namapangkat")));
+
+            result.add(pd);
+
+
+        }
+        return result;
+    }
+
     public CategoryDataset getCountPangkatByFaculty(Fakultas f) throws Exception {
         String sql = "select count(pd.kode_pang) as jumlah,kp.Nama_pang as nama"
                 + " from tempo.pangkatdosen pd "
