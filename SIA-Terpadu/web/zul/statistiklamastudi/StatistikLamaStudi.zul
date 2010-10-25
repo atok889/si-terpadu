@@ -20,8 +20,8 @@
                             <rows>
                                 <row>
                                     <label value="Berdasarkan"></label>
-                                    <radio label="Berdasarkan Prodi" value="prodi" />
-                                    <radio label="Berdasarkan Semester" value="semester" />
+                                    <radio label="Berdasarkan Prodi" value="prodi" onCheck="statistikLamaStudiWnd.radioProdiOnCheck()"/>
+                                    <radio label="Berdasarkan Semester" value="semester" onCheck="statistikLamaStudiWnd.radioSemesterCheck()"/>
                                 </row>
                                 <row>
                                     <label value=""></label>
