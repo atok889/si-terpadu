@@ -17,16 +17,17 @@
 		 whenNoDataType="NoPages"
 		 isTitleNewPage="false"
 		 isSummaryNewPage="false">
-	<property name="ireport.scriptlethandling" value="2" />
+	<property name="ireport.scriptlethandling" value="0" />
 	<property name="ireport.encoding" value="UTF-8" />
 	<import value="java.util.*" />
 	<import value="net.sf.jasperreports.engine.*" />
 	<import value="net.sf.jasperreports.engine.data.*" />
 
 
+	<field name="jenis" class="java.lang.String"/>
 	<field name="nama" class="java.lang.String"/>
 	<field name="keterangan" class="java.lang.String"/>
-	<field name="jumlah" class="java.lang.Long"/>
+	<field name="no" class="java.lang.String"/>
 
 	<variable name="NO" class="java.lang.Integer" resetType="Report" calculation="Count">
 		<variableExpression><![CDATA[$V{NO}]]></variableExpression>
@@ -83,7 +84,7 @@
 					<textElement verticalAlignment="Middle">
 						<font/>
 					</textElement>
-				<text><![CDATA[Nama]]></text>
+				<text><![CDATA[Jenis]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -96,7 +97,7 @@
 					<textElement verticalAlignment="Middle">
 						<font/>
 					</textElement>
-				<text><![CDATA[Keterangan]]></text>
+				<text><![CDATA[Nama]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -109,7 +110,7 @@
 					<textElement verticalAlignment="Middle">
 						<font/>
 					</textElement>
-				<text><![CDATA[Jumlah]]></text>
+				<text><![CDATA[Keterangan]]></text>
 				</staticText>
 			</band>
 		</columnHeader>
@@ -119,14 +120,14 @@
 					<reportElement
 						x="0"
 						y="0"
-						width="41"
+						width="34"
 						height="18"
 						key="textField"/>
 					<box></box>
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{NO}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{no}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -139,7 +140,7 @@
 					<textElement verticalAlignment="Middle">
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{nama}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{jenis}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -152,7 +153,7 @@
 					<textElement verticalAlignment="Middle">
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{keterangan}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{nama}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -165,7 +166,7 @@
 					<textElement textAlignment="Right" verticalAlignment="Middle">
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.Long"><![CDATA[$F{jumlah}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{keterangan}]]></textFieldExpression>
 				</textField>
 			</band>
 		</detail>
