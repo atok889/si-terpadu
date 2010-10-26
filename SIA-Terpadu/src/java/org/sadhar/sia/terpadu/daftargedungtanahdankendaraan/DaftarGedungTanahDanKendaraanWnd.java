@@ -5,6 +5,7 @@
 package org.sadhar.sia.terpadu.daftargedungtanahdankendaraan;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -52,9 +53,14 @@ public class DaftarGedungTanahDanKendaraanWnd extends ClassApplicationModule {
 
         Listheader listheaderNo = new Listheader();
         listheaderNo.setLabel("No");
-        listheaderNo.setWidth("50px");
+        listheaderNo.setWidth("30px");
         listheaderNo.setAlign("right");
         listhead.appendChild(listheaderNo);
+
+        Listheader listheaderJenis = new Listheader();
+        listheaderJenis.setLabel("Jenis");
+        listheaderJenis.setWidth("100px");
+        listhead.appendChild(listheaderJenis);
 
         Listheader listheaderNama = new Listheader();
         listheaderNama.setLabel("Nama");
@@ -62,24 +68,19 @@ public class DaftarGedungTanahDanKendaraanWnd extends ClassApplicationModule {
 
         Listheader listheaderKeterangan = new Listheader();
         listheaderKeterangan.setLabel("Keterangan");
+        listheaderKeterangan.setAlign("right");
+        listheaderKeterangan.setWidth("100px");
         listhead.appendChild(listheaderKeterangan);
 
-        Listheader listheaderJumlah = new Listheader();
-        listheaderJumlah.setLabel("Jumlah");
-        listheaderJumlah.setAlign("right");
-        listheaderJumlah.setWidth("70px");
-        listhead.appendChild(listheaderJumlah);
+        dataReport = generateData();
 
-        dataReport = daftarGedungTanahDanKendaraanDAO.getDaftarGedungTanahDanKendaraan();
-        int no = 1;
         for (Map row : dataReport) {
             Listitem listitem = new Listitem();
-            listitem.appendChild(new Listcell(no + ""));
+            listitem.appendChild(new Listcell(row.get("no").toString()));
+            listitem.appendChild(new Listcell(row.get("jenis").toString()));
             listitem.appendChild(new Listcell(row.get("nama").toString()));
             listitem.appendChild(new Listcell(row.get("keterangan").toString()));
-            listitem.appendChild(new Listcell(row.get("jumlah").toString()));
             listboxData.appendChild(listitem);
-            no++;
         }
         listboxData.appendChild(listhead);
     }
@@ -104,5 +105,27 @@ public class DaftarGedungTanahDanKendaraanWnd extends ClassApplicationModule {
         } catch (Exception ex) {
             Messagebox.show(ex.getMessage());
         }
+    }
+
+    private List<Map> generateData() {
+        List<Map> datas = new ArrayList<Map>();
+        String currentJenis = "";
+        int no = 1;
+        for (Map data : daftarGedungTanahDanKendaraanDAO.getDaftarGedungTanahDanKendaraan()) {
+            Map map = new HashMap();
+
+            if (currentJenis.equals(data.get("jenis"))) {
+                map.put("jenis", "");
+                map.put("no", "");
+            } else {
+                currentJenis = data.get("jenis").toString();
+                map.put("no", String.valueOf(no++));
+                map.put("jenis", currentJenis);
+            }           
+            map.put("nama", data.get("nama"));
+            map.put("keterangan", data.get("keterangan"));
+            datas.add(map);
+        }
+        return datas;
     }
 }
