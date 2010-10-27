@@ -39,7 +39,7 @@ public class RerataIpsDAOImpl implements RerataIpsDAO {
                 String sql = "SELECT  IF(LEFT(nomor_mhs, 1)='9', CONCAT('19', LEFT(nomor_mhs, 2))," +
                         " IF(LEFT(nomor_mhs, 1)='8', CONCAT('19', LEFT(nomor_mhs,2)), CONCAT('20', LEFT( nomor_mhs, 2)))) AS angkatan," +
                         " SUBSTRING(ambil,1,4) as tahun, SUBSTRING(ambil,5,1) AS semester, " +
-                        " SUM(sks * angka)/SUM(sks) as ips,fak.Nama_fak FROM db_" + kodeProdi + ".kt" + kodeProdi + tahunAngkatan + " as kt " +
+                        " SUM(sks * angka)/SUM(sks) as ips,fak.Nama_fak,prg.Nama_prg FROM db_" + kodeProdi + ".kt" + kodeProdi + tahunAngkatan + " as kt " +
                         " INNER JOIN kamus.nilai nilai ON (nilai.huruf = kt.Nilai)" +
                         " INNER JOIN kamus.prg_std prg ON (prg.Kd_prg = '" + kodeProdi + "') " +
                         " INNER JOIN kamus.fakultas fak ON (prg.Kd_fak = fak.Kd_fakultas)" +
