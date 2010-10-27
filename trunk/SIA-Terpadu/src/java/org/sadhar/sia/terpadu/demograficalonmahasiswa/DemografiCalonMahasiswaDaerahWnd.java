@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.sadhar.sia.terpadu.demograficalonmahasiswa;
 
 import java.awt.Color;
@@ -45,7 +44,8 @@ import org.zkoss.zul.Messagebox;
  *
  * @author Hendro Steven
  */
-public class DemografiCalonMahasiswaDaerahWnd extends ClassApplicationModule{
+public class DemografiCalonMahasiswaDaerahWnd extends ClassApplicationModule {
+
     Combobox cmbProgdi;
     Combobox cmbProvinsi;
     Combobox cmbKabKota;
@@ -57,14 +57,15 @@ public class DemografiCalonMahasiswaDaerahWnd extends ClassApplicationModule{
     Button btnExport;
     JFreeChart chart = null;
 
-    public DemografiCalonMahasiswaDaerahWnd(){}
+    public DemografiCalonMahasiswaDaerahWnd() {
+    }
 
-    public void onCreate()throws Exception{
+    public void onCreate() throws Exception {
         cmbProgdi = (Combobox) getFellow("cmbProgdi");
         cmbProvinsi = (Combobox) getFellow("cmbProvinsi");
         cmbKabKota = (Combobox) getFellow("cmbKabKota");
         //txtTahunPendaftaran = (Textbox) getFellow("txtTahunPendaftaran");
-        cmbTahunPendaftaran = (Combobox)getFellow("cmbTahunPendaftaran");
+        cmbTahunPendaftaran = (Combobox) getFellow("cmbTahunPendaftaran");
         report = (Jasperreport) getFellow("report");
         chartImg = (Image) getFellow("chartImg");
         cmbExportType = (Combobox) getFellow("cmbExportType");
@@ -82,7 +83,6 @@ public class DemografiCalonMahasiswaDaerahWnd extends ClassApplicationModule{
         cmbKabKota.setDisabled(true);
     }
 
-
     private void loadTahun() throws Exception {
         int currentYear = new DateTime().getYear();
         cmbTahunPendaftaran.getItems().clear();
@@ -90,7 +90,6 @@ public class DemografiCalonMahasiswaDaerahWnd extends ClassApplicationModule{
         item.setValue("");
         item.setLabel("-- Pilih Tahun --");
         cmbTahunPendaftaran.appendChild(item);
-        System.out.println(currentYear);
         for (int x = 2000; x <= currentYear; x++) {
             Comboitem itm = new Comboitem();
             itm.setValue(x);
@@ -177,8 +176,8 @@ public class DemografiCalonMahasiswaDaerahWnd extends ClassApplicationModule{
         }
     }
 
-     public void viewReport() throws Exception {
-         try {
+    public void viewReport() throws Exception {
+        try {
             DemografiCalonMahasiswaDAO dao = new DemografiCalonMahasiswaDAOImpl();
             CategoryDataset dataset = dao.getAsalDaerahDataset((ProgramStudi) cmbProgdi.getSelectedItem().getValue(),
                     cmbTahunPendaftaran.getSelectedItem().getValue().toString(),
@@ -241,5 +240,5 @@ public class DemografiCalonMahasiswaDaerahWnd extends ClassApplicationModule{
             ex.printStackTrace();
             Messagebox.show("Data Program Studi tidak ditemukan");
         }
-     }
+    }
 }
