@@ -78,7 +78,6 @@ public class DemografiCalonMahasiswaWnd extends ClassApplicationModule {
         item.setValue("");
         item.setLabel("-- Pilih Tahun --");
         cmbTahunPendaftaran.appendChild(item);
-        System.out.println(currentYear);
         for (int x = 2000; x <= currentYear; x++) {
             Comboitem itm = new Comboitem();
             itm.setValue(x);

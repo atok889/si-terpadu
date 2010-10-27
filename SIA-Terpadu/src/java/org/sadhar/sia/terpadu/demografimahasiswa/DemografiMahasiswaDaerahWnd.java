@@ -22,6 +22,7 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
+import org.joda.time.DateTime;
 import org.sadhar.sia.framework.ClassApplicationModule;
 import org.sadhar.sia.terpadu.jumlahmahasiswa.JumlahMahasiswaDAOImpl;
 import org.sadhar.sia.terpadu.jumlahmahasiswa.JumlahMahasiswaDAO;
@@ -36,7 +37,6 @@ import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Image;
 import org.zkoss.zul.Messagebox;
-import org.zkoss.zul.Textbox;
 
 /**
  *
@@ -47,7 +47,8 @@ public class DemografiMahasiswaDaerahWnd extends ClassApplicationModule {
     Combobox cmbProgdi;
     Combobox cmbProvinsi;
     Combobox cmbKabKota;
-    Textbox txtTahunAngkatan;
+    //Textbox txtTahunAngkatan;
+    Combobox cmbTahunAngkatan;
     Jasperreport report;
     Image chartImg;
     Combobox cmbExportType;
@@ -62,7 +63,8 @@ public class DemografiMahasiswaDaerahWnd extends ClassApplicationModule {
         cmbProgdi = (Combobox) getFellow("cmbProgdi");
         cmbProvinsi = (Combobox) getFellow("cmbProvinsi");
         cmbKabKota = (Combobox) getFellow("cmbKabKota");
-        txtTahunAngkatan = (Textbox) getFellow("txtTahunAngkatan");
+        //txtTahunAngkatan = (Textbox) getFellow("txtTahunAngkatan");
+        cmbTahunAngkatan = (Combobox)getFellow("cmbTahunAngkatan");
         report = (Jasperreport) getFellow("report");
         chartImg = (Image) getFellow("chartImg");
         cmbExportType = (Combobox) getFellow("cmbExportType");
@@ -79,6 +81,24 @@ public class DemografiMahasiswaDaerahWnd extends ClassApplicationModule {
         cmbExportType.setSelectedIndex(0);
         cmbKabKota.setSelectedIndex(0);
         cmbKabKota.setDisabled(true);
+
+        loadTahun();
+        cmbTahunAngkatan.setSelectedIndex(0);
+    }
+
+    private void loadTahun() throws Exception {
+        int currentYear = new DateTime().getYear();
+        cmbTahunAngkatan.getItems().clear();
+        Comboitem item = new Comboitem();
+        item.setValue("");
+        item.setLabel("-- Pilih Tahun --");
+        cmbTahunAngkatan.appendChild(item);
+        for (int x = 2000; x <= currentYear; x++) {
+            Comboitem itm = new Comboitem();
+            itm.setValue(x);
+            itm.setLabel(x + "");
+            cmbTahunAngkatan.appendChild(itm);
+        }
     }
 
     private void loadJumlah() throws Exception {
@@ -195,7 +215,7 @@ public class DemografiMahasiswaDaerahWnd extends ClassApplicationModule {
     public void viewReport() throws Exception {
         try {
             DemografiMahasiswaDAO dao = new DemografiMahasiswaDAOImpl();
-            CategoryDataset dataset = dao.getAsalDaerahDataset((ProgramStudi) cmbProgdi.getSelectedItem().getValue(), txtTahunAngkatan.getValue(), (Provinsi) cmbProvinsi.getSelectedItem().getValue(), (KabKota) cmbKabKota.getSelectedItem().getValue(), 
+            CategoryDataset dataset = dao.getAsalDaerahDataset((ProgramStudi) cmbProgdi.getSelectedItem().getValue(), cmbTahunAngkatan.getSelectedItem().getValue().toString(), (Provinsi) cmbProvinsi.getSelectedItem().getValue(), (KabKota) cmbKabKota.getSelectedItem().getValue(),
                     Integer.valueOf(cmbJumlah.getSelectedItem().getValue().toString()));
 
             ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
