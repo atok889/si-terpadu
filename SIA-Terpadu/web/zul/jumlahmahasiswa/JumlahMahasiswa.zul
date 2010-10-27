@@ -18,7 +18,7 @@
                             <row>
                                 <label value="Tahun Angkatan"></label>
                                 <hbox>
-                                    <textbox id="txtTahunAngkatan" width="80px"/><label value="Ex. 2010"/>
+                                    <combobox id="cmbTahunAngkatan" width="200px"/>
                                 </hbox>
                             </row>
                         </rows>
