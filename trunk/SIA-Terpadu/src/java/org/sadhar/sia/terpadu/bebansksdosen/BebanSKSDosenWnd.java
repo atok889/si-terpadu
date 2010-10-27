@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.joda.time.DateTime;
 import org.sadhar.sia.framework.ClassApplicationModule;
 import org.sadhar.sia.terpadu.prodi.ProgramStudi;
 import org.sadhar.sia.terpadu.prodi.ProgramStudiDAO;
@@ -21,7 +22,6 @@ import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Messagebox;
-import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
 
 /**
@@ -31,7 +31,8 @@ import org.zkoss.zul.Window;
 public class BebanSKSDosenWnd extends ClassApplicationModule {
 
     Combobox cmbProgdi;
-    Textbox txtTahun;
+    //Textbox txtTahun;
+    Combobox cmbTahun;
     Combobox cmbSemester;
     Jasperreport report;
     Listbox lstData;
@@ -43,7 +44,8 @@ public class BebanSKSDosenWnd extends ClassApplicationModule {
 
     public void onCreate() throws Exception {
         cmbProgdi = (Combobox) getFellow("cmbProgdi");
-        txtTahun = (Textbox) getFellow("txtTahun");
+        //txtTahun = (Textbox) getFellow("txtTahun");
+        cmbTahun = (Combobox)getFellow("cmbTahun");
         cmbSemester = (Combobox) getFellow("cmbSemester");
         report = (Jasperreport) getFellow("report");
         lstData = (Listbox) getFellow("lstData");
@@ -55,8 +57,24 @@ public class BebanSKSDosenWnd extends ClassApplicationModule {
         loadSemester();
         cmbProgdi.setSelectedIndex(0);
         cmbSemester.setSelectedIndex(0);
+        loadTahun();
+        cmbTahun.setSelectedIndex(0);
 
+    }
 
+    private void loadTahun() throws Exception {
+        int currentYear = new DateTime().getYear();
+        cmbTahun.getItems().clear();
+        Comboitem item = new Comboitem();
+        item.setValue("");
+        item.setLabel("-- Pilih Tahun --");
+        cmbTahun.appendChild(item);
+        for (int x = 2000; x <= currentYear; x++) {
+            Comboitem itm = new Comboitem();
+            itm.setValue(x);
+            itm.setLabel(x + "");
+            cmbTahun.appendChild(itm);
+        }
     }
 
     private void loadProgdi() throws Exception {
@@ -79,7 +97,7 @@ public class BebanSKSDosenWnd extends ClassApplicationModule {
         cmbSemester.getItems().clear();
         Comboitem item1 = new Comboitem();
         item1.setValue(1);
-        item1.setLabel("Ganjil (1)");
+        item1.setLabel("Gasal (1)");
         cmbSemester.appendChild(item1);
         Comboitem item2 = new Comboitem();
         item2.setValue(2);
@@ -91,9 +109,9 @@ public class BebanSKSDosenWnd extends ClassApplicationModule {
     public void viewReport() throws Exception {
         try {
             lstData.getItems().clear();
-            if (!txtTahun.getValue().isEmpty()) {
+            if (!cmbTahun.getSelectedItem().getValue().toString().isEmpty()) {
                 BebanSKSDosenDAO dao = new BebanSKSDosenDAOImpl();
-                bebans = dao.getBebanSKSDosen((ProgramStudi) cmbProgdi.getSelectedItem().getValue(), txtTahun.getValue(), Integer.valueOf(cmbSemester.getSelectedItem().getValue().toString()));
+                bebans = dao.getBebanSKSDosen((ProgramStudi) cmbProgdi.getSelectedItem().getValue(), cmbTahun.getSelectedItem().getValue().toString(), Integer.valueOf(cmbSemester.getSelectedItem().getValue().toString()));
                 for (BebanSKSDosen bsd : bebans) {
                     Listitem item = new Listitem();
                     item.setValue(bsd);
@@ -116,7 +134,7 @@ public class BebanSKSDosenWnd extends ClassApplicationModule {
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(bebans);
             Map param = new HashMap();            
             param.put("prodi", ((ProgramStudi) cmbProgdi.getSelectedItem().getValue()).getNama());
-            param.put("tahun", txtTahun.getValue().toString());
+            param.put("tahun", cmbTahun.getSelectedItem().getValue().toString());
             param.put("semester", cmbSemester.getSelectedItem().getValue() + "");
             if (cmbExportType.getSelectedItem().getValue().toString().equals("pdf")) {
                 Window pdfPreviewWnd = (Window) Executions.createComponents("/zul/pdfpreview/PdfPreview.zul", null, null);
