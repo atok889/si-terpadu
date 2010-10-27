@@ -19,7 +19,7 @@ public class PenghapusanBarangInvestasiDAOImpl implements PenghapusanBarangInves
     }
 
     public List<Map> getModelPenghapusanBarang() {
-        String sql = "select * from asset.modelpenghapusanbarang";
+        String sql = "select * from asset.modelPenghapusanBarang";
         return ClassConnection.getJdbc().queryForList(sql);
     }
 
