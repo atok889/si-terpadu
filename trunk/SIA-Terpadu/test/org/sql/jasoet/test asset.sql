@@ -8,4 +8,4 @@ FROM
  kamus.subkelompokbaranginvestasi subkelompokbaranginvestasi
  ON (subkelompokbaranginvestasi.kodeSubKelompokBarangInvestasi = baranginvestasi.kodeSubKelompokBarangInvestasi)
 GROUP BY baranginvestasi.`kodeSubKelompokBarangInvestasi`
-HAVING COUNT(baranginvestasi.`kodeSubKelompokBarangInvestasi`) > 1
+HAVING COUNT(baranginvestasi.`kodeSubKelompokBarangInvestasi`) >= 1
