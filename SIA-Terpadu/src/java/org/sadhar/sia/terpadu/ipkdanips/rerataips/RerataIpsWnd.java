@@ -229,28 +229,45 @@ public class RerataIpsWnd extends ClassApplicationModule {
         if (angkatan.equalsIgnoreCase("null")) {
             angkatan = null;
         }
-
         List<Map> result = new ArrayList<Map>();
-
         if (angkatan == null && kodeProdi != null) {
             result = rerataIpsDAO.getRerataIps(kodeProdi, angkatan);
-            for (Map data : result) {
-                Double ips = 0d;
-                if (data.get("ips") == null || data.get("ips") == "") {
-                    ips = 0d;
-                } else {
-                    ips = Double.parseDouble(data.get("ips").toString().substring(0, 4));
+            for (int tahun = 2000; tahun <= maxYear; tahun++) {
+                List<Map> datas = rerataIpsDAO.getRerataIps("1114", String.valueOf(tahun));
+                for (int i = 2000; i <= maxYear; i++) {
+                    Map map = new HashMap();
+                    for (int j = 1; j <= 2; j++) {
+                        double ipsTotal = 0d;
+                        int count = 0;
+                        for (Map data : datas) {
+                            double ips = 0d;
+                            if (data.get("ips") == null || data.get("ips") == "") {
+                                ips = 0d;
+                            } else {
+                                ips = Double.parseDouble(data.get("ips").toString().substring(0, 4));
+                            }
+                            if (data.get("tahun").toString().equals(String.valueOf(i)) && data.get("semester").toString().equals(String.valueOf(j))) {
+                                count++;
+                                ipsTotal += ips;
+                            }
+
+                            if (ipsTotal > 0) {
+                                map.put("ips", new DecimalFormat("# 0.00").format(ipsTotal / count));
+                            } else {
+                                map.put("ips", "0.0");
+                            }
+
+                            map.put("angkatan", data.get("angkatan"));
+                            map.put("tahun", String.valueOf(i));
+                            map.put("fakultas", data.get("Nama_prg"));
+                            map.put("semester", j);
+                            dataReport.add(map);
+                        }
+                        dataset.addValue(Double.valueOf(map.get("ips").toString()),
+                                map.get("tahun") + "-" + map.get("semester").toString(),
+                                map.get("fakultas").toString() + "-" + map.get("angkatan"));
+                    }
                 }
-                dataset.addValue(ips, data.get("tahun") + "-" + data.get("semester").toString(), data.get("Nama_prg").toString() + "-" + data.get("angkatan"));
-                Map map = new HashMap();
-//                for (Object row : dataset.getColumnKeys()) {
-//                    map.put("fakultas", row.toString().substring(0, 10));
-//                }
-                map.put("fakultas",data.get("Nama_prg"));
-                map.put("ips", ips.toString());
-                map.put("tahun", data.get("tahun") + "-" + data.get("semester").toString());
-                map.put("angkatan", String.valueOf(data.get("angkatan").toString()));
-                dataReport.add(map);
             }
         } else if (angkatan != null && kodeProdi == null) {
             List<Map> prodis = rerataIpsDAO.getProdi();
@@ -299,13 +316,10 @@ public class RerataIpsWnd extends ClassApplicationModule {
                 }
             }
         } else if ((kodeProdi == null && angkatan == null) || (angkatan != null && kodeProdi != null)) {
-
             result = rerataIpsDAO.getRerataIps(kodeProdi, angkatan);
-
             if (angkatan != null) {
                 currentYear = Integer.valueOf(angkatan);
             }
-
             //Tahun
             for (int i = currentYear; i <= maxYear; i++) {
                 //Semester
