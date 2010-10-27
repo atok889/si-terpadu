@@ -23,6 +23,7 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
+import org.joda.time.DateTime;
 import org.sadhar.sia.framework.ClassApplicationModule;
 import org.zkoss.image.AImage;
 import org.zkoss.zk.ui.Executions;
@@ -42,7 +43,8 @@ import org.zkoss.zul.Window;
 public class JumlahMahasiswaWnd extends ClassApplicationModule {
 
     Combobox cmbProgdi;
-    Textbox txtTahunAngkatan;
+    //Textbox txtTahunAngkatan;
+    Combobox cmbTahunAngkatan;
     Jasperreport report;
     Image chartImg;
     Combobox cmbExportType;
@@ -54,7 +56,7 @@ public class JumlahMahasiswaWnd extends ClassApplicationModule {
 
     public void onCreate() throws Exception {
         cmbProgdi = (Combobox) getFellow("cmbProgdi");
-        txtTahunAngkatan = (Textbox) getFellow("txtTahunAngkatan");
+        cmbTahunAngkatan = (Combobox) getFellow("cmbTahunAngkatan");
         report = (Jasperreport) getFellow("report");
         chartImg = (Image) getFellow("chartImg");
         cmbExportType = (Combobox) getFellow("cmbExportType");
@@ -63,6 +65,23 @@ public class JumlahMahasiswaWnd extends ClassApplicationModule {
         loadProgdi();
         cmbProgdi.setSelectedIndex(0);
         cmbExportType.setSelectedIndex(0);
+        loadTahun();
+        cmbTahunAngkatan.setSelectedIndex(0);
+    }
+
+    private void loadTahun() throws Exception {
+        int currentYear = new DateTime().getYear();
+        cmbTahunAngkatan.getItems().clear();
+        Comboitem item = new Comboitem();
+        item.setValue("");
+        item.setLabel("-- Pilih Tahun Angkatan --");
+        cmbTahunAngkatan.appendChild(item);
+        for (int x = 2000; x <= currentYear; x++) {
+            Comboitem itm = new Comboitem();
+            itm.setValue(x);
+            itm.setLabel(x + "");
+            cmbTahunAngkatan.appendChild(itm);
+        }
     }
 
     private void loadProgdi() throws Exception {
@@ -72,7 +91,7 @@ public class JumlahMahasiswaWnd extends ClassApplicationModule {
             cmbProgdi.getItems().clear();
             Comboitem item = new Comboitem();
             item.setValue(null);
-            item.setLabel("--Pilih Prodi--");
+            item.setLabel("-- Seluruh Universitas --");
             cmbProgdi.appendChild(item);
             for (ProgramStudi ps : progdis) {
                 Comboitem items = new Comboitem();
@@ -88,7 +107,7 @@ public class JumlahMahasiswaWnd extends ClassApplicationModule {
     public void viewReport() throws Exception {
         try {
             JumlahMahasiswaDAO dao = new JumlahMahasiswaDAOImpl();
-            CategoryDataset dataset = dao.getDataset((ProgramStudi) cmbProgdi.getSelectedItem().getValue(), txtTahunAngkatan.getValue());
+            CategoryDataset dataset = dao.getDataset((ProgramStudi) cmbProgdi.getSelectedItem().getValue(), cmbTahunAngkatan.getSelectedItem().getValue().toString());
             ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
             BarRenderer.setDefaultBarPainter(new StandardBarPainter());
             if (cmbProgdi.getSelectedItem().getValue() == null) {
