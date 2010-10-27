@@ -19,8 +19,7 @@
                             <row>
                                 <label value="Tahun Ajaran"></label>
                                 <hbox>
-                                   <textbox id="txtTahun" width="100px" />
-                                   <label value="Ex.2010"/>
+                                   <combobox id="cmbTahun" width="150px"/>
                                 </hbox>
                             </row>
                             <row>
