@@ -78,7 +78,7 @@
                         <menu label="SDM" height="30px">
                             <menupopup id="4">
                                 <menuitem  label="Laporan Data Pegawai" value="xx" onClick="main.showObject(self.value)" />
-                                <menuitem  label="Jumlah Pegawai Administratif" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Jumlah Pegawai Administratif" value="/zul/jumlahpegawaiadministratif/JumlahPegawai.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Jumlah Status Izin atau Cuti Pegawai (Non Akademis)" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Distribusi Umur Dosen dan Pegawai" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Pendidikan Karyawan (Staf Non Akademis)" value="/zul/pendidikankaryawan/PendidikanKaryawan.zul" onClick="main.showObject(self.value)" />
@@ -86,7 +86,7 @@
                         </menu>
                         <menu label="MA" height="30px">
                             <menupopup id="5">
-                                <menuitem  label="Pembelian Barang Investasi" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Pembelian Barang Investasi" value="/zul/pembelianbaranginvestasi/PembelianBarangInvestasi.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Jumlah Uang Investasi" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Penghapusan Barang Investasi" value="/zul/penghapusanbaranginvestasi/PenghapusanBarangInvestasi.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Daftar Gedung, Tanah dan Kendaraan" value="/zul/daftargedungtanahdankendaraan/DaftarGedungTanahDanKendaraaan.zul" onClick="main.showObject(self.value)" />
