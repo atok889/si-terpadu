@@ -7,9 +7,9 @@ unit_peg.kd_unit,
 `cuti2008`.`lama_cuti`,
 kamus.jns_cuti.nama_cuti
 FROM
-cuti2008
-LEFT OUTER JOIN pegawai ON (cuti2008.kdPegawai = pegawai.kdPegawai)
-LEFT OUTER JOIN unit_peg ON (cuti2008.kdPegawai = unit_peg.kdPegawai)
+personalia.cuti2008
+LEFT OUTER JOIN personalia.pegawai ON (cuti2008.kdPegawai = pegawai.kdPegawai)
+LEFT OUTER JOIN personalia.unit_peg ON (cuti2008.kdPegawai = unit_peg.kdPegawai)
 INNER JOIN kamus.jns_cuti ON (`cuti2008`.`Jenis_cuti`=kamus.jns_cuti.Kd_cuti)
 INNER JOIN kamus.unkerja ON (`unit_peg`.`kd_unit`=kamus.unkerja.`kd_unit_kerja`)
 WHERE
@@ -27,9 +27,9 @@ unit_peg.kd_unit,
 `cuti2008`.`lama_cuti`,
 kamus.jns_cuti.nama_cuti
 FROM
-cuti2008
-LEFT OUTER JOIN pegawai ON (cuti2008.kdPegawai = pegawai.kdPegawai)
-LEFT OUTER JOIN unit_peg ON (cuti2008.kdPegawai = unit_peg.kdPegawai)
+personalia.cuti2008
+LEFT OUTER JOIN personalia.pegawai ON (cuti2008.kdPegawai = pegawai.kdPegawai)
+LEFT OUTER JOIN personalia.unit_peg ON (cuti2008.kdPegawai = unit_peg.kdPegawai)
 INNER JOIN kamus.jns_cuti ON (`cuti2008`.`Jenis_cuti`=kamus.jns_cuti.Kd_cuti)
 INNER JOIN kamus.unkerja ON (`unit_peg`.`kd_unit`=kamus.unkerja.`kd_unit_kerja`)
 WHERE
