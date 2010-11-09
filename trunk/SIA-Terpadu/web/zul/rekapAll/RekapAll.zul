@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c" ?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit" ?>
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <div align="center">
+        <window id="window1" title="REKAPITULASI KEUANGAN" width="1000px" border="normal" style="padding-top:20px"
+                use="org.sadhar.simk.rekapAll.RekapAllWnd" >
+            <grid>
+                <columns>
+                    <column width="16%"/>
+                    <column width="84%"/>
+                </columns>
+                <rows>
+                    <row>
+                        <label value="Tahun Anggaran"/>
+                        <label id="lblTahunAnggaran"/> 
+                    </row>
+                    <row>
+                        <label value="Nama Unit"/>
+                        <hbox>
+                            <textbox width="100px" id="textKodeUnit" height="16px" visible="false" />
+                            <textbox width="500px" id="textNamaUnit" height="16px" onChange="window1.UnitOnChange()" onOK="window1.LoadUnit()"/>
+                            <button id="btnUnit" height="20px" visible="true" label="..." onClick="window1.LoadUnit()" />
+                        </hbox>
+                    </row>
+                </rows>
+            </grid>            
+            <separator/>
+            <groupbox >
+                <div align="right">
+                    <label value="Format Cetak :" />
+                    <listbox id="format" mold="select" height="25px" >
+                        <listitem label="PDF" value="pdf" selected="true" />
+                        <listitem label="XML" value="xml" />
+                        <listitem label="HTML" value="html" />
+                        <listitem label="Word (RTF)" value="rtf" />
+                        <listitem label="Excel" value="xls" />
+                        <listitem label="Excel (JXL)" value="jxl" />
+                        <listitem label="CSV" value="csv" />
+                        <listitem label="OpenOffice (ODT)" value="odt" unless="false"/>
+                    </listbox>
+                    <button id="btnCetak" height="25px" disabled="false" label="Cetak" onClick="window1.Cetak()" style="color:blue" />
+                </div>
+            </groupbox>
+            <div align="center">
+                <jasperreport id="JasperCetak" width="980px" height="465px" visible="false" />
+            </div>
+            <groupbox visible="false" id="grouptutup" >
+                <div align="right">
+                    <space/>
+                    <button id="btnTutupCetak" height="26px" style="font-weight:bold" label="Tutup " onClick="window1.CloseCetak()" />
+                </div>
+            </groupbox >
+            <window visible="false" id="windowDaftarUnit" width="500px" height="295px" closable="false" title="Daftar Unit" border="normal" >
+                <div align="center">
+                    <listbox id="lstboxDaftarUnit" onSelect="window1.DaftarUnitOnSelect()" rows="10">
+                        <listhead>
+                            <listheader label="No" width="10%" align="center"/>
+                            <listheader label="Nama Unit" width="90%" />
+                        </listhead>
+                    </listbox>
+                </div>
+                <groupbox >
+                    <div align="right">
+                        <button id="btnTutupWindowDaftarUnit" label="tutup " onClick="window1.Close()" />
+                    </div>
+                </groupbox >
+            </window>
+        </window>
+    </div>
+</zk>
