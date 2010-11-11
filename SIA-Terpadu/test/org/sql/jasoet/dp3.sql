@@ -18,7 +18,7 @@
 -- nilai rata diambul dari nilai yg diberikan oleh masing2 tim dan dibagi menjadi jumlah tim yg menilai..
 SELECT timpenilaidp3.kdPegawaiYgDinilai,
         pegawai.Nama_peg,
-       SUM(DISTINCT nilaisubkomponenpegawai.Nilai)/count(nilaisubkomponenpegawai.Nilai)as nilaiDP3,
+       SUM(nilaisubkomponenpegawai.Nilai)/count(nilaisubkomponenpegawai.Nilai)as nilaiDP3,
        unit_peg.kd_unit,
        unkerja.Nama_unit_kerja,
        timpenilaidp3.tahunPenilaian
