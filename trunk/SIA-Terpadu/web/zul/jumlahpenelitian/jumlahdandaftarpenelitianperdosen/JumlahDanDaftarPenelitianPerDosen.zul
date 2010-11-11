@@ -37,6 +37,18 @@
                     <image id="chartImg"/>
                 </div>
             </groupbox>
+            <groupbox visible="false" id="groupDetail">
+                <listbox id="listboxData">
+                    <listhead>
+                        <listheader label="No" align="right"></listheader>
+                        <listheader label="Jumlah Penelitian"></listheader>
+                        <listheader label="Tahun" align="right"></listheader>
+                    </listhead>
+                    <listitem>
+                        
+                    </listitem>
+                </listbox>
+            </groupbox>
             <groupbox visible="false">
                 <caption label="Export"></caption>
                 <div style="padding:3px" align="right">
