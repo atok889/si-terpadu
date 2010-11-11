@@ -4,14 +4,10 @@
  */
 package org.sadhar.sia.terpadu.jumlahpenelitian.jumlahdandaftarpenelitianperdosen;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,31 +15,18 @@ import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.axis.NumberTickUnit;
 import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.encoders.EncoderUtil;
 import org.jfree.chart.encoders.ImageFormat;
-import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot3D;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.category.CategoryItemRenderer;
-import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.time.Hour;
-import org.jfree.data.time.Minute;
-import org.jfree.data.time.Month;
-import org.jfree.data.time.TimeSeries;
-import org.jfree.data.time.TimeSeriesCollection;
-import org.jfree.data.time.Year;
-import org.jfree.data.xy.XYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.joda.time.DateTime;
 import org.sadhar.sia.framework.ClassApplicationModule;
-import org.sadhar.sia.terpadu.jumlahpenelitian.jumlahpenelitianperprodi.JumlahPenelitianPerProdiDAO;
 import org.zkoss.image.AImage;
 import org.zkoss.zhtml.Messagebox;
 import org.zkoss.zk.ui.Executions;
@@ -51,7 +34,11 @@ import org.zkoss.zkex.zul.Jasperreport;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
+import org.zkoss.zul.Groupbox;
 import org.zkoss.zul.Image;
+import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listcell;
+import org.zkoss.zul.Listitem;
 import org.zkoss.zul.Window;
 
 /**
@@ -68,6 +55,8 @@ public class JumlahDanDaftarPenelitianPerDosenWnd extends ClassApplicationModule
     private String kodeProdi;
     private Button btnExport;
     private Image chartImg;
+    private Listbox listboxData;
+    private Groupbox groupDetail;
     private JFreeChart chart = null;
 
     public JumlahDanDaftarPenelitianPerDosenWnd() {
@@ -82,6 +71,8 @@ public class JumlahDanDaftarPenelitianPerDosenWnd extends ClassApplicationModule
         cmbExportType.setSelectedIndex(0);
         chartImg = (Image) getFellow("chartImg");
         cmbboxDosen = (Combobox) getFellow("cmbboxDosen");
+        listboxData = (Listbox) getFellow("listboxData");
+        groupDetail = (Groupbox) getFellow("groupDetail");
         this.loadDataProdiToCombo();
     }
 
@@ -135,84 +126,87 @@ public class JumlahDanDaftarPenelitianPerDosenWnd extends ClassApplicationModule
     }
 
     public void cmbDataDosenOnSelect() throws IOException {
-        List<Map> results = jumlahDanDaftarPenelitianPerDosenDAO.getDetailJumlahDanDaftarPenelitianPerDosen(cmbboxDosen.getSelectedItem().getValue().toString());
-        List<Map> datas = new ArrayList<Map>();
-        for (int i = new DateTime().getYear() - 5; i <= new DateTime().getYear(); i++) {
-            Map map = new HashMap();
-            String tahun = null;
-            String nama = null;
-            String jumlah = null;
-            for (Map data : results) {
-                if (Integer.valueOf(data.get("tahunPenilaian").toString()) == i) {
-                    tahun = data.get("tahunPenilaian").toString();
-                    nama = data.get("Nama_peg").toString();
-                    jumlah = data.get("jumlah").toString();
-                    break;
-                } else {
-                    tahun = String.valueOf(i);
-                    nama = "";
-                    jumlah = "0";
+        if (cmbboxDosen.getSelectedItem().getValue() != null) {
+            List<Map> results = jumlahDanDaftarPenelitianPerDosenDAO.getDetailJumlahDanDaftarPenelitianPerDosen(cmbboxDosen.getSelectedItem().getValue().toString());
+            List<Map> datas = new ArrayList<Map>();
+            for (int i = new DateTime().getYear() - 5; i <= new DateTime().getYear(); i++) {
+                Map map = new HashMap();
+                String tahun = null;
+                String nama = null;
+                String jumlah = null;
+                for (Map data : results) {
+                    if (Integer.valueOf(data.get("tahunPenilaian").toString()) == i) {
+                        tahun = data.get("tahunPenilaian").toString();
+                        nama = data.get("Nama_peg").toString();
+                        jumlah = data.get("jumlah").toString();
+                        break;
+                    } else {
+                        tahun = String.valueOf(i);
+                        nama = "";
+                        jumlah = "0";
+                    }
                 }
+                map.put("tahun", tahun);
+                map.put("nama", nama);
+                map.put("jumlah", jumlah);
+                datas.add(map);
             }
-            map.put("tahun", tahun);
-            map.put("nama", nama);
-            map.put("jumlah", jumlah);
-            datas.add(map);
+
+            final XYSeries series = new XYSeries("");
+
+            for (Map map : datas) {
+                series.add(Integer.valueOf(map.get("tahun").toString()), Integer.valueOf(map.get("jumlah").toString()));
+            }
+
+            final XYSeriesCollection dataset = new XYSeriesCollection();
+            dataset.addSeries(series);
+            // create the chart...
+            chart = ChartFactory.createXYLineChart(
+                    "", // chart title
+                    "", // x axis label
+                    "", // y axis label
+                    dataset, // data
+                    PlotOrientation.VERTICAL,
+                    true, // include legend
+                    true, // tooltips
+                    false // urls
+                    );
+
+            // NOW DO SOME OPTIONAL CUSTOMISATION OF THE CHART...
+            chart.setBackgroundPaint(Color.white);
+
+            // get a reference to the plot for further customisation...
+            final XYPlot plot = chart.getXYPlot();
+            plot.setBackgroundPaint(Color.lightGray);
+
+            plot.setDomainGridlinePaint(Color.white);
+            plot.setRangeGridlinePaint(Color.white);
+
+            final XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
+            renderer.setSeriesLinesVisible(0, true);
+            renderer.setSeriesShapesVisible(1, true);
+            plot.setRenderer(renderer);
+
+            //  change the auto tick unit selection to integer units only...
+            NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();
+            numberAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+
+            ValueAxis valueAxis = plot.getDomainAxis();
+            valueAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
+            //axis.setRange(2005, 2010);
+
+            BufferedImage bi = chart.createBufferedImage(900, 500, BufferedImage.TRANSLUCENT, null);
+            byte[] bytes = EncoderUtil.encode(bi, ImageFormat.PNG, true);
+            AImage image = new AImage("Bar Chart", bytes);
+            chartImg.setContent(image);
+            btnExport.setDisabled(false);
+            showDetail();
         }
-
-        final XYSeries series = new XYSeries("");
-
-        for (Map map : datas) {
-            series.add(Integer.valueOf(map.get("tahun").toString()), Integer.valueOf(map.get("jumlah").toString()));
-        }
-
-        final XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(series);
-        // create the chart...
-        chart = ChartFactory.createXYLineChart(
-                "", // chart title
-                "", // x axis label
-                "", // y axis label
-                dataset, // data
-                PlotOrientation.VERTICAL,
-                true, // include legend
-                true, // tooltips
-                false // urls
-                );
-
-        // NOW DO SOME OPTIONAL CUSTOMISATION OF THE CHART...
-        chart.setBackgroundPaint(Color.white);
-
-        // get a reference to the plot for further customisation...
-        final XYPlot plot = chart.getXYPlot();
-        plot.setBackgroundPaint(Color.lightGray);
-
-        plot.setDomainGridlinePaint(Color.white);
-        plot.setRangeGridlinePaint(Color.white);
-
-        final XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
-        renderer.setSeriesLinesVisible(0, true);
-        renderer.setSeriesShapesVisible(1, true);
-        plot.setRenderer(renderer);
-
-        //  change the auto tick unit selection to integer units only...
-        NumberAxis numberAxis = (NumberAxis) plot.getRangeAxis();
-        numberAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-
-        ValueAxis valueAxis = plot.getDomainAxis();
-        valueAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-        //axis.setRange(2005, 2010);
-
-        BufferedImage bi = chart.createBufferedImage(900, 500, BufferedImage.TRANSLUCENT, null);
-        byte[] bytes = EncoderUtil.encode(bi, ImageFormat.PNG, true);
-        AImage image = new AImage("Bar Chart", bytes);
-        chartImg.setContent(image);
-        btnExport.setDisabled(false);
-
     }
 
     public void btnShowOnClick() throws InterruptedException {
         try {
+            groupDetail.setVisible(false);
             this.loadDataToGrafik();
             cmbboxDosen.setSelectedIndex(0);
             this.componentEnable();
@@ -220,6 +214,21 @@ public class JumlahDanDaftarPenelitianPerDosenWnd extends ClassApplicationModule
             e.printStackTrace();
             this.componentDisable();
             Messagebox.show("Data tidak ditemukan", "Konfirmasi", Messagebox.OK, Messagebox.EXCLAMATION);
+        }
+    }
+
+    private void showDetail() {
+        groupDetail.setVisible(true);
+        listboxData.getItems().clear();
+        List<Map> results = jumlahDanDaftarPenelitianPerDosenDAO.getDetailJumlahDanDaftarPenelitianPerDosen(cmbboxDosen.getSelectedItem().getValue().toString());
+        int no = 1;
+        for (Map data : results) {
+            Listitem listitem = new Listitem();
+            listitem.appendChild(new Listcell(no + ""));
+            listitem.appendChild(new Listcell(data.get("judul").toString()));
+            listitem.appendChild(new Listcell(data.get("tahunPenilaian").toString()));
+            listboxData.appendChild(listitem);
+            no++;
         }
 
     }
@@ -264,7 +273,7 @@ public class JumlahDanDaftarPenelitianPerDosenWnd extends ClassApplicationModule
 
         chart =
                 ChartFactory.createPieChart3D(
-                "Jumlah Dan Daftar Penelitian Dosen", // chart title
+                "", // chart title
                 dataset, // data
                 false, // include legend
                 false,
