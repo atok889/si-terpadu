@@ -14,4 +14,8 @@ import java.util.Map;
 public interface JumlahPenelitianPerProdiDAO {
 
     public List<Map> getProdi();
+
+    public List<Map> getUnitKerja();
+
+    public List<Map> getJumlahPenelitianPerProdi();
 }
