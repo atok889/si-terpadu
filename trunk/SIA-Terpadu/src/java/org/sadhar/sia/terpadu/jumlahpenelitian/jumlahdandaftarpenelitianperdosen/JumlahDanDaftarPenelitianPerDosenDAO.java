@@ -14,4 +14,8 @@ import java.util.Map;
 public interface JumlahDanDaftarPenelitianPerDosenDAO {
 
     public List<Map> getProdi();
+
+    public List<Map> getJumlahDanDaftarPenelitianPerDosen(String prodi);
+
+    public List<Map> getDetailJumlahDanDaftarPenelitianPerDosen(String kodePegawai);
 }
