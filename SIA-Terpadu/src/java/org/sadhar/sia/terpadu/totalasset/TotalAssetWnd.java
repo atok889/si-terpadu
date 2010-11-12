@@ -22,7 +22,7 @@ import org.zkoss.zul.Window;
 
 /**
  *
- * @author kris
+ * @author jasoet
  */
 public class TotalAssetWnd extends ClassApplicationModule {
 
