@@ -79,7 +79,7 @@
                             <menupopup id="4">
                                 <menuitem  label="Laporan Data Pegawai" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Jumlah Pegawai Administratif" value="/zul/jumlahpegawaiadministratif/JumlahPegawai.zul" onClick="main.showObject(self.value)" />
-                                <menuitem  label="Jumlah Status Izin atau Cuti Pegawai (Non Akademis)" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Jumlah Status Izin atau Cuti Pegawai (Non Akademis)" value="/zul/cutinonakademis/CutiNonAkademis.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Distribusi Umur Dosen dan Pegawai" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Pendidikan Karyawan (Staf Non Akademis)" value="/zul/pendidikankaryawan/PendidikanKaryawan.zul" onClick="main.showObject(self.value)" />
                             </menupopup>
