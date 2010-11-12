@@ -91,7 +91,7 @@
                                 <menuitem  label="Penghapusan Barang Investasi" value="/zul/penghapusanbaranginvestasi/PenghapusanBarangInvestasi.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Daftar Gedung, Tanah dan Kendaraan" value="/zul/daftargedungtanahdankendaraan/DaftarGedungTanahDanKendaraaan.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Daftar Barang Investasi" value="/zul/assetbaranginvestasi/AssetBarangInvestasi.zul" onClick="main.showObject(self.value)" />
-                                <menuitem  label="Total Asset" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Total Asset" value="/zul/totalasset/TotalAsset.zul" onClick="main.showObject(self.value)" />
                             </menupopup>
                         </menu>
                         <menu label="Keuangan" height="30px">
