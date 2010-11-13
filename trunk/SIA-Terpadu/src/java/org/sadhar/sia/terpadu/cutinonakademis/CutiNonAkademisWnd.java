@@ -7,9 +7,21 @@ package org.sadhar.sia.terpadu.cutinonakademis;
 import java.util.List;
 import java.util.Map;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.jfree.data.category.CategoryDataset;
 import org.sadhar.sia.framework.ClassApplicationModule;
+import org.sadhar.sia.terpadu.dptiga.DPTiga;
+import org.sadhar.sia.terpadu.dptiga.DPTigaDAO;
+import org.sadhar.sia.terpadu.dptiga.DPTigaDAOImpl;
+import org.sadhar.sia.terpadu.matrikborang.MatrikBorang;
+import org.sadhar.sia.terpadu.matrikborang.MatrikBorangDAO;
+import org.sadhar.sia.terpadu.matrikborang.MatrikBorangDAOImpl;
+import org.sadhar.sia.terpadu.nepdosen.NEPDosen;
+import org.sadhar.sia.terpadu.nepdosen.NEPDosenDAO;
+import org.sadhar.sia.terpadu.nepdosen.NEPDosenDAOImpl;
 import org.sadhar.sia.terpadu.pendidikankaryawan.PendidikanKaryawanDAO;
 import org.sadhar.sia.terpadu.pendidikankaryawan.PendidikanKaryawanDAOImpl;
+import org.sadhar.sia.terpadu.reratamatakuliah.RerataMataKuliahDAO;
+import org.sadhar.sia.terpadu.reratamatakuliah.RerataMataKuliahDAOImpl;
 import org.zkoss.zhtml.Messagebox;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zkex.zul.Jasperreport;
@@ -42,6 +54,55 @@ public class CutiNonAkademisWnd extends ClassApplicationModule {
     public CutiNonAkademisWnd() {
         cutiNonAkademisDAO = new CutiNonAkademisDAOImpl();
         pendidikanKaryawanDAO = new PendidikanKaryawanDAOImpl();
+    }
+
+    private void testDAOS() {
+        try {
+            DPTigaDAO dptdao = new DPTigaDAOImpl();
+            List<DPTiga> result = dptdao.getByKodeUnit("1608");
+            System.out.println("============================================");
+            for (DPTiga dpt : result) {
+                System.out.println(dpt.getNamaPegawai() + " " + dpt.getNilaiDP3());
+            }
+            System.out.println("============================================");
+            NEPDosenDAO nepd = new NEPDosenDAOImpl();
+            List<NEPDosen> lll = nepd.getByKodeUnit("1609");
+            for (NEPDosen o : lll) {
+                System.out.println(o.getNamaPegawai() + " " + o.getRataRata());
+            }
+
+            RerataMataKuliahDAO rmkdao = new RerataMataKuliahDAOImpl();
+            CategoryDataset dataset = rmkdao.getDataset("5314", 2005, 2010);
+            System.out.println("============================================");
+            for (Object o : dataset.getColumnKeys()) {
+                for (Object o2 : dataset.getRowKeys()) {
+                    System.out.println(o.toString() + "-" + o2.toString() + "=>" + dataset.getValue((Comparable) o, (Comparable) 02).doubleValue());
+                }
+            }
+
+            MatrikBorangDAO mbdao = new MatrikBorangDAOImpl();
+            List<MatrikBorang> susu = mbdao.getByKodeUnit("1605");
+            System.out.println("============================================");
+            for (MatrikBorang mb : susu) {
+                System.out.println(mb.getKodeUnit() + "-" + mb.getSkorPraMonev() + "-" + mb.getSkorPascaMonev());
+            }
+
+            susu = mbdao.getByKodeUnitDanTahun("1605", "2010");
+            System.out.println("============================================");
+            for (MatrikBorang mb : susu) {
+                System.out.println(mb.getKodeUnit() + "-" + mb.getSkorPraMonev() + "-" + mb.getSkorPascaMonev());
+            }
+
+            susu = mbdao.getByTahunBetween("2009", "2010");
+            System.out.println("============================================");
+            for (MatrikBorang mb : susu) {
+                System.out.println(mb.getKodeUnit() + "-" + mb.getSkorPraMonev() + "-" + mb.getSkorPascaMonev());
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
     }
 
     public void onCreate() {
@@ -114,6 +175,7 @@ public class CutiNonAkademisWnd extends ClassApplicationModule {
     }
 
     public void btnShowOnClick() throws InterruptedException {
+
         if (unitKerja == null) {
             unitKerja = "";
         }
