@@ -22,8 +22,8 @@ public class NEPDosenDAOImpl implements NEPDosenDAO {
     }
 
     public List<NEPDosen> getByKodeUnit(String kodeUnit) throws Exception {
-//        String tahun = "2008";
-         String tahun = Calendar.getInstance().get(Calendar.YEAR) + "";
+        String tahun = "2008";
+//         String tahun = Calendar.getInstance().get(Calendar.YEAR) + "";
         String sql = "SELECT resume_kategori.npp as npp, "
                 + "    pegawai.Nama_peg as namaPegawai, "
                 + "     unit_peg.Kd_unit as kodeUnit, "
