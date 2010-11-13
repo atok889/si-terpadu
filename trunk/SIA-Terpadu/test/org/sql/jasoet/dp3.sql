@@ -16,12 +16,12 @@
 
 
 -- nilai rata diambul dari nilai yg diberikan oleh masing2 tim dan dibagi menjadi jumlah tim yg menilai..
-SELECT timpenilaidp3.kdPegawaiYgDinilai,
-        pegawai.Nama_peg,
+SELECT timpenilaidp3.kdPegawaiYgDinilai as kodePegawai,
+        pegawai.Nama_peg as namaPegawai,
        SUM(nilaisubkomponenpegawai.Nilai)/count(nilaisubkomponenpegawai.Nilai)as nilaiDP3,
-       unit_peg.kd_unit,
-       unkerja.Nama_unit_kerja,
-       timpenilaidp3.tahunPenilaian
+       unit_peg.kd_unit as kodeUnit,
+       unkerja.Nama_unit_kerja as namaUnit,
+       timpenilaidp3.tahunPenilaian as tahunPenilaian
        
   FROM (((personalia.pegawai pegawai
           INNER JOIN personalia.unit_peg unit_peg
@@ -32,3 +32,4 @@ SELECT timpenilaidp3.kdPegawaiYgDinilai,
            ON (timpenilaidp3.idTim = nilaisubkomponenpegawai.idTim))
        INNER JOIN kamus.unkerja unkerja
           ON (unkerja.Kd_unit_kerja = unit_peg.kd_unit)
+WHERE unit_peg.kd_unit LIKE '%1608%' and timpenilaidp3.tahunPenilaian = 2010;
