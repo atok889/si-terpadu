@@ -95,9 +95,9 @@ public class CutiNonAkademisWnd extends ClassApplicationModule {
             RerataMataKuliahDAO rmkdao = new RerataMataKuliahDAOImpl();
             CategoryDataset dataset = rmkdao.getDataset("5314", 2005, 2010);
             System.out.println("============= Rerata Matakuliah =====================");
-            for (Object o : dataset.getColumnKeys()) {
-                for (Object o2 : dataset.getRowKeys()) {
-                    System.out.println(o.toString() + "-" + o2.toString() + "=>" + dataset.getValue((Comparable) o, (Comparable) 02).doubleValue());
+            for (Object o : dataset.getRowKeys()) {
+                for (Object o2 : dataset.getColumnKeys()) {
+                    System.out.println(o.toString() + "-" + o2.toString() + "=>" + dataset.getValue((Comparable) o, (Comparable) o2).doubleValue());
                 }
             }
         } catch (Exception ex) {
@@ -114,7 +114,7 @@ public class CutiNonAkademisWnd extends ClassApplicationModule {
         btnExport = (Button) this.getFellow("btnExport");
         cmbExportType.setSelectedIndex(0);
         this.loadDataToComboboxUnitKerja();
-        testDAOS();
+//        testDAOS();
     }
 
     public void loadDataToComboboxUnitKerja() {
