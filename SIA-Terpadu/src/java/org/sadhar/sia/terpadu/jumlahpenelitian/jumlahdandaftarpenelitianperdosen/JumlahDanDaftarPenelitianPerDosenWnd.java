@@ -220,7 +220,7 @@ public class JumlahDanDaftarPenelitianPerDosenWnd extends ClassApplicationModule
     private void showDetail() {
         groupDetail.setVisible(true);
         listboxData.getItems().clear();
-        List<Map> results = jumlahDanDaftarPenelitianPerDosenDAO.getDetailJumlahDanDaftarPenelitianPerDosen(cmbboxDosen.getSelectedItem().getValue().toString());
+        List<Map> results = jumlahDanDaftarPenelitianPerDosenDAO.getDetailDaftarPenelitianPerDosen(cmbboxDosen.getSelectedItem().getValue().toString());
         int no = 1;
         for (Map data : results) {
             Listitem listitem = new Listitem();

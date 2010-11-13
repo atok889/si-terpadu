@@ -18,4 +18,6 @@ public interface JumlahDanDaftarPenelitianPerDosenDAO {
     public List<Map> getJumlahDanDaftarPenelitianPerDosen(String prodi);
 
     public List<Map> getDetailJumlahDanDaftarPenelitianPerDosen(String kodePegawai);
+
+    public List<Map> getDetailDaftarPenelitianPerDosen(String kodePegawai);
 }
