@@ -5,6 +5,7 @@
 package org.sadhar.sia.terpadu.dptiga;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import org.sadhar.errhandler.ClassAntiNull;
@@ -21,7 +22,8 @@ public class DPTigaDAOImpl implements DPTigaDAO {
     }
 
     public List<DPTiga> getByKodeUnit(String kodeUnit) throws Exception {
-        String tahun = "2010";
+//        String tahun = "2010";
+        String tahun = Calendar.getInstance().get(Calendar.YEAR) + "";
         String sql = "SELECT timpenilaidp3.kdPegawaiYgDinilai as kodePegawai, "
                 + "   pegawai.Nama_peg as namaPegawai, "
                 + "   SUM(nilaisubkomponenpegawai.Nilai)/count(nilaisubkomponenpegawai.Nilai)as nilaiDP3, "
