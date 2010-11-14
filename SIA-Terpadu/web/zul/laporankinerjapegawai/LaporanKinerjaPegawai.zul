@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title="Laporan Kinerja Pegawai" border="normal" width="950px"
+    <window title="Laporan Kinerja Pegawai" border="normal" width="1100px"
             closable="true" sizable="true"
             id="laporanKinerjaPegawaiWnd"
             use="org.sadhar.sia.terpadu.laporankinerjapegawai.LaporanKinerjaPegawaiWnd">
         <div style="padding:5px">
             <groupbox>
                 <caption label="Keluaran"></caption>
-                <listbox id="listboxData" width="900px" fixedLayout="true" visible = "true" rows="15">
+                <listbox id="listboxData" width="1050px" fixedLayout="true" visible = "true" rows="15">
+                    <!--<auxhead>
+                        <auxheader></auxheader>
+                        <auxheader colspan="2" label=""></auxheader>
+                    </auxhead>
+                    <listhead>
+                        <listheader label="No"></listheader>
+                        <listheader label="Unit Kerja"></listheader>
+                    </listhead>-->
                 </listbox>
             </groupbox>
             <groupbox visible="true">
