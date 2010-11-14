@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title="Nilai Evaluasi Perkuliahan Dosen" border="normal" width="900px"
+    <window title="Daftar Penilaian Pelaksanaan Pekerjaan Dosen" border="normal" width="900px"
             closable="true"
             id="oo"
-            use="org.sadhar.sia.terpadu.nepdosen.NEPDosenWnd">
+            use="org.sadhar.sia.terpadu.dptiga.DPTigaWnd">
         <div style="padding:5px">
             <groupbox>
                 <caption label="Parameter"></caption>
@@ -23,13 +23,18 @@
                 </div>
             </groupbox>
             <groupbox>
+                <div style="padding:3px">
+                    <label id="labelRataRata"></label>
+                </div>
+            </groupbox>
+            <groupbox>
                 <caption label="Table"></caption>
                 <div id="tableDiv" style="height:250px;overflow:auto;padding:10px">
                     <listbox id="listb"  width="100%" fixedLayout="false">
                         <listhead>
                             <listheader label="Nomor"></listheader>
                             <listheader label="Nama Dosen"></listheader>
-                            <listheader label="Nilai Evaluasi Perkuliahan" width="135px"></listheader>
+                            <listheader label="Nilai DP3" width="135px"></listheader>
                         </listhead>
                     </listbox>
                 </div>
