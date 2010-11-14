@@ -80,7 +80,7 @@ public class JumlahWisudawanWnd extends ClassApplicationModule {
             for (Object s : dataset.getRowKeys()) {
                 Listheader inlhd = new Listheader();
                 inlhd.setLabel(s.toString());
-                inlhd.setWidth("75px");
+                inlhd.setWidth("87px");
                 inlhd.setAlign("right");
                 lhead.appendChild(inlhd);
             }
