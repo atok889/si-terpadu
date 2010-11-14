@@ -52,7 +52,7 @@
                             <menupopup id="2">
                                 <menuitem  label="Daftar Matakuliah" value="/zul/daftarmatakuliah/DaftarMatakuliah.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Daftar Matakuliah Yang Paling Sering Diulang" value="/zul/daftarmatakuliahyangpalingseringdiulang/DaftarMataKuliahYangPalingSeringDiulang.zul" onClick="main.showObject(self.value)" />
-                                <menuitem  label="Rerata Nilai Per Matakuliah" value="/zul/reratanilaipermatakuliah/RerataNilaiPerMataKuliah.zul" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Rerata Nilai Per Matakuliah" value="/zul/reratamatakuliah/RerataMataKuliah.zul" onClick="main.showObject(self.value)" />
                             </menupopup>
                         </menu>
                         <menu label="Dosen" height="30px">
