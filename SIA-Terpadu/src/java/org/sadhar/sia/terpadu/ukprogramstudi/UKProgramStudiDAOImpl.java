@@ -21,10 +21,11 @@ public class UKProgramStudiDAOImpl implements UKProgramStudiDAO {
 
     public List<UKProgramStudi> gets() throws Exception {
         List<UKProgramStudi> list = new ArrayList<UKProgramStudi>();
-        String sql = "SELECT ku.Kd_unit_kerja as kodeUnitKerja,ku.Nama_unit_kerja as nama from kamus.unkerja ku where ku.Nama_unit_kerja like 'PROGRAM STUDI%'";
+        String sql = "SELECT SUBSTRING(ku.Kd_unit_kerja,4,4) as shortKode, ku.Kd_unit_kerja as kodeUnitKerja,ku.Nama_unit_kerja as nama from kamus.unkerja ku where ku.Nama_unit_kerja like 'PROGRAM STUDI%'";
         List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
         for (Map m : rows) {
             UKProgramStudi o = new UKProgramStudi();
+            o.setShortKode(m.get("shortKode").toString());
             o.setKodeUnitKerja(m.get("kodeUnitKerja").toString());
             o.setNama(m.get("nama").toString());
             list.add(o);
@@ -33,12 +34,13 @@ public class UKProgramStudiDAOImpl implements UKProgramStudiDAO {
     }
 
     public UKProgramStudi get(String kodeUnitKerja) throws Exception {
-        String sql = "SELECT ku.Kd_unit_kerja as kodeUnitKerja,ku.Nama_unit_kerja as nama from kamus.unkerja ku where ku.Nama_unit_kerja like 'PROGRAM STUDI%' and ku.Kd_unit_kerja = '" + kodeUnitKerja + "'";
+        String sql = "SELECT SUBSTRING(ku.Kd_unit_kerja,4,4) as shortKode, ku.Kd_unit_kerja as kodeUnitKerja,ku.Nama_unit_kerja as nama from kamus.unkerja ku where ku.Nama_unit_kerja like 'PROGRAM STUDI%' and ku.Kd_unit_kerja = '" + kodeUnitKerja + "'";
 
         List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
         UKProgramStudi o=null;
         for (Map m : rows) {
             o = new UKProgramStudi();
+            o.setShortKode(m.get("shortKode").toString());
             o.setKodeUnitKerja(m.get("kodeUnitKerja").toString());
             o.setNama(m.get("nama").toString());
         }
@@ -47,10 +49,11 @@ public class UKProgramStudiDAOImpl implements UKProgramStudiDAO {
 
     public List<UKProgramStudi> getsByName(String nama) throws Exception {
          List<UKProgramStudi> list = new ArrayList<UKProgramStudi>();
-        String sql = "SELECT ku.Kd_unit_kerja as kodeUnitKerja,ku.Nama_unit_kerja as nama from kamus.unkerja ku where ku.Nama_unit_kerja like 'PROGRAM STUDI%' and ku.Nama_unit_kerja like '%"+nama+"%'";
+        String sql = "SELECT SUBSTRING(ku.Kd_unit_kerja,4,4) as shortKode, ku.Kd_unit_kerja as kodeUnitKerja,ku.Nama_unit_kerja as nama from kamus.unkerja ku where ku.Nama_unit_kerja like 'PROGRAM STUDI%' and ku.Nama_unit_kerja like '%"+nama+"%'";
         List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
         for (Map m : rows) {
             UKProgramStudi o = new UKProgramStudi();
+            o.setShortKode(m.get("shortKode").toString());
             o.setKodeUnitKerja(m.get("kodeUnitKerja").toString());
             o.setNama(m.get("nama").toString());
             list.add(o);
