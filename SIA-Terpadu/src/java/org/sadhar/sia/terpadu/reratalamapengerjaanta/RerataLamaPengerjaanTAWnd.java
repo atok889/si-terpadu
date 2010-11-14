@@ -73,7 +73,7 @@ public class RerataLamaPengerjaanTAWnd extends ClassApplicationModule {
             }
             Listheader lheader = new Listheader();
             lheader.setLabel("Program Studi");
-            lheader.setWidth("220px");
+            lheader.setWidth("230px");
             lhead.appendChild(lheader);
 
             for (Object s : dataset.getRowKeys()) {
@@ -86,6 +86,8 @@ public class RerataLamaPengerjaanTAWnd extends ClassApplicationModule {
 
             lheader = new Listheader();
             lheader.setLabel("Rerata Prodi");
+            lheader.setWidth("100px");
+            lheader.setAlign("right");
             lhead.appendChild(lheader);
 
             for (Object s : dataset.getColumnKeys()) {
@@ -113,7 +115,8 @@ public class RerataLamaPengerjaanTAWnd extends ClassApplicationModule {
 
             Listitem item = new Listitem();
             Listcell cell = new Listcell();
-            cell.setLabel("Rerata Universitas");
+            cell.setLabel("RERATA UNIVERSITAS");
+            cell.setStyle("font-weight:bold");
             item.appendChild(cell);
             for (Object f : dataset.getRowKeys()) {
                 cell = new Listcell();

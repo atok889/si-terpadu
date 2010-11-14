@@ -24,17 +24,17 @@ public class RerataLamaPengerjaanTA {
 //        tahunAngkatanList.add("92");
 //        tahunAngkatanList.add("93");
 //        tahunAngkatanList.add("94");
-        tahunAngkatanList.add("95");
-        tahunAngkatanList.add("96");
-        tahunAngkatanList.add("97");
-        tahunAngkatanList.add("98");
-        tahunAngkatanList.add("99");
-        tahunAngkatanList.add("00");
-
-        tahunAngkatanList.add("01");
-        tahunAngkatanList.add("02");
-        tahunAngkatanList.add("03");
-        tahunAngkatanList.add("04");
+//        tahunAngkatanList.add("95");
+//        tahunAngkatanList.add("96");
+//        tahunAngkatanList.add("97");
+//        tahunAngkatanList.add("98");
+//        tahunAngkatanList.add("99");
+//        tahunAngkatanList.add("00");
+//
+//        tahunAngkatanList.add("01");
+//        tahunAngkatanList.add("02");
+//        tahunAngkatanList.add("03");
+//        tahunAngkatanList.add("04");
         tahunAngkatanList.add("05");
         tahunAngkatanList.add("06");
         tahunAngkatanList.add("07");
