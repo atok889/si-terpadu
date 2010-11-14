@@ -11,5 +11,5 @@
              ON (pegawai.NPP = unit_peg.NPP))
          INNER JOIN evaluasi.resume_kategori resume_kategori
             ON (resume_kategori.npp = pegawai.NPP)
-   WHERE resume_kategori.ta LIKE '2008%' AND unit_peg.Kd_unit LIKE '%1609%'
+   WHERE resume_kategori.ta LIKE '2008%' AND unit_peg.Kd_unit LIKE '%1602%'
 GROUP BY resume_kategori.npp

@@ -72,7 +72,7 @@
                                 <menuitem  label="Daftar Dosen Yang Sedang Menempuh Studi" value="/zul/dosensedangmenempuhstudi/DosenSedangMenempuhStudi.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Pangkatan Dan Jabatan Akademik Dosen" value="/zul/pangkatjabatandosen/PangkatJabatanDosen.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="DP3 Dosen" value="xx" onClick="main.showObject(self.value)" />
-                                <menuitem  label="Nilai Evaluasi Perkuliahan Dosen" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Nilai Evaluasi Perkuliahan Dosen" value="/zul/nepdosen/NEPDosen.zul" onClick="main.showObject(self.value)" />
                             </menupopup>
                         </menu>
                         <menu label="SDM" height="30px">
