@@ -35,7 +35,7 @@ public class DPTigaWnd extends ClassApplicationModule {
 
     Combobox cmbProgdi;
     Jasperreport report;
-    Image chartImg;
+//    Image chartImg;
     Combobox cmbExportType;
     Button btnExport;
     Label labelRataRata;
@@ -53,7 +53,7 @@ public class DPTigaWnd extends ClassApplicationModule {
         labelRataRata = (Label) getFellow("labelRataRata");
         cmbExportType = (Combobox) getFellow("cmbExportType");
         btnExport = (Button) getFellow("btnExport");
-        chartImg = (Image) getFellow("chartImg");
+//        chartImg = (Image) getFellow("chartImg");
         btnExport.setDisabled(true);
         loadProgdi();
         cmbProgdi.setSelectedIndex(0);

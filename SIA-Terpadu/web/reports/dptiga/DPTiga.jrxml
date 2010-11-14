@@ -53,7 +53,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="12"/>
 					</textElement>
-				<text><![CDATA[Nilai Evaluasi Perkuliahan Dosen]]></text>
+				<text><![CDATA[Daftar Penilaian Pelaksanaan Pekerjaan Dosen]]></text>
 				</staticText>
 			</band>
 		</pageHeader>
