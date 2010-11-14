@@ -4,7 +4,7 @@
 <zk xmlns="http://www.zkoss.org/2005/zul">
     <div align="center">
         <window id="window1" title="REKAPITULASI KEUANGAN" width="1000px" border="normal" style="padding-top:20px"
-                use="org.sadhar.simk.rekapAll.RekapAllWnd" >
+                use="org.sadhar.sia.terpadu.rekapAll.RekapAllWnd" >
             <grid>
                 <columns>
                     <column width="16%"/>
