@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package org.sadhar.sia.terpadu.reratamatakuliah;
 
 import java.text.DecimalFormat;
@@ -46,8 +42,10 @@ public class RerataMataKuliahWnd extends ClassApplicationModule {
     JFreeChart chart = null;
     CategoryDataset dataset;
     List<RerataMataKuliah> data;
+    RerataMataKuliahDAO dao;
 
     public RerataMataKuliahWnd() {
+        dao = new RerataMataKuliahDAOImpl();
     }
 
     public void onCreate() throws Exception {
@@ -110,12 +108,12 @@ public class RerataMataKuliahWnd extends ClassApplicationModule {
     public void viewReport() throws Exception {
         try {
             listb.getItems().clear();
-            RerataMataKuliahDAO dao = new RerataMataKuliahDAOImpl();
+
             UKProgramStudi prodiSelected = (UKProgramStudi) cmbProgdi.getSelectedItem().getValue();
             Integer tahunAwal = (Integer) cmbTahunAwal.getSelectedItem().getValue();
             Integer tahunAkhir = (Integer) cmbTahunAkhir.getSelectedItem().getValue();
             dataset = dao.getDataset(prodiSelected.getShortKode(), tahunAwal.intValue(), tahunAkhir.intValue());
-            data = dao.gets(prodiSelected.getShortKode(), tahunAwal.intValue(), tahunAkhir.intValue());
+
             DecimalFormat decimalFormat = new DecimalFormat("##0.00");
 
             listb.getItems().clear();
@@ -158,7 +156,7 @@ public class RerataMataKuliahWnd extends ClassApplicationModule {
                 }
                 listb.appendChild(item);
             }
-
+            btnExport.setDisabled(false);
         } catch (Exception ex) {
             ex.printStackTrace();
             Messagebox.show(ex.getMessage());
@@ -167,12 +165,16 @@ public class RerataMataKuliahWnd extends ClassApplicationModule {
 
     public void exportReport() throws Exception {
         try {
+            UKProgramStudi prodiSelected = (UKProgramStudi) cmbProgdi.getSelectedItem().getValue();
+            Integer tahunAwal = (Integer) cmbTahunAwal.getSelectedItem().getValue();
+            Integer tahunAkhir = (Integer) cmbTahunAkhir.getSelectedItem().getValue();
+            data = dao.gets(prodiSelected.getShortKode(), tahunAwal.intValue(), tahunAkhir.intValue());
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(data);
             if (cmbExportType.getSelectedItem().getValue().toString().equals("pdf")) {
                 Window pdfPreviewWnd = (Window) Executions.createComponents("/zul/pdfpreview/PdfPreview.zul", null, null);
                 Jasperreport pdfReport = (Jasperreport) pdfPreviewWnd.getFellow("report");
                 pdfReport.setType(cmbExportType.getSelectedItem().getValue().toString());
-                pdfReport.setSrc("reports/dptiga/DPTiga.jasper");
+                pdfReport.setSrc("reports/reratamatakuliah/RerataMataKuliah.jasper");
                 Map parameters = new HashMap();
 //                parameters.put("chart", chart.createBufferedImage(500, 300));
                 pdfReport.setParameters(parameters);
@@ -180,7 +182,7 @@ public class RerataMataKuliahWnd extends ClassApplicationModule {
                 pdfPreviewWnd.doModal();
             } else {
                 report.setType(cmbExportType.getSelectedItem().getValue().toString());
-                report.setSrc("reports/dptiga/DPTiga.jasper");
+                report.setSrc("reports/reratamatakuliah/RerataMataKuliah.jasper");
                 Map parameters = new HashMap();
 //                parameters.put("chart", chart.createBufferedImage(500, 300, BufferedImage.TRANSLUCENT, null));
                 report.setParameters(parameters);
