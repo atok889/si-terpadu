@@ -114,6 +114,7 @@ public class RerataMataKuliahDAOImpl implements RerataMataKuliahDAO {
                     rmk.setMataKuliah(mataKuliah);
                     rmk.setSemester(semester);
                     rmk.setRataNilaiMK(rataNilaiMK);
+                    result.add(rmk);
                 }
 
             } catch (DataAccessException ex) {
