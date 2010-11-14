@@ -41,7 +41,7 @@ public class LaporanKinerjaPegawaiDAOImpl implements LaporanKinerjaPegawaiDAO {
                     " SELECT unit_peg.kd_unit as kodeUnit, unkerja.Nama_unit_kerja as namaUnit," +
                     " SUM(nilaisubkomponenpegawai.Nilai)/count(nilaisubkomponenpegawai.Nilai)as rataRata, " +
                     " timpenilaidp3.tahunPenilaian as tahun," +
-                    " 0 as semester " +
+                    " 3 as semester " +
                     " FROM (((personalia.pegawai pegawai INNER JOIN personalia.unit_peg unit_peg" +
                     " ON (pegawai.kdPegawai = unit_peg.kdPegawai)) " +
                     " INNER JOIN personalia.timpenilaidp3 timpenilaidp3 " +
