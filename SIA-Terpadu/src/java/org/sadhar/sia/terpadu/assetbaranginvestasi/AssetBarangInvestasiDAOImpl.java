@@ -28,7 +28,7 @@ public class AssetBarangInvestasiDAOImpl implements AssetBarangInvestasiDAO {
                 + "  , subkelompokbaranginvestasi.subKelompokBarangInvestasi as nama,"
                 + " COUNT(baranginvestasi.`kodeSubKelompokBarangInvestasi`)as jumlah "
                 + " FROM "
-                + "  asset.baranginvestasi baranginvestasi "
+                + "  asset.barangInvestasi baranginvestasi "
                 + "  INNER JOIN "
                 + "  kamus.subkelompokbaranginvestasi subkelompokbaranginvestasi "
                 + "  ON (subkelompokbaranginvestasi.kodeSubKelompokBarangInvestasi = baranginvestasi.kodeSubKelompokBarangInvestasi) "
