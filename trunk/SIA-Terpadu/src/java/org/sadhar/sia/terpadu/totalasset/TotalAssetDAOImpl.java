@@ -25,7 +25,7 @@ public class TotalAssetDAOImpl implements TotalAssetDAO {
     public List<TotalAsset> gets() throws Exception {
         String sql = "SELECT  'Barang Investasi' AS jenis, subkelompokbaranginvestasi.subKelompokBarangInvestasi as nama,CONCAT(COUNT(baranginvestasi.`kodeSubKelompokBarangInvestasi`),' Unit') as keterangan "
                 + " FROM "
-                + " asset.baranginvestasi baranginvestasi "
+                + " asset.barangInvestasi baranginvestasi "
                 + " INNER JOIN "
                 + " kamus.subkelompokbaranginvestasi subkelompokbaranginvestasi "
                 + " ON (subkelompokbaranginvestasi.kodeSubKelompokBarangInvestasi = baranginvestasi.kodeSubKelompokBarangInvestasi) "
