@@ -33,7 +33,7 @@ public class JabatanAkademikDosenDAOImpl implements JabatanAkademikDosenDAO {
                 + " INNER JOIN personalia.pegawai pp on pjap.`NPP`=pp.`NPP` "
                 + " LEFT OUTER JOIN kamus.unkerja ku on ku.`kd_unit_kerja`=ppu.`kd_unit` "
                 + " INNER JOIN kamus.jab_akad kja on kja.`kd_jab_akad` =pjap.`Kd_jabak` "
-                + " group by pjap.npp  order by pjap.npp ) ";
+                + " group by pjap.npp  order by pjap.Kd_Jabak desc,pp.Tgl_lahir desc,pjap.npp asc) ";
         try {
             ClassConnection.getConnection().createStatement().executeUpdate(sql);
         } catch (SQLException ex) {

@@ -27,7 +27,7 @@ public class DosenSedangMenempuhStudiDAOImpl implements DosenSedangMenempuhStudi
                 + " INNER JOIN kamus.unkerja ku ON ku.`Kd_unit_kerja` = pu.kd_unit "
                 + " INNER JOIN personalia.pegawai pp ON pp.`NPP` = ps.`NPP` "
                 + " INNER JOIN kamus.jenjang kj ON kj.`Kd_jenjang` = ps.`Jenjang` "
-                + " WHERE ps.`statusLulus` like '%N%' ";
+                + " WHERE ps.`statusLulus` like '%N%'  AND (ps.Tgl_selesai_studi is not null or ps.Tgl_selesai_studi like '%00-00-000%')  AND (pp.Status_keluar like '1' or pp.Status_keluar like '6' or pp.Status_keluar like '7')";
         if (progdi != null && jenjangStudi != null) {
             sql += " AND ku.`Kd_unit_kerja` = '" + progdi.getKodeUnitKerja() + "' and kj.Kd_jenjang = " + jenjangStudi.getKode() + "";
         } else if (progdi != null && jenjangStudi == null) {
