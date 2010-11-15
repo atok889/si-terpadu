@@ -11,5 +11,18 @@
              ON (pegawai.NPP = unit_peg.NPP))
          INNER JOIN evaluasi.resume_kategori resume_kategori
             ON (resume_kategori.npp = pegawai.NPP)
-   WHERE resume_kategori.ta LIKE '2008%' AND unit_peg.Kd_unit LIKE '%1602%'
-GROUP BY resume_kategori.npp
+   GROUP BY resume_kategori.npp
+
+-- Baru senin 15 november 2010
+SELECT resume_kategori.skor,
+       unit_peg.kd_unit,
+       resume_kategori.npp,
+       pegawai.Nama_peg,
+       pegawai.AdmEdu,
+       resume_kategori.ta
+  FROM (personalia.pegawai pegawai
+        INNER JOIN personalia.unit_peg unit_peg
+           ON (pegawai.NPP = unit_peg.npp))
+       INNER JOIN evaluasi.resume_kategori resume_kategori
+          ON (resume_kategori.npp = pegawai.NPP)
+ WHERE (pegawai.AdmEdu = '1') AND (resume_kategori.ta LIKE '2008%')
