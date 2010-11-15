@@ -20,8 +20,8 @@ public class PinjamanUnitDAOImpl implements PinjamanUnitDAO {
 
     public List<Map> getPinjamanUnit() {
         String sql = "SELECT ku.Nama_unit_kerja AS nama,SUM(pd.kuantitasDisetujui * pd.harga) AS jumlah " +
-                " FROM ppmk.pengajuanpengambilan pp " +
-                " INNER JOIN ppmk.detailpengajuanpengambilan pd ON pp.idPengajuan = pd.idPengajuan " +
+                " FROM ppmk.pengajuanPengambilan pp " +
+                " INNER JOIN ppmk.detailPengajuanPengambilan pd ON pp.idPengajuan = pd.idPengajuan " +
                 " INNER JOIN kamus.unkerja ku ON pp.kodeUnitPengaju = ku.Kd_unit_kerja " +
                 " GROUP BY ku.Kd_unit_kerja";
 
