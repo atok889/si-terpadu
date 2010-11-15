@@ -125,6 +125,11 @@ public class PangkatJabatanDosenWnd extends ClassApplicationModule {
     }
 
     public void viewReport() throws Exception {
+        Listcell cellNm;
+        Listcell cellU;
+        Listcell cellUK;
+        Listcell cellNJ;
+        Listcell cellNP;
         try {
 
 
@@ -208,21 +213,21 @@ public class PangkatJabatanDosenWnd extends ClassApplicationModule {
                     cell.setLabel(o.getNpp());
                     item.appendChild(cell);
 
-                    cell = new Listcell();
-                    cell.setLabel(o.getNama());
-                    item.appendChild(cell);
+                    cellNm = new Listcell();
+                    cellNm.setLabel(o.getNama());
+                    item.appendChild(cellNm);
 
-                    cell = new Listcell();
-                    cell.setLabel(o.getUmur() + "");
-                    item.appendChild(cell);
+                    cellU = new Listcell();
+                    cellU.setLabel(o.getUmur() + " ");
+                    item.appendChild(cellU);
 
-                    cell = new Listcell();
-                    cell.setLabel(o.getNamaUnitKerja());
-                    item.appendChild(cell);
+                    cellUK = new Listcell();
+                    cellUK.setLabel(o.getNamaUnitKerja());
+                    item.appendChild(cellUK);
 
-                    cell = new Listcell();
-                    cell.setLabel(o.getNamaJabatan());
-                    item.appendChild(cell);
+                    cellNJ = new Listcell();
+                    cellNJ.setLabel(o.getNamaJabatan());
+                    item.appendChild(cellNJ);
                     listB.appendChild(item);
                 }
             } else {
@@ -232,21 +237,21 @@ public class PangkatJabatanDosenWnd extends ClassApplicationModule {
                     cell.setLabel(o.getNpp());
                     item.appendChild(cell);
 
-                    cell = new Listcell();
+                    cellNm = new Listcell();
                     cell.setLabel(o.getNama());
+                    item.appendChild(cellNm);
+
+                    cellU = new Listcell();
+                    cellU.setLabel(o.getUmur() + "");
+                    item.appendChild(cellU);
+
+                    cellUK = new Listcell();
+                    cellUK.setLabel(o.getNamaUnitKerja());
                     item.appendChild(cell);
 
-                    cell = new Listcell();
-                    cell.setLabel(o.getUmur() + "");
-                    item.appendChild(cell);
-
-                    cell = new Listcell();
-                    cell.setLabel(o.getNamaUnitKerja());
-                    item.appendChild(cell);
-
-                    cell = new Listcell();
-                    cell.setLabel(o.getNamaPangkat());
-                    item.appendChild(cell);
+                    cellNP = new Listcell();
+                    cellNP.setLabel(o.getNamaPangkat());
+                    item.appendChild(cellNP);
                     listB.appendChild(item);
                 }
             }
