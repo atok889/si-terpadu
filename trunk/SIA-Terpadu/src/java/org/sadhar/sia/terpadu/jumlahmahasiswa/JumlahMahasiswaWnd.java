@@ -145,6 +145,8 @@ public class JumlahMahasiswaWnd extends ClassApplicationModule {
             renderer1.setSeriesPaint(3, Color.blue);
             renderer1.setSeriesPaint(4, Color.cyan);
             BarRenderer br = (BarRenderer) renderer1;
+            br.setMinimumBarLength(0.5);
+            br.setMaximumBarWidth(0.5);
             br.setShadowVisible(false);
 
 
