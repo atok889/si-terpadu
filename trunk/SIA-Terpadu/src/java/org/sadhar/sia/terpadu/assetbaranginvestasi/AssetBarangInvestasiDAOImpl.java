@@ -30,7 +30,7 @@ public class AssetBarangInvestasiDAOImpl implements AssetBarangInvestasiDAO {
                 + " FROM "
                 + "  asset.barangInvestasi baranginvestasi "
                 + "  INNER JOIN "
-                + "  kamus.subkelompokbaranginvestasi subkelompokbaranginvestasi "
+                + "  kamus.subKelompokBarangInvestasi subkelompokbaranginvestasi "
                 + "  ON (subkelompokbaranginvestasi.kodeSubKelompokBarangInvestasi = baranginvestasi.kodeSubKelompokBarangInvestasi) "
                 + " GROUP BY baranginvestasi.`kodeSubKelompokBarangInvestasi` "
                 + " HAVING COUNT(baranginvestasi.`kodeSubKelompokBarangInvestasi`) >= 1 ORDER BY subkelompokbaranginvestasi.subKelompokBarangInvestasi ASC";
