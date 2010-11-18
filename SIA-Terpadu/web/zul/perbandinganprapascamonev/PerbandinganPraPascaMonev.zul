@@ -50,7 +50,7 @@
                             </listbox>
                         </div>
                     </groupbox>
-                    <groupbox visible="false">
+                    <groupbox visible="true">
                         <caption label="Export"></caption>
                         <jasperreport id="report" visible="false"/>
                         <div style="padding:3px" align="right">
@@ -62,7 +62,7 @@
                                     <comboitem label="DOC" value="rtf"></comboitem>
                                     <comboitem label="RTF" value="rtf"></comboitem>
                                 </combobox>
-                                <button id="btnExport" disabled="true" label="Export" height="25px" width="90px" onClick="demografiCalonMahasiswa.exportReport()"></button>
+                                <button id="btnExport" disabled="true" label="Export" height="25px" width="90px" onClick="oo.exportReport()"></button>
                             </hbox>
                         </div>
                     </groupbox>
