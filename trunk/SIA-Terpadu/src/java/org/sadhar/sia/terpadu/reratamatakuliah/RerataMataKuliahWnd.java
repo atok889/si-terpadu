@@ -130,6 +130,7 @@ public class RerataMataKuliahWnd extends ClassApplicationModule {
             Listheader lheader = new Listheader();
             lheader.setLabel("Mata Kuliah");
             lhead.appendChild(lheader);
+            lheader.setWidth("400px");
 
 
             for (Object s : dataset.getColumnKeys()) {
