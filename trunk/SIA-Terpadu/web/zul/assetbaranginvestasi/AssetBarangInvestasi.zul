@@ -36,9 +36,9 @@
                         <listhead>
                             <listheader label="Nomor"></listheader>
                             <listheader label="Nama"></listheader>
-                            <listheader label="Jumlah" align="right" width="45px"></listheader>
+                            <listheader label="Jumlah" align="right" width="50px"></listheader>
                         </listhead>
-                        
+
                     </listbox>
                 </div>
             </groupbox>
