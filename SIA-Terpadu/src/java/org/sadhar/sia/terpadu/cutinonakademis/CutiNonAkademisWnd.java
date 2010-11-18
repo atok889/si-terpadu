@@ -114,7 +114,7 @@ public class CutiNonAkademisWnd extends ClassApplicationModule {
         btnExport = (Button) this.getFellow("btnExport");
         cmbExportType.setSelectedIndex(0);
         this.loadDataToComboboxUnitKerja();
-        testDAOS();
+//        testDAOS();
     }
 
     public void loadDataToComboboxUnitKerja() {

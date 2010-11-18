@@ -2,17 +2,13 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.sadhar.sia.terpadu.dosensedangmenempuhstudi;
+package org.sadhar.sia.terpadu.matrikborang;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import org.jfree.chart.JFreeChart;
 import org.sadhar.sia.framework.ClassApplicationModule;
-import org.sadhar.sia.terpadu.jenjangstudi.JenjangStudi;
-import org.sadhar.sia.terpadu.jenjangstudi.JenjangStudiDAO;
-import org.sadhar.sia.terpadu.jenjangstudi.JenjangStudiDAOImpl;
 import org.sadhar.sia.terpadu.ukprogramstudi.UKProgramStudi;
 import org.sadhar.sia.terpadu.ukprogramstudi.UKProgramStudiDAO;
 import org.sadhar.sia.terpadu.ukprogramstudi.UKProgramStudiDAOImpl;
@@ -29,35 +25,29 @@ import org.zkoss.zul.Window;
 
 /**
  *
- * @author Deny Prasetyo
+ * @author jasoet
  */
-public class DosenSedangMenempuhStudiWnd extends ClassApplicationModule {
+public class PerbandinganPraPascaMonevWnd extends ClassApplicationModule {
 
-    Combobox cmbProgdi;
-    Combobox cmbJenjangStudi;
-    Jasperreport report;
-    Combobox cmbExportType;
-    Button btnExport;
-    Listbox listb;
-    JFreeChart chart = null;
-    List<DosenSedangMenempuhStudi> datas;
+    private Combobox cmbProgdi;
+    private Jasperreport report;
+    private Combobox cmbExportType;
+    private Button btnExport;
+    private Listbox listb;
+    private List<MatrikBorang> datas;
 
-    public DosenSedangMenempuhStudiWnd() {
+    public PerbandinganPraPascaMonevWnd() {
     }
 
     public void onCreate() throws Exception {
         listb = (Listbox) getFellow("listb");
         cmbProgdi = (Combobox) getFellow("cmbProgdi");
         report = (Jasperreport) getFellow("report");
-        cmbJenjangStudi = (Combobox) getFellow("cmbJenjangStudi");
-//        chartImg = (Image) getFellow("chartImg");
         cmbExportType = (Combobox) getFellow("cmbExportType");
         btnExport = (Button) getFellow("btnExport");
         btnExport.setDisabled(true);
         loadProgdi();
-        loadJenjangStudi();
         cmbProgdi.setSelectedIndex(0);
-        cmbJenjangStudi.setSelectedIndex(0);
         cmbExportType.setSelectedIndex(0);
     }
 
@@ -67,9 +57,9 @@ public class DosenSedangMenempuhStudiWnd extends ClassApplicationModule {
             List<UKProgramStudi> progdis = dao.gets();
             cmbProgdi.getItems().clear();
             Comboitem item = new Comboitem();
-            item.setValue(null);
-            item.setLabel("--Pilih Prodi--");
-            cmbProgdi.appendChild(item);
+//            item.setValue(null);
+//            item.setLabel("--Pilih Prodi--");
+//            cmbProgdi.appendChild(item);
             for (UKProgramStudi ps : progdis) {
                 Comboitem items = new Comboitem();
                 items.setValue(ps);
@@ -81,41 +71,22 @@ public class DosenSedangMenempuhStudiWnd extends ClassApplicationModule {
         }
     }
 
-    private void loadJenjangStudi() throws Exception {
-        try {
-            JenjangStudiDAO dao = new JenjangStudiDAOImpl();
-            List<JenjangStudi> jenjangStudi = dao.getUnfinised();
-            cmbJenjangStudi.getItems().clear();
-            Comboitem item = new Comboitem();
-            item.setValue(null);
-            item.setLabel("Semua");
-            cmbJenjangStudi.appendChild(item);
-            for (JenjangStudi o : jenjangStudi) {
-                Comboitem items = new Comboitem();
-                items.setValue(o);
-                items.setLabel(o.getNama());
-                cmbJenjangStudi.appendChild(items);
-            }
-        } catch (Exception ex) {
-            Messagebox.show(ex.getMessage());
-        }
-    }
-
     public void viewReport() throws Exception {
         try {
             listb.getItems().clear();
-            DosenSedangMenempuhStudiDAO dao = new DosenSedangMenempuhStudiDAOImpl();
-            datas = dao.getData((UKProgramStudi) cmbProgdi.getSelectedItem().getValue(), (JenjangStudi) cmbJenjangStudi.getSelectedItem().getValue());
-
-            for (DosenSedangMenempuhStudi o : datas) {
+            MatrikBorangDAO dao = new MatrikBorangDAOImpl();
+            UKProgramStudi prodiSelected = (UKProgramStudi) cmbProgdi.getSelectedItem().getValue();
+            datas = dao.getByKodeUnit(prodiSelected.getKodeUnitKerja());
+            int i = 1;
+            for (MatrikBorang o : datas) {
                 Listitem li = new Listitem();
-                Listcell cell = new Listcell(o.getNama());
+                Listcell cell = new Listcell("" + (i++));
                 li.appendChild(cell);
-                cell = new Listcell(o.getProdi());
+                cell = new Listcell(o.getIsianMonevinRKA());
                 li.appendChild(cell);
-                cell = new Listcell(o.getJenjangStudi());
+                cell = new Listcell(o.getSkorPraMonev() + "");
                 li.appendChild(cell);
-                cell = new Listcell(o.getTempat());
+                cell = new Listcell(o.getSkorPascaMonev() + "");
                 li.appendChild(cell);
                 listb.appendChild(li);
 
