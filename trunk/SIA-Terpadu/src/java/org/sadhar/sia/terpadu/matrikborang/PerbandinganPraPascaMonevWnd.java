@@ -107,7 +107,7 @@ public class PerbandinganPraPascaMonevWnd extends ClassApplicationModule {
                 Window pdfPreviewWnd = (Window) Executions.createComponents("/zul/pdfpreview/PdfPreview.zul", null, null);
                 Jasperreport pdfReport = (Jasperreport) pdfPreviewWnd.getFellow("report");
                 pdfReport.setType(cmbExportType.getSelectedItem().getValue().toString());
-                pdfReport.setSrc("reports/dosensedangmenempuhstudi/dosensedangmenempuhstudi.jasper");
+                pdfReport.setSrc("reports/perbandinganprapascamonev/PerbandinganPraPascaMonev.jasper");
                 Map parameters = new HashMap();
 //                parameters.put("chart", chart.createBufferedImage(500, 300));
                 pdfReport.setParameters(parameters);
@@ -115,7 +115,7 @@ public class PerbandinganPraPascaMonevWnd extends ClassApplicationModule {
                 pdfPreviewWnd.doModal();
             } else {
                 report.setType(cmbExportType.getSelectedItem().getValue().toString());
-                report.setSrc("reports/dosensedangmenempuhstudi/dosensedangmenempuhstudi.jasper");
+                report.setSrc("reports/perbandinganprapascamonev/PerbandinganPraPascaMonev.jasper");
                 Map parameters = new HashMap();
 //                parameters.put("chart", chart.createBufferedImage(500, 300, BufferedImage.TRANSLUCENT, null));
                 report.setParameters(parameters);
