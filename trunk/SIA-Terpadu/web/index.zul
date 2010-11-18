@@ -104,7 +104,12 @@
                         <menu label="PM" height="30px">
                             <menupopup id="7">
                                 <menuitem  label="Laporan Kinerja Pegawai" value="/zul/laporankinerjapegawai/LaporanKinerjaPegawai.zul" onClick="main.showObject(self.value)" />
-                                <menuitem  label="Laporan Hasil Penilaian Matrik Borang" value="xx" onClick="main.showObject(self.value)" />
+                                <menu  label="Laporan Hasil Penilaian Matrik Borang">
+                                    <menupopup>
+                                        <menuitem  label="Perbandingan Pra dan Pasca Monev" value="/zul/perbandinganprapascamonev/PerbandinganPraPascaMonev.zul" onClick="main.showObject(self.value)" />
+                                        <menuitem  label="Jumlah Dan Daftar Penelitian PerDosen" value="/xx" onClick="main.showObject(self.value)" />
+                                    </menupopup>
+                                </menu>
                             </menupopup>
                         </menu>
                     </menubar>
