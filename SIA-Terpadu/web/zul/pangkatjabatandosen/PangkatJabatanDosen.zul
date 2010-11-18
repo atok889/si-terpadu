@@ -50,7 +50,7 @@
                         <listhead>
                             <listheader label="NPP"></listheader>
                             <listheader label="Nama"></listheader>
-                            <listheader label="Umur"></listheader>
+                            <listheader label="Umur" width="40px" ></listheader>
                             <listheader label="Prodi"></listheader>
                             <listheader label="Jabatan/Pangkat"></listheader>
                         </listhead>
