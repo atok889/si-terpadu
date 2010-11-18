@@ -14,7 +14,7 @@ public interface MatrikBorangDAO {
 
     public List<MatrikBorang> getByKodeUnit(String kodeUnit) throws Exception;
 
-    public List<MatrikBorang> getByTahunBetween(String awal, String akhir) throws Exception;
+    public List<MatrikBorang> getByTahunBetween(String kodeUnit) throws Exception;
 
     public List<MatrikBorang> getByKodeUnitDanTahun(String KodeUnit, String akhir) throws Exception;
 }
