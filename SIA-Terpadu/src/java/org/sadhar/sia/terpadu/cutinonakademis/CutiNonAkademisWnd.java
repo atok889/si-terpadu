@@ -56,55 +56,6 @@ public class CutiNonAkademisWnd extends ClassApplicationModule {
         pendidikanKaryawanDAO = new PendidikanKaryawanDAOImpl();
     }
 
-    private void testDAOS() {
-        try {
-            DPTigaDAO dptdao = new DPTigaDAOImpl();
-            List<DPTiga> result = dptdao.getByKodeUnit("1608");
-            System.out.println("============= DP Tiga ================");
-            for (DPTiga dpt : result) {
-                System.out.println(dpt.getNamaPegawai() + " " + dpt.getNilaiDP3());
-            }
-            System.out.println("=============== NEP Dosen ==================");
-            NEPDosenDAO nepd = new NEPDosenDAOImpl();
-            List<NEPDosen> lll = nepd.getByKodeUnit("1609");
-            for (NEPDosen o : lll) {
-                System.out.println(o.getNamaPegawai() + " " + o.getRataRata());
-            }
-
-
-
-            MatrikBorangDAO mbdao = new MatrikBorangDAOImpl();
-            List<MatrikBorang> susu = mbdao.getByKodeUnit("1605");
-            System.out.println("==============Matrik Borang by Kode Unit==================");
-            for (MatrikBorang mb : susu) {
-                System.out.println(mb.getKodeUnit() + "-" + mb.getSkorPraMonev() + "-" + mb.getSkorPascaMonev());
-            }
-
-            susu = mbdao.getByKodeUnitDanTahun("1605", "2010");
-            System.out.println("==============Matrik Borang by Kode Unit dan Tahun==================");
-            for (MatrikBorang mb : susu) {
-                System.out.println(mb.getKodeUnit() + "-" + mb.getSkorPraMonev() + "-" + mb.getSkorPascaMonev());
-            }
-
-            susu = mbdao.getByTahunBetween("2009", "2010");
-            System.out.println("=============Matrik Borang by Tahun Between=============");
-            for (MatrikBorang mb : susu) {
-                System.out.println(mb.getKodeUnit() + "-" + mb.getSkorPraMonev() + "-" + mb.getSkorPascaMonev());
-            }
-
-            RerataMataKuliahDAO rmkdao = new RerataMataKuliahDAOImpl();
-            CategoryDataset dataset = rmkdao.getDataset("5314", 2005, 2010);
-            System.out.println("============= Rerata Matakuliah =====================");
-            for (Object o : dataset.getRowKeys()) {
-                for (Object o2 : dataset.getColumnKeys()) {
-                    System.out.println(o.toString() + "-" + o2.toString() + "=>" + dataset.getValue((Comparable) o, (Comparable) o2).doubleValue());
-                }
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-    }
 
     public void onCreate() {
         cmbboxUnitKerja = (Combobox) this.getFellow("cmbboxUnitKerja");

@@ -5,6 +5,7 @@
 package org.sadhar.sia.terpadu.matrikborang;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import org.sadhar.errhandler.ClassAntiNull;
@@ -46,8 +47,9 @@ public class MatrikBorangDAOImpl implements MatrikBorangDAO {
 
     }
 
-    public List<MatrikBorang> getByTahunBetween(String awal, String akhir) throws Exception {
-        String insql = sql + " WHERE imovrka.tahun BETWEEN '" + awal + "' AND '" + akhir + "'";
+    public List<MatrikBorang> getByTahunBetween(String kodeUnit) throws Exception {
+        int year = Calendar.getInstance().get(Calendar.YEAR);
+        String insql = sql + " WHERE imovrka.tahun BETWEEN '" + (year - 5) + "' AND '" + (year) + "' AND  WHERE imovrka.kodeUnit LIKE '%" + kodeUnit + "%'";
         List<MatrikBorang> list = new ArrayList<MatrikBorang>();
         List<Map> rows = ClassConnection.getJdbc().queryForList(insql);
         for (Map m : rows) {
