@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <window title="Distribusi Umur Dosen dan Karyawan" border="normal" width="950px"
+            closable="true" sizable="true"
+            id="distribusiWnd"
+            use="org.sadhar.sia.terpadu.distribusiumurdosendankaryawan.DistribusiUmurDosenDanKaryawanWnd">
+        <div style="padding:5px">
+            <groupbox>
+                <caption label="Parameter"></caption>
+                <div style="padding:3px">
+                    <grid>
+                        <rows>
+                            <row>
+                                <label value="Prodi/Unit Kerja"></label>
+                                <combobox readonly="true" id="cmbboxProdi" width="300px"
+                                onSelect="distribusiWnd.cmbDataProdiOnSelect()">
+                                </combobox>
+                            </row>
+                            <row>
+                                <label value="Detail"></label>
+                                <combobox readonly="true" id="cmbboxUmur" width="100px"
+                                onSelect="distribusiWnd.cmbDataUmurOnSelect()">
+                                    <comboitem label="--Pilih Umur--"></comboitem>
+                                    <comboitem value="21-40" label="21-40"></comboitem>
+                                    <comboitem value="31-40" label="31-40"></comboitem>
+                                    <comboitem value="41-50" label="41-50"></comboitem>
+                                    <comboitem value="51-60" label="51-60"></comboitem>
+                                    <comboitem value="61-70" label="61-70"></comboitem>
+                                </combobox>
+                            </row>
+                            <row>
+                                <label value=""></label>
+                                <button label="Tampilkan" height="25px" width="90px" onClick="distribusiWnd.btnShowOnClick()"  ></button>
+                            </row>
+                        </rows>
+                    </grid>
+                </div>
+            </groupbox>
+            <groupbox>
+                <caption label="Keluaran"></caption>
+                <div id="contentDiv" style="height:500px;overflow:auto;padding:10px:width900px">
+                    <image id="chartImg"/>
+                </div>
+            </groupbox>
+            <groupbox id="groupDetail" visible="false">
+                <caption label="Detail"></caption>
+                <listbox id="listboxData" mold="paging" pageSize="50" width="900px" fixedLayout="false" visible = "false" rows="15">
+                    <listhead>
+                        <listheader label="No" align="right" width="50px"></listheader>
+                        <listheader label="Nama"></listheader>
+                        <listheader label="Program Studi"></listheader>
+                        <listheader label="Fakultas"></listheader>
+                        <listheader label="Angkatan" align="right" width="100px"></listheader>
+                    </listhead>
+                </listbox>
+            </groupbox>
+            <groupbox visible="true">
+                <caption label="Export"></caption>
+                <div style="padding:3px" align="right">
+                    <hbox>
+                        <label value="Format"></label>
+                        <jasperreport id="report" visible="false"/>
+                        <combobox id="cmbExportType" readonly="true">
+                            <comboitem label="PDF" value="pdf" ></comboitem>
+                            <comboitem label="XLS" value="xls"></comboitem>
+                            <comboitem label="DOC" value="rtf"></comboitem>
+                            <comboitem label="RTF" value="rtf"></comboitem>
+                        </combobox>
+                        <button id="btnExport" disabled="true" label="Export" height="25px" width="90px" onClick="distribusiWnd.exportReport()"></button>
+                    </hbox>
+                </div>
+            </groupbox>
+        </div>
+    </window>
+</zk>
+
