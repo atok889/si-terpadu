@@ -24,22 +24,22 @@ public class DPTigaDAOImpl implements DPTigaDAO {
     public List<DPTiga> getByKodeUnit(String kodeUnit) throws Exception {
     String tahun = "2008";
         //String tahun = Calendar.getInstance().get(Calendar.YEAR) + "";
-        String sql = "SELECT timpenilaidp3.kdPegawaiYgDinilai as kodePegawai, "
+        String sql = "SELECT timPenilaiDP3.kdPegawaiYgDinilai as kodePegawai, "
                 + "   pegawai.Nama_peg as namaPegawai, "
-                + "   SUM(nilaisubkomponenpegawai.Nilai)/count(nilaisubkomponenpegawai.Nilai)as nilaiDP3, "
+                + "   SUM(nilaiSubKomponenPegawai.Nilai)/count(nilaiSubKomponenPegawai.Nilai)as nilaiDP3, "
                 + "  unit_peg.kd_unit as kodeUnit, "
                 + "    unkerja.Nama_unit_kerja as namaUnit, "
-                + "      timpenilaidp3.tahunPenilaian as tahunPenilaian "
+                + "      timPenilaiDP3.tahunPenilaian as tahunPenilaian "
                 + "   FROM (((personalia.pegawai pegawai "
                 + "  INNER JOIN personalia.unit_peg unit_peg "
                 + "   ON (pegawai.kdPegawai = unit_peg.kdPegawai)) "
-                + " INNER JOIN personalia.timpenilaidp3 timpenilaidp3 "
-                + "     ON (timpenilaidp3.kdPegawaiYgDinilai = pegawai.kdPegawai)) "
-                + "   INNER JOIN personalia.nilaisubkomponenpegawai nilaisubkomponenpegawai "
-                + "        ON (timpenilaidp3.idTim = nilaisubkomponenpegawai.idTim)) "
+                + " INNER JOIN personalia.timPenilaiDP3 timPenilaiDP3 "
+                + "     ON (timPenilaiDP3.kdPegawaiYgDinilai = pegawai.kdPegawai)) "
+                + "   INNER JOIN personalia.nilaiSubKomponenPegawai nilaiSubKomponenPegawai "
+                + "        ON (timPenilaiDP3.idTim = nilaiSubKomponenPegawai.idTim)) "
                 + "      INNER JOIN kamus.unkerja unkerja "
                 + "           ON (unkerja.Kd_unit_kerja = unit_peg.kd_unit) "
-                + " WHERE unit_peg.kd_unit LIKE '%" + kodeUnit + "%' and timpenilaidp3.tahunPenilaian = " + tahun;
+                + " WHERE unit_peg.kd_unit LIKE '%" + kodeUnit + "%' and timPenilaiDP3.tahunPenilaian = " + tahun;
         List<DPTiga> list = new ArrayList<DPTiga>();
         List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
         for (Map m : rows) {
@@ -58,22 +58,22 @@ public class DPTigaDAOImpl implements DPTigaDAO {
     public List<DPTiga> getAll() throws Exception {
               String tahun = "2008";
         //String tahun = Calendar.getInstance().get(Calendar.YEAR) + "";
-        String sql = "SELECT timpenilaidp3.kdPegawaiYgDinilai as kodePegawai, "
+        String sql = "SELECT timPenilaiDP3.kdPegawaiYgDinilai as kodePegawai, "
                 + "   pegawai.Nama_peg as namaPegawai, "
-                + "   SUM(nilaisubkomponenpegawai.Nilai)/count(nilaisubkomponenpegawai.Nilai)as nilaiDP3, "
+                + "   SUM(nilaiSubKomponenPegawai.Nilai)/count(nilaiSubKomponenPegawai.Nilai)as nilaiDP3, "
                 + "  unit_peg.kd_unit as kodeUnit, "
                 + "    unkerja.Nama_unit_kerja as namaUnit, "
-                + "      timpenilaidp3.tahunPenilaian as tahunPenilaian "
+                + "      timPenilaiDP3.tahunPenilaian as tahunPenilaian "
                 + "   FROM (((personalia.pegawai pegawai "
                 + "  INNER JOIN personalia.unit_peg unit_peg "
                 + "   ON (pegawai.kdPegawai = unit_peg.kdPegawai)) "
-                + " INNER JOIN personalia.timpenilaidp3 timpenilaidp3 "
-                + "     ON (timpenilaidp3.kdPegawaiYgDinilai = pegawai.kdPegawai)) "
-                + "   INNER JOIN personalia.nilaisubkomponenpegawai nilaisubkomponenpegawai "
-                + "        ON (timpenilaidp3.idTim = nilaisubkomponenpegawai.idTim)) "
+                + " INNER JOIN personalia.timPenilaiDP3 timPenilaiDP3 "
+                + "     ON (timPenilaiDP3.kdPegawaiYgDinilai = pegawai.kdPegawai)) "
+                + "   INNER JOIN personalia.nilaiSubKomponenPegawai nilaiSubKomponenPegawai "
+                + "        ON (timPenilaiDP3.idTim = nilaiSubKomponenPegawai.idTim)) "
                 + "      INNER JOIN kamus.unkerja unkerja "
                 + "           ON (unkerja.Kd_unit_kerja = unit_peg.kd_unit) "
-                + " WHERE   timpenilaidp3.tahunPenilaian = " + tahun;
+                + " WHERE   timPenilaiDP3.tahunPenilaian = " + tahun;
         List<DPTiga> list = new ArrayList<DPTiga>();
         List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
         for (Map m : rows) {
