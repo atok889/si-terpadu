@@ -51,7 +51,7 @@ public class RerataIpsDAOImpl implements RerataIpsDAO {
         } else if (kodeProdi != null && tahunAngkatan == null) {
             //Jika prodi/fakultas ditentukan, maka dihitung rerata IPS untuk tiap prodi atau
             //fakultas yang dipilih, dengan tiap tahun angkatan dipisah dalam baris data yang berbeda
-            for (int i = 1998; i <= currentYear; i++) {
+            for (int i = 2000; i <= currentYear; i++) {
                 if (isTabelKTExist(kodeProdi, String.valueOf(i))) {
                     String sql = " SELECT  IF(LEFT(nomor_mhs, 1)='9', CONCAT('19', LEFT(nomor_mhs, 2))," +
                             " IF(LEFT(nomor_mhs, 1)='8', CONCAT('19', LEFT(nomor_mhs,2)), CONCAT('20', LEFT( nomor_mhs, 2)))) AS angkatan," +
