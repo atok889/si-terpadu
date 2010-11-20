@@ -258,16 +258,22 @@ public class RerataIpsWnd extends ClassApplicationModule {
                             }
 
                             map.put("angkatan", data.get("angkatan"));
-                            map.put("tahun", String.valueOf(i));
                             map.put("fakultas", data.get("Nama_prg"));
-
+                        }
+                        //Manipulasi semester
+                        if (j == 1) {
+                            map.put("semester", j + 1);
+                            map.put("tahun", i);
+                        } else {
+                            map.put("semester", j - 1);
+                            map.put("tahun", i + 1);
                         }
 
-                        if (map.get("tahun") != null) {
+                        if (map.get("ips") != null) {
                             dataset.addValue(Double.valueOf(map.get("ips").toString()),
-                                    map.get("tahun").toString() + "-" + j,
+                                    map.get("tahun").toString() + "-" + map.get("semester"),
                                     map.get("fakultas").toString() + "-" + map.get("angkatan"));
-                            map.put("tahun", String.valueOf(i) + "-" + String.valueOf(j));                            
+                            map.put("tahun", String.valueOf(i) + "-" + map.get("semester"));
                             Map m = new HashMap();
                             m.put("ips", map.get("ips"));
                             m.put("angkatan", map.get("angkatan"));
@@ -275,15 +281,8 @@ public class RerataIpsWnd extends ClassApplicationModule {
                             m.put("fakultas", map.get("fakultas"));
                             dataReport.add(m);
                         }
-
                     }
                 }
-                System.out.println("===================");
-            }
-            int no =0;
-            for (Map map : dataReport) {
-                System.out.println(no+"=>"+map.get("tahun") + "=>" + map.get("ips"));
-                no++;
             }
         } else if (angkatan != null && kodeProdi == null) {
             List<Map> prodis = rerataIpsDAO.getProdi();
@@ -321,12 +320,20 @@ public class RerataIpsWnd extends ClassApplicationModule {
 
                             }
                         }
-                        if (map.get("tahun") != null) {                           
+                        //Manipulasi semester
+                        if (j == 1) {
+                            map.put("semester", j + 1);
+                            map.put("tahun", i);
+                        } else {
+                            map.put("semester", j - 1);
+                            map.put("tahun", i + 1);
+                        }
+                        if (map.get("ips") != null) {
                             map.put("angkatan", String.valueOf(currentYear));
-                            dataset.addValue(Double.valueOf(map.get("ips").toString()), 
-                                    map.get("tahun") + "-" + j,
+                            dataset.addValue(Double.valueOf(map.get("ips").toString()),
+                                    map.get("tahun") + "-" + map.get("semester"),
                                     map.get("fakultas").toString());
-                            map.put("tahun", map.get("tahun") + "-" + j);
+                            map.put("tahun", map.get("tahun") + "-" + map.get("semester"));
                             dataReport.add(map);
                         }
                     }
@@ -376,7 +383,15 @@ public class RerataIpsWnd extends ClassApplicationModule {
                         map.put("tahun", i);
 
                     }
-                    map.put("semester", j);
+                    //Manipulasi semester
+                    if (j == 1) {
+                        map.put("semester", j + 1);
+                        map.put("tahun", i);
+                    } else {
+                        map.put("semester", j - 1);
+                        map.put("tahun", i + 1);
+                    }
+
                     dataset.addValue(Double.valueOf(map.get("ips").toString()), map.get("tahun") + "-" + map.get("semester").toString(), map.get("fakultas").toString());
                     map.put("tahun", map.get("tahun") + "-" + map.get("semester").toString());
                     dataReport.add(map);
