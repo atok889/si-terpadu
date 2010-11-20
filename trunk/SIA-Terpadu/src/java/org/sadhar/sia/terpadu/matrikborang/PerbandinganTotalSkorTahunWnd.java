@@ -71,7 +71,7 @@ public class PerbandinganTotalSkorTahunWnd extends ClassApplicationModule {
         try {
             MatrikBorangDAO dao = new MatrikBorangDAOImpl();
             UnitKerja ukSelected = (UnitKerja) cmbCakupan.getSelectedItem().getValue();
-            CategoryDataset dataset = null;
+            CategoryDataset dataset = dao.getDatasetSkor(ukSelected.getKode());
             ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
             BarRenderer.setDefaultBarPainter(new StandardBarPainter());
             chart = ChartFactory.createBarChart(

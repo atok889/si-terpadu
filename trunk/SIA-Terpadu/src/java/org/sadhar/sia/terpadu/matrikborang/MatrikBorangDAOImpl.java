@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import org.jfree.data.category.CategoryDataset;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.sadhar.errhandler.ClassAntiNull;
 import org.sadhar.sia.common.ClassConnection;
 
@@ -80,5 +82,40 @@ public class MatrikBorangDAOImpl implements MatrikBorangDAO {
             list.add(matrikBorang);
         }
         return list;
+    }
+
+    public CategoryDataset getDatasetSkor(String kodeUnit) throws Exception {
+        String sql = "SELECT "
+                + "   imovrka.tahun, "
+                + "     imovrka.kodeUnit, "
+                + "       SUM(IF(imovrka.skorPascaMonev <=> null,0.0,imovrka.skorPascaMonev)) AS skor  "
+                + " FROM mutu.isianmonevinrka imovrka "
+                + " WHERE imovrka.tahun BETWEEN (YEAR(NOW())-5) AND YEAR(NOW()) AND imovrka.kodeUnit LIKE '%" + kodeUnit + "%' "
+                + " group by imovrka.tahun;";
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
+        for (Map m : rows) {
+            dataset.addValue(ClassAntiNull.AntiNullDouble(m.get("skor")), ClassAntiNull.AntiNullString(m.get("tahun")), "");
+        }
+
+        return dataset;
+
+    }
+
+    public CategoryDataset getDatasetSkorAll() throws Exception {
+        String sql = "SELECT "
+                + "    imovrka.kodeUnit, "
+                + "      unkerja.Nama_unit_kerja as nama, "
+                + "        SUM(IF(imovrka.skorPascaMonev <=> null,0.0,imovrka.skorPascaMonev)) AS skor "
+                + " FROM mutu.isianmonevinrka imovrka "
+                + " INNER JOIN kamus.unkerja unkerja on (unkerja.Kd_unit_kerja = imovrka.kodeUnit) "
+                + " WHERE  imovrka.tahun=YEAR(NOW()) group by imovrka.kodeUnit";
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
+        for (Map m : rows) {
+            dataset.addValue(ClassAntiNull.AntiNullDouble(m.get("skor")), ClassAntiNull.AntiNullString(m.get("nama")), "");
+        }
+
+        return dataset;
     }
 }

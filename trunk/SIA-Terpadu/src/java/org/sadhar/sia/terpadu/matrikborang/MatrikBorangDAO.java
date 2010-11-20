@@ -5,6 +5,7 @@
 package org.sadhar.sia.terpadu.matrikborang;
 
 import java.util.List;
+import org.jfree.data.category.CategoryDataset;
 
 /**
  *
@@ -17,4 +18,8 @@ public interface MatrikBorangDAO {
     public List<MatrikBorang> getByTahunBetween(String kodeUnit) throws Exception;
 
     public List<MatrikBorang> getByKodeUnitDanTahun(String KodeUnit, String akhir) throws Exception;
+
+    public CategoryDataset getDatasetSkor(String kodeUnit) throws Exception;
+
+    public CategoryDataset getDatasetSkorAll() throws Exception;
 }
