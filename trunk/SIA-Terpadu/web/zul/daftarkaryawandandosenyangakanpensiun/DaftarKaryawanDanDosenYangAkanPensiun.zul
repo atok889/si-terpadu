@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title="Daftar Karyawan dan Dosen yang akan pensiun" border="normal" width="900px"
+    <window title="Daftar Karyawan dan Dosen yang akan pensiun" border="normal" width="1100px"
             closable="true" sizable="true"
             id="daftarWnd"
             use="org.sadhar.sia.terpadu.daftarkaryawandandosenyangakanpensiun.DaftarKaryawanDanDosenYangAkanPensiunWnd">
@@ -18,7 +18,7 @@
                         <rows>
                             <row style="border:none">
                                 <label value="Karyawan dan dosen yang akan pensiun dalam" ></label>
-                                <intbox id="txtboxTahun" style="text-align:right;"/>
+                                <intbox id="txtboxTahun" style="text-align:right;" value="5"/>
                                 <label value="tahun"></label>
                             </row>
                             <row style="border:none">
@@ -32,12 +32,12 @@
             </groupbox>
             <groupbox>
                 <caption label="Keluaran"></caption>
-                <listbox id="listboxData" mold="paging" pageSize="50" width="850px" fixedLayout="true" visible = "true" rows="15">
+                <listbox id="listboxData" mold="paging" pageSize="50" width="1050px" fixedLayout="true" visible = "true" rows="15">
                     <listhead>
                         <listheader label="No" align="right" width="50px"></listheader>
                         <listheader label="Nama"></listheader>
                         <listheader label="Unit Kerja"></listheader>
-                        <listheader label="Usia"></listheader>
+                        <listheader label="Usia" width="100px" align="right"></listheader>
                         <listheader label="Pensiun Dalam" align="right" width="100px"></listheader>
                     </listhead>
                 </listbox>
