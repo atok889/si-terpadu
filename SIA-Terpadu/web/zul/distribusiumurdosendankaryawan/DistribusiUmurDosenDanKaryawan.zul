@@ -13,16 +13,16 @@
                         <rows>
                             <row>
                                 <label value="Prodi/Unit Kerja"></label>
-                                <combobox readonly="true" id="cmbboxProdi" width="300px"
+                                <combobox readonly="true" id="cmbboxProdi" width="500px"
                                 onSelect="distribusiWnd.cmbDataProdiOnSelect()">
                                 </combobox>
                             </row>
                             <row>
                                 <label value="Detail"></label>
                                 <combobox readonly="true" id="cmbboxUmur" width="100px"
-                                onSelect="distribusiWnd.cmbDataUmurOnSelect()">
+                                onSelect="distribusiWnd.cmbDataUmurOnSelect()" visible="true" disabled="true" >
                                     <comboitem label="--Pilih Umur--"></comboitem>
-                                    <comboitem value="21-40" label="21-40"></comboitem>
+                                    <comboitem value="21-30" label="21-30"></comboitem>
                                     <comboitem value="31-40" label="31-40"></comboitem>
                                     <comboitem value="41-50" label="41-50"></comboitem>
                                     <comboitem value="51-60" label="51-60"></comboitem>
@@ -39,23 +39,23 @@
             </groupbox>
             <groupbox>
                 <caption label="Keluaran"></caption>
-                <div id="contentDiv" style="height:500px;overflow:auto;padding:10px:width900px">
+                <div id="contentDiv" style="height:400px;overflow:auto;padding:10px:width900px">
                     <image id="chartImg"/>
                 </div>
             </groupbox>
             <groupbox id="groupDetail" visible="false">
                 <caption label="Detail"></caption>
-                <listbox id="listboxData" mold="paging" pageSize="50" width="900px" fixedLayout="false" visible = "false" rows="15">
+                <listbox id="listboxData" mold="paging" pageSize="50" width="900px" fixedLayout="false" rows="10">
                     <listhead>
-                        <listheader label="No" align="right" width="50px"></listheader>
-                        <listheader label="Nama"></listheader>
-                        <listheader label="Program Studi"></listheader>
-                        <listheader label="Fakultas"></listheader>
-                        <listheader label="Angkatan" align="right" width="100px"></listheader>
+                        <listheader label="No" align="right" width="50px" sort="auto"></listheader>
+                        <listheader label="Nama" sort="auto"></listheader>
+                        <listheader label="Jabatan Akademik" sort="auto"></listheader>
+                        <listheader label="Golongan" sort="auto"></listheader>
+                        <listheader label="umur" align="right" width="100px" sort="auto"></listheader>
                     </listhead>
                 </listbox>
             </groupbox>
-            <groupbox visible="true">
+            <groupbox visible="false">
                 <caption label="Export"></caption>
                 <div style="padding:3px" align="right">
                     <hbox>
