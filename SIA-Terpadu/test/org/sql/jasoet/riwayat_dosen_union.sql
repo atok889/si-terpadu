@@ -1,3 +1,4 @@
+--Pertama buat view table ini dulu --------------------------------------------------------------------------------------
 CREATE OR REPLACE VIEW tempo.riwayatdosen(riwayat,kodePegawai,namaPegawai,tahun,keterangan) AS
 SELECT 'STUDI LANJUT' AS riwayat,
         studi.kdPegawai AS kodePegawai,
@@ -39,7 +40,30 @@ SELECT 'JABATAN' as riwayat,
           ON (pejabat.kdPegawai = pegawai.kdPegawai)
 WHERE pegawai.Status_keluar='1' OR pegawai.Status_keluar='6' OR  pegawai.Status_keluar='7'
     AND YEAR(pejabat.tgl_sk_angkat_jabat) AND pegawai.AdmEdu='2'
+-------------------------------------------------------------------------------------------------------------------------
 
-SELECT * FROM tempo.riwayatDosen riwayatDosen
-WHERE  riwayatDosen.kodePegawai='01248'
+-------------------tabel dosen berdasarkan Kode Unit Kerja---------------------------------------------------------------
+SELECT riwayatDosen.kodePegawai,
+riwayatDosen.namaPegawai,
+IF(MAX(unitPegawai.tgl_sk_unit)<=>NULL,'',MAX(unitPegawai.tgl_sk_unit))as tahun_sk,
+unkerja.Nama_unit_kerja
+ FROM tempo.riwayatDosen riwayatDosen
+INNER JOIN personalia.pegawai pegawai ON (riwayatDosen.kodePegawai= pegawai.kdPegawai)
+INNER JOIN personalia.unit_peg unitPegawai ON (pegawai.NPP=unitPegawai.NPP)
+INNER JOIN kamus.unKerja unkerja ON (unitPegawai.kd_unit=unkerja.kd_unit_kerja)
+WHERE unkerja.Kd_unit_kerja='16053140'
+GROUP BY riwayatDosen.kodePegawai
+--------------------------------------------------------------------------------------------------------------------------
 
+
+-------------Menu pop up riwayat dosen------------------------------------------------------------------------------------
+SELECT riwayatDosen.riwayat,
+    riwayatDosen.namaPegawai,
+    riwayatDosen.tahun,
+    riwayatDosen.keterangan,
+    pegawai.Alamat FROM tempo.riwayatDosen riwayatDosen
+INNER JOIN personalia.pegawai pegawai ON (riwayatDosen.kodePegawai= pegawai.kdPegawai)
+INNER JOIN personalia.unit_peg unitPegawai ON (pegawai.NPP=unitPegawai.NPP)
+INNER JOIN kamus.unKerja unkerja ON (unitPegawai.kd_unit=unkerja.kd_unit_kerja)
+WHERE unkerja.Kd_unit_kerja='16053140' AND riwayatDosen.kodePegawai='00961'
+-------------------------------------------------------------------------------------------------------------------------
