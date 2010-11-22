@@ -95,11 +95,12 @@ public class MasaKerjaPegawaiDAOImpl implements MasaKerjaPegawaiDAO {
                 }
                 total += Integer.valueOf(m.get("jumlah").toString());
             }
-            dataset.setValue("0-5 tahun", ((double) j0_5 / total) * 100);
-            dataset.setValue("5-10 tahun", ((double) j5_10 / total) * 100);
-            dataset.setValue("10-15 tahun", ((double) j10_15 / total) * 100);
-            dataset.setValue("15-20 tahun", ((double) j15_20 / total) * 100);
-            dataset.setValue(">20 tahun", ((double) j20_ / total) * 100);
+            DecimalFormat df = new DecimalFormat("#.##");
+            dataset.setValue("0-5 tahun : " + df.format(((double) j0_5 / total) * 100) + " %", ((double) j0_5 / total) * 100);
+            dataset.setValue("5-10 tahun : " + df.format(((double) j5_10 / total) * 100) + " %", ((double) j5_10 / total) * 100);
+            dataset.setValue("10-15 tahun : " + df.format(((double) j10_15 / total) * 100) + " %", ((double) j10_15 / total) * 100);
+            dataset.setValue("15-20 tahun : " + df.format(((double) j15_20 / total) * 100) + " %", ((double) j15_20 / total) * 100);
+            dataset.setValue(">20 tahun : " + df.format(((double) j20_ / total) * 100) + " %", ((double) j20_ / total) * 100);
         }
         return dataset;
     }
