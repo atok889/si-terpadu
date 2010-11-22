@@ -33,7 +33,7 @@
                         <listhead>
                             <listheader label="Nama Dosen"></listheader>
                             <listheader label="Asal Prodi"></listheader>
-                            <listheader label="Jenjang Studi" width="85px"></listheader>
+                            <listheader label="Jenjang Studi" width="110px" align="center"></listheader>
                             <listheader label="Tempat Studi Lanjut"></listheader>
                         </listhead>
                     </listbox>
