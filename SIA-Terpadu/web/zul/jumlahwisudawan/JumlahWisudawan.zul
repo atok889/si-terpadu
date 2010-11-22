@@ -9,7 +9,7 @@
             <groupbox >
                 <caption label="Table"></caption>
                 <div id="tableDiv" style="height:250px;overflow:auto;padding:10px;" >
-                    <listbox id="listb" width="810px" fixedLayout="false">
+                    <listbox id="listb" width="810px" fixedLayout="true">
 
                     </listbox>
                 </div>
