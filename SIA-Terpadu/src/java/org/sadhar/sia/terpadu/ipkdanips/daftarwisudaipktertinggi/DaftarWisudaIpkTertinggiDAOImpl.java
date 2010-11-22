@@ -32,7 +32,7 @@ public class DaftarWisudaIpkTertinggiDAOImpl implements DaftarWisudaIpkTertinggi
         for (Map prodi : getProdi()) {
             String kodeProdi = prodi.get("Kd_prg").toString();
             if (isTabelLLExist(kodeProdi) && isTabelUrutExist(kodeProdi)) {
-                for (int i = new DateTime().getYear() - 10; i <= new DateTime().getYear(); i++) {
+                for (int i = new DateTime().getYear() - 40; i <= new DateTime().getYear(); i++) {
                     if (isTabelTrExist(kodeProdi, String.valueOf(i))) {
                         String sql = "SELECT urut.TglWsd, ll.nomor_mhs,ll.nama_mhs,prg.Nama_prg, " +
                                 " SUM(sks * angka)/SUM(sks) as ipk " +
@@ -42,13 +42,23 @@ public class DaftarWisudaIpkTertinggiDAOImpl implements DaftarWisudaIpkTertinggi
                                 " INNER JOIN db_" + kodeProdi + ".urutwsd" + kodeProdi + " urut ON(urut.NoMhs = tr.nomor_mhs) " +
                                 " INNER JOIN kamus.prg_std prg ON ( prg.Kd_prg='" + kodeProdi + "') " +
                                 " WHERE urut.TglWsd = '" + tanggalWisuda + "' GROUP BY ll.nomor_mhs;";
-                       
                         results.addAll(ClassConnection.getJdbc().queryForList(sql));
                     }
                 }
             }
         }
         return results;
+    }
+
+    public List<Map> getTanggalWisuda() {
+        String sql = "SELECT x.TglWsd as tanggal FROM db_1114.urutwsd1114 x GROUP BY tanggal ";
+        for (Map prodi : getProdi()) {
+            if (isTabelUrutExist(prodi.get("Kd_prg").toString())) {
+                sql += " UNION SELECT x.TglWsd as tanggal FROM db_" + prodi.get("Kd_prg").toString() + ".urutwsd" + prodi.get("Kd_prg").toString() + " x GROUP BY tanggal";
+            }
+        }
+        sql += " ORDER BY tanggal ";
+        return ClassConnection.getJdbc().queryForList(sql);
     }
 
     public boolean isTabelTrExist(String kodeProdi, String tahun) {

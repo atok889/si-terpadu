@@ -16,5 +16,7 @@ public interface DaftarWisudaIpkTertinggiDAO {
 
     public List<Map> getProdi();
 
+    public List<Map> getTanggalWisuda();
+
     public List<Map> getDaftarWisudaIpkTertinggi(String tanggalWisuda);
 }
