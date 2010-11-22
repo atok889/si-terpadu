@@ -115,7 +115,54 @@ public class JumlahPegawaiDAOImpl implements JumlahPegawaiDAO {
     }
 
     public CategoryDataset getJumlahPegawaiByPangkat(UnitKerja unKerja) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet.");
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        String sql = "";
+        if (unKerja == null) {
+            sql = "SELECT  pangkat.Nama_pang AS pangkat "
+                    + ", COUNT(pegawai.kdPegawai) AS jumlah "
+                    + ", year(pangkat_peg.Tmt_pangkat) as tahun "
+                    + "FROM "
+                    + "(personalia.pegawai pegawai "
+                    + "INNER JOIN "
+                    + "personalia.pangkat_peg pangkat_peg "
+                    + "ON (pegawai.kdPegawai = pangkat_peg.kdPegawai)) "
+                    + "INNER JOIN "
+                    + "kamus.pangkat pangkat "
+                    + "ON (pangkat.Kd_pang = pangkat_peg.Kd_pang) "
+                    + "WHERE (pegawai.Status_keluar = '1'  or pegawai.Status_keluar = '7') and  "
+                    + "year(pangkat_peg.Tmt_pangkat) between '2000' and year(curdate()) "
+                    + "GROUP BY pangkat.Nama_pang,year(pangkat_peg.Tmt_pangkat) "
+                    + "order by year(pangkat_peg.Tmt_pangkat),pangkat.Nama_pang";
+            List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
+            for (Map m : rows) {
+                dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("pangkat").toString(), m.get("tahun").toString());
+            }
+        } else {
+            sql = "SELECT  pangkat.Nama_pang AS pangkat "
+                    + ", COUNT(pegawai.kdPegawai) AS jumlah "
+                    + ", year(pangkat_peg.Tmt_pangkat) as tahun "
+                    + "FROM "
+                    + "((personalia.pegawai pegawai "
+                    + "INNER JOIN "
+                    + "personalia.unit_peg unit_peg "
+                    + "ON (pegawai.kdPegawai = unit_peg.kdPegawai)) "
+                    + "INNER JOIN "
+                    + "personalia.pangkat_peg pangkat_peg "
+                    + "ON (pegawai.kdPegawai = pangkat_peg.kdPegawai)) "
+                    + "INNER JOIN "
+                    + "kamus.pangkat pangkat "
+                    + "ON (pangkat.Kd_pang = pangkat_peg.Kd_pang) "
+                    + "WHERE (pegawai.Status_keluar = '1'  or pegawai.Status_keluar = '7') and  "
+                    + "year(pangkat_peg.Tmt_pangkat) between '2000' and year(curdate()) and "
+                    + "unit_peg.kd_unit = ? "
+                    + "GROUP BY pangkat.Nama_pang,year(pangkat_peg.Tmt_pangkat) "
+                    + "order by year(pangkat_peg.Tmt_pangkat),pangkat.Nama_pang";
+            List<Map> rows = ClassConnection.getJdbc().queryForList(sql, new Object[]{unKerja.getKode()});
+            for (Map m : rows) {
+                dataset.addValue(Integer.valueOf(m.get("jumlah").toString()), m.get("pangkat").toString(), m.get("tahun").toString());
+            }
+        }
+        return dataset;
     }
 
     public CategoryDataset getJumlahPegawaiByGolongan(UnitKerja unKerja) throws Exception {
