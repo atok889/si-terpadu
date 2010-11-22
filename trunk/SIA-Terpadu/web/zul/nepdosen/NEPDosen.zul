@@ -29,7 +29,7 @@
                         <listhead>
                             <listheader label="Nomor"></listheader>
                             <listheader label="Nama Dosen"></listheader>
-                            <listheader label="Nilai Evaluasi Perkuliahan" width="135px"></listheader>
+                            <listheader label="Nilai Evaluasi Perkuliahan" width="170px"></listheader>
                         </listhead>
                     </listbox>
                 </div>
