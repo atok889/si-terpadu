@@ -32,7 +32,7 @@ public class DaftarWisudaIpkTertinggiDAOImpl implements DaftarWisudaIpkTertinggi
         for (Map prodi : getProdi()) {
             String kodeProdi = prodi.get("Kd_prg").toString();
             if (isTabelLLExist(kodeProdi) && isTabelUrutExist(kodeProdi)) {
-                for (int i = new DateTime().getYear() - 40; i <= new DateTime().getYear(); i++) {
+                for (int i = new DateTime().getYear() - 10; i <= new DateTime().getYear(); i++) {
                     if (isTabelTrExist(kodeProdi, String.valueOf(i))) {
                         String sql = "SELECT urut.TglWsd, ll.nomor_mhs,ll.nama_mhs,prg.Nama_prg, " +
                                 " SUM(sks * angka)/SUM(sks) as ipk " +
