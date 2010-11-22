@@ -49,7 +49,7 @@ IF(MAX(unitPegawai.tgl_sk_unit)<=>NULL,'',MAX(unitPegawai.tgl_sk_unit))as tahun_
 unkerja.Nama_unit_kerja
  FROM tempo.riwayatDosen riwayatDosen
 INNER JOIN personalia.pegawai pegawai ON (riwayatDosen.kodePegawai= pegawai.kdPegawai)
-INNER JOIN personalia.unit_peg unitPegawai ON (pegawai.NPP=unitPegawai.NPP)
+INNER JOIN personalia.unit_peg unitPegawai ON (pegawai.kdPegawai=unitPegawai.kdPegawai)
 INNER JOIN kamus.unKerja unkerja ON (unitPegawai.kd_unit=unkerja.kd_unit_kerja)
 WHERE unkerja.Kd_unit_kerja='16053140'
 GROUP BY riwayatDosen.kodePegawai
@@ -61,9 +61,10 @@ SELECT riwayatDosen.riwayat,
     riwayatDosen.namaPegawai,
     riwayatDosen.tahun,
     riwayatDosen.keterangan,
-    pegawai.Alamat FROM tempo.riwayatDosen riwayatDosen
+    pegawai.Alamat
+FROM tempo.riwayatDosen riwayatDosen
 INNER JOIN personalia.pegawai pegawai ON (riwayatDosen.kodePegawai= pegawai.kdPegawai)
-INNER JOIN personalia.unit_peg unitPegawai ON (pegawai.NPP=unitPegawai.NPP)
+INNER JOIN personalia.unit_peg unitPegawai ON (pegawai.kdPegawai=unitPegawai.kdPegawai)
 INNER JOIN kamus.unKerja unkerja ON (unitPegawai.kd_unit=unkerja.kd_unit_kerja)
 WHERE unkerja.Kd_unit_kerja='16053140' AND riwayatDosen.kodePegawai='00961'
 -------------------------------------------------------------------------------------------------------------------------
