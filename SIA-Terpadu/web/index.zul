@@ -77,7 +77,14 @@
                         </menu>
                         <menu label="SDM" height="30px">
                             <menupopup id="4">
-                                <menuitem  label="Laporan Data Pegawai" value="xx" onClick="main.showObject(self.value)" />
+                                <menu  label="Laporan Data Pegawai">
+                                    <menupopup>
+                                        <menuitem label="Jumlah Pegawai" value="/zul/jumlahpegawai/JumlahPegawai.zul" onClick="main.showObject(self.value)"/>
+                                        <menuitem label="Masa Kerja Pegawai" value="" onClick="main.showObject(self.value)"/>
+                                        <menuitem label="Rekruitmen Pegawai" value="" onClick="main.showObject(self.value)"/>
+                                        <menuitem label="Demografi Pegawai" value="" onClick="main.showObject(self.value)"/>
+                                    </menupopup>
+                                </menu>
                                 <menuitem  label="Jumlah Pegawai Administratif" value="/zul/jumlahpegawaiadministratif/JumlahPegawai.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Jumlah Status Izin atau Cuti Pegawai (Non Akademis)" value="/zul/cutinonakademis/CutiNonAkademis.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Daftar Karyawan Dan Dosen Yang Akan Pensiun" value="/zul/daftarkaryawandandosenyangakanpensiun/DaftarKaryawanDanDosenYangAkanPensiun.zul" onClick="main.showObject(self.value)" />
