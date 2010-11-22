@@ -80,7 +80,7 @@
                                 <menu  label="Laporan Data Pegawai">
                                     <menupopup>
                                         <menuitem label="Jumlah Pegawai" value="/zul/jumlahpegawai/JumlahPegawai.zul" onClick="main.showObject(self.value)"/>
-                                        <menuitem label="Masa Kerja Pegawai" value="" onClick="main.showObject(self.value)"/>
+                                        <menuitem label="Masa Kerja Pegawai" value="/zul/masakerja/MasaKerjaPegawai.zul" onClick="main.showObject(self.value)"/>
                                         <menuitem label="Rekruitmen Pegawai" value="" onClick="main.showObject(self.value)"/>
                                         <menuitem label="Demografi Pegawai" value="" onClick="main.showObject(self.value)"/>
                                     </menupopup>
