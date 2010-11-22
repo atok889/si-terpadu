@@ -170,10 +170,10 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
                         for (Map m : detail) {
                             Listitem item = new Listitem();
                             item.appendChild(new Listcell(no + ""));
-                            item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("nomor_mhs").toString())));
-                            item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("nama_mhs").toString())));
-                            item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("angkatan").toString())));
-                            item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("Nama_prg").toString())));
+                            item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("nomor_mhs"))));
+                            item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("nama_mhs"))));
+                            item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("angkatan"))));
+                            item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("Nama_prg"))));
                             listboxDetailMahasiswa.appendChild(item);
                             no++;
                         }
@@ -232,8 +232,8 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
                         }
                         item.appendChild(new Listcell(nomorMahasiswa));
                         item.appendChild(new Listcell(namaMahasiswa));
-                        item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("angkatan").toString())));
-                        item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("Nama_prg").toString())));
+                        item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("angkatan"))));
+                        item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("Nama_prg"))));
                         listboxDetailMahasiswa.appendChild(item);
                         no++;
                     }
@@ -278,8 +278,8 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
                     }
                     item.appendChild(new Listcell(nomorMahasiswa));
                     item.appendChild(new Listcell(namaMahasiswa));
-                    item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("angkatan").toString())));
-                    item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("Nama_prg").toString())));
+                    item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("angkatan"))));
+                    item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("Nama_prg"))));
                     listboxDetailMahasiswa.appendChild(item);
                     no++;
                 }
@@ -306,10 +306,12 @@ public class StatistikMahasiswaWnd extends ClassApplicationModule {
                     for (Map m : detail) {
                         Listitem item = new Listitem();
                         item.appendChild(new Listcell(no + ""));
-                        item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("nomor_mhs").toString())));
-                        item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("nama_mhs").toString())));
-                        item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("angkatan").toString())));
-                        item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("Nama_prg").toString())));
+                        if (m.get("nama_mhs") != null) {
+                            item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("nomor_mhs"))));
+                            item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("nama_mhs"))));
+                            item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("angkatan"))));
+                            item.appendChild(new Listcell(ClassAntiNull.AntiNullString(m.get("Nama_prg"))));
+                        }
                         listboxDetailMahasiswa.appendChild(item);
                         no++;
                     }
