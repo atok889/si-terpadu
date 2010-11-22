@@ -9,11 +9,11 @@
             <groupbox>
                 <caption label="Parameter"></caption>
                 <div style="padding:3px">
-                    <grid>                       
+                    <grid>
                         <rows>
                             <row >
                                 <label value="Tanggal Wisuda"></label>
-                                <datebox id="dateboxWisuda" width="200px" format="dd MMM yyyy" readonly="true" onChange="daftarIpkWisudaTertinggiWnd.dateboxOnChange()"/>
+                                <combobox id="dateboxWisuda" width="200px" readonly="true" onSelect="daftarIpkWisudaTertinggiWnd.dateboxOnChange()"/>
                             </row>
                             <row >
                                 <label value=""></label>

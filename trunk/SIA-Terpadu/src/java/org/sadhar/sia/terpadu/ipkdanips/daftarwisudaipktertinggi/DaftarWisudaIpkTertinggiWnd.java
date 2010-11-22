@@ -17,6 +17,7 @@ import org.zkoss.zk.ui.Executions;
 import org.zkoss.zkex.zul.Jasperreport;
 import org.zkoss.zul.Button;
 import org.zkoss.zul.Combobox;
+import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Datebox;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
@@ -37,7 +38,7 @@ public class DaftarWisudaIpkTertinggiWnd extends ClassApplicationModule {
     private Combobox cmbExportType;
     private Jasperreport report;
     private Button btnExport;
-    private Datebox dateboxWisuda;
+    private Combobox comboTanggalWisuda;
     private List<Map> datas = new ArrayList<Map>();
 
     public DaftarWisudaIpkTertinggiWnd() {
@@ -47,10 +48,25 @@ public class DaftarWisudaIpkTertinggiWnd extends ClassApplicationModule {
     public void onCreate() throws Exception {
         listboxMahasiswa = (Listbox) this.getFellow("listboxMahasiswa");
         report = (Jasperreport) getFellow("report");
-        dateboxWisuda = (Datebox) getFellow("dateboxWisuda");
+        comboTanggalWisuda = (Combobox) getFellow("dateboxWisuda");
         btnExport = (Button) getFellow("btnExport");
         cmbExportType = (Combobox) getFellow("cmbExportType");
         cmbExportType.setSelectedIndex(0);
+        this.loadDataToCombo();
+    }
+
+    private void loadDataToCombo() {
+        Comboitem comboitem = new Comboitem("--Pilih Tanggal Wisuda--");
+        comboitem.setValue(null);
+        comboTanggalWisuda.appendChild(comboitem);
+
+        for (Map map : daftarWisudaIpkTertinggiDAO.getTanggalWisuda()) {
+            Comboitem item = new Comboitem();
+            item.setValue(map.get("tanggal").toString());
+            item.setLabel(map.get("tanggal").toString());
+            comboTanggalWisuda.appendChild(item);
+        }
+        comboTanggalWisuda.setSelectedIndex(0);
     }
 
     private void componentDisable() {
@@ -87,8 +103,8 @@ public class DaftarWisudaIpkTertinggiWnd extends ClassApplicationModule {
         listheaderAngkatan.setAlign("right");
         listhead.appendChild(listheaderAngkatan);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        datas = this.generateData(dateFormat.format(dateboxWisuda.getValue()));
+        datas = this.generateData(comboTanggalWisuda.getText());
+        System.out.println(comboTanggalWisuda.getText());
 
         int no = 1;
         for (Map row : datas) {
