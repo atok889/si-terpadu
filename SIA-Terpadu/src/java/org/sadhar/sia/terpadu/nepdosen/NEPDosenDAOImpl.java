@@ -38,7 +38,8 @@ public class NEPDosenDAOImpl implements NEPDosenDAO {
                 + "    INNER JOIN evaluasi.resume_kategori resume_kategori "
                 + "     ON (resume_kategori.npp = pegawai.NPP) "
                 + "    WHERE resume_kategori.ta LIKE '"+tahun+"%' AND unit_peg.Kd_unit LIKE '%" + kodeUnit + "%' "
-                + "  GROUP BY resume_kategori.npp";
+                + "  GROUP BY resume_kategori.npp"
+                + " ORDER BY pegawai.Nama_peg ASC";
         List<NEPDosen> list = new ArrayList<NEPDosen>();
         List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
         for (Map m : rows) {
@@ -71,7 +72,8 @@ public class NEPDosenDAOImpl implements NEPDosenDAO {
                 + "    INNER JOIN evaluasi.resume_kategori resume_kategori "
                 + "     ON (resume_kategori.npp = pegawai.NPP) "
                 + "    WHERE resume_kategori.ta LIKE '"+tahun+"%' "
-                + "  GROUP BY resume_kategori.npp";
+                + "  GROUP BY resume_kategori.npp"
+                + " ORDER BY pegawai.Nama_peg ASC";
         List<NEPDosen> list = new ArrayList<NEPDosen>();
         List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
         for (Map m : rows) {
