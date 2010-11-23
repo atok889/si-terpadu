@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <window title="Rerata Nilai Tes PMB" border="normal" width="800px"
+            closable="true"
+            id="rerata"
+            use="org.sadhar.sia.terpadu.reratanilaitespmb.RerataNilaiTesPmbWnd">
+        <div style="padding:5px">
+            <groupbox>
+                <caption label="Parameter"></caption>
+                <div style="padding:3px">
+                    <grid>
+                        <rows>
+                            <row>
+                                <hbox>
+                                    <label value="Tahun Pendaftaran"></label>
+                                    <space width="3px"/>
+                                    <combobox id="cmbTahun" width="150px" readonly="true"/>
+                                </hbox>
+                            </row>
+                        </rows>
+                    </grid>
+                </div>
+                <div style="padding:3px">
+                    <button label="Tampilkan" height="25px" width="90px" onClick="rerata.viewReport()"></button>
+                </div>
+            </groupbox>
+            <groupbox>
+                <caption label="Keluaran"></caption>
+                <div style="padding:3px">
+                    <jasperreport id="report" visible="false"/>
+                    <listbox id="lstData" rows="10">
+                        <listhead>
+                            <listheader label="Prodi"/>
+                            <listheader label="PV" width="60px" align="right"/>
+                            <listheader label="KN" width="60px" align="right"/>
+                            <listheader label="PM" width="60px" align="right"/>
+                            <listheader label="HR" width="60px" align="right"/>
+                            <listheader label="BI" width="60px" align="right"/>
+                            <listheader label="Nilai Final" width="80px" align="right"/>
+                        </listhead>
+                    </listbox>
+                </div>
+            </groupbox>
+            <groupbox>
+                <caption label="Keterangan"/>
+                <div style="padding:3px">
+                    <grid>
+                        <rows>
+                            <row>
+                                <label value="PV : Penalaran Verbal"/>
+                            </row>
+                            <row>
+                                <label value="KN : Kemampuan Numerik"/>
+                            </row>
+                            <row>
+                                <label value="PM : Penalaran Mekanik"/>
+                            </row>
+                            <row>
+                                <label value="HR : Hubungan Ruang"/>
+                            </row>
+                            <row>
+                                <label value="BI : Bahasa Inggris"/>
+                            </row>
+                        </rows>
+                    </grid>
+                </div>
+            </groupbox>
+            <groupbox>
+                <caption label="Export"></caption>
+                <div style="padding:3px" align="right">
+                    <hbox>
+                        <label value="Format"></label>
+                        <combobox id="cmbExportType">
+                            <comboitem label="PDF" value="pdf"></comboitem>
+                            <comboitem label="XLS" value="xls"></comboitem>
+                            <comboitem label="DOC" value="rtf"></comboitem>
+                            <comboitem label="RTF" value="rtf"></comboitem>
+                        </combobox>
+                        <button id="btnExport" disabled="true" label="Export" height="25px" width="90px" onClick="rerata.exportReport()"></button>
+                    </hbox>
+                </div>
+        </groupbox></div>
+    </window>
+</zk>
