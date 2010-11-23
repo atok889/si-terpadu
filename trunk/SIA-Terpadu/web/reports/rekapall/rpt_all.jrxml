@@ -1,0 +1,1164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="rpt_all" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<parameter name="nmUnker" class="java.lang.String"/>
+	<parameter name="kdUnker" class="java.lang.String"/>
+	<parameter name="DEFA_VALUE" class="java.lang.Integer" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new Integer("1")]]></defaultValueExpression>
+	</parameter>
+	<parameter name="thnAnggaran" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select anggaran.no as no1, anggaran.nm as nm1, anggaran.kodepos as kodepos1, anggaran.namaPosBiaya as namaPosBiaya1,anggaran.anggaran as anggaran1, 
+pencairan.no as no2, pencairan.nm as nm2, pencairan.kodepos as kodepos2, pencairan.namaPosBiaya as namaPosBiaya2,pencairan.pengajuan as pengajuan2,pencairan.cair as cair2,
+lapPJ.no as no3, lapPJ.nm as nm3, lapPJ.kodepos as kodepos3,lapPJ.namaPosBiaya as namaPosBiaya3, lapPJ.pengajuan as pengajuan3,lapPJ.LPJ as LPJ3
+from
+(select '1' as no,'RAB Non Rapat' as nm,rab.kodePosBiaya as kodepos,namaPosBiaya,sum(harga*kuantitas)as anggaran 
+from ppmk.anggaranRABNonRapatKerja as rab inner join ppmk.posBiaya as pos on rab.kodePosBiaya=pos.kodePosBiaya
+where rab.kodeUnit=$P{kdUnker} and tahun=$P{thnAnggaran} and isRevisi='Y' and isSudahDiajukan='Y'
+group by rab.kodePosBiaya
+union all
+select '2' as no,'RAB Rapat Kerja' as nm,rab_rapat.kodePosBiaya as kodepos, namaPosBiaya,if(jumlahHari=0,sum(harga*kuantitas),sum(harga*kuantitas*jumlahHari))as anggaran 
+from ppmk.anggaranBiayaRapatKerjaDanKegiatan as rab_rapat inner join ppmk.posBiaya as pos on rab_rapat.kodePosBiaya=pos.kodePosBiaya
+inner join ppmk.rapatKerjaUnit as rpt on rab_rapat.kodeRapatKerjaSubKegiatan=rpt.idRapatKerjaUnit
+where rpt.kodeUnit=$P{kdUnker} and rpt.tahun=$P{thnAnggaran} and isRapat='Y' and isRevisi='Y' and isSudahDiajukan='Y'
+group by rab_rapat.kodePosBiaya
+union all
+select '3' as no, pos2.namaPosBiaya as nm,rab_rapat.kodePosBiaya as kodepos, 
+pos.namaPosBiaya,sum(if(jumlahHari=0,harga*kuantitas,harga*kuantitas*jumlahHari))
+from ppmk.anggaranBiayaRapatKerjaDanKegiatan as rab_rapat inner join ppmk.posBiaya as pos on rab_rapat.kodePosBiaya=pos.kodePosBiaya
+inner join ppmk.kegiatanUnit as rpt on rab_rapat.kodeRapatKerjaSubKegiatan=rpt.kodeKegiatanUnit
+inner join ppmk.kelompokKegiatan as klpk on rpt.kodeKelompokKegiatan=klpk.kodeKelompok
+inner join ppmk.kelompokRKA as kplkRKA on klpk.kodeKelompok=kplkRKA.kodeKelompokKegiatan
+inner join ppmk.posBiaya as pos2 on kplkRKA.kodePosBiaya=pos2.kodePosBiaya 
+where rpt.kodeUnit=$P{kdUnker} and rpt.tahun=$P{thnAnggaran} and isRapat='N' and isRevisi='Y' and isSudahDiajukan='Y'
+group by rpt.kodeKelompokKegiatan,rab_rapat.kodePosBiaya
+) as anggaran
+inner join 
+(select '1' as no,'RAB Non Rapat'as nm,dp.kodePosBiaya as kodepos,pos.namaPosBiaya, sum(harga*kuantitasPengajuan) as pengajuan, sum(harga*kuantitasDisetujui) as cair
+from ppmk.pengajuanPengambilan as pp inner join ppmk.detailPengajuanPengambilan as dp on pp.idPengajuan=dp.idPengajuan
+inner join ppmk.posBiaya as pos on dp.kodePosBiaya=pos.kodePosbiaya
+where pp.tahunAnggaran=$P{thnAnggaran} and pp.kodeUnitPengaju=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya<>5
+group by dp.kodePosBiaya
+union all
+select '2'as no,'RAB Rapat Kerja' as nm,dp.kodeSub as kodepos,pos.namaPosBiaya, sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as pengajuan,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.pengajuanPengambilan as pp inner join ppmk.detailPengajuanPengambilan as dp on pp.idPengajuan=dp.idPengajuan
+inner join ppmk.posBiaya as pos on dp.kodeSub=pos.kodePosbiaya
+where pp.tahunAnggaran=$P{thnAnggaran} and pp.kodeUnitPengaju=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya=5
+group by dp.kodePosBiaya,dp.kodeSub
+union all
+select '3' as no,pos2.namaPosBiaya,dp.kodeSub as kodepos,pos.namaPosBiaya, 
+sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as cair,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.pengajuanPengambilan as pp inner join ppmk.detailPengajuanPengambilan as dp on pp.idPengajuan=dp.idPengajuan
+inner join ppmk.posBiaya as pos on dp.kodeSub=pos.kodePosbiaya
+inner join ppmk.posBiaya as pos2 on dp.kodePosBiaya=pos2.kodePosbiaya
+where pp.tahunAnggaran=$P{thnAnggaran} and pp.kodeUnitPengaju=$P{kdUnker} and dp.kodeJenisAnggaran='2'
+group by dp.kodePosBiaya,dp.kodeSub
+) as pencairan on anggaran.no=pencairan.no and anggaran.kodepos=pencairan.kodepos
+inner join 
+(select '1' as no,'RAB Non Rapat' as nm,dp.kodePosBiaya as kodepos,pos.namaPosBiaya, sum(harga*kuantitasPengajuan) as pengajuan, sum(harga*kuantitasDisetujui) as LPJ
+from ppmk.lpj as pp inner join ppmk.detailPosLPJ as dp on pp.idLPJ=dp.idLPJ
+inner join ppmk.posBiaya as pos on dp.kodePosBiaya=pos.kodePosbiaya
+where pp.tahun=$P{thnAnggaran} and pp.unit=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya<>5
+group by dp.kodePosBiaya
+union all
+select '2' as no,'RAB Rapat Kerja' as nm,dp.kodeSubPos as kodepos,pos.namaPosBiaya, sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as pengajuan,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.lpj as pp inner join ppmk.detailPosLPJ as dp on pp.idLPJ=dp.idLPJ
+inner join ppmk.posBiaya as pos on dp.kodeSubPos=pos.kodePosbiaya
+where pp.tahun=$P{thnAnggaran} and pp.unit=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya=5
+group by dp.kodePosBiaya,dp.kodeSubPos
+union all
+select '3' as no,pos2.namaPosBiaya as nm,dp.kodeSubPos as kodepos,pos.namaPosBiaya, 
+sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as cair,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.lpj as pp inner join ppmk.detailPosLPJ as dp on pp.idLPJ=dp.idLPJ
+inner join ppmk.posBiaya as pos on dp.kodeSubPos=pos.kodePosbiaya
+inner join ppmk.posBiaya as pos2 on dp.kodePosBiaya=pos2.kodePosbiaya
+where pp.tahun=$P{thnAnggaran} and pp.unit=$P{kdUnker} and dp.kodeJenisAnggaran='2'
+group by dp.kodePosBiaya,dp.kodeSubPos) lapPJ on pencairan.no=lapPJ.no and pencairan.kodepos=lapPJ.kodepos
+
+UNION ALL
+
+select anggaran.no, anggaran.nm, anggaran.kodepos, anggaran.namaPosBiaya, anggaran.anggaran, 
+pencairan.no, pencairan.nm, pencairan.kodepos, pencairan.namaPosBiaya,pencairan.pengajuan,pencairan.cair,
+lapPJ.no, lapPJ.nm, lapPJ.kodepos, lapPJ.namaPosBiaya, lapPJ.pengajuan,lapPJ.LPJ
+from
+(select '1' as no,'RAB Non Rapat' as nm,rab.kodePosBiaya as kodepos,namaPosBiaya,sum(harga*kuantitas)as anggaran 
+from ppmk.anggaranRABNonRapatKerja as rab inner join ppmk.posBiaya as pos on rab.kodePosBiaya=pos.kodePosBiaya
+where rab.kodeUnit=$P{kdUnker} and tahun=$P{thnAnggaran} and isRevisi='Y' and isSudahDiajukan='Y'
+group by rab.kodePosBiaya
+union all
+select '2' as no,'RAB Rapat Kerja' as nm,rab_rapat.kodePosBiaya as kodepos, namaPosBiaya,if(jumlahHari=0,sum(harga*kuantitas),sum(harga*kuantitas*jumlahHari))as anggaran 
+from ppmk.anggaranBiayaRapatKerjaDanKegiatan as rab_rapat inner join ppmk.posBiaya as pos on rab_rapat.kodePosBiaya=pos.kodePosBiaya
+inner join ppmk.rapatKerjaUnit as rpt on rab_rapat.kodeRapatKerjaSubKegiatan=rpt.idRapatKerjaUnit
+where rpt.kodeUnit=$P{kdUnker} and rpt.tahun=$P{thnAnggaran} and isRapat='Y' and isRevisi='Y' and isSudahDiajukan='Y'
+group by rab_rapat.kodePosBiaya
+union all
+select '3' as no, pos2.namaPosBiaya,rab_rapat.kodePosBiaya as kodepos, 
+pos.namaPosBiaya,sum(if(jumlahHari=0,harga*kuantitas,harga*kuantitas*jumlahHari))
+from ppmk.anggaranBiayaRapatKerjaDanKegiatan as rab_rapat inner join ppmk.posBiaya as pos on rab_rapat.kodePosBiaya=pos.kodePosBiaya
+inner join ppmk.kegiatanUnit as rpt on rab_rapat.kodeRapatKerjaSubKegiatan=rpt.kodeKegiatanUnit
+inner join ppmk.kelompokKegiatan as klpk on rpt.kodeKelompokKegiatan=klpk.kodeKelompok
+inner join ppmk.kelompokRKA as kplkRKA on klpk.kodeKelompok=kplkRKA.kodeKelompokKegiatan
+inner join ppmk.posBiaya as pos2 on kplkRKA.kodePosBiaya=pos2.kodePosBiaya 
+where rpt.kodeUnit=$P{kdUnker} and rpt.tahun=$P{thnAnggaran} and isRapat='N' and isRevisi='Y' and isSudahDiajukan='Y'
+group by rpt.kodeKelompokKegiatan,rab_rapat.kodePosBiaya
+) as anggaran
+left join 
+(select '1' as no,'RAB Non Rapat' as nm,dp.kodePosBiaya as kodepos,pos.namaPosBiaya, sum(harga*kuantitasPengajuan) as pengajuan, sum(harga*kuantitasDisetujui) as cair
+from ppmk.pengajuanPengambilan as pp inner join ppmk.detailPengajuanPengambilan as dp on pp.idPengajuan=dp.idPengajuan
+inner join ppmk.posBiaya as pos on dp.kodePosBiaya=pos.kodePosbiaya
+where pp.tahunAnggaran=$P{thnAnggaran} and pp.kodeUnitPengaju=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya<>5
+group by dp.kodePosBiaya
+union all
+select '2'as no,'RAB Rapat Kerja' as nm,dp.kodeSub as kodepos,pos.namaPosBiaya, sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as pengajuan,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.pengajuanPengambilan as pp inner join ppmk.detailPengajuanPengambilan as dp on pp.idPengajuan=dp.idPengajuan
+inner join ppmk.posBiaya as pos on dp.kodeSub=pos.kodePosbiaya
+where pp.tahunAnggaran=$P{thnAnggaran} and pp.kodeUnitPengaju=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya=5
+group by dp.kodePosBiaya,dp.kodeSub
+union all
+select '3' as no,pos2.namaPosBiaya as nm,dp.kodeSub as kodepos,pos.namaPosBiaya, 
+sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as cair,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.pengajuanPengambilan as pp inner join ppmk.detailPengajuanPengambilan as dp on pp.idPengajuan=dp.idPengajuan
+inner join ppmk.posBiaya as pos on dp.kodeSub=pos.kodePosbiaya
+inner join ppmk.posBiaya as pos2 on dp.kodePosBiaya=pos2.kodePosbiaya
+where pp.tahunAnggaran=$P{thnAnggaran} and pp.kodeUnitPengaju=$P{kdUnker} and dp.kodeJenisAnggaran='2'
+group by dp.kodePosBiaya,dp.kodeSub
+) as pencairan on anggaran.no=pencairan.no and anggaran.kodepos=pencairan.kodepos
+left join 
+(select '1' as no,'RAB Non Rapat' as nm,dp.kodePosBiaya as kodepos,pos.namaPosBiaya, sum(harga*kuantitasPengajuan) as pengajuan, sum(harga*kuantitasDisetujui) as LPJ
+from ppmk.lpj as pp inner join ppmk.detailPosLPJ as dp on pp.idLPJ=dp.idLPJ
+inner join ppmk.posBiaya as pos on dp.kodePosBiaya=pos.kodePosbiaya
+where pp.tahun=$P{thnAnggaran} and pp.unit=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya<>5
+group by dp.kodePosBiaya
+union all
+select '2' as no,'RAB Rapat Kerja' as nm,dp.kodeSubPos as kodepos,pos.namaPosBiaya, sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as pengajuan,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.lpj as pp inner join ppmk.detailPosLPJ as dp on pp.idLPJ=dp.idLPJ
+inner join ppmk.posBiaya as pos on dp.kodeSubPos=pos.kodePosbiaya
+where pp.tahun=$P{thnAnggaran} and pp.unit=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya=5
+group by dp.kodePosBiaya,dp.kodeSubPos
+union all
+select '3' as no,pos2.namaPosBiaya as nm,dp.kodeSubPos as kodepos,pos.namaPosBiaya, 
+sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as cair,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.lpj as pp inner join ppmk.detailPosLPJ as dp on pp.idLPJ=dp.idLPJ
+inner join ppmk.posBiaya as pos on dp.kodeSubPos=pos.kodePosbiaya
+inner join ppmk.posBiaya as pos2 on dp.kodePosBiaya=pos2.kodePosbiaya
+where pp.tahun=$P{thnAnggaran} and pp.unit=$P{kdUnker} and dp.kodeJenisAnggaran='2'
+group by dp.kodePosBiaya,dp.kodeSubPos) lapPJ on anggaran.no=lapPJ.no and anggaran.kodepos=lapPJ.kodepos
+where lapPJ.no is null and pencairan.no is null
+
+UNION ALL
+
+select anggaran.no, anggaran.nm, anggaran.kodepos, anggaran.namaPosBiaya, anggaran.anggaran, 
+pencairan.no, pencairan.nm, pencairan.kodepos, pencairan.namaPosBiaya,pencairan.pengajuan,pencairan.cair,
+lapPJ.no, lapPJ.nm, lapPJ.kodepos, lapPJ.namaPosBiaya, lapPJ.pengajuan,lapPJ.LPJ 
+from
+(select '1' as no,'RAB Non Rapat' as nm,rab.kodePosBiaya as kodepos,namaPosBiaya,sum(harga*kuantitas)as anggaran 
+from ppmk.anggaranRABNonRapatKerja as rab inner join ppmk.posBiaya as pos on rab.kodePosBiaya=pos.kodePosBiaya
+where rab.kodeUnit=$P{kdUnker} and tahun=$P{thnAnggaran} and isRevisi='Y' and isSudahDiajukan='Y'
+group by rab.kodePosBiaya
+union all
+select '2' as no,'RAB Rapat Kerja' as nm,rab_rapat.kodePosBiaya as kodepos, namaPosBiaya,if(jumlahHari=0,sum(harga*kuantitas),sum(harga*kuantitas*jumlahHari))as anggaran 
+from ppmk.anggaranBiayaRapatKerjaDanKegiatan as rab_rapat inner join ppmk.posBiaya as pos on rab_rapat.kodePosBiaya=pos.kodePosBiaya
+inner join ppmk.rapatKerjaUnit as rpt on rab_rapat.kodeRapatKerjaSubKegiatan=rpt.idRapatKerjaUnit
+where rpt.kodeUnit=$P{kdUnker} and rpt.tahun=$P{thnAnggaran} and isRapat='Y' and isRevisi='Y' and isSudahDiajukan='Y'
+group by rab_rapat.kodePosBiaya
+union all
+select '3' as no, pos2.namaPosBiaya as nm,rab_rapat.kodePosBiaya as kodepos, 
+pos.namaPosBiaya,sum(if(jumlahHari=0,harga*kuantitas,harga*kuantitas*jumlahHari))
+from ppmk.anggaranBiayaRapatKerjaDanKegiatan as rab_rapat inner join ppmk.posBiaya as pos on rab_rapat.kodePosBiaya=pos.kodePosBiaya
+inner join ppmk.kegiatanUnit as rpt on rab_rapat.kodeRapatKerjaSubKegiatan=rpt.kodeKegiatanUnit
+inner join ppmk.kelompokKegiatan as klpk on rpt.kodeKelompokKegiatan=klpk.kodeKelompok
+inner join ppmk.kelompokRKA as kplkRKA on klpk.kodeKelompok=kplkRKA.kodeKelompokKegiatan
+inner join ppmk.posBiaya as pos2 on kplkRKA.kodePosBiaya=pos2.kodePosBiaya 
+where rpt.kodeUnit=$P{kdUnker} and rpt.tahun=$P{thnAnggaran} and isRapat='N' and isRevisi='Y' and isSudahDiajukan='Y'
+group by rpt.kodeKelompokKegiatan,rab_rapat.kodePosBiaya
+) as anggaran
+right join 
+(select '1' as no,'RAB Non Rapat' as nm,dp.kodePosBiaya as kodepos,pos.namaPosBiaya, sum(harga*kuantitasPengajuan) as pengajuan, sum(harga*kuantitasDisetujui) as cair
+from ppmk.pengajuanPengambilan as pp inner join ppmk.detailPengajuanPengambilan as dp on pp.idPengajuan=dp.idPengajuan
+inner join ppmk.posBiaya as pos on dp.kodePosBiaya=pos.kodePosbiaya
+where pp.tahunAnggaran=$P{thnAnggaran} and pp.kodeUnitPengaju=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya<>5
+group by dp.kodePosBiaya
+union all
+select '2'as no,'RAB Rapat Kerja' as nm,dp.kodeSub as kodepos,pos.namaPosBiaya, sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as pengajuan,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.pengajuanPengambilan as pp inner join ppmk.detailPengajuanPengambilan as dp on pp.idPengajuan=dp.idPengajuan
+inner join ppmk.posBiaya as pos on dp.kodeSub=pos.kodePosbiaya
+where pp.tahunAnggaran=$P{thnAnggaran} and pp.kodeUnitPengaju=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya=5
+group by dp.kodePosBiaya,dp.kodeSub
+union all
+select '3' as no,pos2.namaPosBiaya as nm,dp.kodeSub as kodepos,pos.namaPosBiaya, 
+sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as cair,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.pengajuanPengambilan as pp inner join ppmk.detailPengajuanPengambilan as dp on pp.idPengajuan=dp.idPengajuan
+inner join ppmk.posBiaya as pos on dp.kodeSub=pos.kodePosbiaya
+inner join ppmk.posBiaya as pos2 on dp.kodePosBiaya=pos2.kodePosbiaya
+where pp.tahunAnggaran=$P{thnAnggaran} and pp.kodeUnitPengaju=$P{kdUnker} and dp.kodeJenisAnggaran='2'
+group by dp.kodePosBiaya,dp.kodeSub
+) as pencairan on anggaran.no=pencairan.no and anggaran.kodepos=pencairan.kodepos
+left join 
+(select '1' as no,'RAB Non Rapat' as nm,dp.kodePosBiaya as kodepos,pos.namaPosBiaya, sum(harga*kuantitasPengajuan) as pengajuan, sum(harga*kuantitasDisetujui) as LPJ
+from ppmk.lpj as pp inner join ppmk.detailPosLPJ as dp on pp.idLPJ=dp.idLPJ
+inner join ppmk.posBiaya as pos on dp.kodePosBiaya=pos.kodePosbiaya
+where pp.tahun=$P{thnAnggaran} and pp.unit=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya<>5
+group by dp.kodePosBiaya
+union all
+select '2' as no,'RAB Rapat Kerja' as nm,dp.kodeSubPos as kodepos,pos.namaPosBiaya, sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as pengajuan,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.lpj as pp inner join ppmk.detailPosLPJ as dp on pp.idLPJ=dp.idLPJ
+inner join ppmk.posBiaya as pos on dp.kodeSubPos=pos.kodePosbiaya
+where pp.tahun=$P{thnAnggaran} and pp.unit=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya=5
+group by dp.kodePosBiaya,dp.kodeSubPos
+union all
+select '3' as no,pos2.namaPosBiaya as nm,dp.kodeSubPos as kodepos,pos.namaPosBiaya, 
+sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as cair,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.lpj as pp inner join ppmk.detailPosLPJ as dp on pp.idLPJ=dp.idLPJ
+inner join ppmk.posBiaya as pos on dp.kodeSubPos=pos.kodePosbiaya
+inner join ppmk.posBiaya as pos2 on dp.kodePosBiaya=pos2.kodePosbiaya
+where pp.tahun=$P{thnAnggaran} and pp.unit=$P{kdUnker} and dp.kodeJenisAnggaran='2'
+group by dp.kodePosBiaya,dp.kodeSubPos) lapPJ on pencairan.no=lapPJ.no and pencairan.kodepos=lapPJ.kodepos
+where lapPJ.no is null and anggaran.no is null
+
+UNION ALL
+select anggaran.no, anggaran.nm, anggaran.kodepos, anggaran.namaPosBiaya, anggaran.anggaran, 
+pencairan.no, pencairan.nm, pencairan.kodepos, pencairan.namaPosBiaya,pencairan.pengajuan,pencairan.cair,
+lapPJ.no, lapPJ.nm, lapPJ.kodepos, lapPJ.namaPosBiaya, lapPJ.pengajuan,lapPJ.LPJ
+from
+(select '1' as no,'RAB Non Rapat' as nm,dp.kodePosBiaya as kodepos,pos.namaPosBiaya, sum(harga*kuantitasPengajuan) as pengajuan, sum(harga*kuantitasDisetujui) as LPJ
+from ppmk.lpj as pp inner join ppmk.detailPosLPJ as dp on pp.idLPJ=dp.idLPJ
+inner join ppmk.posBiaya as pos on dp.kodePosBiaya=pos.kodePosbiaya
+where pp.tahun=$P{thnAnggaran} and pp.unit=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya<>5
+group by dp.kodePosBiaya
+union all
+select '2' as no,'RAB Rapat Kerja' as nm,dp.kodeSubPos as kodepos,pos.namaPosBiaya, sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as pengajuan,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.lpj as pp inner join ppmk.detailPosLPJ as dp on pp.idLPJ=dp.idLPJ
+inner join ppmk.posBiaya as pos on dp.kodeSubPos=pos.kodePosbiaya
+where pp.tahun=$P{thnAnggaran} and pp.unit=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya=5
+group by dp.kodePosBiaya,dp.kodeSubPos
+union all
+select '3' as no,pos2.namaPosBiaya as nm,dp.kodeSubPos as kodepos,pos.namaPosBiaya, 
+sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as cair,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.lpj as pp inner join ppmk.detailPosLPJ as dp on pp.idLPJ=dp.idLPJ
+inner join ppmk.posBiaya as pos on dp.kodeSubPos=pos.kodePosbiaya
+inner join ppmk.posBiaya as pos2 on dp.kodePosBiaya=pos2.kodePosbiaya
+where pp.tahun=$P{thnAnggaran} and pp.unit=$P{kdUnker} and dp.kodeJenisAnggaran='2'
+group by dp.kodePosBiaya,dp.kodeSubPos) lapPJ 
+left join
+(select '1' as no,'RAB Non Rapat' as nm,rab.kodePosBiaya as kodepos,namaPosBiaya,sum(harga*kuantitas)as anggaran 
+from ppmk.anggaranRABNonRapatKerja as rab inner join ppmk.posBiaya as pos on rab.kodePosBiaya=pos.kodePosBiaya
+where rab.kodeUnit=$P{kdUnker} and tahun=$P{thnAnggaran} and isRevisi='Y' and isSudahDiajukan='Y'
+group by rab.kodePosBiaya
+union all
+select '2' as no,'RAB Rapat Kerja' as nm,rab_rapat.kodePosBiaya as kodepos, namaPosBiaya,if(jumlahHari=0,sum(harga*kuantitas),sum(harga*kuantitas*jumlahHari))as anggaran 
+from ppmk.anggaranBiayaRapatKerjaDanKegiatan as rab_rapat inner join ppmk.posBiaya as pos on rab_rapat.kodePosBiaya=pos.kodePosBiaya
+inner join ppmk.rapatKerjaUnit as rpt on rab_rapat.kodeRapatKerjaSubKegiatan=rpt.idRapatKerjaUnit
+where rpt.kodeUnit=$P{kdUnker} and rpt.tahun=$P{thnAnggaran} and isRapat='Y' and isRevisi='Y' and isSudahDiajukan='Y'
+group by rab_rapat.kodePosBiaya
+union all
+select '3' as no, pos2.namaPosBiaya as nm,rab_rapat.kodePosBiaya as kodepos, 
+pos.namaPosBiaya,sum(if(jumlahHari=0,harga*kuantitas,harga*kuantitas*jumlahHari))
+from ppmk.anggaranBiayaRapatKerjaDanKegiatan as rab_rapat inner join ppmk.posBiaya as pos on rab_rapat.kodePosBiaya=pos.kodePosBiaya
+inner join ppmk.kegiatanUnit as rpt on rab_rapat.kodeRapatKerjaSubKegiatan=rpt.kodeKegiatanUnit
+inner join ppmk.kelompokKegiatan as klpk on rpt.kodeKelompokKegiatan=klpk.kodeKelompok
+inner join ppmk.kelompokRKA as kplkRKA on klpk.kodeKelompok=kplkRKA.kodeKelompokKegiatan
+inner join ppmk.posBiaya as pos2 on kplkRKA.kodePosBiaya=pos2.kodePosBiaya 
+where rpt.kodeUnit=$P{kdUnker} and rpt.tahun=$P{thnAnggaran} and isRapat='N' and isRevisi='Y' and isSudahDiajukan='Y'
+group by rpt.kodeKelompokKegiatan,rab_rapat.kodePosBiaya
+) as anggaran on lapPJ.no=anggaran.no and lapPJ.kodepos=anggaran.kodepos
+left join 
+(select '1' as no,'RAB Non Rapat' as nm,dp.kodePosBiaya as kodepos,pos.namaPosBiaya, sum(harga*kuantitasPengajuan) as pengajuan, sum(harga*kuantitasDisetujui) as cair
+from ppmk.pengajuanPengambilan as pp inner join ppmk.detailPengajuanPengambilan as dp on pp.idPengajuan=dp.idPengajuan
+inner join ppmk.posBiaya as pos on dp.kodePosBiaya=pos.kodePosbiaya
+where pp.tahunAnggaran=$P{thnAnggaran} and pp.kodeUnitPengaju=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya<>5
+group by dp.kodePosBiaya
+union all
+select '2'as no,'RAB Rapat Kerja' as nm,dp.kodeSub as kodepos,pos.namaPosBiaya, sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as pengajuan,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.pengajuanPengambilan as pp inner join ppmk.detailPengajuanPengambilan as dp on pp.idPengajuan=dp.idPengajuan
+inner join ppmk.posBiaya as pos on dp.kodeSub=pos.kodePosbiaya
+where pp.tahunAnggaran=$P{thnAnggaran} and pp.kodeUnitPengaju=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya=5
+group by dp.kodePosBiaya,dp.kodeSub
+union all
+select '3' as no,pos2.namaPosBiaya as nm,dp.kodeSub as kodepos,pos.namaPosBiaya, 
+sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as cair,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.pengajuanPengambilan as pp inner join ppmk.detailPengajuanPengambilan as dp on pp.idPengajuan=dp.idPengajuan
+inner join ppmk.posBiaya as pos on dp.kodeSub=pos.kodePosbiaya
+inner join ppmk.posBiaya as pos2 on dp.kodePosBiaya=pos2.kodePosbiaya
+where pp.tahunAnggaran=$P{thnAnggaran} and pp.kodeUnitPengaju=$P{kdUnker} and dp.kodeJenisAnggaran='2'
+group by dp.kodePosBiaya,dp.kodeSub
+) as pencairan on lapPJ.no=pencairan.no and lapPJ.kodepos=pencairan.kodepos
+where pencairan.no is null and anggaran.no is null
+
+UNION ALL
+
+select anggaran.no, anggaran.nm, anggaran.kodepos, anggaran.namaPosBiaya, anggaran.anggaran, 
+pencairan.no, pencairan.nm, pencairan.kodepos, pencairan.namaPosBiaya,pencairan.pengajuan,pencairan.cair,
+lapPJ.no, lapPJ.nm, lapPJ.kodepos, lapPJ.namaPosBiaya, lapPJ.pengajuan,lapPJ.LPJ
+from
+(select '1' as no,'RAB Non Rapat' as nm,rab.kodePosBiaya as kodepos,namaPosBiaya,sum(harga*kuantitas)as anggaran 
+from ppmk.anggaranRABNonRapatKerja as rab inner join ppmk.posBiaya as pos on rab.kodePosBiaya=pos.kodePosBiaya
+where rab.kodeUnit=$P{kdUnker} and tahun=$P{thnAnggaran} and isRevisi='Y' and isSudahDiajukan='Y'
+group by rab.kodePosBiaya
+union all
+select '2' as no,'RAB Rapat Kerja' as nm,rab_rapat.kodePosBiaya as kodepos, namaPosBiaya,if(jumlahHari=0,sum(harga*kuantitas),sum(harga*kuantitas*jumlahHari))as anggaran 
+from ppmk.anggaranBiayaRapatKerjaDanKegiatan as rab_rapat inner join ppmk.posBiaya as pos on rab_rapat.kodePosBiaya=pos.kodePosBiaya
+inner join ppmk.rapatKerjaUnit as rpt on rab_rapat.kodeRapatKerjaSubKegiatan=rpt.idRapatKerjaUnit
+where rpt.kodeUnit=$P{kdUnker} and rpt.tahun=$P{thnAnggaran} and isRapat='Y' and isRevisi='Y' and isSudahDiajukan='Y'
+group by rab_rapat.kodePosBiaya
+union all
+select '3' as no, pos2.namaPosBiaya,rab_rapat.kodePosBiaya as kodepos, 
+pos.namaPosBiaya,sum(if(jumlahHari=0,harga*kuantitas,harga*kuantitas*jumlahHari))
+from ppmk.anggaranBiayaRapatKerjaDanKegiatan as rab_rapat inner join ppmk.posBiaya as pos on rab_rapat.kodePosBiaya=pos.kodePosBiaya
+inner join ppmk.kegiatanUnit as rpt on rab_rapat.kodeRapatKerjaSubKegiatan=rpt.kodeKegiatanUnit
+inner join ppmk.kelompokKegiatan as klpk on rpt.kodeKelompokKegiatan=klpk.kodeKelompok
+inner join ppmk.kelompokRKA as kplkRKA on klpk.kodeKelompok=kplkRKA.kodeKelompokKegiatan
+inner join ppmk.posBiaya as pos2 on kplkRKA.kodePosBiaya=pos2.kodePosBiaya 
+where rpt.kodeUnit=$P{kdUnker} and rpt.tahun=$P{thnAnggaran} and isRapat='N' and isRevisi='Y' and isSudahDiajukan='Y'
+group by rpt.kodeKelompokKegiatan,rab_rapat.kodePosBiaya
+) as anggaran
+inner join 
+(select '1' as no,'RAB Non Rapat' as nm,dp.kodePosBiaya as kodepos,pos.namaPosBiaya, sum(harga*kuantitasPengajuan) as pengajuan, sum(harga*kuantitasDisetujui) as cair
+from ppmk.pengajuanPengambilan as pp inner join ppmk.detailPengajuanPengambilan as dp on pp.idPengajuan=dp.idPengajuan
+inner join ppmk.posBiaya as pos on dp.kodePosBiaya=pos.kodePosbiaya
+where pp.tahunAnggaran=$P{thnAnggaran} and pp.kodeUnitPengaju=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya<>5
+group by dp.kodePosBiaya
+union all
+select '2'as no,'RAB Rapat Kerja' as nm,dp.kodeSub as kodepos,pos.namaPosBiaya, sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as pengajuan,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.pengajuanPengambilan as pp inner join ppmk.detailPengajuanPengambilan as dp on pp.idPengajuan=dp.idPengajuan
+inner join ppmk.posBiaya as pos on dp.kodeSub=pos.kodePosbiaya
+where pp.tahunAnggaran=$P{thnAnggaran} and pp.kodeUnitPengaju=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya=5
+group by dp.kodePosBiaya,dp.kodeSub
+union all
+select '3' as no,pos2.namaPosBiaya as nm,dp.kodeSub as kodepos,pos.namaPosBiaya, 
+sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as cair,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.pengajuanPengambilan as pp inner join ppmk.detailPengajuanPengambilan as dp on pp.idPengajuan=dp.idPengajuan
+inner join ppmk.posBiaya as pos on dp.kodeSub=pos.kodePosbiaya
+inner join ppmk.posBiaya as pos2 on dp.kodePosBiaya=pos2.kodePosbiaya
+where pp.tahunAnggaran=$P{thnAnggaran} and pp.kodeUnitPengaju=$P{kdUnker} and dp.kodeJenisAnggaran='2'
+group by dp.kodePosBiaya,dp.kodeSub
+) as pencairan on anggaran.no=pencairan.no and anggaran.kodepos=pencairan.kodepos
+left join 
+(select '1' as no,'RAB Non Rapat' as nm,dp.kodePosBiaya as kodepos,pos.namaPosBiaya, sum(harga*kuantitasPengajuan) as pengajuan, sum(harga*kuantitasDisetujui) as LPJ
+from ppmk.lpj as pp inner join ppmk.detailPosLPJ as dp on pp.idLPJ=dp.idLPJ
+inner join ppmk.posBiaya as pos on dp.kodePosBiaya=pos.kodePosbiaya
+where pp.tahun=$P{thnAnggaran} and pp.unit=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya<>5
+group by dp.kodePosBiaya
+union all
+select '2' as no,'RAB Rapat Kerja' as nm,dp.kodeSubPos as kodepos,pos.namaPosBiaya, sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as pengajuan,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.lpj as pp inner join ppmk.detailPosLPJ as dp on pp.idLPJ=dp.idLPJ
+inner join ppmk.posBiaya as pos on dp.kodeSubPos=pos.kodePosbiaya
+where pp.tahun=$P{thnAnggaran} and pp.unit=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya=5
+group by dp.kodePosBiaya,dp.kodeSubPos
+union all
+select '3' as no,pos2.namaPosBiaya as nm,dp.kodeSubPos as kodepos,pos.namaPosBiaya, 
+sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as cair,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.lpj as pp inner join ppmk.detailPosLPJ as dp on pp.idLPJ=dp.idLPJ
+inner join ppmk.posBiaya as pos on dp.kodeSubPos=pos.kodePosbiaya
+inner join ppmk.posBiaya as pos2 on dp.kodePosBiaya=pos2.kodePosbiaya
+where pp.tahun=$P{thnAnggaran} and pp.unit=$P{kdUnker} and dp.kodeJenisAnggaran='2'
+group by dp.kodePosBiaya,dp.kodeSubPos) lapPJ on anggaran.no=lapPJ.no and anggaran.kodepos=lapPJ.kodepos
+where lapPJ.no is null 
+
+UNION ALL
+
+select anggaran.no, anggaran.nm, anggaran.kodepos, anggaran.namaPosBiaya, anggaran.anggaran, 
+pencairan.no, pencairan.nm, pencairan.kodepos, pencairan.namaPosBiaya,pencairan.pengajuan,pencairan.cair,
+lapPJ.no, lapPJ.nm, lapPJ.kodepos, lapPJ.namaPosBiaya, lapPJ.pengajuan,lapPJ.LPJ
+from
+(select '1' as no,'RAB Non Rapat' as nm,rab.kodePosBiaya as kodepos,namaPosBiaya,sum(harga*kuantitas)as anggaran 
+from ppmk.anggaranRABNonRapatKerja as rab inner join ppmk.posBiaya as pos on rab.kodePosBiaya=pos.kodePosBiaya
+where rab.kodeUnit=$P{kdUnker} and tahun=$P{thnAnggaran} and isRevisi='Y' and isSudahDiajukan='Y'
+group by rab.kodePosBiaya
+union all
+select '2' as no,'RAB Rapat Kerja' as nm,rab_rapat.kodePosBiaya as kodepos, namaPosBiaya,if(jumlahHari=0,sum(harga*kuantitas),sum(harga*kuantitas*jumlahHari))as anggaran 
+from ppmk.anggaranBiayaRapatKerjaDanKegiatan as rab_rapat inner join ppmk.posBiaya as pos on rab_rapat.kodePosBiaya=pos.kodePosBiaya
+inner join ppmk.rapatKerjaUnit as rpt on rab_rapat.kodeRapatKerjaSubKegiatan=rpt.idRapatKerjaUnit
+where rpt.kodeUnit=$P{kdUnker} and rpt.tahun=$P{thnAnggaran} and isRapat='Y' and isRevisi='Y' and isSudahDiajukan='Y'
+group by rab_rapat.kodePosBiaya
+union all
+select '3' as no, pos2.namaPosBiaya,rab_rapat.kodePosBiaya as kodepos, 
+pos.namaPosBiaya,sum(if(jumlahHari=0,harga*kuantitas,harga*kuantitas*jumlahHari))
+from ppmk.anggaranBiayaRapatKerjaDanKegiatan as rab_rapat inner join ppmk.posBiaya as pos on rab_rapat.kodePosBiaya=pos.kodePosBiaya
+inner join ppmk.kegiatanUnit as rpt on rab_rapat.kodeRapatKerjaSubKegiatan=rpt.kodeKegiatanUnit
+inner join ppmk.kelompokKegiatan as klpk on rpt.kodeKelompokKegiatan=klpk.kodeKelompok
+inner join ppmk.kelompokRKA as kplkRKA on klpk.kodeKelompok=kplkRKA.kodeKelompokKegiatan
+inner join ppmk.posBiaya as pos2 on kplkRKA.kodePosBiaya=pos2.kodePosBiaya 
+where rpt.kodeUnit=$P{kdUnker} and rpt.tahun=$P{thnAnggaran} and isRapat='N' and isRevisi='Y' and isSudahDiajukan='Y'
+group by rpt.kodeKelompokKegiatan,rab_rapat.kodePosBiaya
+) as anggaran
+right join 
+(select '1' as no,'RAB Non Rapat' as nm,dp.kodePosBiaya as kodepos,pos.namaPosBiaya, sum(harga*kuantitasPengajuan) as pengajuan, sum(harga*kuantitasDisetujui) as cair
+from ppmk.pengajuanPengambilan as pp inner join ppmk.detailPengajuanPengambilan as dp on pp.idPengajuan=dp.idPengajuan
+inner join ppmk.posBiaya as pos on dp.kodePosBiaya=pos.kodePosbiaya
+where pp.tahunAnggaran=$P{thnAnggaran} and pp.kodeUnitPengaju=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya<>5
+group by dp.kodePosBiaya
+union all
+select '2'as no,'RAB Rapat Kerja' as nm,dp.kodeSub as kodepos,pos.namaPosBiaya, sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as pengajuan,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.pengajuanPengambilan as pp inner join ppmk.detailPengajuanPengambilan as dp on pp.idPengajuan=dp.idPengajuan
+inner join ppmk.posBiaya as pos on dp.kodeSub=pos.kodePosbiaya
+where pp.tahunAnggaran=$P{thnAnggaran} and pp.kodeUnitPengaju=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya=5
+group by dp.kodePosBiaya,dp.kodeSub
+union all
+select '3' as no,pos2.namaPosBiaya as nm,dp.kodeSub as kodepos,pos.namaPosBiaya, 
+sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as cair,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.pengajuanPengambilan as pp inner join ppmk.detailPengajuanPengambilan as dp on pp.idPengajuan=dp.idPengajuan
+inner join ppmk.posBiaya as pos on dp.kodeSub=pos.kodePosbiaya
+inner join ppmk.posBiaya as pos2 on dp.kodePosBiaya=pos2.kodePosbiaya
+where pp.tahunAnggaran=$P{thnAnggaran} and pp.kodeUnitPengaju=$P{kdUnker} and dp.kodeJenisAnggaran='2'
+group by dp.kodePosBiaya,dp.kodeSub
+) as pencairan on anggaran.no=pencairan.no and anggaran.kodepos=pencairan.kodepos
+inner join 
+(select '1' as no,'RAB Non Rapat' as nm,dp.kodePosBiaya as kodepos,pos.namaPosBiaya, sum(harga*kuantitasPengajuan) as pengajuan, sum(harga*kuantitasDisetujui) as LPJ
+from ppmk.lpj as pp inner join ppmk.detailPosLPJ as dp on pp.idLPJ=dp.idLPJ
+inner join ppmk.posBiaya as pos on dp.kodePosBiaya=pos.kodePosbiaya
+where pp.tahun=$P{thnAnggaran} and pp.unit=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya<>5
+group by dp.kodePosBiaya
+union all
+select '2' as no,'RAB Rapat Kerja' as nm,dp.kodeSubPos as kodepos,pos.namaPosBiaya, sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as pengajuan,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.lpj as pp inner join ppmk.detailPosLPJ as dp on pp.idLPJ=dp.idLPJ
+inner join ppmk.posBiaya as pos on dp.kodeSubPos=pos.kodePosbiaya
+where pp.tahun=$P{thnAnggaran} and pp.unit=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya=5
+group by dp.kodePosBiaya,dp.kodeSubPos
+union all
+select '3' as no,pos2.namaPosBiaya as nm,dp.kodeSubPos as kodepos,pos.namaPosBiaya, 
+sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as cair,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.lpj as pp inner join ppmk.detailPosLPJ as dp on pp.idLPJ=dp.idLPJ
+inner join ppmk.posBiaya as pos on dp.kodeSubPos=pos.kodePosbiaya
+inner join ppmk.posBiaya as pos2 on dp.kodePosBiaya=pos2.kodePosbiaya
+where pp.tahun=$P{thnAnggaran} and pp.unit=$P{kdUnker} and dp.kodeJenisAnggaran='2'
+group by dp.kodePosBiaya,dp.kodeSubPos) lapPJ on pencairan.no=lapPJ.no and pencairan.kodepos=lapPJ.kodepos
+where anggaran.no is null 
+
+UNION ALL
+
+select anggaran.no, anggaran.nm, anggaran.kodepos, anggaran.namaPosBiaya, anggaran.anggaran, 
+pencairan.no, pencairan.nm, pencairan.kodepos, pencairan.namaPosBiaya,pencairan.pengajuan,pencairan.cair,
+lapPJ.no, lapPJ.nm, lapPJ.kodepos, lapPJ.namaPosBiaya, lapPJ.pengajuan,lapPJ.LPJ
+from
+(select '1' as no,'RAB Non Rapat' as nm,rab.kodePosBiaya as kodepos,namaPosBiaya,sum(harga*kuantitas)as anggaran 
+from ppmk.anggaranRABNonRapatKerja as rab inner join ppmk.posBiaya as pos on rab.kodePosBiaya=pos.kodePosBiaya
+where rab.kodeUnit=$P{kdUnker} and tahun=$P{thnAnggaran} and isRevisi='Y' and isSudahDiajukan='Y'
+group by rab.kodePosBiaya
+union all
+select '2' as no,'RAB Rapat Kerja' as nm,rab_rapat.kodePosBiaya as kodepos, namaPosBiaya,if(jumlahHari=0,sum(harga*kuantitas),sum(harga*kuantitas*jumlahHari))as anggaran 
+from ppmk.anggaranBiayaRapatKerjaDanKegiatan as rab_rapat inner join ppmk.posBiaya as pos on rab_rapat.kodePosBiaya=pos.kodePosBiaya
+inner join ppmk.rapatKerjaUnit as rpt on rab_rapat.kodeRapatKerjaSubKegiatan=rpt.idRapatKerjaUnit
+where rpt.kodeUnit=$P{kdUnker} and rpt.tahun=$P{thnAnggaran} and isRapat='Y' and isRevisi='Y' and isSudahDiajukan='Y'
+group by rab_rapat.kodePosBiaya
+union all
+select '3' as no, pos2.namaPosBiaya,rab_rapat.kodePosBiaya as kodepos, 
+pos.namaPosBiaya,sum(if(jumlahHari=0,harga*kuantitas,harga*kuantitas*jumlahHari))
+from ppmk.anggaranBiayaRapatKerjaDanKegiatan as rab_rapat inner join ppmk.posBiaya as pos on rab_rapat.kodePosBiaya=pos.kodePosBiaya
+inner join ppmk.kegiatanUnit as rpt on rab_rapat.kodeRapatKerjaSubKegiatan=rpt.kodeKegiatanUnit
+inner join ppmk.kelompokKegiatan as klpk on rpt.kodeKelompokKegiatan=klpk.kodeKelompok
+inner join ppmk.kelompokRKA as kplkRKA on klpk.kodeKelompok=kplkRKA.kodeKelompokKegiatan
+inner join ppmk.posBiaya as pos2 on kplkRKA.kodePosBiaya=pos2.kodePosBiaya 
+where rpt.kodeUnit=$P{kdUnker} and rpt.tahun=$P{thnAnggaran} and isRapat='N' and isRevisi='Y' and isSudahDiajukan='Y'
+group by rpt.kodeKelompokKegiatan,rab_rapat.kodePosBiaya
+) as anggaran
+inner join
+(select '1' as no,'RAB Non Rapat' as nm,dp.kodePosBiaya as kodepos,pos.namaPosBiaya, sum(harga*kuantitasPengajuan) as pengajuan, sum(harga*kuantitasDisetujui) as LPJ
+from ppmk.lpj as pp inner join ppmk.detailPosLPJ as dp on pp.idLPJ=dp.idLPJ
+inner join ppmk.posBiaya as pos on dp.kodePosBiaya=pos.kodePosbiaya
+where pp.tahun=$P{thnAnggaran} and pp.unit=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya<>5
+group by dp.kodePosBiaya
+union all
+select '2' as no,'RAB Rapat Kerja' as nm,dp.kodeSubPos as kodepos,pos.namaPosBiaya, sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as pengajuan,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.lpj as pp inner join ppmk.detailPosLPJ as dp on pp.idLPJ=dp.idLPJ
+inner join ppmk.posBiaya as pos on dp.kodeSubPos=pos.kodePosbiaya
+where pp.tahun=$P{thnAnggaran} and pp.unit=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya=5
+group by dp.kodePosBiaya,dp.kodeSubPos
+union all
+select '3' as no,pos2.namaPosBiaya as nm,dp.kodeSubPos as kodepos,pos.namaPosBiaya, 
+sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as cair,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.lpj as pp inner join ppmk.detailPosLPJ as dp on pp.idLPJ=dp.idLPJ
+inner join ppmk.posBiaya as pos on dp.kodeSubPos=pos.kodePosbiaya
+inner join ppmk.posBiaya as pos2 on dp.kodePosBiaya=pos2.kodePosbiaya
+where pp.tahun=$P{thnAnggaran} and pp.unit=$P{kdUnker} and dp.kodeJenisAnggaran='2'
+group by dp.kodePosBiaya,dp.kodeSubPos) lapPJ  on anggaran.no=lapPJ.no and anggaran.kodepos=lapPJ.kodepos
+left join 
+(select '1' as no,'RAB Non Rapat' as nm,dp.kodePosBiaya as kodepos,pos.namaPosBiaya, sum(harga*kuantitasPengajuan) as pengajuan, sum(harga*kuantitasDisetujui) as cair
+from ppmk.pengajuanPengambilan as pp inner join ppmk.detailPengajuanPengambilan as dp on pp.idPengajuan=dp.idPengajuan
+inner join ppmk.posBiaya as pos on dp.kodePosBiaya=pos.kodePosbiaya
+where pp.tahunAnggaran=$P{thnAnggaran} and pp.kodeUnitPengaju=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya<>5
+group by dp.kodePosBiaya
+union all
+select '2'as no,'RAB Rapat Kerja' as nm,dp.kodeSub as kodepos,pos.namaPosBiaya, sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as pengajuan,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.pengajuanPengambilan as pp inner join ppmk.detailPengajuanPengambilan as dp on pp.idPengajuan=dp.idPengajuan
+inner join ppmk.posBiaya as pos on dp.kodeSub=pos.kodePosbiaya
+where pp.tahunAnggaran=$P{thnAnggaran} and pp.kodeUnitPengaju=$P{kdUnker} and dp.kodeJenisAnggaran='1' and dp.kodePosBiaya=5
+group by dp.kodePosBiaya,dp.kodeSub
+union all
+select '3' as no,pos2.namaPosBiaya as nm,dp.kodeSub as kodepos,pos.namaPosBiaya, 
+sum(if(jumlahHariPengajuan=0,(harga*kuantitasPengajuan),(harga*kuantitasPengajuan*jumlahHariPengajuan))) as cair,
+sum(if(jumlahHariDisetujui=0,(harga*kuantitasDisetujui),(harga*kuantitasDisetujui*jumlahHariDisetujui))) as cair
+from ppmk.pengajuanPengambilan as pp inner join ppmk.detailPengajuanPengambilan as dp on pp.idPengajuan=dp.idPengajuan
+inner join ppmk.posBiaya as pos on dp.kodeSub=pos.kodePosbiaya
+inner join ppmk.posBiaya as pos2 on dp.kodePosBiaya=pos2.kodePosbiaya
+where pp.tahunAnggaran=$P{thnAnggaran} and pp.kodeUnitPengaju=$P{kdUnker} and dp.kodeJenisAnggaran='2'
+group by dp.kodePosBiaya,dp.kodeSub
+) as pencairan on anggaran.no=pencairan.no and anggaran.kodepos=pencairan.kodepos
+where pencairan.no is null]]>
+	</queryString>
+	<field name="nm1" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="namaPosBiaya1" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="anggaran1" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nm2" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="namaPosBiaya2" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="pengajuan2" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cair2" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="nm3" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="namaPosBiaya3" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="pengajuan3" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="LPJ3" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="NOURUT" class="java.lang.Integer" calculation="Count">
+		<variableExpression><![CDATA[$V{NOURUT}]]></variableExpression>
+	</variable>
+	<variable name="jmlAnggaran" class="java.math.BigDecimal" resetType="Group" resetGroup="a" calculation="Sum">
+		<variableExpression><![CDATA[$F{anggaran1}]]></variableExpression>
+	</variable>
+	<variable name="jmlPengajuan2" class="java.math.BigDecimal" resetType="Group" resetGroup="a" calculation="Sum">
+		<variableExpression><![CDATA[$F{pengajuan2}]]></variableExpression>
+	</variable>
+	<variable name="jmlDisetujui2" class="java.math.BigDecimal" resetType="Group" resetGroup="a" calculation="Sum">
+		<variableExpression><![CDATA[$F{cair2}]]></variableExpression>
+	</variable>
+	<variable name="jmlPengajuan3" class="java.math.BigDecimal" resetType="Group" resetGroup="a" calculation="Sum">
+		<variableExpression><![CDATA[$F{pengajuan3}]]></variableExpression>
+	</variable>
+	<variable name="jmlDisetujui3" class="java.math.BigDecimal" resetType="Group" resetGroup="a" calculation="Sum">
+		<variableExpression><![CDATA[$F{LPJ3}]]></variableExpression>
+	</variable>
+	<group name="a" isReprintHeaderOnEachPage="true">
+		<groupExpression><![CDATA[$P{nmUnker}]]></groupExpression>
+		<groupHeader>
+			<band height="36">
+				<staticText>
+					<reportElement mode="Opaque" x="642" y="18" width="80" height="18" forecolor="#000000" backcolor="#CCCCCC"/>
+					<box leftPadding="2" rightPadding="2">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Pengajuan]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="516" y="18" width="63" height="18" forecolor="#000000" backcolor="#CCCCCC"/>
+					<box leftPadding="2" rightPadding="2">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nama Pos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="27" y="18" width="63" height="18" forecolor="#000000" backcolor="#CCCCCC"/>
+					<box leftPadding="2" rightPadding="2">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nama Pos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="90" y="18" width="60" height="18" forecolor="#000000" backcolor="#CCCCCC"/>
+					<box leftPadding="2" rightPadding="2">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Sub Pos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="579" y="18" width="63" height="18" forecolor="#000000" backcolor="#CCCCCC"/>
+					<box leftPadding="2" rightPadding="2">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nama Sub Pos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="356" y="18" width="80" height="18" forecolor="#000000" backcolor="#CCCCCC"/>
+					<box leftPadding="2" rightPadding="2">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Pengajuan]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="150" y="18" width="80" height="18" forecolor="#000000" backcolor="#CCCCCC"/>
+					<box leftPadding="2" rightPadding="2">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Anggaran]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="230" y="18" width="63" height="18" forecolor="#000000" backcolor="#CCCCCC"/>
+					<box leftPadding="2" rightPadding="2">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nama Pos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="722" y="18" width="80" height="18" forecolor="#000000" backcolor="#CCCCCC"/>
+					<box leftPadding="2" rightPadding="2">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Disetujui]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="293" y="18" width="63" height="18" forecolor="#000000" backcolor="#CCCCCC"/>
+					<box leftPadding="2" rightPadding="2">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Nama Sub Pos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="436" y="18" width="80" height="18" forecolor="#000000" backcolor="#CCCCCC"/>
+					<box leftPadding="2" rightPadding="2">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="11" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Disetujui]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="1" y="0" width="26" height="36" forecolor="#000000" backcolor="#CCCCCC"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="13" isBold="true"/>
+					</textElement>
+					<text><![CDATA[No]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="27" y="0" width="203" height="18" forecolor="#000000" backcolor="#CCCCCC"/>
+					<box leftPadding="2" rightPadding="2">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="13" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Anggaran]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="230" y="0" width="286" height="18" forecolor="#000000" backcolor="#CCCCCC"/>
+					<box leftPadding="2" rightPadding="2">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="13" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Pencairan Dana]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="516" y="0" width="286" height="18" forecolor="#000000" backcolor="#CCCCCC"/>
+					<box leftPadding="2" rightPadding="2">
+						<topPen lineWidth="1.0"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="1.0"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Arial" size="13" isBold="true"/>
+					</textElement>
+					<text><![CDATA[LPJ]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="23">
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" hyperlinkType="None">
+					<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="150" y="1" width="80" height="20" backcolor="#CCCCCC"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{jmlAnggaran}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" hyperlinkType="None">
+					<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="356" y="1" width="80" height="20" backcolor="#CCCCCC"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{jmlPengajuan2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" hyperlinkType="None">
+					<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="436" y="1" width="80" height="20" backcolor="#CCCCCC"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{jmlDisetujui2}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" hyperlinkType="None">
+					<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="642" y="1" width="80" height="20" backcolor="#CCCCCC"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{jmlPengajuan3}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" hyperlinkType="None">
+					<reportElement stretchType="RelativeToTallestObject" mode="Opaque" x="722" y="1" width="80" height="20" backcolor="#CCCCCC"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" isBold="true"/>
+					</textElement>
+					<textFieldExpression class="java.math.BigDecimal"><![CDATA[$V{jmlDisetujui3}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="1" y="1" width="149" height="20" backcolor="#CCCCCC"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total Anggaran]]></text>
+				</staticText>
+				<staticText>
+					<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="230" y="1" width="126" height="20" backcolor="#CCCCCC"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total Pencairan Dana]]></text>
+				</staticText>
+				<staticText>
+					<reportElement stretchType="RelativeToBandHeight" mode="Opaque" x="516" y="1" width="126" height="20" backcolor="#CCCCCC"/>
+					<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+						<topPen lineWidth="0.5"/>
+						<leftPen lineWidth="1.0"/>
+						<bottomPen lineWidth="0.5"/>
+						<rightPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font fontName="Arial" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total LPJ]]></text>
+				</staticText>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="121">
+			<line>
+				<reportElement x="0" y="107" width="802" height="1"/>
+			</line>
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="57" width="802" height="1"/>
+			</line>
+			<staticText>
+				<reportElement x="0" y="63" width="74" height="20"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tahun Anggaran]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="82" width="74" height="20"/>
+				<box leftPadding="5"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama Unit Kerja]]></text>
+			</staticText>
+			<textField hyperlinkType="None">
+				<reportElement x="84" y="63" width="468" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{thnAnggaran}]]></textFieldExpression>
+			</textField>
+			<textField hyperlinkType="None">
+				<reportElement x="84" y="82" width="468" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{nmUnker}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="74" y="63" width="10" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="74" y="82" width="10" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="13" width="801" height="35"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Laporan Rekapitulasi Keuangan]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band/>
+	</pageHeader>
+	<columnHeader>
+		<band/>
+	</columnHeader>
+	<detail>
+		<band height="23">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true" hyperlinkType="None">
+				<reportElement stretchType="RelativeToTallestObject" x="27" y="1" width="63" height="22"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nm1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true" hyperlinkType="None">
+				<reportElement stretchType="RelativeToTallestObject" x="90" y="1" width="60" height="22"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{namaPosBiaya1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" hyperlinkType="None">
+				<reportElement stretchType="RelativeToTallestObject" x="150" y="1" width="80" height="22"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{anggaran1}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true" hyperlinkType="None">
+				<reportElement stretchType="RelativeToTallestObject" x="230" y="1" width="63" height="22"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nm2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true" hyperlinkType="None">
+				<reportElement stretchType="RelativeToTallestObject" x="293" y="1" width="63" height="22"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{namaPosBiaya2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" hyperlinkType="None">
+				<reportElement stretchType="RelativeToTallestObject" x="356" y="1" width="80" height="22"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{pengajuan2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" hyperlinkType="None">
+				<reportElement stretchType="RelativeToTallestObject" x="436" y="1" width="80" height="22"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{cair2}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true" hyperlinkType="None">
+				<reportElement stretchType="RelativeToTallestObject" x="516" y="1" width="63" height="22"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{nm3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true" hyperlinkType="None">
+				<reportElement stretchType="RelativeToTallestObject" x="579" y="1" width="63" height="22"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{namaPosBiaya3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" hyperlinkType="None">
+				<reportElement stretchType="RelativeToTallestObject" x="642" y="1" width="80" height="22"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{pengajuan3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="#,##0" isBlankWhenNull="true" hyperlinkType="None">
+				<reportElement stretchType="RelativeToTallestObject" x="722" y="1" width="80" height="22"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.math.BigDecimal"><![CDATA[$F{LPJ3}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true" hyperlinkType="None">
+				<reportElement stretchType="RelativeToTallestObject" x="1" y="1" width="26" height="22"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[new Integer($V{NOURUT}.intValue()+$P{DEFA_VALUE}.intValue())]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="26">
+			<textField pattern="" isBlankWhenNull="false" hyperlinkType="None">
+				<reportElement key="textField" x="766" y="6" width="36" height="19" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["" + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false" hyperlinkType="None">
+				<reportElement key="textField" x="592" y="6" width="170" height="19" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["Halaman " + $V{PAGE_NUMBER} + " dari "]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="false" hyperlinkType="None">
+				<reportElement key="textField" x="1" y="6" width="209" height="19" forecolor="#000000" backcolor="#FFFFFF"/>
+				<box>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="10"/>
+				</textElement>
+				<textFieldExpression class="java.util.Date"><![CDATA[new Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

@@ -16,7 +16,6 @@ import java.util.logging.Logger;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
-import org.sadhar.sia.common.ClassConnection;
 import org.sadhar.sia.common.ClassSession;
 import org.zkoss.zkex.zul.Jasperreport;
 import org.zkoss.zul.Button;
@@ -210,7 +209,7 @@ public class RekapAllWnd extends Window {
             JasperCetak.setParameters(parameters);
             Listbox format = (Listbox) getFellow("format");
             JasperCetak.setType((String) format.getSelectedItem().getValue());
-            JasperCetak.setSrc("/simkzul/rekapAll/rpt_all.jasper");
+            JasperCetak.setSrc("reports/rekapAll/rpt_all.jasper");
             JasperCetak.setDatasource(new lpjCustomDataSource(textKodeUnit.getValue(), lblTahunAnggaran.getValue()));
         }
     }
