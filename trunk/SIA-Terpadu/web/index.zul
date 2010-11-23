@@ -115,7 +115,8 @@
                                 <menu  label="Laporan Hasil Penilaian Matrik Borang">
                                     <menupopup>
                                         <menuitem  label="Perbandingan Pra dan Pasca Monev" value="/zul/perbandinganprapascamonev/PerbandinganPraPascaMonev.zul" onClick="main.showObject(self.value)" />
-                                        <menuitem  label="Jumlah Dan Daftar Penelitian PerDosen" value="/xx" onClick="main.showObject(self.value)" />
+                                        <menuitem  label="Perbandingan Skor Unit Kerja" value="/zul/perbandinganskorunitkerja/PerbandinganSkorUnitKerja.zul" onClick="main.showObject(self.value)" />
+                                        <menuitem  label="Perbandingan Total Skor Tahun" value="/zul/perbandingantotalskortahun/PerbandinganTotalSkorTahun.zul" onClick="main.showObject(self.value)" />
                                     </menupopup>
                                 </menu>
                             </menupopup>

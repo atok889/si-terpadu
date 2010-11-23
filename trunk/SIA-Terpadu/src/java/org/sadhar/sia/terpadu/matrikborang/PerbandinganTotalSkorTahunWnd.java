@@ -21,9 +21,9 @@ import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
 import org.sadhar.sia.framework.ClassApplicationModule;
-import org.sadhar.sia.terpadu.unkerja.UnitKerja;
-import org.sadhar.sia.terpadu.unkerja.UnitKerjaDAO;
-import org.sadhar.sia.terpadu.unkerja.UnitKerjaDAOImpl;
+import org.sadhar.sia.terpadu.prodi.ProgramStudi;
+import org.sadhar.sia.terpadu.prodi.ProgramStudiDAO;
+import org.sadhar.sia.terpadu.prodi.ProgramStudiDAOImpl;
 import org.zkoss.image.AImage;
 import org.zkoss.zhtml.Messagebox;
 import org.zkoss.zul.Combobox;
@@ -49,14 +49,14 @@ public class PerbandinganTotalSkorTahunWnd extends ClassApplicationModule {
 
     private void loadUnitKerja() throws Exception {
         try {
-            UnitKerjaDAO dao = new UnitKerjaDAOImpl();
-            List<UnitKerja> units = dao.gets();
+            ProgramStudiDAO dao = new ProgramStudiDAOImpl();
+            List<ProgramStudi> units = dao.getProgramStudi();
             cmbCakupan.getItems().clear();
-            Comboitem item = new Comboitem();
-            item.setValue(null);
-            item.setLabel("-- Seluruh Universitas --");
-            cmbCakupan.appendChild(item);
-            for (UnitKerja unit : units) {
+//            Comboitem item = new Comboitem();
+//            item.setValue(null);
+//            item.setLabel("-- Seluruh Universitas --");
+//            cmbCakupan.appendChild(item);
+            for (ProgramStudi unit : units) {
                 Comboitem itemx = new Comboitem();
                 itemx.setValue(unit);
                 itemx.setLabel(unit.getKode() + " " + unit.getNama());
@@ -70,14 +70,14 @@ public class PerbandinganTotalSkorTahunWnd extends ClassApplicationModule {
     public void viewReport() throws Exception {
         try {
             MatrikBorangDAO dao = new MatrikBorangDAOImpl();
-            UnitKerja ukSelected = (UnitKerja) cmbCakupan.getSelectedItem().getValue();
-            CategoryDataset dataset = dao.getDatasetSkor(ukSelected.getKode());
+            ProgramStudi prodiSelected = (ProgramStudi) cmbCakupan.getSelectedItem().getValue();
+            CategoryDataset dataset = dao.getDatasetSkor(prodiSelected.getKode());
             ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
             BarRenderer.setDefaultBarPainter(new StandardBarPainter());
             chart = ChartFactory.createBarChart(
-                    "Jumlah Pegawai Administratif", // chart title
+                    "Perbandingan Total Skor Tahun", // chart title
                     "Tahun", // domain axis label
-                    "Jumlah Pegawai", // range axis label
+                    "Jumlah", // range axis label
                     dataset, // data
                     PlotOrientation.VERTICAL,
                     true, // include legend
