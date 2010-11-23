@@ -93,7 +93,7 @@ public class MasaKerjaPegawaiWnd extends ClassApplicationModule {
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            Messagebox.show("Gagal menampilkan data Jumlah Pegawai Administratif");
+            Messagebox.show("Gagal menampilkan data masa kerja pegawai");
         }
     }
 }
