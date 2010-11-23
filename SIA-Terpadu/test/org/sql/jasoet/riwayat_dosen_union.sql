@@ -1,5 +1,5 @@
 --Pertama buat view table ini dulu --------------------------------------------------------------------------------------
-CREATE OR REPLACE VIEW tempo.riwayatdosen(riwayat,kodePegawai,namaPegawai,tahun,keterangan) AS
+CREATE OR REPLACE VIEW tempo.riwayatDosen(riwayat,kodePegawai,namaPegawai,tahun,keterangan) AS
 SELECT 'STUDI LANJUT' AS riwayat,
         studi.kdPegawai AS kodePegawai,
        pegawai.Nama_peg AS namaPegawai,
@@ -39,20 +39,20 @@ SELECT 'JABATAN' as riwayat,
        INNER JOIN personalia.pegawai pegawai
           ON (pejabat.kdPegawai = pegawai.kdPegawai)
 WHERE pegawai.Status_keluar='1' OR pegawai.Status_keluar='6' OR  pegawai.Status_keluar='7'
-    AND YEAR(pejabat.tgl_sk_angkat_jabat) AND pegawai.AdmEdu='2'
+    AND YEAR(pejabat.tgl_sk_angkat_jabat) AND pegawai.AdmEdu='2';
 -------------------------------------------------------------------------------------------------------------------------
 
 -------------------tabel dosen berdasarkan Kode Unit Kerja---------------------------------------------------------------
-SELECT riwayatDosen.kodePegawai,
-riwayatDosen.namaPegawai,
+SELECT riwayatDosen.kodePegawai as kode,
+riwayatDosen.namaPegawai as nama,
 IF(MAX(unitPegawai.tgl_sk_unit)<=>NULL,'',MAX(unitPegawai.tgl_sk_unit))as tahun_sk,
 unkerja.Nama_unit_kerja
  FROM tempo.riwayatDosen riwayatDosen
 INNER JOIN personalia.pegawai pegawai ON (riwayatDosen.kodePegawai= pegawai.kdPegawai)
 INNER JOIN personalia.unit_peg unitPegawai ON (pegawai.kdPegawai=unitPegawai.kdPegawai)
-INNER JOIN kamus.unKerja unkerja ON (unitPegawai.kd_unit=unkerja.kd_unit_kerja)
+INNER JOIN kamus.unkerja unkerja ON (unitPegawai.kd_unit=unkerja.kd_unit_kerja)
 WHERE unkerja.Kd_unit_kerja='16053140'
-GROUP BY riwayatDosen.kodePegawai
+GROUP BY riwayatDosen.kodePegawai;
 --------------------------------------------------------------------------------------------------------------------------
 
 
@@ -65,6 +65,6 @@ SELECT riwayatDosen.riwayat,
 FROM tempo.riwayatDosen riwayatDosen
 INNER JOIN personalia.pegawai pegawai ON (riwayatDosen.kodePegawai= pegawai.kdPegawai)
 INNER JOIN personalia.unit_peg unitPegawai ON (pegawai.kdPegawai=unitPegawai.kdPegawai)
-INNER JOIN kamus.unKerja unkerja ON (unitPegawai.kd_unit=unkerja.kd_unit_kerja)
-WHERE unkerja.Kd_unit_kerja='16053140' AND riwayatDosen.kodePegawai='00961'
+INNER JOIN kamus.unkerja unkerja ON (unitPegawai.kd_unit=unkerja.kd_unit_kerja)
+WHERE unkerja.Kd_unit_kerja='16053140' AND riwayatDosen.kodePegawai='00961';
 -------------------------------------------------------------------------------------------------------------------------
