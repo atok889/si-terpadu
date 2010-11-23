@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <window title="Penghapusan Barang Investasi" border="normal" width="950px"
+            closable="true" sizable="true"
+            id="oo"
+            use="org.sadhar.sia.terpadu.penghapusanbaranginvestasi.PenghapusanBarangInvestasiWnd">
+        <div style="padding:5px">
+            <groupbox>
+                <caption label="Parameter"></caption>
+                <div style="padding:3px">
+                    <grid>
+                        <rows>
+                            <row>
+                                <label value="Tahun Pendapatan"></label>
+                                <combobox readonly="true" id="cmbboxTahun" onSelect="oo"/>
+                            </row>
+                             <row>
+                                <label value="Prodi/Fakultas"></label>
+                                <combobox readonly="true" id="cmbboxProdi" width="300px"
+                                  onSelect="oo">
+                                </combobox>
+                            </row>
+                            <row>
+                                <label value=""></label>
+                                <button label="Tampilkan" height="25px" width="90px" onClick=" "  ></button>
+                            </row>
+                        </rows>
+                    </grid>
+                </div>
+            </groupbox>
+            <groupbox>
+                <caption label="Rencana Pendapatan"></caption>
+                <div>
+                <listbox id="listboxRencana" width="900px" fixedLayout="true" visible = "false" rows="15">
+                    <listhead>
+                        <listheader label="No" width="50px" align="right"></listheader>
+                        <listheader label="Jenis Pendapatan"></listheader>
+                        <listheader label="Rencana" width="100px" align="right"></listheader>
+                    </listhead>
+                </listbox>
+                </div>
+                </groupbox>
+                <groupbox>
+                <div>
+                <groupbox>
+                <caption label="Realisasi Pendapatan"></caption>
+                   <listbox id="listboxRealisasi" width="900px" fixedLayout="true" visible = "false" rows="15">
+                    <listhead>
+                        <listheader label="No" width="50px" align="right"></listheader>
+                        <listheader label="Jenis Pendapatan"></listheader>
+                        <listheader label="Realisasi" width="100px" align="right"></listheader>
+                    </listhead>
+                </listbox>
+                </div>
+            </groupbox>
+            <groupbox visible="true">
+                <caption label="Export"></caption>
+                <div style="padding:3px" align="right">
+                    <hbox>
+                        <label value="Format"></label>
+                        <jasperreport id="report" visible="false"/>
+                        <combobox id="cmbExportType" readonly="true">
+                            <comboitem label="PDF" value="pdf"></comboitem>
+                            <comboitem label="XLS" value="xls"></comboitem>
+                            <comboitem label="DOC" value="rtf"></comboitem>
+                            <comboitem label="RTF" value="rtf"></comboitem>
+                        </combobox>
+                        <button id="btnExport" disabled="true" label="Export" height="25px" width="90px" onClick="penghapusanBarangInvestasiWnd.exportReport()"></button>
+                    </hbox>
+                </div>
+            </groupbox>
+        </div>
+    </window>
+</zk>
+
