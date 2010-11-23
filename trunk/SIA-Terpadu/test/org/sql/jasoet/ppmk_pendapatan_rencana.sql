@@ -1,11 +1,11 @@
 SELECT anggaranpendapatankemahasiswaan.idPosAnggaranPendapatanUnit AS idPosAnggaranPendapatanUnit,
          pospendapatan.posPendapatan AS jenisPendapatan,
          SUM(anggaranpendapatankemahasiswaan.tarif)
-            *SUM(anggaranpendapatankemahasiswaan.prediksiJmlMhsBaru)AS Rencana,
+            *SUM(anggaranpendapatankemahasiswaan.prediksiJmlMhsBaru)AS rencana,
           posanggaranpendapatanunit.tahunAnggaran AS tahun
     FROM (ppmk.posPendapatan pospendapatan
           INNER JOIN ppmk.posAnggaranPendapatanUnit posanggaranpendapatanunit
-             ON (posPendapatan.idPosPendapatan =
+             ON (pospendapatan.idPosPendapatan =
                     posanggaranpendapatanunit.idPosPendapatan))
          INNER JOIN ppmk.anggaranPendapatanKemahasiswaan anggaranpendapatankemahasiswaan
             ON (anggaranpendapatankemahasiswaan.idPosAnggaranPendapatanUnit =
@@ -16,7 +16,7 @@ UNION ALL
 SELECT anggaranpendapatanujianakhirkkn.idPosAnggaranPendapatanUnit AS idPosAnggaranPendapatanUnit,
          pospendapatan.posPendapatan AS jenisPendapatan,
          SUM(anggaranpendapatanujianakhirkkn.prediksiJmlMhsYgUjian)*
-         SUM(anggaranpendapatanujianakhirkkn.tarif)AS Rencana,
+         SUM(anggaranpendapatanujianakhirkkn.tarif)AS rencana,
             posanggaranpendapatanunit.tahunAnggaran AS Tahun
     FROM (ppmk.anggaranPendapatanUjianAkhirKKN anggaranpendapatanujianakhirkkn
           INNER JOIN ppmk.posAnggaranPendapatanUnit posanggaranpendapatanunit
@@ -30,7 +30,7 @@ GROUP BY anggaranpendapatanujianakhirkkn.idPosAnggaranPendapatanUnit
 UNION ALL
 SELECT anggaranpendapatanunituktsks.idPosAnggaranPendapatanUnit AS idPosAnggaranPendapatanUnit,
          pospendapatan.posPendapatan AS jenisPendapatan,
-         SUM(anggaranpendapatanunituktsks.jmlSKS)*SUM(anggaranpendapatanunituktsks.tarif) AS RENCANA,
+         SUM(anggaranpendapatanunituktsks.jmlSKS)*SUM(anggaranpendapatanunituktsks.tarif) AS rencana,
         posanggaranpendapatanunit.tahunAnggaran AS Tahun
     FROM (ppmk.posAnggaranPendapatanUnit posanggaranpendapatanunit
           INNER JOIN ppmk.posPendapatan pospendapatan
@@ -40,5 +40,5 @@ SELECT anggaranpendapatanunituktsks.idPosAnggaranPendapatanUnit AS idPosAnggaran
             ON (anggaranpendapatanunituktsks.idPosAnggaranPendapatanUnit =
                    posanggaranpendapatanunit.idPosAnggaranPendapatanUnit)
 WHERE posanggaranpendapatanunit.tahunAnggaran='2010'
-GROUP BY anggaranpendapatanunituktsks.idPosAnggaranPendapatanUnit
+GROUP BY anggaranpendapatanunituktsks.idPosAnggaranPendapatanUnit;
 
