@@ -2,7 +2,7 @@
 <zk xmlns="http://www.zkoss.org/2005/zul">
     <window title="Riwayat Dosen" border="normal" width="700px"
             closable="true"
-            id="riwayatDosen"
+            id="riwayatDosenWnd"
             use="org.sadhar.sia.terpadu.bebansksdosen.BebanSKSDosenWnd">
         <div style="padding:5px">
             <groupbox>
