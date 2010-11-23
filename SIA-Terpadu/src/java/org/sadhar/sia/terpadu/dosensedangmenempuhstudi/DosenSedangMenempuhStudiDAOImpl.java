@@ -29,28 +29,36 @@ public class DosenSedangMenempuhStudiDAOImpl implements DosenSedangMenempuhStudi
 //                + " INNER JOIN kamus.jenjang kj ON kj.`Kd_jenjang` = ps.`Jenjang` "
 //                + " WHERE ps.`statusLulus` like '%N%'  AND (ps.Tgl_selesai_studi is not null or ps.Tgl_selesai_studi like '%00-00-000%')  AND (pp.Status_keluar like '1' or pp.Status_keluar like '6' or pp.Status_keluar like '7')";
 //
-        String sql ="  SELECT pp.Nama_peg AS Nama_peg,"
+        String sqlCreateView = " CREATE OR REPLACE VIEW "
+                + " tempo.dosenStudi(kdPegawai,Nama_peg,Kd_unit_kerja,Kd_jenjang,Nama_unit_kerja,Univ)AS"
+                + " SELECT ps.kdPegawai AS kdPegawai," 
+                + " pp.Nama_peg AS Nama_peg,"
          + " pu.kd_unit AS Kd_unit_kerja,"
          + " MAX(ps.Jenjang) AS Kd_jenjang,"
          + " ku.Nama_unit_kerja AS Nama_unit_kerja,"
-         + " kj.Nm_jenjang AS Nm_jenjang,"
-         + " ps.Univ AS Univ"
+         + " IF(ps.Univ<=>NULL,'DATA BELUM DI ISI ',ps.Univ) AS Univ"
             + " FROM (((personalia.unit_peg pu "
                 + " INNER JOIN kamus.unkerja ku ON (pu.kd_unit = ku.Kd_unit_kerja))"
                 + " INNER JOIN personalia.pegawai pp ON (pp.kdPegawai = pu.kdPegawai))"
                 + " INNER JOIN personalia.studi ps ON (ps.kdPegawai = pp.kdPegawai))"
-                + " INNER JOIN kamus.jenjang kj ON (ps.Jenjang = kj.Kd_jenjang)"
                 + " WHERE ps.`statusLulus`='N' "
-                + " AND (pp.Status_keluar like '1' or pp.Status_keluar like '6' or pp.Status_keluar like '7')";
-   
+                + " AND (pp.Status_keluar like '1' or pp.Status_keluar like '6' or pp.Status_keluar like '7')"
+                + " GROUP BY ps.kdPegawai";
+        ClassConnection.getJdbc().execute(sqlCreateView);
+
+        String sql ="SELECT ds.kdPegawai,ds.Nama_peg,ds.Kd_unit_kerja,MAX(ds.Kd_jenjang),"
+                +" ds.Nama_unit_kerja, kj.Nm_jenjang,ds.Univ"
+                +" FROM tempo.dosenStudi ds"
+                +" INNER JOIN kamus.jenjang kj ON ( kj.Kd_jenjang = ds.Kd_Jenjang)";
+
         if (progdi != null && jenjangStudi != null) {
-        sql += " AND ku.`Kd_unit_kerja` = '" + progdi.getKodeUnitKerja() + "' and kj.Kd_jenjang = " + jenjangStudi.getKode() + " GROUP BY pp.Nama_peg, ps.Jenjang " +"";
+        sql +=  " WHERE "+" ds.`Kd_unit_kerja` = '" + progdi.getKodeUnitKerja() + "' AND ds.Kd_jenjang = " + jenjangStudi.getKode() + " GROUP BY ds.kdPegawai " +"";
         } else if (progdi != null && jenjangStudi == null) {
-            sql += " AND ku.`Kd_unit_kerja` = '" + progdi.getKodeUnitKerja() + "'"+" GROUP BY pp.Nama_peg, ps.Jenjang "+"";
+            sql += " WHERE "+" ds.`Kd_unit_kerja` = '" + progdi.getKodeUnitKerja() + "'"+" GROUP BY ds.kdPegawai "+"";
         } else if (progdi == null && jenjangStudi != null) {
-            sql += " AND  kj.Kd_jenjang = " + jenjangStudi.getKode() +" GROUP BY pp.Nama_peg, ps.Jenjang "+ "";
+            sql += " WHERE "+" ds.Kd_jenjang = " + jenjangStudi.getKode() +" GROUP BY ds.kdPegawai "+ "";
         } else {
-            sql += " GROUP BY pp.Nama_peg, ps.Jenjang "+"";
+            sql += " GROUP BY ds.kdPegawai "+"";
         }
 
         List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
