@@ -13,7 +13,7 @@
                                         <menuitem  label="Demografi Asal Daerah" value="/zul/demograficalonmahasiswa/DemografiCalonMahasiswaDaerah.zul" onClick="main.showObject(self.value)" />
                                     </menupopup>
                                 </menu>
-                                <menuitem  label="Rerata Nilai Tes PMB" value="xx" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Rerata Nilai Tes PMB" value="/zul/reratanilaitespmb/RerataNilaiTesPmb.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Distribusi Pendaftar per Gelombang Pendaftaran" value="/zul/distribusipendaftarpergelombangpendaftaran/DistribusiPendaftar.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Jumlah Mahasiswa" value="/zul/jumlahmahasiswa/JumlahMahasiswa.zul" onClick="main.showObject(self.value)" />
                                 <menu label="Demografi Mahasiswa">

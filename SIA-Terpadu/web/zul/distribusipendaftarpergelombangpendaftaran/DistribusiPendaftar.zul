@@ -14,11 +14,11 @@
                                 <hbox>
                                     <label value="Tahun Pendaftaran"></label>
                                     <space width="3px"/>
-                                    <combobox id="cmbTahunMulai" width="150px"/>
+                                    <combobox id="cmbTahunMulai" readonly="true" width="150px"/>
                                     <space width="3px"/>
                                     <label value="s/d"/>
                                     <space width="3px"/>                                    
-                                    <combobox id="cmbTahunSelesai" width="150px"/>
+                                    <combobox id="cmbTahunSelesai" readonly="true" width="150px"/>
                                 </hbox>
                             </row>
                         </rows>
