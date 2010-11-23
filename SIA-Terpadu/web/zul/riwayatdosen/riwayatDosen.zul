@@ -13,7 +13,7 @@
                             <row>
                                 <label value="Program Studi"></label>
                                 <hbox>
-                                   <combobox readonly="true" id="cmbProgdi" width="300px"/>
+                                    <combobox readonly="true" id="cmbProgdi" width="300px"/>
                                 </hbox>
                             </row>
                             
@@ -29,50 +29,51 @@
                 <div style="padding:3px">
                     <jasperreport id="reportData" visible="false"/>
                     <grid>
-                    <rows>
-                    <row >
+                        <rows>
+                            <row >
                                 <label value="Nama     : " ></label>
                                 <hbox>
                                     <label id="namaPegawai"></label>
                                 </hbox>
-                     </row>
-                     <row>
+                            </row>
+                            <row>
                                 <label value="Alamat : " ></label>
                                 <hbox>
                                     <label id="Alamat"></label>
                                 </hbox>
-                     </row>
-                     </rows>
-                     </grid>
-            </groupbox>
-                        <groupbox>
-                              <caption label="Riwayat Dosen"></caption>
-                <div style="padding:3px">
-                    <jasperreport id="reportRiwayat" visible="false"/>
-                    <listbox id="lstDataRiwayat" rows="10">
-                        <listhead>
-                            <listheader label="Kode Pegawai"/>
-                            <listheader label="Nama Dosen" width="150px"/>
+                            </row>
+                        </rows>
+                    </grid>
+                </groupbox>
+                <groupbox>
+                    <caption label="Riwayat Dosen"></caption>
+                    <div style="padding:3px">
+                        <jasperreport id="reportRiwayat" visible="false"/>
+                        <listbox id="lstDataRiwayat" rows="10">
+                            <listhead>
+                                <listheader label="Kode Pegawai"/>
+                                <listheader label="Nama Dosen" width="150px"/>
 
-                        </listhead>
-                    </listbox>
-                </div>
-            </groupbox>
+                            </listhead>
+                        </listbox>
+                    </div>
+                </groupbox>
 
-            <groupbox>
-                <caption label="Export"></caption>
-                <div style="padding:3px" align="right">
-                    <hbox>
-                        <label value="Format"></label>
-                        <combobox id="cmbExportType">
-                            <comboitem label="PDF" value="pdf"></comboitem>
-                            <comboitem label="XLS" value="xls"></comboitem>
-                            <comboitem label="DOC" value="rtf"></comboitem>
-                            <comboitem label="RTF" value="rtf"></comboitem>
-                        </combobox>
-                        <button id="btnExport" disabled="true" label="Export" height="25px" width="90px" onClick="bebanDosen.exportReport()"></button>
-                    </hbox>
-                </div>
-        </groupbox></div>
-    </window>
-</zk>
+                <groupbox>
+                    <caption label="Export"></caption>
+                    <div style="padding:3px" align="right">
+                        <hbox>
+                            <label value="Format"></label>
+                            <combobox id="cmbExportType">
+                                <comboitem label="PDF" value="pdf"></comboitem>
+                                <comboitem label="XLS" value="xls"></comboitem>
+                                <comboitem label="DOC" value="rtf"></comboitem>
+                                <comboitem label="RTF" value="rtf"></comboitem>
+                            </combobox>
+                            <button id="btnExport" disabled="true" label="Export" height="25px" width="90px" onClick="bebanDosen.exportReport()"></button>
+                        </hbox>
+                    </div>
+                </groupbox>
+            </div>
+        </window>
+    </zk>

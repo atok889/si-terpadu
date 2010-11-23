@@ -13,7 +13,7 @@
                         <rows>
                             <row>
                                 <label value="Tahun Pendapatan"></label>
-                                <combobox readonly="true" id="cmbboxTahun" onSelect="oo"/>
+                                <combobox readonly="true" id="cmbboxTahun" />
                             </row>
                              <row>
                                 <label value="Prodi/Fakultas"></label>
