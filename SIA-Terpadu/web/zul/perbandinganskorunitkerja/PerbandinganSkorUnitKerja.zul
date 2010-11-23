@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <window title="Jumlah Pegawai Administratif" border="normal" width="900px"
+            closable="true"
+            id="jumlahPegawai"
+            use="org.sadhar.sia.terpadu.matrikborang.PerbandinganSkorUnitKerjaProdiWnd">
+        <div style="padding:5px">
+            <groupbox>
+                <caption label="Keluaran"></caption>
+                <div id="contentDiv" style="height:400px;overflow:auto;padding:10px">
+                    <jasperreport id="report" visible="false"/>
+                    <image id="chartImg"/>
+                </div>
+            </groupbox>
+        </div>
+    </window>
+</zk>

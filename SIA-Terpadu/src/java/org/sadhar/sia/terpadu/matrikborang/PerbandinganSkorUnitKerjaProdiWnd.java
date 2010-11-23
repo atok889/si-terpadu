@@ -6,7 +6,6 @@ package org.sadhar.sia.terpadu.matrikborang;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.util.List;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.StandardChartTheme;
@@ -21,13 +20,8 @@ import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.StandardBarPainter;
 import org.jfree.data.category.CategoryDataset;
 import org.sadhar.sia.framework.ClassApplicationModule;
-import org.sadhar.sia.terpadu.unkerja.UnitKerja;
-import org.sadhar.sia.terpadu.unkerja.UnitKerjaDAO;
-import org.sadhar.sia.terpadu.unkerja.UnitKerjaDAOImpl;
 import org.zkoss.image.AImage;
 import org.zkoss.zhtml.Messagebox;
-import org.zkoss.zul.Combobox;
-import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Image;
 
 /**
@@ -41,6 +35,7 @@ public class PerbandinganSkorUnitKerjaProdiWnd extends ClassApplicationModule {
 
     public void onCreate() throws Exception {
         chartImg = (Image) getFellow("chartImg");
+        viewReport();
     }
 
     public void viewReport() throws Exception {
@@ -50,9 +45,9 @@ public class PerbandinganSkorUnitKerjaProdiWnd extends ClassApplicationModule {
             ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
             BarRenderer.setDefaultBarPainter(new StandardBarPainter());
             chart = ChartFactory.createBarChart(
-                    "Jumlah Pegawai Administratif", // chart title
-                    "Tahun", // domain axis label
-                    "Jumlah Pegawai", // range axis label
+                    "Perbandingan Skor Unit Kerja", // chart title
+                    "Prodi", // domain axis label
+                    "Jumlah", // range axis label
                     dataset, // data
                     PlotOrientation.VERTICAL,
                     true, // include legend
