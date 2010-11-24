@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import org.sadhar.errhandler.ClassAntiNull;
 import org.sadhar.sia.common.ClassConnection;
+import org.springframework.dao.DataAccessException;
 
 /**
  *
@@ -64,20 +65,25 @@ public class PendapatanDAOImpl implements PendapatanDAO {
                 + "      posanggaranpendapatanunit.idPosAnggaranPendapatanUnit) "
                 + "  WHERE posanggaranpendapatanunit.tahunAnggaran='" + tahun + "' "
                 + "  GROUP BY anggaranpendapatanunituktsks.idPosAnggaranPendapatanUnit";
-        List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
 
         List<PendapatanRencana> result = new ArrayList<PendapatanRencana>();
 
-        for (Map m : rows) {
+        try {
+            List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
+            for (Map m : rows) {
 
-            PendapatanRencana pr = new PendapatanRencana();
-            pr.setIdPosAnggaranPendapatanUnit(ClassAntiNull.AntiNullString(m.get("idPosAnggaranPendapatanUnit")));
-            pr.setJenisPendapatan(ClassAntiNull.AntiNullString(m.get("jenisPendapatan")));
-            pr.setRencana(ClassAntiNull.AntiNullDouble(m.get("rencana")));
-            pr.setTahun(ClassAntiNull.AntiNullString(m.get("tahun")));
-            result.add(pr);
+                PendapatanRencana pr = new PendapatanRencana();
+                pr.setIdPosAnggaranPendapatanUnit(ClassAntiNull.AntiNullString(m.get("idPosAnggaranPendapatanUnit")));
+                pr.setJenisPendapatan(ClassAntiNull.AntiNullString(m.get("jenisPendapatan")));
+                pr.setRencana(ClassAntiNull.AntiNullDouble(m.get("rencana")));
+                pr.setTahun(ClassAntiNull.AntiNullString(m.get("tahun")));
+                result.add(pr);
+            }
+        } catch (DataAccessException ex) {
+            System.err.println(ex.getMessage());
         }
 
+        System.out.println(result.size());
         return result;
     }
 
@@ -102,17 +108,21 @@ public class PendapatanDAOImpl implements PendapatanDAO {
                 + " WHERE (tg" + kodeTahun + "1.kd_tagih != tg" + kodeTahun + "1.tgl_bayar)"
                 + "        AND(tg" + kodeTahun + "1.tgl_bayar IS NOT NULL)"
                 + " GROUP BY tg" + kodeTahun + "1.kd_tagih";
-        List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
 
         List<PendapatanRealisasi> result = new ArrayList<PendapatanRealisasi>();
 
-        for (Map m : rows) {
-            PendapatanRealisasi pr = new PendapatanRealisasi();
-            pr.setKodeTagih(ClassAntiNull.AntiNullString(m.get("kodeTagih")));
-            pr.setNamaTagih(ClassAntiNull.AntiNullString(m.get("namaTagih")));
-            pr.setRealisasi(ClassAntiNull.AntiNullDouble(m.get("realisasi")));
-            pr.setTanggalBayar(ClassAntiNull.AntiNullDate(m.get("tanggalBayar")));
-            result.add(pr);
+        try {
+            List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
+            for (Map m : rows) {
+                PendapatanRealisasi pr = new PendapatanRealisasi();
+                pr.setKodeTagih(ClassAntiNull.AntiNullString(m.get("kodeTagih")));
+                pr.setNamaTagih(ClassAntiNull.AntiNullString(m.get("namaTagih")));
+                pr.setRealisasi(ClassAntiNull.AntiNullDouble(m.get("realisasi")));
+                pr.setTanggalBayar(ClassAntiNull.AntiNullDate(m.get("tanggalBayar")));
+                result.add(pr);
+            }
+        } catch (DataAccessException ex) {
+            ex.printStackTrace();
         }
 
         return result;
