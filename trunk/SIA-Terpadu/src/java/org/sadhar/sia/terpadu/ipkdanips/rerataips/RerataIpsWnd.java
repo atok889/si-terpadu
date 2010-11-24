@@ -58,6 +58,7 @@ public class RerataIpsWnd extends ClassApplicationModule {
         cmbExportType = (Combobox) getFellow("cmbExportType");
         intboxTahunAngkatan = (Intbox) this.getFellow("intboxTahunAngkatan");
         cmbExportType.setSelectedIndex(0);
+        report = (Jasperreport) this.getFellow("report");
         this.loadDataToComboboxProdi();
     }
 
