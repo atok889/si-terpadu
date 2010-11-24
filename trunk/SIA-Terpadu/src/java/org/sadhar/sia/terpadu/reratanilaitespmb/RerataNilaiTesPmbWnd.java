@@ -63,29 +63,33 @@ public class RerataNilaiTesPmbWnd extends ClassApplicationModule {
 
     public void viewReport() throws Exception {
         try {
-            RerataNilaiTesPmbDAO dao = new RerataNilaiTesPmbDAOImpl();
-            datas = dao.getAllRerataNilaiTesPmb(cmbTahun.getSelectedItem().getValue().toString());
-            lstData.getItems().clear();
-            for (RerataNilaiTesPmb rt : datas) {
-                Listitem item = new Listitem();
-                item.setValue(rt);
-                item.appendChild(new Listcell(rt.getProgdi()));
-                item.appendChild(new Listcell(String.valueOf(rt.getPv())));
-                item.appendChild(new Listcell(String.valueOf(rt.getKn())));
-                item.appendChild(new Listcell(String.valueOf(rt.getPm())));
-                item.appendChild(new Listcell(String.valueOf(rt.getHr())));
-                item.appendChild(new Listcell(String.valueOf(rt.getBi())));
-                item.appendChild(new Listcell(String.valueOf(rt.getNilaiFinal())));
-                lstData.appendChild(item);
-            }
-            if (datas.size() > 0) {
-                btnExport.setDisabled(false);
+            if (cmbTahun.getSelectedItem().getValue() != null) {
+                RerataNilaiTesPmbDAO dao = new RerataNilaiTesPmbDAOImpl();
+                datas = dao.getAllRerataNilaiTesPmb(cmbTahun.getSelectedItem().getValue().toString());
+                lstData.getItems().clear();
+                for (RerataNilaiTesPmb rt : datas) {
+                    Listitem item = new Listitem();
+                    item.setValue(rt);
+                    item.appendChild(new Listcell(rt.getProgdi()));
+                    item.appendChild(new Listcell(String.valueOf(rt.getPv())));
+                    item.appendChild(new Listcell(String.valueOf(rt.getKn())));
+                    item.appendChild(new Listcell(String.valueOf(rt.getPm())));
+                    item.appendChild(new Listcell(String.valueOf(rt.getHr())));
+                    item.appendChild(new Listcell(String.valueOf(rt.getBi())));
+                    item.appendChild(new Listcell(String.valueOf(rt.getNilaiFinal())));
+                    lstData.appendChild(item);
+                }
+                if (datas.size() > 0) {
+                    btnExport.setDisabled(false);
+                } else {
+                    btnExport.setDisabled(true);
+                }
             } else {
-                btnExport.setDisabled(true);
+                Messagebox.show("Silahkan pilih Tahun Pendaftaran");
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            Messagebox.show("Gagal menampilkan data");
+            Messagebox.show("Gagal menampilkan data \n: Tabel yang dibutuhkan tidak ditemukan");
         }
     }
 
