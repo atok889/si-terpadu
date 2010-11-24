@@ -88,12 +88,11 @@ public class JumlahDanDaftarPenelitianPerDosenWnd extends ClassApplicationModule
             items.setLabel(map.get("Kd_prg").toString() + " " + map.get("Nama_prg").toString());
             cmbboxProdi.appendChild(items);
         }
-        cmbboxProdi.setReadonly(true);
     }
 
     private void loadDataDosenToCombo() {
         cmbboxDosen.getItems().clear();
-        Comboitem item = new Comboitem("--Detail Dosen--");
+        Comboitem item = new Comboitem("--Seluruh Dosen--");
         item.setValue(null);
         cmbboxDosen.appendChild(item);
         cmbboxDosen.setSelectedItem(item);
@@ -108,7 +107,6 @@ public class JumlahDanDaftarPenelitianPerDosenWnd extends ClassApplicationModule
             list.add(map.get("kdPegawai").toString());
             cmbboxDosen.appendChild(items);
         }
-        cmbboxDosen.setReadonly(true);
     }
 
     private void componentDisable() {
@@ -125,7 +123,39 @@ public class JumlahDanDaftarPenelitianPerDosenWnd extends ClassApplicationModule
         this.loadDataDosenToCombo();
     }
 
-    public void cmbDataDosenOnSelect() throws IOException {
+    public void btnShowOnClick() throws InterruptedException {
+        try {
+            groupDetail.setVisible(false);
+            if (cmbboxDosen.getSelectedItem().getValue() != null) {
+                this.loadDataXYChart();
+            } else {
+                this.loadDataPieChart();
+                this.componentEnable();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.componentDisable();
+            Messagebox.show("Data tidak ditemukan", "Konfirmasi", Messagebox.OK, Messagebox.EXCLAMATION);
+        }
+    }
+
+    private void showDetail() {
+        groupDetail.setVisible(true);
+        listboxData.getItems().clear();
+        List<Map> results = jumlahDanDaftarPenelitianPerDosenDAO.getDetailDaftarPenelitianPerDosen(cmbboxDosen.getSelectedItem().getValue().toString());
+        int no = 1;
+        for (Map data : results) {
+            Listitem listitem = new Listitem();
+            listitem.appendChild(new Listcell(no + ""));
+            listitem.appendChild(new Listcell(data.get("judul").toString()));
+            listitem.appendChild(new Listcell(data.get("tahunPenilaian").toString()));
+            listboxData.appendChild(listitem);
+            no++;
+        }
+
+    }
+
+    public void loadDataXYChart() throws IOException {
         if (cmbboxDosen.getSelectedItem().getValue() != null) {
             List<Map> results = jumlahDanDaftarPenelitianPerDosenDAO.getDetailJumlahDanDaftarPenelitianPerDosen(cmbboxDosen.getSelectedItem().getValue().toString());
             List<Map> datas = new ArrayList<Map>();
@@ -204,36 +234,7 @@ public class JumlahDanDaftarPenelitianPerDosenWnd extends ClassApplicationModule
         }
     }
 
-    public void btnShowOnClick() throws InterruptedException {
-        try {
-            groupDetail.setVisible(false);
-            this.loadDataToGrafik();
-            cmbboxDosen.setSelectedIndex(0);
-            this.componentEnable();
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.componentDisable();
-            Messagebox.show("Data tidak ditemukan", "Konfirmasi", Messagebox.OK, Messagebox.EXCLAMATION);
-        }
-    }
-
-    private void showDetail() {
-        groupDetail.setVisible(true);
-        listboxData.getItems().clear();
-        List<Map> results = jumlahDanDaftarPenelitianPerDosenDAO.getDetailDaftarPenelitianPerDosen(cmbboxDosen.getSelectedItem().getValue().toString());
-        int no = 1;
-        for (Map data : results) {
-            Listitem listitem = new Listitem();
-            listitem.appendChild(new Listcell(no + ""));
-            listitem.appendChild(new Listcell(data.get("judul").toString()));
-            listitem.appendChild(new Listcell(data.get("tahunPenilaian").toString()));
-            listboxData.appendChild(listitem);
-            no++;
-        }
-
-    }
-
-    public void loadDataToGrafik() throws IOException {
+    public void loadDataPieChart() throws IOException {
         DefaultPieDataset dataset = new DefaultPieDataset();
         List<Map> results = jumlahDanDaftarPenelitianPerDosenDAO.getJumlahDanDaftarPenelitianPerDosen(kodeProdi);
         List<String> temp = new ArrayList<String>();
