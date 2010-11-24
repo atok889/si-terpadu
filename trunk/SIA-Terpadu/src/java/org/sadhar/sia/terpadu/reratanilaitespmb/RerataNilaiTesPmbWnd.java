@@ -4,6 +4,7 @@
  */
 package org.sadhar.sia.terpadu.reratanilaitespmb;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
@@ -67,16 +68,17 @@ public class RerataNilaiTesPmbWnd extends ClassApplicationModule {
                 RerataNilaiTesPmbDAO dao = new RerataNilaiTesPmbDAOImpl();
                 datas = dao.getAllRerataNilaiTesPmb(cmbTahun.getSelectedItem().getValue().toString());
                 lstData.getItems().clear();
+                DecimalFormat df = new DecimalFormat("#.##");
                 for (RerataNilaiTesPmb rt : datas) {
                     Listitem item = new Listitem();
                     item.setValue(rt);
                     item.appendChild(new Listcell(rt.getProgdi()));
-                    item.appendChild(new Listcell(String.valueOf(rt.getPv())));
-                    item.appendChild(new Listcell(String.valueOf(rt.getKn())));
-                    item.appendChild(new Listcell(String.valueOf(rt.getPm())));
-                    item.appendChild(new Listcell(String.valueOf(rt.getHr())));
-                    item.appendChild(new Listcell(String.valueOf(rt.getBi())));
-                    item.appendChild(new Listcell(String.valueOf(rt.getNilaiFinal())));
+                    item.appendChild(new Listcell(df.format(rt.getPv())));
+                    item.appendChild(new Listcell(df.format(rt.getKn())));
+                    item.appendChild(new Listcell(df.format(rt.getPm())));
+                    item.appendChild(new Listcell(df.format(rt.getHr())));
+                    item.appendChild(new Listcell(df.format(rt.getBi())));
+                    item.appendChild(new Listcell(df.format(rt.getNilaiFinal())));
                     lstData.appendChild(item);
                 }
                 if (datas.size() > 0) {
