@@ -97,7 +97,16 @@ public class DistribusiUmurDosenDanKaryawanWnd extends ClassApplicationModule {
         kodeProdi = (String) cmbboxProdi.getSelectedItem().getValue();
     }
 
-    public void cmbDataUmurOnSelect() {
+    public void btnShowOnClick() throws IOException {
+        if (cmbboxUmur.getSelectedItem().getValue() != null) {
+            this.loadDetail();
+        } else {
+            cmbboxUmur.setDisabled(false);
+            loadDataToGrafik();
+        }
+    }
+
+    private void loadDetail() {
         listboxData.getItems().clear();
         String umur = cmbboxUmur.getSelectedItem().getValue().toString();
         List<Map> results = distribusiUmurDosenDAO.getAll(kodeProdi, umur.substring(0, 2), umur.substring(3, 5));
@@ -113,12 +122,6 @@ public class DistribusiUmurDosenDanKaryawanWnd extends ClassApplicationModule {
             listboxData.appendChild(listitem);
         }
         groupDetail.setVisible(true);
-        System.out.println(results.size());
-    }
-
-    public void btnShowOnClick() throws IOException {
-        cmbboxUmur.setDisabled(false);
-        loadDataToGrafik();
     }
 
     public void loadDataToGrafik() throws IOException {

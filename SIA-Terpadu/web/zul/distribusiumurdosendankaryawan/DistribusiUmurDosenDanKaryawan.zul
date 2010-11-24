@@ -20,8 +20,8 @@
                             <row>
                                 <label value="Detail"></label>
                                 <combobox readonly="true" id="cmbboxUmur" width="100px"
-                                onSelect="distribusiWnd.cmbDataUmurOnSelect()" visible="true" disabled="true" >
-                                    <comboitem label="--Pilih Umur--"></comboitem>
+                                visible="true" disabled="true" >
+                                    <comboitem label="--Semua Umur--"></comboitem>
                                     <comboitem value="21-30" label="21-30"></comboitem>
                                     <comboitem value="31-40" label="31-40"></comboitem>
                                     <comboitem value="41-50" label="41-50"></comboitem>
