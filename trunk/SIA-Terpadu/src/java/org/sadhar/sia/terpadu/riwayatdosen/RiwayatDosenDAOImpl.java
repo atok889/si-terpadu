@@ -94,27 +94,28 @@ public class RiwayatDosenDAOImpl implements RiwayatDosenDAO {
         return data;
     }
 
-    public List<RiwayatDosen> getRiwayatDosenByKodeDosen(String kodeDosen, String unitKerja) {
+    public List<RiwayatDosen> getRiwayatDosenByKodeDosen(String kodePegawai, String unitKerja) {
         String sql = "SELECT riwayatDosen.riwayat as riwayat, "
                 + "   riwayatDosen.namaPegawai as nama, "
-                + "      riwayatDosen.tahun as tahun, "
+                + "      CAST(riwayatDosen.tahun AS CHAR) as tahun, "
                 + "      riwayatDosen.keterangan as keterangan, "
                 + "      pegawai.Alamat as alamat"
                 + "  FROM tempo.riwayatDosen riwayatDosen "
                 + "  INNER JOIN personalia.pegawai pegawai ON (riwayatDosen.kodePegawai= pegawai.kdPegawai) "
                 + "  INNER JOIN personalia.unit_peg unitPegawai ON (pegawai.kdPegawai=unitPegawai.kdPegawai) "
                 + "  INNER JOIN kamus.unkerja unkerja ON (unitPegawai.kd_unit=unkerja.kd_unit_kerja) "
-                + "  WHERE unkerja.Kd_unit_kerja='" + kodeDosen + "' AND riwayatDosen.kodePegawai='" + unitKerja + "'";
+                + "  WHERE unkerja.Kd_unit_kerja='" + unitKerja + "' AND riwayatDosen.kodePegawai='" + kodePegawai + "'";
         List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
 
         List<RiwayatDosen> data = new ArrayList<RiwayatDosen>();
         for (Map m : rows) {
             RiwayatDosen rd  = new RiwayatDosen();
-            rd.setRiwayat(ClassAntiNull.AntiNullString(m.get(m.get("riwayat"))));
-            rd.setAlamat(ClassAntiNull.AntiNullString(m.get(m.get("alamat"))));
-            rd.setKeterangan(ClassAntiNull.AntiNullString(m.get(m.get("keterangan"))));
-            rd.setNama(ClassAntiNull.AntiNullString(m.get(m.get("nama"))));
-            rd.setTahun(ClassAntiNull.AntiNullString(m.get(m.get("tahun"))));
+            rd.setRiwayat(ClassAntiNull.AntiNullString(m.get("riwayat")));
+            rd.setAlamat(ClassAntiNull.AntiNullString(m.get("alamat")));
+            rd.setKeterangan(ClassAntiNull.AntiNullString(m.get("keterangan")));
+            rd.setNama(ClassAntiNull.AntiNullString(m.get("nama")));
+            rd.setTahun(""+m.get("tahun"));
+            data.add(rd);
         }
         return data;
     }

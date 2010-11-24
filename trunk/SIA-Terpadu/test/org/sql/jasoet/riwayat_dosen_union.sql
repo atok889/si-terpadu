@@ -59,7 +59,7 @@ GROUP BY riwayatDosen.kodePegawai;
 -------------Menu pop up riwayat dosen------------------------------------------------------------------------------------
 SELECT riwayatDosen.riwayat,
     riwayatDosen.namaPegawai,
-    riwayatDosen.tahun,
+    CAST(riwayatDosen.tahun AS CHAR) as tahun,
     riwayatDosen.keterangan,
     pegawai.Alamat
 FROM tempo.riwayatDosen riwayatDosen
