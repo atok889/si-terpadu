@@ -32,7 +32,7 @@
             <groupbox>
                 <caption label="Rencana Pendapatan"></caption>
                 <div>
-                    <listbox id="listboxRencana" width="900px" fixedLayout="true" visible = "false" rows="15">
+                    <listbox id="listboxRencana" width="900px" fixedLayout="true"  rows="15">
                         <listhead>
                             <listheader label="No" width="50px" align="right"></listheader>
                             <listheader label="Jenis Pendapatan"></listheader>
@@ -45,7 +45,7 @@
                 <div>
                     <groupbox>
                         <caption label="Realisasi Pendapatan"></caption>
-                        <listbox id="listboxRealisasi" width="900px" fixedLayout="true" visible = "false" rows="15">
+                        <listbox id="listboxRealisasi" width="900px" fixedLayout="true"  rows="15">
                             <listhead>
                                 <listheader label="No" width="50px" align="right"></listheader>
                                 <listheader label="Jenis Pendapatan"></listheader>
