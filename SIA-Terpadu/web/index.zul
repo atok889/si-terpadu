@@ -95,7 +95,6 @@
                         <menu label="MA" height="30px">
                             <menupopup id="5">
                                 <menuitem  label="Pembelian Barang Investasi" value="/zul/pembelianbaranginvestasi/PembelianBarangInvestasi.zul" onClick="main.showObject(self.value)" />
-                                <menuitem  label="Jumlah Uang Investasi" value="xx" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Penghapusan Barang Investasi" value="/zul/penghapusanbaranginvestasi/PenghapusanBarangInvestasi.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Daftar Gedung, Tanah dan Kendaraan" value="/zul/daftargedungtanahdankendaraan/DaftarGedungTanahDanKendaraaan.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Daftar Barang Investasi" value="/zul/assetbaranginvestasi/AssetBarangInvestasi.zul" onClick="main.showObject(self.value)" />
@@ -121,6 +120,7 @@
                                 </menu>
                             </menupopup>
                         </menu>
+                        <menuitem label="Bantuan" height="30px" onClick="main.showObject(self.value)" value="/zul/bantuan/Bantuan.zul"/>
                     </menubar>
                 </div>
             </north>
