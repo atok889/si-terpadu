@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <window title="Kirim Pesan" border="normal" width="700px"
+            closable="true"
+            id="bantuan"
+            use="org.sadhar.sia.terpadu.bantuan.BantuanWnd">
+        <div style="padding:5px">
+            <groupbox>
+                <caption label="Data Pesan"></caption>
+                <div style="padding:3px">
+                    <grid>
+                        <rows>
+                            <row>
+                                <label  value="Nama"/>
+                                <textbox id="txtNama" width="300px"/>
+                            </row>
+                            <row>
+                                <label value="Jenis"></label>
+                                <combobox readonly="true" id="cmbJenis" width="300px"/>
+                            </row>
+                            <row>
+                                <label  value="Pesan"/>
+                                <textbox id="txtPesan" width="500px" height="200px" multiline="true"/>
+                            </row>
+                        </rows>
+                    </grid>
+                </div>
+                <div style="padding:3px">
+                    <button label="Kirimkan" height="25px" width="90px" onClick="bantuan.kirim()"></button>
+                </div>
+            </groupbox>            
+        </div>
+    </window>
+</zk>
