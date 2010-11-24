@@ -19,8 +19,7 @@
                             </row>
                             <row>
                                 <label value="Nama Dosen"></label>
-                                <combobox readonly="true" id="cmbboxDosen" width="300px"
-                                  onSelect="jumlahDanDaftarPenelitianPerDosenWnd.cmbDataDosenOnSelect()">
+                                <combobox readonly="true" id="cmbboxDosen" width="300px">
                                 </combobox>
                             </row>
                             <row>
