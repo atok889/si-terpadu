@@ -6,6 +6,7 @@ package org.sadhar.sia.terpadu.rekapAll;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -64,7 +65,8 @@ public class RekapAllWnd extends Window {
 
     public void onCreate() {
         windowDaftarUnit = (Window) getFellow("windowDaftarUnit");
-        xTahunAnggaran = ClassSession.getInstance().getThnAnggaran();
+//        xTahunAnggaran = ClassSession.getInstance().getThnAnggaran();
+        xTahunAnggaran = Calendar.getInstance().get(Calendar.YEAR) + "";
         //
         textKodeUnit = (Textbox) getFellow("textKodeUnit");
         textNamaUnit = (Textbox) getFellow("textNamaUnit");
@@ -82,8 +84,10 @@ public class RekapAllWnd extends Window {
         lblTahunAnggaran.setValue(xTahunAnggaran);
 
         //filter untuk hak akses
-        String kd = ClassSession.getInstance().getKdUnitKerja().toString();
-        String namaunit = ClassSession.getInstance().getNmUnitKerja().toString();
+        String kd = "08000000";
+        String namaunit = "Kosong";
+//        String kd = ClassSession.getInstance().getKdUnitKerja().toString();
+//        String namaunit = ClassSession.getInstance().getNmUnitKerja().toString();
         if (kd.compareTo("08000000") == 0) {
         } else {
             textKodeUnit.setValue(kd);
@@ -209,7 +213,7 @@ public class RekapAllWnd extends Window {
             JasperCetak.setParameters(parameters);
             Listbox format = (Listbox) getFellow("format");
             JasperCetak.setType((String) format.getSelectedItem().getValue());
-            JasperCetak.setSrc("reports/rekapAll/rpt_all.jasper");
+            JasperCetak.setSrc("reports/rekapall/rpt_all.jasper");
             JasperCetak.setDatasource(new lpjCustomDataSource(textKodeUnit.getValue(), lblTahunAnggaran.getValue()));
         }
     }
