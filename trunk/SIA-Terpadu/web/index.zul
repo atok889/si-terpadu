@@ -103,7 +103,7 @@
                         </menu>
                         <menu label="Keuangan" height="30px">
                             <menupopup id="6">
-                                <menuitem  label="Pendapatan" value="/zul/pendapatan/pendapatan.zul" onClick="main.showObject(self.value)" />
+                                <menuitem  label="Pendapatan" value="/zul/pendapatan/Pendapatan.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Pinjaman Unit" value="/zul/pinjamanunit/PinjamanUnit.zul" onClick="main.showObject(self.value)" />
                                 <menuitem  label="Rekap All" value="/zul/rekapall/RekapAll.zul" onClick="main.showObject(self.value)" />
                             </menupopup>
