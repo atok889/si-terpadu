@@ -41,10 +41,10 @@ import org.zkoss.zul.Window;
  */
 public class RasioDosenMahasiswaWnd extends ClassApplicationModule {
 
-    private Combobox cmbboxProdi;
-    private Combobox cmbboxSemester;
-    private Combobox cmbExportType;
-    private Jasperreport report;
+//    private Combobox cmbboxProdi;
+//    private Combobox cmbboxSemester;
+//    private Combobox cmbExportType;
+//    private Jasperreport report;
     private String kodeProdi;
     private String tahunSemester;
     private Button btnExport;
@@ -58,66 +58,66 @@ public class RasioDosenMahasiswaWnd extends ClassApplicationModule {
     }
 
     public void onCreate() throws Exception {
-        cmbboxProdi = (Combobox) this.getFellow("cmbboxProdi");
-        cmbboxSemester = (Combobox) this.getFellow("cmbboxSemester");
-        report = (Jasperreport) getFellow("report");
+//        cmbboxProdi = (Combobox) this.getFellow("cmbboxProdi");
+//        cmbboxSemester = (Combobox) this.getFellow("cmbboxSemester");
+//        report = (Jasperreport) getFellow("report");
         btnExport = (Button) getFellow("btnExport");
-        cmbExportType = (Combobox) getFellow("cmbExportType");
-        cmbExportType.setSelectedIndex(0);
+//        cmbExportType = (Combobox) getFellow("cmbExportType");
+//        cmbExportType.setSelectedIndex(0);
         chartImg = (Image) getFellow("chartImg");
-        this.loadDataProdiToCombo();
-        this.loadDataSemesterToCombo();
+        //this.loadDataProdiToCombo();
+        //this.loadDataSemesterToCombo();
+        loadDataToGrafik();
     }
 
-    private void loadDataProdiToCombo() {
-        Comboitem item = new Comboitem("--Pilih Fakultas--");
-        item.setValue(null);
-        cmbboxProdi.appendChild(item);
-        cmbboxProdi.setSelectedItem(item);
-
-        for (Map map : rasioDosenMahasiswaDAO.getProdi()) {
-            Comboitem items = new Comboitem();
-            items.setValue(map.get("Kd_prg").toString());
-            items.setLabel(map.get("Kd_prg").toString() + " " + map.get("Nama_prg").toString());
-            cmbboxProdi.appendChild(items);
-        }
-        cmbboxProdi.setReadonly(true);
-    }
-
-    private void loadDataSemesterToCombo() {
-        Comboitem item = new Comboitem("--Pilih Semester--");
-        cmbboxSemester.appendChild(item);
-        cmbboxSemester.setSelectedItem(item);
-
-        for (int i = 1998; i <= new DateTime().getYear(); i++) {
-            for (int j = 1; j <= 2; j++) {
-                Comboitem items = new Comboitem();
-                items.setValue(String.valueOf(i) + String.valueOf(j));
-                items.setLabel(i + "-" + j);
-                cmbboxSemester.appendChild(items);
-            }
-        }
-        cmbboxSemester.setReadonly(true);
-    }
-
-    public void btnShowOnClick() throws InterruptedException, IOException {
-        kodeProdi = (String) cmbboxProdi.getSelectedItem().getValue();
-        tahunSemester = (String) cmbboxSemester.getSelectedItem().getValue();
-        if (kodeProdi != null && tahunSemester != null) {
-            try {
-                this.loadDataToGrafik();
-            } catch (Exception e) {
-                Messagebox.show("Data tidak ditemukan", "Informasi", Messagebox.OK, Messagebox.INFORMATION);
-            }
-        } else {
-            Messagebox.show("Parameter tidak lengkap", "Informasi", Messagebox.OK, Messagebox.INFORMATION);
-        }
-    }
-
+//    private void loadDataProdiToCombo() {
+//        Comboitem item = new Comboitem("--Pilih Fakultas--");
+//        item.setValue(null);
+//        cmbboxProdi.appendChild(item);
+//        cmbboxProdi.setSelectedItem(item);
+//
+//        for (Map map : rasioDosenMahasiswaDAO.getProdi()) {
+//            Comboitem items = new Comboitem();
+//            items.setValue(map.get("Kd_prg").toString());
+//            items.setLabel(map.get("Kd_prg").toString() + " " + map.get("Nama_prg").toString());
+//            cmbboxProdi.appendChild(items);
+//        }
+//        cmbboxProdi.setReadonly(true);
+//    }
+//
+//    private void loadDataSemesterToCombo() {
+//        Comboitem item = new Comboitem("--Pilih Semester--");
+//        cmbboxSemester.appendChild(item);
+//        cmbboxSemester.setSelectedItem(item);
+//
+//        for (int i = 1998; i <= new DateTime().getYear(); i++) {
+//            for (int j = 1; j <= 2; j++) {
+//                Comboitem items = new Comboitem();
+//                items.setValue(String.valueOf(i) + String.valueOf(j));
+//                items.setLabel(i + "-" + j);
+//                cmbboxSemester.appendChild(items);
+//            }
+//        }
+//        cmbboxSemester.setReadonly(true);
+//    }
+//
+//    public void btnShowOnClick() throws InterruptedException, IOException {
+//        kodeProdi = (String) cmbboxProdi.getSelectedItem().getValue();
+//        tahunSemester = (String) cmbboxSemester.getSelectedItem().getValue();
+//        if (kodeProdi != null && tahunSemester != null) {
+//            try {
+//                this.loadDataToGrafik();
+//            } catch (Exception e) {
+//                Messagebox.show("Data tidak ditemukan", "Informasi", Messagebox.OK, Messagebox.INFORMATION);
+//            }
+//        } else {
+//            Messagebox.show("Parameter tidak lengkap", "Informasi", Messagebox.OK, Messagebox.INFORMATION);
+//        }
+//    }
     public void loadDataToGrafik() throws IOException {
         DefaultCategoryDataset dataset = (DefaultCategoryDataset) this.generateData();
         chart = ChartFactory.createBarChart(
-                "", "", "Mahasiswa", dataset, PlotOrientation.VERTICAL, true, true, false);
+                "", "", "Program Studi", dataset, PlotOrientation.HORIZONTAL, true, false, false);
         chart.setBackgroundPaint(new Color(0xCC, 0xFF, 0xCC));
 
         final CategoryPlot plot = chart.getCategoryPlot();
@@ -127,12 +127,11 @@ public class RasioDosenMahasiswaWnd extends ClassApplicationModule {
 
         final CategoryItemRenderer renderer = plot.getRenderer();
         renderer.setSeriesPaint(0, Color.red);
+        renderer.setSeriesPaint(1, Color.yellow);
         BarRenderer br = (BarRenderer) renderer;
         br.setMaximumBarWidth(.05);
         br.setShadowVisible(false);
-
-        br.setShadowVisible(false);
-        BufferedImage bi = chart.createBufferedImage(900, 500, BufferedImage.TRANSLUCENT, null);
+        BufferedImage bi = chart.createBufferedImage(1050, 1100, BufferedImage.TRANSLUCENT, null);
         byte[] bytes = EncoderUtil.encode(bi, ImageFormat.PNG, true);
         AImage image = new AImage("Bar Chart", bytes);
         chartImg.setContent(image);
@@ -140,42 +139,48 @@ public class RasioDosenMahasiswaWnd extends ClassApplicationModule {
 
     }
 
-    public void exportReport() throws Exception {
-        try {
-            JRMapCollectionDataSource dataSource = new JRMapCollectionDataSource(datas);
-            if (cmbExportType.getSelectedItem().getValue().toString().equals("pdf")) {
-                Window pdfPreviewWnd = (Window) Executions.createComponents("/zul/pdfpreview/PdfPreview.zul", null, null);
-                Jasperreport pdfReport = (Jasperreport) pdfPreviewWnd.getFellow("report");
-                pdfReport.setType(cmbExportType.getSelectedItem().getValue().toString());
-                pdfReport.setSrc("reports/daftarmatakuliahyangpalingseringdiulang/DaftarMataKuliahYangPalingSeringDiulang.jasper");
-                pdfReport.setParameters(null);
-                pdfReport.setDatasource(dataSource);
-                pdfPreviewWnd.doModal();
-            } else {
-                report.setType(cmbExportType.getSelectedItem().getValue().toString());
-                report.setSrc("reports/daftarmatakuliahyangpalingseringdiulang/DaftarMataKuliahYangPalingSeringDiulang.jasper");
-                report.setParameters(null);
-                report.setDatasource(dataSource);
-            }
-        } catch (Exception ex) {
-            Messagebox.show(ex.getMessage());
-        }
-    }
-
+//    public void exportReport() throws Exception {
+//        try {
+//            JRMapCollectionDataSource dataSource = new JRMapCollectionDataSource(datas);
+//            if (cmbExportType.getSelectedItem().getValue().toString().equals("pdf")) {
+//                Window pdfPreviewWnd = (Window) Executions.createComponents("/zul/pdfpreview/PdfPreview.zul", null, null);
+//                Jasperreport pdfReport = (Jasperreport) pdfPreviewWnd.getFellow("report");
+//                pdfReport.setType(cmbExportType.getSelectedItem().getValue().toString());
+//                pdfReport.setSrc("reports/daftarmatakuliahyangpalingseringdiulang/DaftarMataKuliahYangPalingSeringDiulang.jasper");
+//                pdfReport.setParameters(null);
+//                pdfReport.setDatasource(dataSource);
+//                pdfPreviewWnd.doModal();
+//            } else {
+//                report.setType(cmbExportType.getSelectedItem().getValue().toString());
+//                report.setSrc("reports/daftarmatakuliahyangpalingseringdiulang/DaftarMataKuliahYangPalingSeringDiulang.jasper");
+//                report.setParameters(null);
+//                report.setDatasource(dataSource);
+//            }
+//        } catch (Exception ex) {
+//            Messagebox.show(ex.getMessage());
+//        }
+//    }
     private CategoryDataset generateData() {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        List<Map> results = rasioDosenMahasiswaDAO.getRasioDosenMahasiswa(kodeProdi, tahunSemester.substring(0, 4), tahunSemester.substring(4, 5));
-        List<Map> dosens = rasioDosenMahasiswaDAO.getNamaDosen(kodeProdi, tahunSemester.substring(0, 4), tahunSemester.substring(4, 5));
+//        List<Map> results = rasioDosenMahasiswaDAO.getRasioDosenMahasiswa(kodeProdi, tahunSemester.substring(0, 4), tahunSemester.substring(4, 5));
+//        List<Map> dosens = rasioDosenMahasiswaDAO.getNamaDosen(kodeProdi, tahunSemester.substring(0, 4), tahunSemester.substring(4, 5));
+//
+//        for (Map dosen : dosens) {
+//            int jumlah = 0;
+//            for (Map result : results) {
+//                if (result.get("nama").toString().equals(dosen.get("nama"))) {
+//                    jumlah += Integer.valueOf(result.get("jumlah").toString());
+//                }
+//            }
+//            if (jumlah != 0) {
+//                dataset.addValue(jumlah, dosen.get("nama").toString(),"");
+//            }
+//        }
 
-        for (Map dosen : dosens) {
-            int jumlah = 0;
-            for (Map result : results) {
-                if (result.get("nama").toString().equals(dosen.get("nama"))) {
-                    jumlah += Integer.valueOf(result.get("jumlah").toString());
-                }
-            }
-            if (jumlah != 0) {
-                dataset.addValue(jumlah, dosen.get("nama").toString(),"");
+        List<Map> results = rasioDosenMahasiswaDAO.getRasioDosenMahasiswa();
+        for (Map result : results) {
+            if (result.get("unit") != null) {
+                dataset.addValue(Integer.valueOf(result.get("jml").toString()), result.get("status").toString(), result.get("unit").toString());
             }
         }
         return dataset;

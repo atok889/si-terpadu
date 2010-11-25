@@ -47,6 +47,27 @@ public class RasioDosenMahasiswaDAOImpl implements RasioDosenMahasiswaDAO {
         return results;
     }
 
+    public List<Map> getRasioDosenMahasiswa() {
+        List<Map> results = new ArrayList<Map>();
+        for (Map map : this.getProdi()) {
+            String prodi = map.get("Kd_prg").toString();
+            String sql = "SELECT unit  ,'dosen' as status , COUNT(*) AS jml  from " +
+                    " (SELECT kdPegawai,npp,Nama_peg, " +
+                    " (SELECT kd_unit from personalia.unit_peg as un where kdPegawai=peg.kdPegawai order by tgl_mulai_unit desc limit 1) as kd_unit," +
+                    " (SELECT Nama_unit_kerja " +
+                    " FROM personalia.unit_peg as un " +
+                    " inner join kamus.unkerja as kms on kms.Kd_unit_kerja=un.kd_unit " +
+                    " WHERE kdPegawai=peg.kdPegawai order by tgl_mulai_unit desc limit 1) as unit " +
+                    " FROM personalia.pegawai as peg where admEdu='2' and Status_keluar='1' ) as sub where sub.kd_unit='160" + prodi + "0' " +
+                    " UNION " +
+                    " SELECT  prg.Nama_unit_kerja as unit,'mahasiswa' as status ,COUNT( * ) AS jml FROM db_" + prodi + ".mhs" + prodi + "  as mhs " +
+                    " INNER JOIN kamus.unkerja prg ON prg.Kd_unit_kerja='160" + prodi + "0' " +
+                    " WHERE (st_mhs = '1')";
+            results.addAll(ClassConnection.getJdbc().queryForList(sql));
+        }
+        return results;
+    }
+
     public boolean isTabelJwExist(String kodeProdi, String tahun, String semester) {
         SqlRowSet rs = null;
         try {
