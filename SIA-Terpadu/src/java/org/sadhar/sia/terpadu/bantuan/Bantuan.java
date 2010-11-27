@@ -16,6 +16,7 @@ public class Bantuan {
     private String jenis;
     private String pesan;
     private Date tanggal;
+
     public Bantuan(){}
 
     /**
