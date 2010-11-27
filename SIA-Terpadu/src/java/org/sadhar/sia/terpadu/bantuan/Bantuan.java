@@ -12,6 +12,7 @@ import java.util.Date;
  * @author Hendro Steven
  */
 public class Bantuan {
+    
     private String nama;
     private String jenis;
     private String pesan;
