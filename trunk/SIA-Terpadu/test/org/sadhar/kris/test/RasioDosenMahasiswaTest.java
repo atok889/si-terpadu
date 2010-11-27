@@ -26,7 +26,7 @@ public class RasioDosenMahasiswaTest {
         dao = new RasioDosenMahasiswaDAOImpl();
     }
 
-    @Test
+    //@Test
     public void getData() {
         List<Map> results = dao.getRasioDosenMahasiswa("1114", "2005", "1");
         List<Map> dosens = dao.getNamaDosen("1114", "2005", "1");
@@ -49,6 +49,15 @@ public class RasioDosenMahasiswaTest {
 
         for (Map data : datas) {
             System.out.println(data.get("jumlah") + "=>" + data.get("nama"));
+        }
+    }
+
+    @Test
+    public void get() {
+        List<Map> results = dao.getRasioDosenMahasiswa();
+        for (Map result : results) {
+            Map map = new HashMap();
+            System.out.println(result.get("unit") + "=>" + result.get("jml") + "=>" + result.get("status"));
         }
     }
 }

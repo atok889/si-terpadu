@@ -18,10 +18,10 @@ public interface StatistikLamaStudiDAO {
 
     public List<Map> getProdi();
 
-    // public List<Map> getStatistikLamaStudi(String kodeProdi);
-    public StatistikLamaStudi getStatistikLamaStudi(String kodeProdi);
-
-    public List<StatistikLamaStudi> getStatistikLamaStudi();
+    public List<Map> getStatistikLamaStudi(String kodeProdi, String semester);
 
     public boolean isTabelYudExist(String kodeProdi);
+    // public List<Map> getStatistikLamaStudi(String kodeProdi);
+    //public StatistikLamaStudi getStatistikLamaStudi(String kodeProdi);
+    //public List<StatistikLamaStudi> getStatistikLamaStudi();
 }

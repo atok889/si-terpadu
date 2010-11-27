@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.sadhar.errhandler.ClassAntiNull;
 import org.sadhar.sia.framework.ClassApplicationModule;
 import org.zkoss.zk.ui.Executions;
 import org.zkoss.zkex.zul.Jasperreport;
@@ -45,6 +46,7 @@ public class StatistikLamaStudiWnd extends ClassApplicationModule {
     private String tahunAkademik = "2000";
     private String semester = "2";
     private int smstr = 0;
+    private List<Map> dataReport;
 
     public StatistikLamaStudiWnd() {
         statistikLamaStudiDAO = new StatistikLamaStudiDAOImpl();
@@ -105,31 +107,59 @@ public class StatistikLamaStudiWnd extends ClassApplicationModule {
 
     private void loadDataToListbox() throws InterruptedException {
         listboxMahasiswa.getChildren().clear();
+        dataReport = new ArrayList<Map>();
         int colspanSemester = 16;
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        List<StatistikLamaStudi> statistikLamaStudis = new ArrayList<StatistikLamaStudi>();
         if (labelPilihan.getValue().equalsIgnoreCase("prodi")) {
-            if (kodeProdi == null) {
-                statistikLamaStudis = statistikLamaStudiDAO.getStatistikLamaStudi();
-                for (StatistikLamaStudi lamaStudi : statistikLamaStudis) {
-                    for (int i = 1; i <= 16; i++) {
-                        dataset.addValue(lamaStudi.getSemesterValue(i), "Smt " + i, lamaStudi.getProdi());
+            if (kodeProdi != null) {
+                List<Map> results = statistikLamaStudiDAO.getStatistikLamaStudi(kodeProdi, null);
+                for (int i = 1; i <= 16; i++) {
+                    Map map = new HashMap();
+                    for (Map result : results) {
+                        if (Integer.valueOf(result.get("semester").toString()) == i) {
+                            map.put("jumlah", Integer.valueOf(result.get("jumlah").toString()));
+                            map.put("semester", i);
+                        } else {
+                            map.put("semester", i);
+                        }
+                        map.put("prodi", result.get("prodi"));
                     }
+                    int lama = 0;
+                    if (map.get("jumlah") != null) {
+                        lama = Integer.valueOf(map.get("jumlah").toString());
+                    } else {
+                        map.put("jumlah", lama);
+                    }
+                    dataset.addValue(lama, "Smt " + map.get("semester"), map.get("prodi").toString());
+                    dataReport.add(map);
                 }
             } else {
-                StatistikLamaStudi statistikLamaStudi = statistikLamaStudiDAO.getStatistikLamaStudi(kodeProdi);
-                for (int i = 1; i <= 16; i++) {
-                    dataset.addValue(statistikLamaStudi.getSemesterValue(i), "Smt " + i, statistikLamaStudi.getProdi());
-                }
+                Messagebox.show("Masukan pilihan", "Konfirmasi", Messagebox.OK, Messagebox.EXCLAMATION);
+                this.componentDisable();
             }
-        } else if (labelPilihan.getValue().equalsIgnoreCase("semester")) {
-            statistikLamaStudis = statistikLamaStudiDAO.getStatistikLamaStudi();
-            for (StatistikLamaStudi lamaStudi : statistikLamaStudis) {
-                dataset.addValue(lamaStudi.getSemesterValue(smstr), "Smt " + smstr + " (org)", lamaStudi.getProdi());
-            }
-            colspanSemester = 1;
         } else {
-            Messagebox.show("Masukin pilihan", "Konfirmasi", Messagebox.OK, Messagebox.EXCLAMATION);
+            colspanSemester = 1;
+            List<Map> results = statistikLamaStudiDAO.getStatistikLamaStudi(null, String.valueOf(smstr));
+            for (Map prodi : statistikLamaStudiDAO.getProdi()) {
+                Map map = new HashMap();
+                for (Map result : results) {
+                    if (result.get("prodi").toString().equals(prodi.get("Nama_prg").toString())) {
+                        map.put("jumlah", Integer.valueOf(result.get("jumlah").toString()));
+                        map.put("semester", smstr);
+                    } else {
+                        map.put("semester", smstr);
+                    }
+                    map.put("prodi", prodi.get("Nama_prg"));
+                }
+                int lama = 0;
+                if (map.get("jumlah") != null) {
+                    lama = Integer.valueOf(map.get("jumlah").toString());
+                } else {
+                    map.put("jumlah", lama);
+                }
+                dataset.addValue(lama, "Smt " + map.get("semester"), map.get("prodi").toString());
+                dataReport.add(map);
+            }
         }
 
         Listhead listhead = new Listhead();
@@ -162,11 +192,10 @@ public class StatistikLamaStudiWnd extends ClassApplicationModule {
             listitem.appendChild(new Listcell(column.toString()));
             for (Object row : dataset.getRowKeys()) {
                 Number number = dataset.getValue((Comparable) row, (Comparable) column);
-                listitem.appendChild(new Listcell(number.intValue() + ""));
+                listitem.appendChild(new Listcell(ClassAntiNull.AntiNullIntString(number) + ""));
                 listboxMahasiswa.appendChild(listitem);
             }
         }
-
         listboxMahasiswa.appendChild(auxhead);
         listboxMahasiswa.appendChild(listhead);
     }
@@ -201,13 +230,14 @@ public class StatistikLamaStudiWnd extends ClassApplicationModule {
             loadDataToListbox();
         } catch (Exception e) {
             this.componentDisable();
-            Messagebox.show("Data tidak ditemukan", "Konfirmasi", Messagebox.OK, Messagebox.EXCLAMATION);
+            Messagebox.show("Data tidak ditemukan", "Konfirmasi", Messagebox.OK, Messagebox.INFORMATION);
+            e.printStackTrace();
         }
     }
 
     public void exportReport() throws Exception {
         try {
-            JRMapCollectionDataSource dataSource = new JRMapCollectionDataSource(this.generateReport(kodeProdi));
+            JRMapCollectionDataSource dataSource = new JRMapCollectionDataSource(dataReport);
             if (cmbExportType.getSelectedItem().getValue().toString().equals("pdf")) {
                 Window pdfPreviewWnd = (Window) Executions.createComponents("/zul/pdfpreview/PdfPreview.zul", null, null);
                 Jasperreport pdfReport = (Jasperreport) pdfPreviewWnd.getFellow("report");
@@ -229,40 +259,40 @@ public class StatistikLamaStudiWnd extends ClassApplicationModule {
 
     private List<Map> generateReport(String kodeProdi) {
         List<Map> datas = new ArrayList<Map>();
-        if (labelPilihan.getValue().equalsIgnoreCase("prodi")) {
-            if (kodeProdi == null || kodeProdi.equalsIgnoreCase("all")) {
-                List<StatistikLamaStudi> statistikLamaStudis = statistikLamaStudiDAO.getStatistikLamaStudi();
-                for (StatistikLamaStudi statistikLamaStudi : statistikLamaStudis) {
-
-                    for (int i = 1; i <= 16; i++) {
-                        Map map = new HashMap();
-                        map.put("prodi", statistikLamaStudi.getProdi());
-                        map.put("semester", i);
-                        map.put("jumlah", statistikLamaStudi.getSemesterValue(i));
-                        datas.add(map);
-                    }
-                }
-            } else {
-                StatistikLamaStudi statistikLamaStudi = statistikLamaStudiDAO.getStatistikLamaStudi(kodeProdi);
-                for (int i = 1; i <= 16; i++) {
-                    Map map = new HashMap();
-                    map.put("prodi", statistikLamaStudi.getProdi());
-                    map.put("semester", i);
-                    map.put("jumlah", statistikLamaStudi.getSemesterValue(i));
-                    datas.add(map);
-                }
-            }
-        } else {
-            List<StatistikLamaStudi> statistikLamaStudis = statistikLamaStudiDAO.getStatistikLamaStudi();
-            for (StatistikLamaStudi statistikLamaStudi : statistikLamaStudis) {
-                Map map = new HashMap();
-                map.put("prodi", statistikLamaStudi.getProdi());
-                map.put("semester", smstr);
-                map.put("jumlah", statistikLamaStudi.getSemesterValue(smstr));
-                datas.add(map);
-
-            }
-        }
+//        if (labelPilihan.getValue().equalsIgnoreCase("prodi")) {
+//            if (kodeProdi == null || kodeProdi.equalsIgnoreCase("all")) {
+//                List<StatistikLamaStudi> statistikLamaStudis = statistikLamaStudiDAO.getStatistikLamaStudi();
+//                for (StatistikLamaStudi statistikLamaStudi : statistikLamaStudis) {
+//
+//                    for (int i = 1; i <= 16; i++) {
+//                        Map map = new HashMap();
+//                        map.put("prodi", statistikLamaStudi.getProdi());
+//                        map.put("semester", i);
+//                        map.put("jumlah", statistikLamaStudi.getSemesterValue(i));
+//                        datas.add(map);
+//                    }
+//                }
+//            } else {
+//                StatistikLamaStudi statistikLamaStudi = statistikLamaStudiDAO.getStatistikLamaStudi(kodeProdi);
+//                for (int i = 1; i <= 16; i++) {
+//                    Map map = new HashMap();
+//                    map.put("prodi", statistikLamaStudi.getProdi());
+//                    map.put("semester", i);
+//                    map.put("jumlah", statistikLamaStudi.getSemesterValue(i));
+//                    datas.add(map);
+//                }
+//            }
+//        } else {
+//            List<StatistikLamaStudi> statistikLamaStudis = statistikLamaStudiDAO.getStatistikLamaStudi();
+//            for (StatistikLamaStudi statistikLamaStudi : statistikLamaStudis) {
+//                Map map = new HashMap();
+//                map.put("prodi", statistikLamaStudi.getProdi());
+//                map.put("semester", smstr);
+//                map.put("jumlah", statistikLamaStudi.getSemesterValue(smstr));
+//                datas.add(map);
+//
+//            }
+//        }
         return datas;
     }
 }
