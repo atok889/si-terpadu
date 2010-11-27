@@ -27,6 +27,15 @@ public class DaftarWisudaIpkTertinggiTest {
     }
 
     @Test
+    public void generateTahun() {
+        List<Map> datas = daftarWisudaIpkTertinggiDAO.getTanggalWisuda();
+        for (Map map : datas) {
+            System.out.println(map.get("tanggal"));
+        }
+
+    }
+
+//@Test
     public void getData() {
         List<Map> results = daftarWisudaIpkTertinggiDAO.getDaftarWisudaIpkTertinggi("2005-11-19");
         List<Map> prodis = daftarWisudaIpkTertinggiDAO.getProdi();
@@ -41,8 +50,10 @@ public class DaftarWisudaIpkTertinggiTest {
                     //System.out.println(map.get("Nama_prg") + "::" + map.get("nama_mhs") + "::" + map.get("ipk"));
                     if (ipk < Double.valueOf(map.get("ipk").toString())) {
                         ipk = Double.valueOf(map.get("ipk").toString());
-                        nama = map.get("nama_mhs").toString();
+                        nama =
+                                map.get("nama_mhs").toString();
                     }
+
                 }
             }
             if (nama != null) {
