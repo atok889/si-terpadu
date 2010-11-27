@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import net.sf.jasperreports.engine.data.JRMapCollectionDataSource;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.AxisLocation;
@@ -23,17 +22,10 @@ import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
-import org.joda.time.DateTime;
 import org.sadhar.sia.framework.ClassApplicationModule;
 import org.zkoss.image.AImage;
-import org.zkoss.zhtml.Messagebox;
-import org.zkoss.zk.ui.Executions;
-import org.zkoss.zkex.zul.Jasperreport;
 import org.zkoss.zul.Button;
-import org.zkoss.zul.Combobox;
-import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Image;
-import org.zkoss.zul.Window;
 
 /**
  *
@@ -52,6 +44,8 @@ public class RasioDosenMahasiswaWnd extends ClassApplicationModule {
     private JFreeChart chart = null;
     private List<Map> datas = new ArrayList<Map>();
     private RasioDosenMahasiswaDAO rasioDosenMahasiswaDAO;
+    private String semester = "2";
+    private String tahun = "2009";
 
     public RasioDosenMahasiswaWnd() {
         rasioDosenMahasiswaDAO = new RasioDosenMahasiswaDAOImpl();
@@ -117,7 +111,7 @@ public class RasioDosenMahasiswaWnd extends ClassApplicationModule {
     public void loadDataToGrafik() throws IOException {
         DefaultCategoryDataset dataset = (DefaultCategoryDataset) this.generateData();
         chart = ChartFactory.createBarChart(
-                "", "", "Program Studi", dataset, PlotOrientation.HORIZONTAL, true, false, false);
+                "", "Mahasiswa", "", dataset, PlotOrientation.HORIZONTAL, false, false, false);
         chart.setBackgroundPaint(new Color(0xCC, 0xFF, 0xCC));
 
         final CategoryPlot plot = chart.getCategoryPlot();
@@ -131,7 +125,7 @@ public class RasioDosenMahasiswaWnd extends ClassApplicationModule {
         BarRenderer br = (BarRenderer) renderer;
         br.setMaximumBarWidth(.05);
         br.setShadowVisible(false);
-        BufferedImage bi = chart.createBufferedImage(1050, 1100, BufferedImage.TRANSLUCENT, null);
+        BufferedImage bi = chart.createBufferedImage(1050, 6000, BufferedImage.TRANSLUCENT, null);
         byte[] bytes = EncoderUtil.encode(bi, ImageFormat.PNG, true);
         AImage image = new AImage("Bar Chart", bytes);
         chartImg.setContent(image);
@@ -177,11 +171,16 @@ public class RasioDosenMahasiswaWnd extends ClassApplicationModule {
 //            }
 //        }
 
-        List<Map> results = rasioDosenMahasiswaDAO.getRasioDosenMahasiswa();
+        List<Map> results = rasioDosenMahasiswaDAO.getRasioDosenMahasiswa(null, tahun, semester);
+//        for (Map result : results) {
+//            if (result.get("unit") != null) {
+//                System.out.println(result.get("jumlah").toString()+"=>"+result.get("nama").toString());
+//                dataset.addValue(Integer.valueOf(result.get("jumlah").toString()), result.get("nama").toString(), "");
+//            }
+//        }
         for (Map result : results) {
-            if (result.get("unit") != null) {
-                dataset.addValue(Integer.valueOf(result.get("jml").toString()), result.get("status").toString(), result.get("unit").toString());
-            }
+            //System.out.println(result.get("jumlah").toString() + "=>" + result.get("nama").toString());
+            dataset.addValue(Integer.valueOf(result.get("jumlah").toString()), result.get("nama").toString(), "");
         }
         return dataset;
     }

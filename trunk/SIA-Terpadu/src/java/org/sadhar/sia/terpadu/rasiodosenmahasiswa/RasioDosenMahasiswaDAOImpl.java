@@ -28,21 +28,26 @@ public class RasioDosenMahasiswaDAOImpl implements RasioDosenMahasiswaDAO {
 
     public List<Map> getRasioDosenMahasiswa(String kodeProdi, String tahun, String semester) {
         List<Map> results = new ArrayList<Map>();
-        if (isTabelJwExist(kodeProdi, tahun, semester) && isTabelKrExist(kodeProdi, tahun, semester)) {
-            String sqlCreateView = "CREATE OR REPLACE VIEW kamus.rasioDosenMahasiswa(jumlah,kd_mtk,nama) AS " +
-                    "SELECT COUNT(nomor_mhs) AS jumlah, krs.kd_mtk, 0 AS Nama_peg " +
-                    " FROM db_" + kodeProdi + ".kr" + kodeProdi + tahun + semester + " krs  GROUP BY kd_mtk " +
-                    " UNION " +
-                    " SELECT 0 as jumlah, jw.kd_mtk, pp.Nama_peg FROM personalia.pegawai pp " +
-                    " INNER JOIN kamus.stat_edu ks ON pp.AdmEdu = ks.Kd_stat_edu " +
-                    " INNER JOIN db_" + kodeProdi + ".jw" + kodeProdi + tahun + semester + " jw ON pp.kdPegawai = jw.NPP " +
-                    " WHERE ks.Kd_stat_edu='2'";
-            ClassConnection.getJdbc().execute(sqlCreateView);
+        for (Map map : this.getProdi()) {
+            String prodi = map.get("Kd_prg").toString();
+            if (isTabelJwExist(prodi, tahun, semester) && isTabelKrExist(prodi, tahun, semester)) {
+//            String sqlCreateView = "CREATE OR REPLACE VIEW kamus.rasioDosenMahasiswa(jumlah,kd_mtk,nama) AS " +
+//                    "SELECT COUNT(nomor_mhs) AS jumlah, krs.kd_mtk, 0 AS Nama_peg " +
+//                    " FROM db_" + kodeProdi + ".kr" + kodeProdi + tahun + semester + " krs  GROUP BY kd_mtk " +
+//                    " UNION " +
+//                    " SELECT 0 as jumlah, jw.kd_mtk, pp.Nama_peg FROM personalia.pegawai pp " +
+//                    " INNER JOIN kamus.stat_edu ks ON pp.AdmEdu = ks.Kd_stat_edu " +
+//                    " INNER JOIN db_" + kodeProdi + ".jw" + kodeProdi + tahun + semester + " jw ON pp.kdPegawai = jw.NPP " +
+//                    " WHERE ks.Kd_stat_edu='2'";
+//            ClassConnection.getJdbc().execute(sqlCreateView);
 
-            String sql = " SELECT kd_mtk,max(jumlah) AS jumlah, max(nama) AS nama " +
-                    " FROM kamus.rasioDosenMahasiswa GROUP BY kd_mtk";
-
-            results.addAll(ClassConnection.getJdbc().queryForList(sql));
+                String sql = "select jw.NPP, Nama_peg as nama, jw.kd_mtk, count(nomor_mhs) as jumlah" +
+                        " from db_" + prodi + ".kr" + prodi + tahun + semester + " as krs  " +
+                        " inner join db_" + prodi + ".jw" + prodi + tahun + semester + " as jw on krs.kd_mtk= jw.kd_mtk and krs.seksi=jw.seksi " +
+                        " inner join personalia.pegawai as p on p.kdPegawai=jw.NPP " +
+                        " group by jw.NPP";
+                results.addAll(ClassConnection.getJdbc().queryForList(sql));
+            }
         }
         return results;
     }
