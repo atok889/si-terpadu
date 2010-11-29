@@ -19,7 +19,7 @@ import org.sadhar.util.DBConnection;
 public class WarningAdministratifTest {
 
     private WarningAdministratifDAO warningAdministratifDAO;
-    private String kodeProdi = "8114";
+    private String kodeProdi = "1122";
     private String tahunAngkatan = "2009";
 
     public WarningAdministratifTest() {

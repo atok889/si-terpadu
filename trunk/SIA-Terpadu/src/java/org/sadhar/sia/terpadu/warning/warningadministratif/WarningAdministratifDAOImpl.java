@@ -43,38 +43,38 @@ public class WarningAdministratifDAOImpl implements WarningAdministratifDAO {
         if (kodeProdi == null) {
             for (Map prodi : getProdi()) {
                 kodeProdi = prodi.get("Kd_prg").toString();
-                for (int i = new DateTime().getYear() - 15; i <= new DateTime().getYear(); i++) {
+                for (int i = 2000; i <= new DateTime().getYear(); i++) {
                     int x = 1;
                     int y = 2;
                     if (isTabelRgExist(kodeProdi, String.valueOf(i), String.valueOf(x)) && isTabelRgExist(kodeProdi, String.valueOf(i), String.valueOf(y))) {
                         String sql = "SELECT IF(LEFT(rg1.nomor_mhs, 1)='9', CONCAT('19', LEFT(rg1.nomor_mhs, 2)), " +
                                 " IF(LEFT(rg1.nomor_mhs, 1)='8', CONCAT('19', LEFT(rg1.nomor_mhs,2)), CONCAT('20', LEFT(rg1.nomor_mhs, 2)))) AS angkatan, " +
-                                " mhs.nama_mhs,prg.Nama_prg,fak.Nama_fak " +
+                                " DISTINCT(mhs.nama_mhs),prg.Nama_prg,fak.Nama_fak " +
                                 " FROM db_" + kodeProdi + ".rg" + kodeProdi + i + x + " rg1 " +
                                 " INNER JOIN db_" + kodeProdi + ".rg" + kodeProdi + i + y + " rg2 ON rg1.nomor_mhs=rg2.nomor_mhs " +
                                 " INNER JOIN db_" + kodeProdi + ".mhs" + kodeProdi + " mhs ON rg1.nomor_mhs = mhs.nomor_mhs " +
                                 " INNER JOIN kamus.prg_std prg ON prg.Kd_prg = '" + kodeProdi + "' " +
                                 " INNER JOIN kamus.fakultas fak ON fak.Kd_fakultas = prg.Kd_fak " +
                                 " WHERE rg1.st_mhs = '2'";                      
-                        datas.addAll(ClassConnection.getJdbc().queryForList(sql));
+                        datas.addAll(ClassConnection.getJdbc().queryForList(sql));                        
                     }
                 }
             }
         } else {
-            for (int i = new DateTime().getYear() - 15; i <= new DateTime().getYear(); i++) {
+            for (int i = 2000 ; i <= new DateTime().getYear(); i++) {
                 int x = 1;
                 int y = 2;
                 if (isTabelRgExist(kodeProdi, String.valueOf(i), String.valueOf(x)) && isTabelRgExist(kodeProdi, String.valueOf(i), String.valueOf(y))) {
-                    String sql = "SELECT IF(LEFT(rg1.nomor_mhs, 1)='9', CONCAT('19', LEFT(rg1.nomor_mhs, 2)), " +
+                    String sql = "SELECT DISTINCT(mhs.nama_mhs),IF(LEFT(rg1.nomor_mhs, 1)='9', CONCAT('19', LEFT(rg1.nomor_mhs, 2)), " +
                             " IF(LEFT(rg1.nomor_mhs, 1)='8', CONCAT('19', LEFT(rg1.nomor_mhs,2)), CONCAT('20', LEFT(rg1.nomor_mhs, 2)))) AS angkatan, " +
-                            " mhs.nama_mhs,prg.Nama_prg,fak.Nama_fak " +
+                            " prg.Nama_prg,fak.Nama_fak " +
                             " FROM db_" + kodeProdi + ".rg" + kodeProdi + i + x + " rg1 " +
                             " INNER JOIN db_" + kodeProdi + ".rg" + kodeProdi + i + y + " rg2 ON rg1.nomor_mhs=rg2.nomor_mhs " +
                             " INNER JOIN db_" + kodeProdi + ".mhs" + kodeProdi + " mhs ON rg1.nomor_mhs = mhs.nomor_mhs " +
                             " INNER JOIN kamus.prg_std prg ON prg.Kd_prg = '" + kodeProdi + "' " +
                             " INNER JOIN kamus.fakultas fak ON fak.Kd_fakultas = prg.Kd_fak " +
                             " WHERE rg1.st_mhs = '2'";                   
-                    datas.addAll(ClassConnection.getJdbc().queryForList(sql));
+                    datas.addAll(ClassConnection.getJdbc().queryForList(sql));                   
                 }
             }
         }

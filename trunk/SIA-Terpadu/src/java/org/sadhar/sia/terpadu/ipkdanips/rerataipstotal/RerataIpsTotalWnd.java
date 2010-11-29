@@ -92,7 +92,7 @@ public class RerataIpsTotalWnd extends ClassApplicationModule {
     public void loadDataToGrafik() throws IOException {
         DefaultCategoryDataset dataset = (DefaultCategoryDataset) this.generateData();
         chart = ChartFactory.createBarChart(
-                "", "", "IPS", dataset, PlotOrientation.VERTICAL, false, false, false);
+                "Rerata IPS Total", "", "IPS", dataset, PlotOrientation.VERTICAL, false, false, false);
         chart.setBackgroundPaint(new Color(0xCC, 0xFF, 0xCC));
 
         final CategoryPlot plot = chart.getCategoryPlot();

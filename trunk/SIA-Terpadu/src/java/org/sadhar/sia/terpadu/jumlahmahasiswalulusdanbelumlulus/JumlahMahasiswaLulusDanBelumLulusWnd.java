@@ -170,7 +170,7 @@ public class JumlahMahasiswaLulusDanBelumLulusWnd extends ClassApplicationModule
         List<Map> mahasiswas = new ArrayList<Map>();
         List<Map> jumlahMahasiswas = jumlahMahasiswaLulusDanBelumLulusDAO.getJumlahMahasiswa(kodeProdi);
         List<Map> jumlahLulus = jumlahMahasiswaLulusDanBelumLulusDAO.getJumlahMahasiswaLulus(kodeProdi);
-        for (int i = 1980; i <= new DateTime().getYear(); i++) {
+        for (int i = 2000; i <= new DateTime().getYear(); i++) {
             double jumlah = 0;
             int angkatan = 0;
             double jumlahMahasiswa = 0;
