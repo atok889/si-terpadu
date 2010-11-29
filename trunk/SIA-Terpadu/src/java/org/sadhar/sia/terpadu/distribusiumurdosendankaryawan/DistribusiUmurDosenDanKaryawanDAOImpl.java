@@ -21,7 +21,7 @@ public class DistribusiUmurDosenDanKaryawanDAOImpl implements DistribusiUmurDose
 
     public List<Map> getProdi() {
         String sql = "SELECT SUBSTRING(ku.Kd_unit_kerja,4,4) as shortKode, ku.Kd_unit_kerja as kodeUnitKerja," +
-                " ku.Nama_unit_kerja as nama FROM kamus.unkerja ku WHERE ku.Nama_unit_kerja like 'PROGRAM STUDI%'";
+                " ku.Nama_unit_kerja as nama FROM kamus.unkerja ku";
         return ClassConnection.getJdbc().queryForList(sql);
     }
 
