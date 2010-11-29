@@ -111,7 +111,7 @@ public class RasioDosenMahasiswaWnd extends ClassApplicationModule {
     public void loadDataToGrafik() throws IOException {
         DefaultCategoryDataset dataset = (DefaultCategoryDataset) this.generateData();
         chart = ChartFactory.createBarChart(
-                "", "Mahasiswa", "", dataset, PlotOrientation.HORIZONTAL, false, false, false);
+                "", "Dosen", "", dataset, PlotOrientation.HORIZONTAL, false, false, false);
         chart.setBackgroundPaint(new Color(0xCC, 0xFF, 0xCC));
 
         final CategoryPlot plot = chart.getCategoryPlot();
