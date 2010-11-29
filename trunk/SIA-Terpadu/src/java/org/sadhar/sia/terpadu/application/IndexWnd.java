@@ -17,6 +17,7 @@ import org.zkoss.zul.Div;
  * @author Hendro Steven
  */
 public class IndexWnd extends ClassApplicationModule {
+    
     ClassSession classSession;
     Div contentDiv;
     Session session;
