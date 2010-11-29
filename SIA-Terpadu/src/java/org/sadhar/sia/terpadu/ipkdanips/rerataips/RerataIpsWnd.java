@@ -115,7 +115,7 @@ public class RerataIpsWnd extends ClassApplicationModule {
         listheaderFakultas.setWidth("250px");
         listhead.appendChild(listheaderFakultas);
         Auxheader auxheaderFakultas = new Auxheader();
-        auxheaderFakultas.setLabel("Fakultas");
+        auxheaderFakultas.setLabel("Prodi");
         auxheaderFakultas.setAlign("center");
         auxhead.appendChild(auxheaderFakultas);
 

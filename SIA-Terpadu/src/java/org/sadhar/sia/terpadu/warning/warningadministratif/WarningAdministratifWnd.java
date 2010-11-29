@@ -5,8 +5,12 @@
 package org.sadhar.sia.terpadu.warning.warningadministratif;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.sadhar.sia.framework.ClassApplicationModule;
 import org.zkoss.zk.ui.Executions;
@@ -105,6 +109,25 @@ public class WarningAdministratifWnd extends ClassApplicationModule {
     }
 
     public void exportReport() throws Exception {
+        datas.clear();
+        for (Object object : listboxMahasiswa.getItems()) {
+            Map map = new HashMap();
+            for (Object cell : ((Listitem) object).getChildren()) {
+                if (((Listcell) cell).getColumnIndex() == 1) {
+                    map.put("nama_mhs", ((Listcell) cell).getLabel());
+                }
+                if (((Listcell) cell).getColumnIndex() == 2) {
+                    map.put("Nama_prg", ((Listcell) cell).getLabel());
+                }
+                if (((Listcell) cell).getColumnIndex() == 3) {
+                    map.put("Nama_fak", ((Listcell) cell).getLabel());
+                }
+                if (((Listcell) cell).getColumnIndex() == 4) {
+                    map.put("angkatan", ((Listcell) cell).getLabel());
+                }
+            }
+            datas.add(map);
+        }
         try {
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(datas);
             if (cmbExportType.getSelectedItem().getValue().toString().equals("pdf")) {

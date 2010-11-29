@@ -31,10 +31,10 @@
                 <listbox id="listboxMahasiswa" mold="paging" pageSize="50" width="900px" fixedLayout="false" visible = "false" rows="15">
                     <listhead>
                         <listheader label="No" align="right" width="50px"></listheader>
-                        <listheader label="Nama"></listheader>
+                        <listheader label="Nama" sort="auto" ></listheader>
                         <listheader label="Program Studi"></listheader>
                         <listheader label="Fakultas"></listheader>
-                        <listheader label="Angkatan" align="right" width="100px"></listheader>
+                        <listheader label="Angkatan" sort="auto" align="right" width="100px"></listheader>
                     </listhead>
                 </listbox>
             </groupbox>

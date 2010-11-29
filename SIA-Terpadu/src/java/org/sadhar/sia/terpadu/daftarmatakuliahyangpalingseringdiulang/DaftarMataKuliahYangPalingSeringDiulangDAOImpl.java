@@ -59,7 +59,7 @@ public class DaftarMataKuliahYangPalingSeringDiulangDAOImpl implements DaftarMat
                         if (result.get("nama_peg") != null) {
                             namaDosen = result.get("nama_peg").toString();
                         } else {
-                            namaDosen = "Tanpa Nama";
+                            namaDosen = "";
                         }
                     }
                 }

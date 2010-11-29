@@ -76,7 +76,7 @@ public class DaftarMataKuliahYangPalingSeringDiulangWnd extends ClassApplication
         cmbboxSemester.appendChild(item);
         cmbboxSemester.setSelectedItem(item);
 
-        for (int i = 1980; i <= new DateTime().getYear(); i++) {
+        for (int i = 2000; i <= new DateTime().getYear(); i++) {
             for (int j = 1; j <= 2; j++) {
                 Comboitem items = new Comboitem();
                 items.setValue(String.valueOf(i) + String.valueOf(j));

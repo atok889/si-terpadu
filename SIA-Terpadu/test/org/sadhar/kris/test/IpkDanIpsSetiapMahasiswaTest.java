@@ -27,14 +27,12 @@ public class IpkDanIpsSetiapMahasiswaTest {
 
     @Test
     public void getData() {
-//        List<Map> results = dao.getIpkDanIpsSetiapMahasiswa("1114", "2004", "2004", "2", "d", "d", "d");
-//        List<Map> datas = new ArrayList<Map>();
-//
-//        for (Map result : results) {
-//            System.out.println(result.get("nama_mhs") + "=>" + result.get("tahun") + "=>" + result.get("angkatan") + "=>" + result.get("semester") + "=>" + result.get("ipk") + "=>" + result.get("ips"));
-//        }
+        List<Map> results = dao.getIpkDanIpsSetiapMahasiswa("5314", "2009", "2009", "1", null);
+        List<Map> datas = new ArrayList<Map>();
+
+        for (Map result : results) {
+            System.out.println(result.get("nama_mhs") + "=>" + result.get("tahun") + "=>" + result.get("angkatan") + "=>" + result.get("semester") + "=>" + result.get("ipk") + "=>" + result.get("ips"));
+        }
 
     }
-
-
 }
