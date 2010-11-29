@@ -56,7 +56,7 @@ public class RerataLamaStudiDAOImpl implements RerataLamaStudiDAO {
 
     public List<ProgramStudi> getProgramStudi() throws Exception {
         List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-        String sql = "SELECT Kd_prg,Nama_prg FROM kamus.prg_std ORDER BY Kd_prg";
+        String sql = "SELECT Kd_prg,Nama_prg FROM kamus.prg_std  WHERE  Kd_prg != '0000' ORDER BY Kd_prg";
         List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
         for (Map m : rows) {
             ProgramStudi ps = new ProgramStudi();
