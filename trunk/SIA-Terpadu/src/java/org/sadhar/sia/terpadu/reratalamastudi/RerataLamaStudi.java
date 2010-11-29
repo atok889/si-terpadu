@@ -24,11 +24,11 @@ public class RerataLamaStudi {
 //        tahunAngkatanList.add("92");
 //        tahunAngkatanList.add("93");
 //        tahunAngkatanList.add("94");
-        tahunAngkatanList.add("95");
-        tahunAngkatanList.add("96");
-        tahunAngkatanList.add("97");
-        tahunAngkatanList.add("98");
-        tahunAngkatanList.add("99");
+//        tahunAngkatanList.add("95");
+//        tahunAngkatanList.add("96");
+//        tahunAngkatanList.add("97");
+//        tahunAngkatanList.add("98");
+//        tahunAngkatanList.add("99");
         tahunAngkatanList.add("00");
 
         tahunAngkatanList.add("01");
