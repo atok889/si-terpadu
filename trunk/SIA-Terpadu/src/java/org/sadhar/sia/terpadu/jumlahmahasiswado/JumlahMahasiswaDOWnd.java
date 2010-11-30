@@ -188,7 +188,6 @@ public class JumlahMahasiswaDOWnd extends ClassApplicationModule {
             int[] totalUniversitas;
             if (tahun.isEmpty()) {
                 int sumIndex = Calendar.getInstance().get(Calendar.YEAR) - 2000;
-                System.out.println(sumIndex);
                 totalUniversitas = new int[sumIndex + 1];
             } else {
                 totalUniversitas = new int[1];
