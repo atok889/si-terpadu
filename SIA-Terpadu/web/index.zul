@@ -134,7 +134,7 @@
             <south size="40px" border="0" style="background:#c5e6ef;">
                 <hbox pack="center" width="100%">
                     <html><![CDATA[
-                <span style="color:#0C7A9A">Create by SI-Terpadu Nightly Build</span>
+                <span style="color:#0C7A9A">Sistem Informasi Terpadu &copy; Universitas Sanata Dharma<br>Yogyakarta - 2010</span>
             ]]>
                     </html>
                 </hbox>
