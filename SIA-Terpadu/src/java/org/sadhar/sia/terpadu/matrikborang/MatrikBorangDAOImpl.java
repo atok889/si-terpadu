@@ -29,7 +29,7 @@ public class MatrikBorangDAOImpl implements MatrikBorangDAO {
             + " imovrka.isianMonevinRKA, "
             + " IF(imovrka.skorPascaMonev <=> null,0.0,imovrka.skorPascaMonev) AS skorPascaMonev, "
             + " IF(imovrka.skorPraMonev <=> null,0.0,imovrka.skorPraMonev) AS skorPraMonev "
-            + " FROM mutu.isianmonevinrka imovrka ";
+            + " FROM mutu.isianMonevinRKA imovrka ";
 
     public List<MatrikBorang> getByKodeUnit(String kodeUnit) throws Exception {
         String insql = sql + " WHERE imovrka.kodeUnit LIKE '%" + kodeUnit + "%'";
