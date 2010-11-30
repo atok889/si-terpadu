@@ -108,7 +108,7 @@ public class PerbandinganTotalSkorTahunWnd extends ClassApplicationModule {
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            Messagebox.show("Gagal menampilkan data Jumlah Pegawai Administratif");
+            Messagebox.show("Gagal Menampilkan Perbandingan Total Skor Tahun");
         }
     }
 }
