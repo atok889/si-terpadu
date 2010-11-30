@@ -12,7 +12,7 @@
                     <grid>
                         <rows>
                             <row>
-                                <label value="Tahun"></label>
+                                <label value="Semester"></label>
                                 <combobox readonly="true" id="cmbboxTahun" />
                             </row>
                             <row>

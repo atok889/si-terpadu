@@ -64,10 +64,14 @@ public class NEPDosenWnd extends ClassApplicationModule {
         int year = 2005;
         while (year <= Calendar.getInstance().get(Calendar.YEAR)) {
             Comboitem item = new Comboitem();
-            item.setLabel("" + year);
-            item.setValue("" + year);
-            year++;
+            item.setLabel(year + "-1");
+            item.setValue(year + "1");
             cmbboxTahun.appendChild(item);
+            Comboitem item2 = new Comboitem();
+            item2.setLabel(year + "-2");
+            item2.setValue(year + "2");
+            year++;
+            cmbboxTahun.appendChild(item2);
         }
     }
 
@@ -93,7 +97,7 @@ public class NEPDosenWnd extends ClassApplicationModule {
 
     public void viewReport() throws Exception {
         try {
-            String tahun = cmbboxTahun.getSelectedItem().getLabel();
+            String tahun = cmbboxTahun.getSelectedItem().getValue() + "";
             listb.getItems().clear();
             NEPDosenDAO dao = new NEPDosenDAOImpl();
             UKProgramStudi prodiSelected = (UKProgramStudi) cmbProgdi.getSelectedItem().getValue();
@@ -101,7 +105,7 @@ public class NEPDosenWnd extends ClassApplicationModule {
                 datas = dao.getAll(tahun);
             } else {
 
-                datas = dao.getByKodeUnit(tahun,prodiSelected.getKodeUnitKerja());
+                datas = dao.getByKodeUnit(tahun, prodiSelected.getKodeUnitKerja());
             }
 
             DecimalFormat decimalFormat = new DecimalFormat("##0.00");
