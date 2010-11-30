@@ -58,35 +58,42 @@ public class RasioDosenMahasiswaDAOImpl implements RasioDosenMahasiswaDAO {
         for (Map prodi : this.getProdi()) {
             String kodeProdi = prodi.get("Kd_prg").toString();
             if (isTabelRgExist(kodeProdi, tahun, semester)) {
-                String sql1 = "SELECT COUNT(*) AS jml  from " +
-                        " (SELECT kdPegawai,npp,Nama_peg, " +
-                        " (SELECT kd_unit from personalia.unit_peg as un where kdPegawai=peg.kdPegawai order by tgl_mulai_unit desc limit 1) as kd_unit," +
-                        " (SELECT Nama_unit_kerja " +
-                        " FROM personalia.unit_peg as un " +
-                        " inner join kamus.unkerja as kms on kms.Kd_unit_kerja=un.kd_unit " +
-                        " WHERE kdPegawai=peg.kdPegawai order by tgl_mulai_unit desc limit 1) as unit " +
-                        " FROM personalia.pegawai as peg where admEdu='2' and Status_keluar='1' ) as sub where sub.kd_unit='160" + kodeProdi + "0' ";
-//                String sql1 = "SELECT unkerja.Kd_unit_kerja AS kode, unkerja.Nama_unit_kerja AS unit," +
-//                        " COUNT(DISTINCT pegawai.kdPegawai) AS jml " +
-//                        " FROM (kamus.unkerja unkerja LEFT JOIN personalia.unit_peg unit_peg ON (unkerja.Kd_unit_kerja = unit_peg.kd_unit)) " +
-//                        " LEFT JOIN personalia.pegawai pegawai ON (pegawai.kdPegawai = unit_peg.kdPegawai) " +
-//                        " WHERE (pegawai.AdmEdu = '2') AND unkerja.Kd_unit_kerja='160" + kodeProdi + "0' " +
-//                        " GROUP BY unkerja.Kd_unit_kerja ORDER BY unkerja.Kd_unit_kerja ASC";
-                String sql2 = " SELECT prg.Nama_unit_kerja as unit, COUNT( * ) AS jml FROM db_" + kodeProdi + ".rg" + kodeProdi + tahun + semester + "  as mhs " +
+//                String sql1 = "SELECT COUNT(*) AS jml  from " +
+//                        " (SELECT kdPegawai,npp,Nama_peg, " +
+//                        " (SELECT kd_unit from personalia.unit_peg as un where kdPegawai=peg.kdPegawai order by tgl_mulai_unit desc limit 1) as kd_unit," +
+//                        " (SELECT Nama_unit_kerja " +
+//                        " FROM personalia.unit_peg as un " +
+//                        " inner join kamus.unkerja as kms on kms.Kd_unit_kerja=un.kd_unit " +
+//                        " WHERE kdPegawai=peg.kdPegawai order by tgl_mulai_unit desc limit 1) as unit " +
+//                        " FROM personalia.pegawai as peg where admEdu='2' and Status_keluar='1' ) as sub where sub.kd_unit='160" + kodeProdi + "0' ";
+                String sql1 = "SELECT " +
+                        " COUNT(DISTINCT pegawai.kdPegawai) AS jml " +
+                        " FROM (kamus.unkerja unkerja LEFT JOIN personalia.unit_peg unit_peg ON (unkerja.Kd_unit_kerja = unit_peg.kd_unit)) " +
+                        " LEFT JOIN personalia.pegawai pegawai ON (pegawai.kdPegawai = unit_peg.kdPegawai) " +
+                        " WHERE (pegawai.AdmEdu = '2') AND unkerja.Kd_unit_kerja='160" + kodeProdi + "0' " +
+                        " GROUP BY unkerja.Kd_unit_kerja ORDER BY unkerja.Kd_unit_kerja ASC";
+                String sql2 = " SELECT COUNT( * ) AS jml FROM db_" + kodeProdi + ".rg" + kodeProdi + tahun + semester + "  as mhs " +
                         " INNER JOIN kamus.unkerja prg ON prg.Kd_unit_kerja='160" + kodeProdi + "0' " +
                         " WHERE (st_mhs = '1')";
 
-                Map dosen = ClassConnection.getJdbc().queryForMap(sql1);
-                Map mahasiswa = ClassConnection.getJdbc().queryForMap(sql2);
+                double jumlahDosen = 0;
+                double jumlahMahasiswa = 0;
+                try {
+                    jumlahDosen = ClassConnection.getJdbc().queryForInt(sql1);
+                    jumlahMahasiswa = ClassConnection.getJdbc().queryForInt(sql2);
+                } catch (Exception e) {
+                    jumlahDosen = 0;
+                    jumlahMahasiswa = 0;
+                }
 
                 Map m = new HashMap();
-                double jumlahDosen = Integer.valueOf(dosen.get("jml").toString());
-                double jumlahMahasiswa = Integer.valueOf(mahasiswa.get("jml").toString());
                 if (jumlahDosen > 0) {
                     m.put("jumlah", jumlahMahasiswa / jumlahDosen);
                     m.put("prodi", prodi.get("Nama_prg").toString());
                     results.add(m);
                 }
+
+
                 System.out.println(sql1);
             }
         }
