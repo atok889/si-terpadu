@@ -6,16 +6,16 @@
             id="rasioDosenMahasiswaWnd"
             use="org.sadhar.sia.terpadu.rasiodosenmahasiswa.RasioDosenMahasiswaWnd">
         <div style="padding:5px">
-           <!-- <groupbox>
+            <groupbox>
                 <caption label="Parameter"></caption>
                 <div style="padding:3px">
                     <grid>
                         <rows>
-                            <row>
+                          <!--  <row>
                                 <label value="Prodi/Fakultas"></label>
                                 <combobox readonly="true" id="cmbboxProdi" width="300px">
                                 </combobox>
-                            </row>
+                            </row>-->
                             <row>
                                 <label value="Semester"></label>
                                 <combobox readonly="true" id="cmbboxSemester" width="150px">
@@ -28,7 +28,7 @@
                         </rows>
                     </grid>
                 </div>
-            </groupbox>-->
+            </groupbox>
             <groupbox>
                 <caption label="Keluaran"></caption>
                 <div style="padding:3px" align="right">
