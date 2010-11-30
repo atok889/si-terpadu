@@ -28,7 +28,7 @@ public class DistribusiUmurDosenTest {
 
     @Test
     public void get() {
-        List<Map> results = dao.getAll("16011140","31","40");
+        List<Map> results = dao.getAll("16053140");
         int rangeA = 0;
         int rangeB = 0;
         int rangeC = 0;
