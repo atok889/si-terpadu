@@ -21,12 +21,12 @@ public class DosenDAOImpl implements DosenDAO {
 
     public List<Dosen> gets() throws Exception {
         List<Dosen> list = new ArrayList<Dosen>();
-        String sql = "SELECT kdPegawai,Nama_peg FROM personalia.pegawai";
+        String sql = "SELECT kdPegawai,CONCAT(Gelar_depan,Nama_peg,Gelar_blk) as nama FROM personalia.pegawai";
         List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
         for(Map m :rows){
             Dosen dosen = new Dosen();
             dosen.setKdPegawai(m.get("kdPegawai").toString());
-            dosen.setNama(m.get("Nama_peg").toString());
+            dosen.setNama(m.get("nama").toString());
             list.add(dosen);
         }
         return list;
@@ -38,12 +38,12 @@ public class DosenDAOImpl implements DosenDAO {
 
     public List<Dosen> getsByName(String nama) throws Exception {
         List<Dosen> list = new ArrayList<Dosen>();
-        String sql = "SELECT kdPegawai,Nama_peg FROM personalia.pegawai WHERE Nama_peg LIKE '%"+nama+"%'";
+        String sql = "SELECT kdPegawai,CONCAT(Gelar_depan,Nama_peg,Gelar_blk) as nama FROM personalia.pegawai WHERE Nama_peg LIKE '%"+nama+"%'";
         List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
         for(Map m :rows){
             Dosen dosen = new Dosen();
             dosen.setKdPegawai(m.get("kdPegawai").toString());
-            dosen.setNama(m.get("Nama_peg").toString());
+            dosen.setNama(m.get("nama").toString());
             list.add(dosen);
         }
         return list;
