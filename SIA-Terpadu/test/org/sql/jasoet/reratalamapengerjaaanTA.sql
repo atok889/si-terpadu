@@ -20,7 +20,7 @@ SELECT skr2114.nomor_mhs,
 -- ganjil = agustus, genap = february
 SELECT s.nomor_mhs,
        s.ambil,
-       s.tgl_awal_ambil,
+       --s.tgl_awal_ambil,
        s.tglUjian,
        --DATE_FORMAT(s.tglUjian,'%Y%m'),
        --INSERT(s.ambil,5,1,'05'),
@@ -33,4 +33,4 @@ SELECT s.nomor_mhs,
   FROM db_2114.skr2114 s
  WHERE (s.tgl_awal_ambil != '00-00-0000')
        AND(s.tglUjian != '00-00-0000')
-       AND(s.ambil LIKE '2010%') ;
+       AND(s.ambil LIKE '2004%') ;

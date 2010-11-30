@@ -28,7 +28,7 @@ public class JumlahMahasiswaDODAOImpl implements JumlahMahasiwaDODAO {
 
     public List<ProgramStudi> getProgramStudi() throws Exception {
         List<ProgramStudi> progdis = new ArrayList<ProgramStudi>();
-        String sql = "SELECT Kd_prg,Nama_prg FROM kamus.prg_std ORDER BY Kd_prg";
+        String sql = "SELECT Kd_prg,Nama_prg FROM kamus.prg_std WHERE Kd_prg!='0000' ORDER BY Kd_prg";
         List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
         for (Map m : rows) {
             ProgramStudi ps = new ProgramStudi();
@@ -47,7 +47,7 @@ public class JumlahMahasiswaDODAOImpl implements JumlahMahasiwaDODAO {
         try {
             int tahunI = Integer.parseInt(tahun);
 
-            if (tahunI < 2005 || tahunI > Calendar.getInstance().get(Calendar.YEAR)) {
+            if (tahunI < 2000 || tahunI > Calendar.getInstance().get(Calendar.YEAR)) {
                 tahun = Calendar.getInstance().get(Calendar.YEAR) + "";
             }
         } catch (NumberFormatException ex) {
@@ -57,7 +57,7 @@ public class JumlahMahasiswaDODAOImpl implements JumlahMahasiwaDODAO {
         if (progdi != null && tahun.isEmpty()) {
             DateTime dt = new DateTime(new Date());
             sql = "SELECT YEAR(tgl_sk_do) AS tahun,COUNT(nomor_mhs) AS jumlah "
-                    + "FROM db_" + progdi.getKode() + ".do" + progdi.getKode() + " WHERE YEAR(tgl_sk_do) BETWEEN '" + (dt.getYear() - 5) + "' AND '" + dt.getYear() + "' GROUP BY YEAR(tgl_sk_do)";
+                    + "FROM db_" + progdi.getKode() + ".do" + progdi.getKode() + " WHERE YEAR(tgl_sk_do) BETWEEN '" + "2000" + "' AND '" + dt.getYear() + "' GROUP BY YEAR(tgl_sk_do)";
 
             List<Map> rows = null;
             try {
@@ -107,7 +107,7 @@ public class JumlahMahasiswaDODAOImpl implements JumlahMahasiwaDODAO {
 
             for (ProgramStudi ps : progdis) {
                 sql = "SELECT YEAR(tgl_sk_do) AS tahun,COUNT(nomor_mhs) AS jumlah "
-                        + "FROM db_" + ps.getKode() + ".do" + ps.getKode() + " WHERE YEAR(tgl_sk_do) BETWEEN '" + (dt.getYear() - 5) + "' AND '" + dt.getYear() + "' GROUP BY YEAR(tgl_sk_do)";
+                        + "FROM db_" + ps.getKode() + ".do" + ps.getKode() + " WHERE YEAR(tgl_sk_do) BETWEEN '" + "2000" + "' AND '" + dt.getYear() + "' GROUP BY YEAR(tgl_sk_do)";
                 List<Map> rows = null;
                 try {
                     rows = ClassConnection.getJdbc().queryForList(sql);

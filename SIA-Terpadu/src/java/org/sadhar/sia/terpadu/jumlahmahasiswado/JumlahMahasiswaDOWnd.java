@@ -5,6 +5,7 @@
 package org.sadhar.sia.terpadu.jumlahmahasiswado;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,8 +84,21 @@ public class JumlahMahasiswaDOWnd extends ClassApplicationModule {
     public void viewReport() throws Exception {
         try {
             JumlahMahasiwaDODAO dao = new JumlahMahasiswaDODAOImpl();
-            CategoryDataset dataset = dao.getDataset((ProgramStudi) cmbProgdi.getSelectedItem().getValue(), txtTahunAngkatan.getValue());
+            CategoryDataset dataset = dao.getDataset((ProgramStudi) cmbProgdi.getSelectedItem().getValue(), "");
 
+
+            String tahun = txtTahunAngkatan.getText();
+            try {
+                int tahunI = Integer.parseInt(tahun);
+
+                if (tahunI < 2000 || tahunI > Calendar.getInstance().get(Calendar.YEAR)) {
+                    tahun = Calendar.getInstance().get(Calendar.YEAR) + "";
+                }
+            } catch (NumberFormatException ex) {
+                tahun = "";
+            }
+
+            txtTahunAngkatan.setText(tahun);
 
             listb.getItems().clear();
 
@@ -101,21 +115,24 @@ public class JumlahMahasiswaDOWnd extends ClassApplicationModule {
             lheader.setLabel("Program Studi");
             lhead.appendChild(lheader);
 
-
-            for (Object s : dataset.getRowKeys()) {
+            if (tahun.isEmpty()) {
+                for (int i = 2000; i <= Calendar.getInstance().get(Calendar.YEAR); i++) {
+                    Listheader inlhd = new Listheader();
+                    inlhd.setLabel(i + "");
+                    lhead.appendChild(inlhd);
+                }
+            } else {
                 Listheader inlhd = new Listheader();
-                inlhd.setLabel(s.toString());
+                inlhd.setLabel(tahun + "");
                 lhead.appendChild(inlhd);
             }
+
 
             Listheader inlhd = new Listheader();
             inlhd.setLabel("Total Prodi");
             lhead.appendChild(inlhd);
 
             datas = new ArrayList<JumlahMahasiswaDO>();
-
-            int[] totalUniversitas = new int[dataset.getRowKeys().size()];
-            int totalKeseluruhan = 0;
 
             for (Object s : dataset.getColumnKeys()) {//Prodi
                 Listitem item = new Listitem();
@@ -124,25 +141,38 @@ public class JumlahMahasiswaDOWnd extends ClassApplicationModule {
                 item.appendChild(cell);
                 int jumlahPerProdi = 0;
                 int indexTotalUniv = 0;
-                for (Object f : dataset.getRowKeys()) {//Tahun
+                for (int i = 2000; i <= Calendar.getInstance().get(Calendar.YEAR); i++) {//Tahun
                     JumlahMahasiswaDO jmd = new JumlahMahasiswaDO();
-                    cell = new Listcell();
-                    Number nbr = dataset.getValue((Comparable) f, (Comparable) s);
+                    Number nbr = null;
+                    try {
+                        nbr = dataset.getValue((Comparable) (i + ""), (Comparable) s);
+                    } catch (Exception e) {
+                        nbr = new Double(0);
+                    }
                     jmd.setProdi(s.toString());
-                    jmd.setTahun(f.toString());
+                    jmd.setTahun(i + "");
+
                     if (nbr != null) {
-                        cell.setLabel(nbr.toString());
                         jmd.setJumlah(nbr.intValue());
                         jumlahPerProdi += nbr.intValue();
-                        totalUniversitas[indexTotalUniv] += nbr.intValue();
                     } else {
-                        cell.setLabel("0");
                         jmd.setJumlah(0);
                         jumlahPerProdi += 0;
-                        totalUniversitas[indexTotalUniv] += 0;
                     }
-                    cell.setStyle("text-align:right");
-                    item.appendChild(cell);
+
+                    if (tahun.isEmpty()) {
+                        cell = new Listcell();
+                        cell.setLabel(jmd.getJumlah() + "");
+                        cell.setStyle("text-align:right");
+                        item.appendChild(cell);
+                    } else {
+                        if (tahun.equalsIgnoreCase(i + "")) {
+                            cell = new Listcell();
+                            cell.setLabel(jmd.getJumlah() + "");
+                            cell.setStyle("text-align:right");
+                            item.appendChild(cell);
+                        }
+                    }
                     datas.add(jmd);
                     indexTotalUniv++;
                 }
@@ -150,10 +180,53 @@ public class JumlahMahasiswaDOWnd extends ClassApplicationModule {
                 cell.setLabel(jumlahPerProdi + "");
                 cell.setStyle("text-align:right");
 
-                totalKeseluruhan += jumlahPerProdi;
-
                 item.appendChild(cell);
                 listb.appendChild(item);
+            }
+
+            dataset = dao.getDataset(null, "");
+            int[] totalUniversitas;
+            if (tahun.isEmpty()) {
+                int sumIndex = Calendar.getInstance().get(Calendar.YEAR) - 2000;
+                System.out.println(sumIndex);
+                totalUniversitas = new int[sumIndex + 1];
+            } else {
+                totalUniversitas = new int[1];
+            }
+            int totalKeseluruhan = 0;
+
+            for (Object s : dataset.getColumnKeys()) {//Prodi
+                int jumlahPerProdi = 0;
+                int indexTotalUniv = 0;
+                for (Object f : dataset.getRowKeys()) {//Tahun
+                    Number nbr = dataset.getValue((Comparable) f, (Comparable) s);
+                    if (nbr != null) {
+                        jumlahPerProdi += nbr.intValue();
+                        if (tahun.isEmpty()) {
+                            totalUniversitas[indexTotalUniv] += nbr.intValue();
+                            indexTotalUniv++;
+                        } else {
+                            if (f.equals(tahun)) {
+                                totalUniversitas[indexTotalUniv] += nbr.intValue();
+                                indexTotalUniv++;
+                            }
+                        }
+                    } else {
+                        jumlahPerProdi += 0;
+                        if (tahun.isEmpty()) {
+                            totalUniversitas[indexTotalUniv] += 0;
+                            indexTotalUniv++;
+                        } else {
+                            if (f.equals(tahun)) {
+                                totalUniversitas[indexTotalUniv] += 0;
+                                indexTotalUniv++;
+                            }
+                        }
+                    }
+
+                }
+
+                totalKeseluruhan += jumlahPerProdi;
             }
 
             Listitem item = new Listitem();
@@ -176,56 +249,6 @@ public class JumlahMahasiswaDOWnd extends ClassApplicationModule {
             listb.appendChild(item);
 
             btnExport.setDisabled(false);
-            /*
-            ChartFactory.setChartTheme(StandardChartTheme.createLegacyTheme());
-            BarRenderer.setDefaultBarPainter(new StandardBarPainter());
-            if (cmbProgdi.getSelectedItem().getValue() == null) {
-            chart = ChartFactory.createBarChart(
-            "Jumlah Mahasiswa Drop Out", // chart title
-            "Program Studi", // domain axis label
-            "Jumlah Mahasiswa", // range axis label
-            dataset, // data
-            PlotOrientation.HORIZONTAL,
-            true, // include legend
-            true,
-            false);
-            } else {
-            chart = ChartFactory.createBarChart(
-            "Jumlah Mahasiswa Drop Out", // chart title
-            "Program Studi", // domain axis label
-            "Jumlah Mahasiswa", // range axis label
-            dataset, // data
-            PlotOrientation.VERTICAL,
-            true, // include legend
-            true,
-            false);
-            }
-            chart.setBackgroundPaint(new Color(0xCC, 0xFF, 0xCC));
-
-            final CategoryPlot plot = chart.getCategoryPlot();
-            plot.setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT);
-            plot.setRangeAxisLocation(AxisLocation.TOP_OR_LEFT);
-
-            final CategoryItemRenderer renderer1 = plot.getRenderer();
-            renderer1.setSeriesPaint(0, Color.red);
-            renderer1.setSeriesPaint(1, Color.yellow);
-            renderer1.setSeriesPaint(2, Color.green);
-            renderer1.setSeriesPaint(3, Color.blue);
-            renderer1.setSeriesPaint(4, Color.cyan);
-            BarRenderer br = (BarRenderer) renderer1;
-            br.setShadowVisible(false);
-
-
-            BufferedImage bi = chart.createBufferedImage(800, 400, BufferedImage.TRANSLUCENT, null);
-            if (cmbProgdi.getSelectedItem().getValue() == null) {
-            bi = chart.createBufferedImage(800, 1500, BufferedImage.TRANSLUCENT, null);
-            }
-
-            byte[] bytes = EncoderUtil.encode(bi, ImageFormat.PNG, true);
-
-            AImage image = new AImage("Bar Chart", bytes);
-            chartImg.setContent(image);
-             */
 
         } catch (Exception ex) {
             ex.printStackTrace();
