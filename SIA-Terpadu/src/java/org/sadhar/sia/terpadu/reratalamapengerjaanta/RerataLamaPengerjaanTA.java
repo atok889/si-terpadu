@@ -29,12 +29,12 @@ public class RerataLamaPengerjaanTA {
 //        tahunAngkatanList.add("97");
 //        tahunAngkatanList.add("98");
 //        tahunAngkatanList.add("99");
-//        tahunAngkatanList.add("00");
-//
-//        tahunAngkatanList.add("01");
-//        tahunAngkatanList.add("02");
-//        tahunAngkatanList.add("03");
-//        tahunAngkatanList.add("04");
+        tahunAngkatanList.add("00");
+
+        tahunAngkatanList.add("01");
+        tahunAngkatanList.add("02");
+        tahunAngkatanList.add("03");
+        tahunAngkatanList.add("04");
         tahunAngkatanList.add("05");
         tahunAngkatanList.add("06");
         tahunAngkatanList.add("07");
