@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title="Distribusi Umur Dosen dan Karyawan" border="normal" width="950px"
+    <window title="Distribusi Umur Dosen" border="normal" width="950px"
             closable="true" sizable="true"
             id="distribusiWnd"
             use="org.sadhar.sia.terpadu.distribusiumurdosendankaryawan.DistribusiUmurDosenDanKaryawanWnd">

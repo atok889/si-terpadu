@@ -127,7 +127,7 @@ public class DistribusiUmurDosenDanKaryawanWnd extends ClassApplicationModule {
     public void loadDataToGrafik() throws IOException {
         DefaultCategoryDataset dataset = (DefaultCategoryDataset) this.generateData();
         chart = ChartFactory.createBarChart(
-                "", "", "Jumlah", dataset, PlotOrientation.VERTICAL, true, true, false);
+                "Distribusi Umur Dosen", "", "Jumlah", dataset, PlotOrientation.VERTICAL, true, true, false);
         chart.setBackgroundPaint(new Color(0xCC, 0xFF, 0xCC));
 
         final CategoryPlot plot = chart.getCategoryPlot();
@@ -137,8 +137,6 @@ public class DistribusiUmurDosenDanKaryawanWnd extends ClassApplicationModule {
 
 
         final CategoryItemRenderer renderer1 = plot.getRenderer();
-        renderer1.setSeriesPaint(0, Color.red);
-        renderer1.setSeriesPaint(1, Color.yellow);
         BarRenderer br = (BarRenderer) renderer1;
         br.setMaximumBarWidth(.03);
         br.setItemMargin(0.0);
@@ -211,7 +209,7 @@ public class DistribusiUmurDosenDanKaryawanWnd extends ClassApplicationModule {
                 jumlah = Integer.valueOf(data.get("jumlah").toString());
             }
             if (jumlah != 0) {
-                dataset.addValue(jumlah, data.get("status").toString(), data.get("range").toString());
+                dataset.addValue(jumlah, data.get("range").toString(), data.get("status").toString());
             }
         }
 
