@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title="Pendapatan" border="normal" width="950px"
+    <window title="Pendapatan" border="normal" width="850px"
             closable="true" sizable="true"
             id="oo"
             use="org.sadhar.sia.terpadu.pendapatan.PendapatanWnd">
@@ -17,7 +17,7 @@
                             </row>
                             <row>
                                 <label value="Unit Kerja"></label>
-                                <combobox readonly="true" id="cmbboxProdi" width="300px"
+                                <combobox readonly="true" id="cmbboxProdi" width="350px"
                                   onSelect="oo">
                                 </combobox>
                             </row>
@@ -30,29 +30,28 @@
                 </div>
             </groupbox>
             <groupbox>
-                <caption label="Rencana Pendapatan"></caption>
+                <caption label="Rencana Pendapatan Universitas"></caption>
                 <div>
-                    <listbox id="listboxRencana" width="900px" fixedLayout="true"  rows="15">
+                    <listbox id="listboxRencana" width="800px" height="200px" fixedLayout="true"  rows="15">
                         <listhead>
-                            <listheader label="No" width="50px" align="right"></listheader>
+                            <listheader label="No" width="50px" align="center"></listheader>
                             <listheader label="Jenis Pendapatan"></listheader>
-                            <listheader label="Rencana" width="100px" align="right"></listheader>
+                            <listheader label="Rencana" width="140px" align="right"></listheader>
                         </listhead>
                     </listbox>
                 </div>
             </groupbox>
             <groupbox>
-                <div>
-                    <groupbox>
-                        <caption label="Realisasi Pendapatan"></caption>
-                        <listbox id="listboxRealisasi" width="900px" fixedLayout="true"  rows="15">
+                <caption label="Realisasi Pendapatan Prodi"></caption>
+                        <div>
+                        <listbox id="listboxRealisasi" width="800px" fixedLayout="true"  rows="15">
                             <listhead>
-                                <listheader label="No" width="50px" align="right"></listheader>
+                                <listheader label="No" width="50px" align="center"></listheader>
                                 <listheader label="Jenis Pendapatan"></listheader>
-                                <listheader label="Realisasi" width="100px" align="right"></listheader>
+                                <listheader label="Realisasi" width="140px" align="right"></listheader>
                             </listhead>
                         </listbox>
-                    </groupbox>
+                    
                 </div>
             </groupbox>
             <groupbox visible="false">
