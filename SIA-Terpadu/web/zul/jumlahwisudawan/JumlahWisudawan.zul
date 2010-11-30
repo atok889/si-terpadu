@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title="Jumlah Wisudawan Wisudawati" border="normal" width="900px"
+    <window title="Jumlah Wisudawan Wisudawati" border="normal" width="900px" 
             closable="true"
             id="jml"
             use="org.sadhar.sia.terpadu.jumlahwisudawan.JumlahWisudawanWnd">
-        <div style="padding:5px">
-            <groupbox >
+        <div style="padding:5px" height="600px"   >
+            <groupbox  >
                 <caption label="Table"></caption>
-                <div id="tableDiv" style="height:250px;overflow:auto;padding:10px;" >
-                    <listbox id="listb" width="810px" fixedLayout="true">
+                <div id="tableDiv" style="height:400px;overflow:auto;padding:10px;">
+                    <listbox id="listb" width="850px" fixedLayout="true" >
 
                     </listbox>
                 </div>
