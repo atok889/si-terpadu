@@ -89,7 +89,7 @@ public class MatrikBorangDAOImpl implements MatrikBorangDAO {
                 + "   imovrka.tahun, "
                 + "     imovrka.kodeUnit, "
                 + "       SUM(IF(imovrka.skorPascaMonev <=> null,0.0,imovrka.skorPascaMonev)) AS skor  "
-                + " FROM mutu.isianmonevinrka imovrka "
+                + " FROM mutu.isianMonevinRKA imovrka "
                 + " WHERE imovrka.tahun BETWEEN (YEAR(NOW())-5) AND YEAR(NOW()) AND imovrka.kodeUnit LIKE '%" + kodeUnit + "%' "
                 + " group by imovrka.tahun;";
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
@@ -107,7 +107,7 @@ public class MatrikBorangDAOImpl implements MatrikBorangDAO {
                 + "    imovrka.kodeUnit, "
                 + "      unkerja.Nama_unit_kerja as nama, "
                 + "        SUM(IF(imovrka.skorPascaMonev <=> null,0.0,imovrka.skorPascaMonev)) AS skor "
-                + " FROM mutu.isianmonevinrka imovrka "
+                + " FROM mutu.isianMonevinRKA imovrka "
                 + " INNER JOIN kamus.unkerja unkerja on (unkerja.Kd_unit_kerja = imovrka.kodeUnit) "
                 + " WHERE  imovrka.tahun=YEAR(NOW()) group by imovrka.kodeUnit";
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();

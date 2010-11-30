@@ -78,7 +78,7 @@ public class PerbandinganSkorUnitKerjaProdiWnd extends ClassApplicationModule {
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            Messagebox.show("Gagal menampilkan data Jumlah Pegawai Administratif");
+            Messagebox.show("Gagal Menampilkan Perbandingan Skor Unit Kerja Prodi");
         }
     }
 }
