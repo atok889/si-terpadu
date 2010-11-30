@@ -36,7 +36,7 @@ public class LaporanKinerjaPegawaiDAOImpl implements LaporanKinerjaPegawaiDAO {
     public List<Map> getLaporanKinerjaPegawaiAdministratif() {
         List<Map> results = new ArrayList<Map>();
         for (int i = new DateTime().getYear() - 5; i <= new DateTime().getYear(); i++) {
-            String sqlCreateView = "CREATE OR REPLACE VIEW kamus.kinerja_pegawai(kode,nama,rerata,tahun,semester) " +
+            String sqlCreateView = "CREATE OR REPLACE VIEW tempo.kinerja_pegawai(kode,nama,rerata,tahun,semester) " +
                     " AS " +
                     " SELECT unit_peg.kd_unit as kodeUnit, unkerja.Nama_unit_kerja as namaUnit," +
                     " SUM(nilaisubkomponenpegawai.Nilai)/count(nilaisubkomponenpegawai.Nilai)as rataRata, " +
@@ -46,7 +46,7 @@ public class LaporanKinerjaPegawaiDAOImpl implements LaporanKinerjaPegawaiDAO {
                     " ON (pegawai.kdPegawai = unit_peg.kdPegawai)) " +
                     " INNER JOIN personalia.timPenilaiDP3 timpenilaidp3 " +
                     " ON (timpenilaidp3.kdPegawaiYgDinilai = pegawai.kdPegawai)) " +
-                    " INNER JOIN personalia.nilaisubkomponenpegawai nilaisubkomponenpegawai " +
+                    " INNER JOIN personalia.nilaiSubKomponenPegawai nilaisubkomponenpegawai " +
                     " ON (timpenilaidp3.idTim = nilaisubkomponenpegawai.idTim)) " +
                     " INNER JOIN kamus.unkerja unkerja " +
                     " ON (unkerja.Kd_unit_kerja = unit_peg.kd_unit) " +
