@@ -113,23 +113,27 @@ public class JumlahMahasiswaDOWnd extends ClassApplicationModule {
             }
             Listheader lheader = new Listheader();
             lheader.setLabel("Program Studi");
+            lheader.setWidth("20%");
             lhead.appendChild(lheader);
 
             if (tahun.isEmpty()) {
                 for (int i = 2000; i <= Calendar.getInstance().get(Calendar.YEAR); i++) {
                     Listheader inlhd = new Listheader();
                     inlhd.setLabel(i + "");
+                    inlhd.setWidth("5%");
                     lhead.appendChild(inlhd);
                 }
             } else {
                 Listheader inlhd = new Listheader();
                 inlhd.setLabel(tahun + "");
+                inlhd.setWidth("5%");
                 lhead.appendChild(inlhd);
             }
 
 
             Listheader inlhd = new Listheader();
             inlhd.setLabel("Total Prodi");
+            inlhd.setWidth("10%");
             lhead.appendChild(inlhd);
 
             datas = new ArrayList<JumlahMahasiswaDO>();
