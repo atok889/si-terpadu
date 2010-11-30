@@ -17,22 +17,25 @@ public class JumlahDosenDAOImpl implements JumlahDosenDAO {
 
     public List<JumlahFakultas> getJumlahDosen() throws Exception {
         List<JumlahFakultas> jmlDosen = new ArrayList<JumlahFakultas>();
-        String sql1 = "SELECT SUBSTRING(unkerja.Kd_unit_kerja,1,4) AS kodeunit, "
-                + "unkerja.Nama_unit_kerja AS unit,"
-                + "COUNT(DISTINCT pegawai.kdPegawai) AS jumlah "
-                + "FROM (kamus.unkerja unkerja "
-                + "LEFT JOIN personalia.unit_peg unit_peg "
-                + "ON (unkerja.Kd_unit_kerja = unit_peg.kd_unit)) "
-                + "LEFT JOIN personalia.pegawai pegawai "
-                + "ON (pegawai.kdPegawai = unit_peg.kdPegawai) "
-                + "WHERE (pegawai.AdmEdu = '2') AND unkerja.Nama_unit_kerja LIKE '%FAKULTAS%' "
-                + "GROUP BY unkerja.Kd_unit_kerja "
-                + "ORDER BY unkerja.Kd_unit_kerja ASC";
+        /* String sql1 = "SELECT SUBSTRING(unkerja.Kd_unit_kerja,1,4) AS kodeunit, "
+        + "unkerja.Nama_unit_kerja AS unit,"
+        + "COUNT(DISTINCT pegawai.kdPegawai) AS jumlah "
+        + "FROM (kamus.unkerja unkerja "
+        + "LEFT JOIN personalia.unit_peg unit_peg "
+        + "ON (unkerja.Kd_unit_kerja = unit_peg.kd_unit)) "
+        + "LEFT JOIN personalia.pegawai pegawai "
+        + "ON (pegawai.kdPegawai = unit_peg.kdPegawai) "
+        + "WHERE (pegawai.AdmEdu = '2') AND unkerja.Nama_unit_kerja LIKE '%FAKULTAS%' "
+        + "GROUP BY unkerja.Kd_unit_kerja "
+        + "ORDER BY unkerja.Kd_unit_kerja ASC"; */
+        String sql1 = "SELECT SUBSTRING(unkerja.Kd_unit_kerja,1,4) AS kodeunit, unkerja.Nama_unit_kerja AS unit "
+                + "FROM kamus.unkerja WHERE unkerja.Nama_unit_kerja LIKE '%FAKULTAS%'";
         List<Map> rows1 = ClassConnection.getJdbc().queryForList(sql1);
         for (Map m1 : rows1) {
             JumlahFakultas jf = new JumlahFakultas();
             jf.setNama(m1.get("unit").toString());
-            int total = Integer.valueOf(m1.get("jumlah").toString());
+            //int total = Integer.valueOf(m1.get("jumlah").toString());
+            int total = 0;
             String sql2 = "SELECT unkerja.Kd_unit_kerja AS kode, "
                     + "unkerja.Nama_unit_kerja AS unit, "
                     + "COUNT(DISTINCT pegawai.kdPegawai) AS jumlah "
@@ -43,7 +46,9 @@ public class JumlahDosenDAOImpl implements JumlahDosenDAO {
                     + "ON (pegawai.kdPegawai = unit_peg.kdPegawai) "
                     + "WHERE (pegawai.AdmEdu = '2') AND (SUBSTRING(unkerja.Kd_unit_kerja,1,4)='" + m1.get("kodeunit").toString() + "') "
                     + "AND (SUBSTRING(unkerja.Kd_unit_kerja,5,4)<>'0000') "
+                    + "AND pegawai.Status_keluar='1' "
                     + "GROUP BY unkerja.Kd_unit_kerja ORDER BY unkerja.Kd_unit_kerja ASC";
+            System.out.println("sql2=" + sql2);
             List<Map> rows2 = ClassConnection.getJdbc().queryForList(sql2);
             for (Map m2 : rows2) {
                 JumlahProdi jp = new JumlahProdi();
