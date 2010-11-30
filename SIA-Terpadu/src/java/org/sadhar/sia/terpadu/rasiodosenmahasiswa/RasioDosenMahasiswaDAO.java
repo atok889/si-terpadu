@@ -19,5 +19,5 @@ public interface RasioDosenMahasiswaDAO {
 
     public List<Map> getRasioDosenMahasiswa(String kodeProdi, String tahun, String semester);
 
-    public List<Map> getRasioDosenMahasiswa();
+    public List<Map> getRasioDosenMahasiswa(String tahun, String semester);
 }

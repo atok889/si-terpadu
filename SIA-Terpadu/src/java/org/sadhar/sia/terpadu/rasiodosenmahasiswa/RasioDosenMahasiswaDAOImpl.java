@@ -5,6 +5,7 @@
 package org.sadhar.sia.terpadu.rasiodosenmahasiswa;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.sadhar.sia.common.ClassConnection;
@@ -52,23 +53,36 @@ public class RasioDosenMahasiswaDAOImpl implements RasioDosenMahasiswaDAO {
         return results;
     }
 
-    public List<Map> getRasioDosenMahasiswa() {
+    public List<Map> getRasioDosenMahasiswa(String tahun, String semester) {
         List<Map> results = new ArrayList<Map>();
-        for (Map map : this.getProdi()) {
-            String prodi = map.get("Kd_prg").toString();
-            String sql = "SELECT unit  ,'dosen' as status , COUNT(*) AS jml  from " +
-                    " (SELECT kdPegawai,npp,Nama_peg, " +
-                    " (SELECT kd_unit from personalia.unit_peg as un where kdPegawai=peg.kdPegawai order by tgl_mulai_unit desc limit 1) as kd_unit," +
-                    " (SELECT Nama_unit_kerja " +
-                    " FROM personalia.unit_peg as un " +
-                    " inner join kamus.unkerja as kms on kms.Kd_unit_kerja=un.kd_unit " +
-                    " WHERE kdPegawai=peg.kdPegawai order by tgl_mulai_unit desc limit 1) as unit " +
-                    " FROM personalia.pegawai as peg where admEdu='2' and Status_keluar='1' ) as sub where sub.kd_unit='160" + prodi + "0' " +
-                    " UNION " +
-                    " SELECT  prg.Nama_unit_kerja as unit,'mahasiswa' as status ,COUNT( * ) AS jml FROM db_" + prodi + ".mhs" + prodi + "  as mhs " +
-                    " INNER JOIN kamus.unkerja prg ON prg.Kd_unit_kerja='160" + prodi + "0' " +
-                    " WHERE (st_mhs = '1')";
-            results.addAll(ClassConnection.getJdbc().queryForList(sql));
+        for (Map prodi : this.getProdi()) {
+            String kodeProdi = prodi.get("Kd_prg").toString();
+            if (isTabelRgExist(kodeProdi, tahun, semester)) {
+                String sql1 = "SELECT COUNT(*) AS jml  from " +
+                        " (SELECT kdPegawai,npp,Nama_peg, " +
+                        " (SELECT kd_unit from personalia.unit_peg as un where kdPegawai=peg.kdPegawai order by tgl_mulai_unit desc limit 1) as kd_unit," +
+                        " (SELECT Nama_unit_kerja " +
+                        " FROM personalia.unit_peg as un " +
+                        " inner join kamus.unkerja as kms on kms.Kd_unit_kerja=un.kd_unit " +
+                        " WHERE kdPegawai=peg.kdPegawai order by tgl_mulai_unit desc limit 1) as unit " +
+                        " FROM personalia.pegawai as peg where admEdu='2' and Status_keluar='1' ) as sub where sub.kd_unit='160" + kodeProdi + "0' ";
+                String sql2 = " SELECT prg.Nama_unit_kerja as unit, COUNT( * ) AS jml FROM db_" + kodeProdi + ".rg" + kodeProdi + tahun + semester + "  as mhs " +
+                        " INNER JOIN kamus.unkerja prg ON prg.Kd_unit_kerja='160" + kodeProdi + "0' " +
+                        " WHERE (st_mhs = '1')";
+
+                Map dosen = ClassConnection.getJdbc().queryForMap(sql1);
+                Map mahasiswa = ClassConnection.getJdbc().queryForMap(sql2);
+
+                Map m = new HashMap();
+                double jumlahDosen = Integer.valueOf(dosen.get("jml").toString());
+                double jumlahMahasiswa = Integer.valueOf(mahasiswa.get("jml").toString());
+                if (jumlahDosen > 0) {
+                    m.put("jumlah", jumlahMahasiswa / jumlahDosen);
+                    m.put("prodi", prodi.get("Nama_prg").toString());
+                    results.add(m);
+                }
+                //System.out.println(sql);
+            }
         }
         return results;
     }
@@ -89,6 +103,18 @@ public class RasioDosenMahasiswaDAOImpl implements RasioDosenMahasiswaDAO {
         SqlRowSet rs = null;
         try {
             String sql = "Show tables from db_" + kodeProdi + " like 'kr" + kodeProdi + tahun + semester + "'";
+            rs = ClassConnection.getJdbc().queryForRowSet(sql);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return rs.next();
+    }
+
+    public boolean isTabelRgExist(String kodeProdi, String tahun, String semester) {
+        SqlRowSet rs = null;
+        try {
+            String sql = "Show tables from db_" + kodeProdi + " like 'rg" + kodeProdi + tahun + semester + "'";
             rs = ClassConnection.getJdbc().queryForRowSet(sql);
         } catch (Exception e) {
             e.printStackTrace();
