@@ -44,7 +44,7 @@ public class LaporanKinerjaPegawaiDAOImpl implements LaporanKinerjaPegawaiDAO {
                     " 3 as semester " +
                     " FROM (((personalia.pegawai pegawai INNER JOIN personalia.unit_peg unit_peg" +
                     " ON (pegawai.kdPegawai = unit_peg.kdPegawai)) " +
-                    " INNER JOIN personalia.timpenilaidp3 timpenilaidp3 " +
+                    " INNER JOIN personalia.timPenilaiDP3 timpenilaidp3 " +
                     " ON (timpenilaidp3.kdPegawaiYgDinilai = pegawai.kdPegawai)) " +
                     " INNER JOIN personalia.nilaisubkomponenpegawai nilaisubkomponenpegawai " +
                     " ON (timpenilaidp3.idTim = nilaisubkomponenpegawai.idTim)) " +
