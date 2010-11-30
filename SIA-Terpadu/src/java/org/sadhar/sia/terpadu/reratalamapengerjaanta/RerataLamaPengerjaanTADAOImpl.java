@@ -81,8 +81,8 @@ public class RerataLamaPengerjaanTADAOImpl implements RerataLamaPengerjaanTADAO 
                         double d = ClassAntiNull.AntiNullDouble(m.get("Lama_pengerjaan"));
                         rlpta.setLama(d);
                     }
-                    System.out.println(sql);
-                    System.out.println(rlpta.getProdi() + "-" + rlpta.getTahun() + "-" + rlpta.getLama());
+                    //System.out.println(sql);
+                    //System.out.println(rlpta.getProdi() + "-" + rlpta.getTahun() + "-" + rlpta.getLama());
                     result.add(rlpta);
                 } catch (Exception ex) {
                     System.err.println(ex.getMessage());
