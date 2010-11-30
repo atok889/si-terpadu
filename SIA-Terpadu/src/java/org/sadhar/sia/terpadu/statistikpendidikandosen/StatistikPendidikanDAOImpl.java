@@ -31,11 +31,20 @@ public class StatistikPendidikanDAOImpl implements StatistikPendidikanDosenDAO {
         for (Map prodi : this.getProdi()) {
             String kodeProdi = prodi.get("Kd_prg").toString();
             if (isTabelDosendExist(kodeProdi)) {
-                String sql = "SELECT dosen.npp,dosen.nama_peg, MAX(jenjang.Nm_jenjang) as Nm_jenjang ,prg.Nama_prg FROM db_" + kodeProdi + ".dosen" + kodeProdi + " dosen " +
-                        " INNER JOIN personalia.pendidikan ps ON dosen.npp = ps.kdPegawai " +
-                        " INNER JOIN kamus.jenjang jenjang ON jenjang.Kd_jenjang = ps.Jenjang" +
-                        " INNER JOIN kamus.prg_std prg ON prg.Kd_prg = '" + kodeProdi + "' " +
-                        " GROUP BY dosen.nama_peg";
+//                String sql = "SELECT dosen.npp,dosen.nama_peg, MAX(jenjang.Nm_jenjang) as Nm_jenjang ,prg.Nama_prg FROM db_" + kodeProdi + ".dosen" + kodeProdi + " dosen " +
+//                        " INNER JOIN personalia.pendidikan ps ON dosen.npp = ps.kdPegawai " +
+//                        " INNER JOIN kamus.jenjang jenjang ON jenjang.Kd_jenjang = ps.Jenjang" +
+//                        " INNER JOIN kamus.prg_std prg ON prg.Kd_prg = '" + kodeProdi + "' " +
+//                        " GROUP BY dosen.nama_peg";
+
+                String sql = "SELECT pegawai.npp,pegawai.nama_peg,MAX(jenjang.Nm_jenjang) as Nm_jenjang , unkerja.`Nama_unit_kerja` as Nama_prg,unkerja.`Kd_unit_kerja` as kodeUnit " +
+                        " FROM (kamus.unkerja unkerja " +
+                        " LEFT JOIN personalia.unit_peg unit_peg ON (unkerja.Kd_unit_kerja = unit_peg.kd_unit)) " +
+                        " LEFT JOIN personalia.pegawai pegawai ON (pegawai.kdPegawai = unit_peg.kdPegawai) " +
+                        " INNER JOIN personalia.pendidikan ps ON pegawai.`kdPegawai` = ps.kdPegawai " +
+                        " INNER JOIN kamus.jenjang jenjang ON jenjang.Kd_jenjang = ps.Jenjang " +
+                        " WHERE (pegawai.AdmEdu = '2') AND unkerja.Kd_unit_kerja='160" + kodeProdi + "0' " +
+                        " GROUP BY pegawai.nama_peg ORDER BY unkerja.Kd_unit_kerja ";
 
                 results.addAll(ClassConnection.getJdbc().queryForList(sql));
                 System.out.println(sql);

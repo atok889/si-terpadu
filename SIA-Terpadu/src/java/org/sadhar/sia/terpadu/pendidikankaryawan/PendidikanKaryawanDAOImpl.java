@@ -24,7 +24,7 @@ public class PendidikanKaryawanDAOImpl implements PendidikanKaryawanDAO {
     }
 
     public List<Map> getPendidikanKaryawan(String unitKerja) {
-        String sql = "SELECT pg.Nama_peg,  jenjang.Nm_jenjang, ku.Nama_unit_kerja, MAX(pu.tgl_sk_unit) FROM personalia.pegawai pg  " +
+        String sql = "SELECT concat_ws(' ',Gelar_depan,`Nama_peg`,`Gelar_blk`) as Nama_peg,  jenjang.Nm_jenjang, ku.Nama_unit_kerja, MAX(pu.tgl_sk_unit) FROM personalia.pegawai pg  " +
                 " INNER JOIN personalia.pendidikan ps ON pg.NPP = ps.NPP  " +
                 " INNER JOIN kamus.jenjang jenjang ON jenjang.Kd_jenjang = ps.Jenjang  " +
                 " INNER JOIN personalia.unit_peg pu ON pu.npp = pg.NPP " +

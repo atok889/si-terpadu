@@ -66,6 +66,12 @@ public class RasioDosenMahasiswaDAOImpl implements RasioDosenMahasiswaDAO {
                         " inner join kamus.unkerja as kms on kms.Kd_unit_kerja=un.kd_unit " +
                         " WHERE kdPegawai=peg.kdPegawai order by tgl_mulai_unit desc limit 1) as unit " +
                         " FROM personalia.pegawai as peg where admEdu='2' and Status_keluar='1' ) as sub where sub.kd_unit='160" + kodeProdi + "0' ";
+//                String sql1 = "SELECT unkerja.Kd_unit_kerja AS kode, unkerja.Nama_unit_kerja AS unit," +
+//                        " COUNT(DISTINCT pegawai.kdPegawai) AS jml " +
+//                        " FROM (kamus.unkerja unkerja LEFT JOIN personalia.unit_peg unit_peg ON (unkerja.Kd_unit_kerja = unit_peg.kd_unit)) " +
+//                        " LEFT JOIN personalia.pegawai pegawai ON (pegawai.kdPegawai = unit_peg.kdPegawai) " +
+//                        " WHERE (pegawai.AdmEdu = '2') AND unkerja.Kd_unit_kerja='160" + kodeProdi + "0' " +
+//                        " GROUP BY unkerja.Kd_unit_kerja ORDER BY unkerja.Kd_unit_kerja ASC";
                 String sql2 = " SELECT prg.Nama_unit_kerja as unit, COUNT( * ) AS jml FROM db_" + kodeProdi + ".rg" + kodeProdi + tahun + semester + "  as mhs " +
                         " INNER JOIN kamus.unkerja prg ON prg.Kd_unit_kerja='160" + kodeProdi + "0' " +
                         " WHERE (st_mhs = '1')";
@@ -81,7 +87,7 @@ public class RasioDosenMahasiswaDAOImpl implements RasioDosenMahasiswaDAO {
                     m.put("prodi", prodi.get("Nama_prg").toString());
                     results.add(m);
                 }
-                //System.out.println(sql);
+                System.out.println(sql1);
             }
         }
         return results;

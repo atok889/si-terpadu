@@ -63,7 +63,7 @@ public class StatistikPendidikanDosenWnd extends ClassApplicationModule {
     public void loadDataToGrafik() throws IOException {
         DefaultCategoryDataset dataset = (DefaultCategoryDataset) this.generateData();
         chart = ChartFactory.createBarChart(
-                "", "Prodi", "Jumlah Dosen", dataset, PlotOrientation.HORIZONTAL, true, true, false);
+                "Statistik Pendidikan Dosen", "Prodi", "Jumlah Dosen", dataset, PlotOrientation.HORIZONTAL, true, true, false);
         chart.setBackgroundPaint(new Color(0xCC, 0xFF, 0xCC));
 
         final CategoryPlot plot = chart.getCategoryPlot();
@@ -119,11 +119,12 @@ public class StatistikPendidikanDosenWnd extends ClassApplicationModule {
         String[] jenjangs = {"S1", "S2", "S3"};
 
         for (Map prodi : statistikPendidikanDosenDAO.getProdi()) {
+            String kodeProdi = "160" + prodi.get("Kd_prg").toString() + "0";
             for (String jenjang : jenjangs) {
                 Map map = new HashMap();
                 int pendidikan = 0;
                 for (Map data : results) {
-                    if (prodi.get("Nama_prg").toString().equalsIgnoreCase(data.get("Nama_prg").toString())) {
+                    if (kodeProdi.equalsIgnoreCase(data.get("kodeUnit").toString())) {
                         if (data.get("Nm_jenjang").toString().equals(jenjang.toString())) {
                             pendidikan++;
                         }

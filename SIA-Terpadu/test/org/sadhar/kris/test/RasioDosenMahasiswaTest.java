@@ -54,12 +54,11 @@ public class RasioDosenMahasiswaTest {
 
     @Test
     public void get() {
-//        List<Map> results = dao.getRasioDosenMahasiswa("2000","1");
-//        for (Map result : results) {
-//            Map map = new HashMap();
-//            System.out.println(result.get("prodi") + "=>" + result.get("jumlah") + "=>" + result.get("status"));
-//        }
-        String tahun="20051";
-        System.out.println(tahun.substring(0, 4));
+        List<Map> results = dao.getRasioDosenMahasiswa("2000","1");
+        for (Map result : results) {
+            Map map = new HashMap();
+            System.out.println(result.get("prodi") + "=>" + result.get("jumlah") + "=>" + result.get("status"));
+        }
+        
     }
 }
