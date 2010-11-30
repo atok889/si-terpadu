@@ -5,6 +5,7 @@
 package org.sadhar.sia.terpadu.nepdosen;
 
 import java.text.DecimalFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,7 @@ public class NEPDosenWnd extends ClassApplicationModule {
 
     Combobox cmbProgdi;
     Jasperreport report;
+    Combobox cmbboxTahun;
 //    Image chartImg;
     Combobox cmbExportType;
     Button btnExport;
@@ -49,10 +51,24 @@ public class NEPDosenWnd extends ClassApplicationModule {
         report = (Jasperreport) getFellow("report");
         cmbExportType = (Combobox) getFellow("cmbExportType");
         btnExport = (Button) getFellow("btnExport");
+        cmbboxTahun = (Combobox) getFellow("cmbboxTahun");
         btnExport.setDisabled(true);
         loadProgdi();
+        loadTahun();
+        cmbboxTahun.setSelectedIndex(cmbboxTahun.getItems().size() - 1);
         cmbProgdi.setSelectedIndex(0);
         cmbExportType.setSelectedIndex(0);
+    }
+
+    private void loadTahun() throws Exception {
+        int year = 2005;
+        while (year <= Calendar.getInstance().get(Calendar.YEAR)) {
+            Comboitem item = new Comboitem();
+            item.setLabel("" + year);
+            item.setValue("" + year);
+            year++;
+            cmbboxTahun.appendChild(item);
+        }
     }
 
     private void loadProgdi() throws Exception {
@@ -67,7 +83,7 @@ public class NEPDosenWnd extends ClassApplicationModule {
             for (UKProgramStudi ps : progdis) {
                 Comboitem items = new Comboitem();
                 items.setValue(ps);
-                items.setLabel(ps.getKodeUnitKerja() + " " + ps.getNama());
+                items.setLabel(ps.getShortKode() + " " + ps.getNama());
                 cmbProgdi.appendChild(items);
             }
         } catch (Exception ex) {
@@ -77,14 +93,15 @@ public class NEPDosenWnd extends ClassApplicationModule {
 
     public void viewReport() throws Exception {
         try {
+            String tahun = cmbboxTahun.getSelectedItem().getLabel();
             listb.getItems().clear();
             NEPDosenDAO dao = new NEPDosenDAOImpl();
             UKProgramStudi prodiSelected = (UKProgramStudi) cmbProgdi.getSelectedItem().getValue();
             if (prodiSelected == null) {
-                datas = dao.getAll();
+                datas = dao.getAll(tahun);
             } else {
 
-                datas = dao.getByKodeUnit(prodiSelected.getKodeUnitKerja());
+                datas = dao.getByKodeUnit(tahun,prodiSelected.getKodeUnitKerja());
             }
 
             DecimalFormat decimalFormat = new DecimalFormat("##0.00");

@@ -12,6 +12,10 @@
                     <grid>
                         <rows>
                             <row>
+                                <label value="Tahun"></label>
+                                <combobox readonly="true" id="cmbboxTahun" />
+                            </row>
+                            <row>
                                 <label value="Program Studi"></label>
                                 <combobox readonly="true" id="cmbProgdi" width="300px"/>
                             </row>

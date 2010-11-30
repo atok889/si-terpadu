@@ -6,10 +6,7 @@ package org.sadhar.sia.terpadu.pangkatjabatandosen;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.StandardChartTheme;
@@ -41,11 +38,9 @@ import org.zkoss.zul.Combobox;
 import org.zkoss.zul.Comboitem;
 import org.zkoss.zul.Image;
 import org.sadhar.sia.terpadu.util.WarnaBarChart;
-import org.zkoss.zk.ui.Executions;
 import org.zkoss.zul.Listbox;
 import org.zkoss.zul.Listcell;
 import org.zkoss.zul.Listitem;
-import org.zkoss.zul.Window;
 
 /**
  *
@@ -238,7 +233,7 @@ public class PangkatJabatanDosenWnd extends ClassApplicationModule {
                     item.appendChild(cell);
 
                     cellNm = new Listcell();
-                    cell.setLabel(o.getNama());
+                    cellNm.setLabel(o.getNama());
                     item.appendChild(cellNm);
 
                     cellU = new Listcell();
@@ -247,7 +242,7 @@ public class PangkatJabatanDosenWnd extends ClassApplicationModule {
 
                     cellUK = new Listcell();
                     cellUK.setLabel(o.getNamaUnitKerja());
-                    item.appendChild(cell);
+                    item.appendChild(cellUK);
 
                     cellNP = new Listcell();
                     cellNP.setLabel(o.getNamaPangkat());

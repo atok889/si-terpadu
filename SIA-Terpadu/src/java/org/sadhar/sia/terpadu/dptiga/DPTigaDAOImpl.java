@@ -5,7 +5,6 @@
 package org.sadhar.sia.terpadu.dptiga;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 import org.sadhar.errhandler.ClassAntiNull;
@@ -21,11 +20,10 @@ public class DPTigaDAOImpl implements DPTigaDAO {
         ClassConnection.getTransactionProxyFactoryBean().setTarget(this);
     }
 
-    public List<DPTiga> getByKodeUnit(String kodeUnit) throws Exception {
-    String tahun = "2008";
+    public List<DPTiga> getByKodeUnit(String tahun,String kodeUnit) throws Exception {
         //String tahun = Calendar.getInstance().get(Calendar.YEAR) + "";
         String sql = "SELECT timPenilaiDP3.kdPegawaiYgDinilai as kodePegawai, "
-                + "   pegawai.Nama_peg as namaPegawai, "
+                + "   LTRIM(CONCAT(pegawai.Gelar_depan,' ',pegawai.Nama_peg,' ',pegawai.Gelar_blk)) as namaPegawai, "
                 + "   SUM(nilaiSubKomponenPegawai.Nilai)/count(nilaiSubKomponenPegawai.Nilai)as nilaiDP3, "
                 + "  unit_peg.kd_unit as kodeUnit, "
                 + "    unkerja.Nama_unit_kerja as namaUnit, "
@@ -55,8 +53,7 @@ public class DPTigaDAOImpl implements DPTigaDAO {
         return list;
     }
 
-    public List<DPTiga> getAll() throws Exception {
-              String tahun = "2008";
+    public List<DPTiga> getAll(String tahun) throws Exception {
         //String tahun = Calendar.getInstance().get(Calendar.YEAR) + "";
         String sql = "SELECT timPenilaiDP3.kdPegawaiYgDinilai as kodePegawai, "
                 + "   pegawai.Nama_peg as namaPegawai, "

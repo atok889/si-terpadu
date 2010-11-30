@@ -96,7 +96,7 @@
 					<textElement verticalAlignment="Middle">
 						<font/>
 					</textElement>
-				<text><![CDATA[Rata Rata]]></text>
+				<text><![CDATA[Nilai]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
@@ -109,7 +109,7 @@
 					<textElement verticalAlignment="Middle">
 						<font/>
 					</textElement>
-				<text><![CDATA[Unit Kerja]]></text>
+				<text><![CDATA[Program Studi]]></text>
 				</staticText>
 			</band>
 		</columnHeader>
