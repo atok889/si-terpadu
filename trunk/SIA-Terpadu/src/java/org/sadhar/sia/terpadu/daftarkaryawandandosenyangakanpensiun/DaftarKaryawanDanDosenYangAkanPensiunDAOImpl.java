@@ -21,7 +21,7 @@ public class DaftarKaryawanDanDosenYangAkanPensiunDAOImpl implements DaftarKarya
     public List<Map> getDaftarDosenDanKaryawanYangAkanPensiun(String tahun) {
         String sqlCreateView = "CREATE OR REPLACE VIEW kamus.pensiun(nama,unit_kerja,umur,pensiun) AS " +
                 " SELECT " +
-                " pegawai.Nama_peg, " +
+                " concat_ws(' ',Gelar_depan,`Nama_peg`,`Gelar_blk`) as Nama_peg, " +
                 " unkerja.Nama_unit_kerja, " +
                 " CAST(TIMESTAMPDIFF(YEAR,pegawai.Tgl_lahir, DATE(now())) AS CHAR) as umur, " +
                 " IF(SUBSTRING(pegawai.Gelar_depan,1,4)='Prof', " +
