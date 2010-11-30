@@ -25,7 +25,7 @@ public class JabatanAkademikDosenDAOImpl implements JabatanAkademikDosenDAO {
     static {
         String sql = "CREATE OR REPLACE VIEW tempo.jabatandosen(NPP,Nama_peg,umur, "
                 + " `kd_unit`,`nama_unit_kerja`, Kd_jabak  ) AS "
-                + " (select pjap.`NPP`, pp.`Nama_peg`, year(CURDATE()) - year(pp.Tgl_lahir) as umur, "
+                + " (select pjap.`NPP`,LTRIM(CONCAT(pp.Gelar_depan,' ',pp.Nama_peg,' ',pp.Gelar_blk)) AS Nama_peg, year(CURDATE()) - year(pp.Tgl_lahir) as umur, "
                 + " ppu.`kd_unit`,ku.`nama_unit_kerja`, "
                 + "  MAX(CAST(pjap.Kd_Jabak as UNSIGNED)) AS Kd_jabak "
                 + " from personalia.jab_akad_pegawai pjap "

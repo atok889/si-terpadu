@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title="Jumlah Pegawai Administratif" border="normal" width="900px"
+    <window title="Perbandingan Total Skor Tahun" border="normal" width="900px"
             closable="true"
             id="oo"
             use="org.sadhar.sia.terpadu.matrikborang.PerbandinganTotalSkorTahunWnd">

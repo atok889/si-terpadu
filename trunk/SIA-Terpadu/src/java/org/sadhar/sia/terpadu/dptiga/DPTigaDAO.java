@@ -11,6 +11,6 @@ import java.util.List;
  * @author jasoet
  */
 public interface DPTigaDAO {
-    public List<DPTiga> getByKodeUnit(String kodeUnit) throws Exception;
-    public List<DPTiga> getAll() throws Exception;
+    public List<DPTiga> getByKodeUnit(String tahun,String kodeUnit) throws Exception;
+    public List<DPTiga> getAll(String tahun) throws Exception;
 }

@@ -23,7 +23,7 @@ public class PangkatDosenDAOImpl implements PangkatDosenDAO {
     static {
         String sql = "CREATE OR REPLACE VIEW tempo.pangkatdosen(npp,Nama_peg,umur,tgl_sk,kd_unit,Nama_unit_kerja, "
                 + " kode_pang ) AS "
-                + " SELECT up.npp,pp.Nama_peg,year(CURDATE()) - year(pp.Tgl_lahir) as umur,MAX(up.tgl_sk_unit)as tgl_sk,up.kd_unit,uk.Nama_unit_kerja, "
+                + " SELECT up.npp,LTRIM(CONCAT(pp.Gelar_depan,' ',pp.Nama_peg,' ',pp.Gelar_blk)) AS Nama_peg,year(CURDATE()) - year(pp.Tgl_lahir) as umur,MAX(up.tgl_sk_unit)as tgl_sk,up.kd_unit,uk.Nama_unit_kerja, "
                 + " MAX(cast(ppp.Kd_pang as UNSIGNED)) as kode_pang "
                 + " from personalia.unit_peg up "
                 + " LEFT OUTER JOIN kamus.unkerja uk ON (up.kd_unit = uk.Kd_unit_kerja ) "

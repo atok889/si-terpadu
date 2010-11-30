@@ -21,11 +21,10 @@ public class NEPDosenDAOImpl implements NEPDosenDAO {
         ClassConnection.getTransactionProxyFactoryBean().setTarget(this);
     }
 
-    public List<NEPDosen> getByKodeUnit(String kodeUnit) throws Exception {
-       String tahun = "2008";
-      //   String tahun = Calendar.getInstance().get(Calendar.YEAR) + "";
+    public List<NEPDosen> getByKodeUnit(String tahun,String kodeUnit) throws Exception {
+//         String tahun = Calendar.getInstance().get(Calendar.YEAR) + "";
         String sql = "SELECT resume_kategori.npp as npp, "
-                + "    pegawai.Nama_peg as namaPegawai, "
+                + "    LTRIM(CONCAT(pegawai.Gelar_depan,' ',pegawai.Nama_peg,' ',pegawai.Gelar_blk)) as namaPegawai, "
                 + "     unit_peg.Kd_unit as kodeUnit, "
                 + "    unkerja.Nama_unit_kerja as namaUnit, "
                 + "    AVG(resume_kategori.skor) AS rataRata, "
@@ -55,11 +54,10 @@ public class NEPDosenDAOImpl implements NEPDosenDAO {
         return list;
     }
 
-    public List<NEPDosen> getAll() throws Exception {
-       String tahun = "2008";
-       //  String tahun = Calendar.getInstance().get(Calendar.YEAR) + "";
+    public List<NEPDosen> getAll(String tahun) throws Exception {
+//         String tahun = Calendar.getInstance().get(Calendar.YEAR) + "";
         String sql = "SELECT resume_kategori.npp as npp, "
-                + "    pegawai.Nama_peg as namaPegawai, "
+                + "    LTRIM(CONCAT(pegawai.Gelar_depan,' ',pegawai.Nama_peg,' ',pegawai.Gelar_blk)) as namaPegawai, "
                 + "     unit_peg.Kd_unit as kodeUnit, "
                 + "    unkerja.Nama_unit_kerja as namaUnit, "
                 + "    AVG(resume_kategori.skor) AS rataRata, "

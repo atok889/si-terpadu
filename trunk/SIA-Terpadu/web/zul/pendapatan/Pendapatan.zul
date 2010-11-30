@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title="Penghapusan Barang Investasi" border="normal" width="950px"
+    <window title="Pendapatan" border="normal" width="950px"
             closable="true" sizable="true"
             id="oo"
             use="org.sadhar.sia.terpadu.pendapatan.PendapatanWnd">
@@ -16,7 +16,7 @@
                                 <combobox readonly="true" id="cmbboxTahun" />
                             </row>
                             <row>
-                                <label value="Prodi/Fakultas"></label>
+                                <label value="Unit Kerja"></label>
                                 <combobox readonly="true" id="cmbboxProdi" width="300px"
                                   onSelect="oo">
                                 </combobox>

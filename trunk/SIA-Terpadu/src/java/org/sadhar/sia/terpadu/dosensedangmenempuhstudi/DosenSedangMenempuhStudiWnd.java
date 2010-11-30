@@ -73,7 +73,7 @@ public class DosenSedangMenempuhStudiWnd extends ClassApplicationModule {
             for (UKProgramStudi ps : progdis) {
                 Comboitem items = new Comboitem();
                 items.setValue(ps);
-                items.setLabel(ps.getKodeUnitKerja() + " " + ps.getNama());
+                items.setLabel(ps.getShortKode() + " " + ps.getNama());
                 cmbProgdi.appendChild(items);
             }
         } catch (Exception ex) {

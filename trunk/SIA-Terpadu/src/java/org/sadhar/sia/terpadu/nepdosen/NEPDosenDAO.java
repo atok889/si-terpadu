@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface NEPDosenDAO {
 
-    public List<NEPDosen> getByKodeUnit(String kodeUnit) throws Exception;
+    public List<NEPDosen> getByKodeUnit(String tahun,String kodeUnit) throws Exception;
 
-    public List<NEPDosen> getAll() throws Exception;
+    public List<NEPDosen> getAll(String tahun) throws Exception;
 }

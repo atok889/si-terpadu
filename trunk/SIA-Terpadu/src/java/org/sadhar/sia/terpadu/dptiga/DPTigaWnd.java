@@ -5,6 +5,7 @@
 package org.sadhar.sia.terpadu.dptiga;
 
 import java.text.DecimalFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,7 @@ public class DPTigaWnd extends ClassApplicationModule {
 //    Image chartImg;
     Combobox cmbExportType;
     Button btnExport;
+    Combobox cmbboxTahun;
     Label labelRataRata;
     Listbox listb;
     JFreeChart chart = null;
@@ -53,11 +55,25 @@ public class DPTigaWnd extends ClassApplicationModule {
         labelRataRata = (Label) getFellow("labelRataRata");
         cmbExportType = (Combobox) getFellow("cmbExportType");
         btnExport = (Button) getFellow("btnExport");
+        cmbboxTahun = (Combobox) getFellow("cmbboxTahun");
 //        chartImg = (Image) getFellow("chartImg");
         btnExport.setDisabled(true);
+        loadTahun();
         loadProgdi();
+        cmbboxTahun.setSelectedIndex(cmbboxTahun.getItems().size() - 1);
         cmbProgdi.setSelectedIndex(0);
         cmbExportType.setSelectedIndex(0);
+    }
+
+    private void loadTahun() throws Exception {
+        int year = 2005;
+        while (year <= Calendar.getInstance().get(Calendar.YEAR)) {
+            Comboitem item = new Comboitem();
+            item.setLabel("" + year);
+            item.setValue("" + year);
+            year++;
+            cmbboxTahun.appendChild(item);
+        }
     }
 
     private void loadProgdi() throws Exception {
@@ -72,7 +88,7 @@ public class DPTigaWnd extends ClassApplicationModule {
             for (UKProgramStudi ps : progdis) {
                 Comboitem items = new Comboitem();
                 items.setValue(ps);
-                items.setLabel(ps.getKodeUnitKerja() + " " + ps.getNama());
+                items.setLabel(ps.getShortKode() + " " + ps.getNama());
                 cmbProgdi.appendChild(items);
             }
         } catch (Exception ex) {
@@ -82,14 +98,15 @@ public class DPTigaWnd extends ClassApplicationModule {
 
     public void viewReport() throws Exception {
         try {
+            String tahun = cmbboxTahun.getSelectedItem().getLabel();
             listb.getItems().clear();
             DPTigaDAO dao = new DPTigaDAOImpl();
             UKProgramStudi prodiSelected = (UKProgramStudi) cmbProgdi.getSelectedItem().getValue();
             if (prodiSelected == null) {
-                datas = dao.getAll();
+                datas = dao.getAll(tahun);
             } else {
 
-                datas = dao.getByKodeUnit(prodiSelected.getKodeUnitKerja());
+                datas = dao.getByKodeUnit(tahun,prodiSelected.getKodeUnitKerja());
             }
 
             DecimalFormat decimalFormat = new DecimalFormat("##0.00");
