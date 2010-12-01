@@ -9,10 +9,14 @@
             <groupbox>
                 <caption label="Table"></caption>
                 <div id="tableDiv" style="height:250px;overflow:auto;padding:10px">
-                    <listbox id="listb" width="100%" fixedLayout="false">
+                    <listbox id="listb" width="750px" fixedLayout="true">
                         
                     </listbox>
+                   <!-- <div align="left">
+                     <label>&lt;dalam semester&gt;</label>
+                    </div>-->
                 </div>
+                
             </groupbox>
 
             <groupbox visible="true">
