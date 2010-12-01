@@ -12,12 +12,12 @@
                     <grid>
                         <rows>
                             <row>
-                                <label  value="Nama"/>
+                                <label  value="Pengirim"/>
                                 <textbox id="txtNama" width="300px"/>
                             </row>
                             <row>
-                                <label value="Jenis"></label>
-                                <combobox readonly="true" id="cmbJenis" width="300px"/>
+                                <label value="Jenis Menu"></label>
+                                <textbox id="txtJenisMenu" width="300px"/>
                             </row>
                             <row>
                                 <label  value="Pesan"/>
