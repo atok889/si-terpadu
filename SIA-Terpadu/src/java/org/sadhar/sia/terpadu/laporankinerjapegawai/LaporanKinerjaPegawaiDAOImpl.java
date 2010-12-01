@@ -56,7 +56,7 @@ public class LaporanKinerjaPegawaiDAOImpl implements LaporanKinerjaPegawaiDAO {
                     " unkerja.Nama_unit_kerja as namaUnit,AVG(resume_kategori.skor) AS rataRata," +
                     " SUBSTRING(resume_kategori.ta,1,4) AS tahun," +
                     " SUBSTRING(resume_kategori.ta,5,1) AS semester " +
-                    " FROM ((kamus.unkerja unkerja INNER JOIN kamus.unit_peg unit_peg" +
+                    " FROM ((kamus.unkerja unkerja INNER JOIN personalia.unit_peg unit_peg" +
                     " ON (unkerja.Kd_unit_kerja = unit_peg.Kd_unit))" +
                     " INNER JOIN personalia.pegawai pegawai" +
                     " ON (pegawai.NPP = unit_peg.NPP))" +
