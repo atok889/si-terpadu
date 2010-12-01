@@ -14,7 +14,8 @@ import java.util.Date;
 public class Bantuan {
     
     private String nama;
-    private String jenis;
+    private String jenisSIA;
+    private String jenisMenu;
     private String pesan;
     private Date tanggal;
 
@@ -38,15 +39,15 @@ public class Bantuan {
     /**
      * @return the jenis
      */
-    public String getJenis() {
-        return jenis;
+    public String getJenisSIA() {
+        return jenisSIA;
     }
 
     /**
      * @param jenis the jenis to set
      */
-    public void setJenis(String jenis) {
-        this.jenis = jenis;
+    public void setJenisSIA(String jenisSIA) {
+        this.jenisSIA = jenisSIA;
     }
 
     /**
@@ -75,6 +76,20 @@ public class Bantuan {
      */
     public void setTanggal(Date tanggal) {
         this.tanggal = tanggal;
+    }
+
+    /**
+     * @return the jenisMenu
+     */
+    public String getJenisMenu() {
+        return jenisMenu;
+    }
+
+    /**
+     * @param jenisMenu the jenisMenu to set
+     */
+    public void setJenisMenu(String jenisMenu) {
+        this.jenisMenu = jenisMenu;
     }
     
 }
