@@ -91,7 +91,7 @@ public class PendapatanWnd extends ClassApplicationModule {
             listboxRencana.getItems().clear();
             listboxRealisasi.getItems().clear();
             UKProgramStudi prodiSelected = (UKProgramStudi) cmbboxProdi.getSelectedItem().getValue();
-            DecimalFormat df = new DecimalFormat("###0.00");
+            DecimalFormat df = new DecimalFormat("#,##0.00");
             List<PendapatanRencana> lpr = dao.getAllRencana(cmbboxTahun.getSelectedItem().getLabel());
             int i = 1;
             for (PendapatanRencana o : lpr) {
