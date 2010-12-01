@@ -57,7 +57,7 @@ public class DaftarKaryawanDanDosenYangAkanPensiunDAOImpl implements DaftarKarya
                 " IF(jenjang.Nm_jenjang = 'S1',CAST(55-TIMESTAMPDIFF(YEAR,kp.Tgl_lahir, DATE(now())) AS CHAR ), " +
                 " IF(jenjang.Nm_jenjang = 'S2',CAST(60-TIMESTAMPDIFF(YEAR,kp.Tgl_lahir, DATE(now())) AS CHAR ), " +
                 " IF(jenjang.Nm_jenjang = 'S3',CAST(70-TIMESTAMPDIFF(YEAR,kp.Tgl_lahir, DATE(now())) AS CHAR ),'')))) as pensiun " +
-                " FROM kamus.pensiun kp INNER JOIN kamus.jenjang jenjang ON jenjang.Kd_jenjang = kp.Kd_jenjang";
+                " FROM tempo.pensiun kp INNER JOIN kamus.jenjang jenjang ON jenjang.Kd_jenjang = kp.Kd_jenjang";
 
         ClassConnection.getJdbc().execute(sqlCreateView2);
 
