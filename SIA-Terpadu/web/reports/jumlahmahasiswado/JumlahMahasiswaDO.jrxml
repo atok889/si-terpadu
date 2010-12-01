@@ -5,10 +5,10 @@
 		 name="JumlahMahasiswaDO"
 		 columnCount="1"
 		 printOrder="Vertical"
-		 orientation="Portrait"
-		 pageWidth="595"
-		 pageHeight="842"
-		 columnWidth="535"
+		 orientation="Landscape"
+		 pageWidth="842"
+		 pageHeight="595"
+		 columnWidth="782"
 		 columnSpacing="0"
 		 leftMargin="30"
 		 rightMargin="30"
@@ -68,7 +68,7 @@
 					<crosstabHeaderCell>						<cellContents mode="Transparent">
 					<box></box>
 						</cellContents>
-					</crosstabHeaderCell>					<rowGroup name="prodi" width="100" totalPosition="End">
+					</crosstabHeaderCell>					<rowGroup name="prodi" width="100">
 						<bucket>
 							<bucketExpression class="java.lang.String"><![CDATA[$F{prodi}]]></bucketExpression>
 						</bucket>
@@ -80,15 +80,10 @@
 						x="0"
 						y="0"
 						width="100"
-						height="14"
+						height="30"
 						key="textField"/>
-					<box>					<pen lineWidth="0.0" lineStyle="Solid"/>
-					<topPen lineWidth="0.0" lineStyle="Solid"/>
-					<leftPen lineWidth="0.0" lineStyle="Solid"/>
-					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
-					<rightPen lineWidth="0.0" lineStyle="Solid"/>
-</box>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
+					<box></box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$V{prodi}]]></textFieldExpression>
@@ -98,23 +93,10 @@
 						<crosstabTotalRowHeader>
 						<cellContents mode="Transparent">
 					<box></box>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="0"
-						y="0"
-						width="100"
-						height="20"
-						key="textField"/>
-					<box></box>
-					<textElement textAlignment="Left" verticalAlignment="Middle">
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA["Total Universitas"]]></textFieldExpression>
-				</textField>
 						</cellContents>
 						</crosstabTotalRowHeader>
 					</rowGroup>
-					<columnGroup name="tahun" height="25" totalPosition="End" headerPosition="Center">
+					<columnGroup name="tahun" height="25" headerPosition="Center">
 						<bucket>
 							<bucketExpression class="java.lang.String"><![CDATA[$F{tahun}]]></bucketExpression>
 						</bucket>
@@ -129,7 +111,7 @@
 						height="25"
 						key="textField"/>
 					<box></box>
-					<textElement textAlignment="Right" verticalAlignment="Top">
+					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$V{tahun}]]></textFieldExpression>
@@ -139,19 +121,6 @@
 						<crosstabTotalColumnHeader>
 						<cellContents mode="Transparent">
 					<box></box>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="0"
-						y="0"
-						width="50"
-						height="25"
-						key="textField"/>
-					<box></box>
-					<textElement textAlignment="Right" verticalAlignment="Top">
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA["Total Prodi"]]></textFieldExpression>
-				</textField>
 						</cellContents>
 						</crosstabTotalColumnHeader>
 					</columnGroup>
@@ -159,7 +128,7 @@
 					<measure name="jumlah_Sum" class="java.lang.Integer" calculation="Sum">
 						<measureExpression><![CDATA[$F{jumlah}]]></measureExpression>
 					</measure>
-					<crosstabCell width="50" height="14">
+					<crosstabCell width="50" height="30">
 						<cellContents mode="Transparent">
 					<box></box>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
@@ -167,68 +136,29 @@
 						x="0"
 						y="0"
 						width="50"
-						height="14"
+						height="30"
 						key="textField"/>
 					<box></box>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
+					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font/>
 					</textElement>
 				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{jumlah_Sum}]]></textFieldExpression>
 				</textField>
 						</cellContents>
 					</crosstabCell>
-					<crosstabCell width="50" height="14" columnTotalGroup="tahun">
+					<crosstabCell width="50" height="30" columnTotalGroup="tahun">
 						<cellContents mode="Transparent">
 					<box></box>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="0"
-						y="0"
-						width="50"
-						height="14"
-						key="textField"/>
-					<box></box>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{jumlah_Sum}]]></textFieldExpression>
-				</textField>
 						</cellContents>
 					</crosstabCell>
-					<crosstabCell width="50" height="20" rowTotalGroup="prodi">
+					<crosstabCell width="50" height="30" rowTotalGroup="prodi">
 						<cellContents mode="Transparent">
 					<box></box>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="0"
-						y="0"
-						width="50"
-						height="20"
-						key="textField"/>
-					<box></box>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{jumlah_Sum}]]></textFieldExpression>
-				</textField>
 						</cellContents>
 					</crosstabCell>
-					<crosstabCell width="50" height="20" rowTotalGroup="prodi" columnTotalGroup="tahun">
+					<crosstabCell width="50" height="30" rowTotalGroup="prodi" columnTotalGroup="tahun">
 						<cellContents mode="Transparent">
 					<box></box>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="0"
-						y="0"
-						width="50"
-						height="20"
-						key="textField"/>
-					<box></box>
-					<textElement textAlignment="Right" verticalAlignment="Middle">
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{jumlah_Sum}]]></textFieldExpression>
-				</textField>
 						</cellContents>
 					</crosstabCell>
 					<whenNoDataCell>						<cellContents mode="Transparent">

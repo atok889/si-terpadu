@@ -157,8 +157,8 @@ public class JumlahMahasiswaDOWnd extends ClassApplicationModule {
                     jmd.setTahun(i + "");
 
                     if (nbr != null) {
-                        jmd.setJumlah(nbr.intValue());
                         jumlahPerProdi += nbr.intValue();
+                        jmd.setJumlah(nbr.intValue());
                     } else {
                         jmd.setJumlah(0);
                         jumlahPerProdi += 0;
@@ -169,17 +169,24 @@ public class JumlahMahasiswaDOWnd extends ClassApplicationModule {
                         cell.setLabel(jmd.getJumlah() + "");
                         cell.setStyle("text-align:right");
                         item.appendChild(cell);
+                        datas.add(jmd);
                     } else {
                         if (tahun.equalsIgnoreCase(i + "")) {
                             cell = new Listcell();
                             cell.setLabel(jmd.getJumlah() + "");
                             cell.setStyle("text-align:right");
                             item.appendChild(cell);
+                            datas.add(jmd);
                         }
                     }
-                    datas.add(jmd);
                     indexTotalUniv++;
                 }
+
+                JumlahMahasiswaDO jmd = new JumlahMahasiswaDO();
+                jmd.setProdi(s.toString());
+                jmd.setTahun("Total Prodi");
+                jmd.setJumlah(jumlahPerProdi);
+                datas.add(jmd);
                 cell = new Listcell();
                 cell.setLabel(jumlahPerProdi + "");
                 cell.setStyle("text-align:right");
@@ -190,10 +197,13 @@ public class JumlahMahasiswaDOWnd extends ClassApplicationModule {
 
             dataset = dao.getDataset(null, "");
             int[] totalUniversitas;
+            String[] tahunTotal;
             if (tahun.isEmpty()) {
                 int sumIndex = Calendar.getInstance().get(Calendar.YEAR) - 2000;
+                tahunTotal = new String[sumIndex + 1];
                 totalUniversitas = new int[sumIndex + 1];
             } else {
+                tahunTotal = new String[1];
                 totalUniversitas = new int[1];
             }
             int totalKeseluruhan = 0;
@@ -207,10 +217,13 @@ public class JumlahMahasiswaDOWnd extends ClassApplicationModule {
                         jumlahPerProdi += nbr.intValue();
                         if (tahun.isEmpty()) {
                             totalUniversitas[indexTotalUniv] += nbr.intValue();
+                            tahunTotal[indexTotalUniv] = f.toString();
                             indexTotalUniv++;
+
                         } else {
                             if (f.equals(tahun)) {
                                 totalUniversitas[indexTotalUniv] += nbr.intValue();
+                                tahunTotal[indexTotalUniv] = f.toString();
                                 indexTotalUniv++;
                             }
                         }
@@ -218,9 +231,11 @@ public class JumlahMahasiswaDOWnd extends ClassApplicationModule {
                         jumlahPerProdi += 0;
                         if (tahun.isEmpty()) {
                             totalUniversitas[indexTotalUniv] += 0;
+                            tahunTotal[indexTotalUniv] = f.toString();
                             indexTotalUniv++;
                         } else {
                             if (f.equals(tahun)) {
+                                tahunTotal[indexTotalUniv] = f.toString();
                                 totalUniversitas[indexTotalUniv] += 0;
                                 indexTotalUniv++;
                             }
@@ -237,13 +252,26 @@ public class JumlahMahasiswaDOWnd extends ClassApplicationModule {
             cell.setLabel("Total Universitas");
             item.appendChild(cell);
 
-            for (int res : totalUniversitas) {
+            for (int i = 0; i < totalUniversitas.length; i++) {
+                int res = totalUniversitas[i];
+                String tahunT = tahunTotal[i];
+                JumlahMahasiswaDO jmd = new JumlahMahasiswaDO();
+                jmd.setProdi("Total Universitas");
+                jmd.setTahun(tahunT);
+                jmd.setJumlah(res);
+                datas.add(jmd);
                 cell = new Listcell();
                 cell.setLabel(res + "");
                 cell.setStyle("text-align:right");
                 item.appendChild(cell);
             }
 
+
+            JumlahMahasiswaDO jmd = new JumlahMahasiswaDO();
+            jmd.setProdi("Total Universitas");
+            jmd.setTahun("Total Prodi");
+            jmd.setJumlah(totalKeseluruhan);
+            datas.add(jmd);
             cell = new Listcell();
             cell.setLabel(totalKeseluruhan + "");
             cell.setStyle("text-align:right");
