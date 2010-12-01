@@ -18,35 +18,38 @@ import org.zkoss.zul.Textbox;
  */
 public class BantuanWnd extends ClassApplicationModule{
     Textbox txtNama;
-    Combobox cmbJenis;
+    //Combobox cmbJenis;
     Textbox txtPesan;
+    Textbox txtJenisMenu;
 
     public void onCreate()throws Exception{
         txtNama = (Textbox)getFellow("txtNama");
-        cmbJenis = (Combobox)getFellow("cmbJenis");
+       // cmbJenis = (Combobox)getFellow("cmbJenis");
         txtPesan = (Textbox)getFellow("txtPesan");
-        loadJenis();
-        cmbJenis.setSelectedIndex(0);
+        txtJenisMenu = (Textbox)getFellow("txtJenisMenu");
+        //loadJenis();
+        //cmbJenis.setSelectedIndex(0);
     }
 
-    private void loadJenis(){
-        cmbJenis.getItems().clear();
-        Comboitem item1 = new Comboitem();
-        item1.setValue("Kritik");
-        item1.setLabel("Kritik");
-        cmbJenis.appendChild(item1);
-        Comboitem item2 = new Comboitem();
-        item2.setValue("Saran");
-        item2.setLabel("Saran");
-        cmbJenis.appendChild(item2);
-    }
+//    private void loadJenis(){
+//        //cmbJenis.getItems().clear();
+//        Comboitem item1 = new Comboitem();
+//        item1.setValue("Kritik");
+//        item1.setLabel("Kritik");
+//        //cmbJenis.appendChild(item1);
+//        Comboitem item2 = new Comboitem();
+//        item2.setValue("Saran");
+//        item2.setLabel("Saran");
+//        //cmbJenis.appendChild(item2);
+//    }
 
     public void kirim()throws Exception{
         try{
-            if(!txtNama.getValue().isEmpty() && ! txtPesan.getValue().isEmpty()){
+            if(!txtNama.getValue().isEmpty() && ! txtPesan.getValue().isEmpty() && !txtJenisMenu.getValue().isEmpty()){
                 Bantuan bantuan = new Bantuan();
                 bantuan.setNama(txtNama.getValue());
-                bantuan.setJenis(cmbJenis.getSelectedItem().getValue().toString());
+                bantuan.setJenisSIA("99");
+                bantuan.setJenisMenu(txtJenisMenu.getValue());
                 bantuan.setPesan(txtPesan.getValue());
                 bantuan.setTanggal(new Date());
                 BantuanDAO dao = new BantuanDAOImpl();
@@ -54,6 +57,7 @@ public class BantuanWnd extends ClassApplicationModule{
                 Messagebox.show("Pesan terkirim...");
                 txtNama.setValue("");
                 txtPesan.setValue("");
+                txtJenisMenu.setValue("");
             }else{
                 Messagebox.show("Silahkan input data dengan lengkap");
             }
