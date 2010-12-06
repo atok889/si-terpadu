@@ -11,27 +11,28 @@
                     <grid>
                         <rows>
                             <row>
-                                <label value="Nama Dosen"></label>
-                                <hbox>                                    
-                                   <combobox autodrop="true" onChanging="jadwalDosen.loadDosenOnChanging(event.value)" id="cmbNamaDosen" width="300px"/>
+                                <label value="Program Studi"></label>
+                                <hbox>
+                                    <combobox onChange="jadwalDosen.loadDosen()" readonly="true" id="cmbProgdi" width="300px"/>
                                 </hbox>
                             </row>
                             <row>
-                                <label value="Program Studi"></label>
+                                <label value="Nama Dosen"></label>
                                 <hbox>
-                                   <combobox readonly="true" id="cmbProgdi" width="300px"/>
+                                    <combobox readonly="true" id="cmbNamaDosen" width="300px"/>
                                 </hbox>
                             </row>
+                           
                             <row>
                                 <label value="Tahun Ajaran"></label>
                                 <hbox>
-                                   <combobox id="cmbTahun" width="150px"/>
+                                    <combobox id="cmbTahun" width="150px"/>
                                 </hbox>
                             </row>
                             <row>
                                 <label value="Semester"></label>
                                 <hbox>
-                                   <combobox readonly="true" id="cmbSemester" width="150px"/>
+                                    <combobox readonly="true" id="cmbSemester" width="150px"/>
                                 </hbox>
                             </row>
                         </rows>

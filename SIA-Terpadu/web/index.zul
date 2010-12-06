@@ -133,10 +133,14 @@
             </center>
             <south size="40px" border="0" style="background:#c5e6ef;">
                 <hbox pack="center" width="100%">
-                    <html><![CDATA[
+                    <!--<html><![CDATA[
                 <span style="color:#0C7A9A">Sistem Informasi Terpadu &copy; Universitas Sanata Dharma<br>Yogyakarta - 2010</span>
             ]]>
-                    </html>
+                    </html>-->
+                    <vbox align="center">
+                        <label value="Sistem Informasi Terpadu Universitas Sanata Dharma"/>
+                        <label value="Yogyakarta - 2010"/>
+                    </vbox>
                 </hbox>
             </south>
         </borderlayout>
