@@ -51,7 +51,7 @@ public class JadwalDosenWnd extends ClassApplicationModule {
         cmbNamaDosen = (Combobox) getFellow("cmbNamaDosen");
         cmbProgdi = (Combobox) getFellow("cmbProgdi");
         //txtTahun = (Textbox) getFellow("txtTahun");
-        cmbTahun = (Combobox)getFellow("cmbTahun");
+        cmbTahun = (Combobox) getFellow("cmbTahun");
         cmbSemester = (Combobox) getFellow("cmbSemester");
         report = (Jasperreport) getFellow("report");
         lstData = (Listbox) getFellow("lstData");
@@ -61,14 +61,14 @@ public class JadwalDosenWnd extends ClassApplicationModule {
         btnExport.setDisabled(true);
         loadProgdi();
         loadSemester();
-        //loadDosen();
         loadTahun();
         cmbTahun.setSelectedIndex(0);
         cmbProgdi.setSelectedIndex(0);
         cmbSemester.setSelectedIndex(0);
+        loadDosen();
     }
 
-     private void loadTahun() throws Exception {
+    private void loadTahun() throws Exception {
         int currentYear = new DateTime().getYear();
         cmbTahun.getItems().clear();
         Comboitem item = new Comboitem();
@@ -83,10 +83,11 @@ public class JadwalDosenWnd extends ClassApplicationModule {
         }
     }
 
-    private void loadDosen() throws Exception {
+    public void loadDosen() throws Exception {
         try {
+            cmbNamaDosen.setValue("");
             DosenDAO dao = new DosenDAOImpl();
-            List<Dosen> dosens = dao.gets();
+            List<Dosen> dosens = dao.getsByProdi((ProgramStudi) cmbProgdi.getSelectedItem().getValue());
             cmbNamaDosen.getItems().clear();
             for (Dosen d : dosens) {
                 Comboitem items = new Comboitem();
@@ -95,6 +96,7 @@ public class JadwalDosenWnd extends ClassApplicationModule {
                 cmbNamaDosen.appendChild(items);
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
             Messagebox.show(ex.getMessage());
         }
     }
@@ -102,7 +104,7 @@ public class JadwalDosenWnd extends ClassApplicationModule {
     public void loadDosenOnChanging(String nama) throws Exception {
         try {
             DosenDAO dao = new DosenDAOImpl();
-            List<Dosen> dosens = dao.getsByName(nama);
+            List<Dosen> dosens = dao.getsByName(nama, (ProgramStudi) cmbProgdi.getSelectedItem().getValue());
             cmbNamaDosen.getItems().clear();
             for (Dosen d : dosens) {
                 Comboitem items = new Comboitem();
