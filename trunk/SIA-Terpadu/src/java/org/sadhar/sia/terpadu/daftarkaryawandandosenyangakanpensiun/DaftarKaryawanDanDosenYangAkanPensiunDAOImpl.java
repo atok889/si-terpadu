@@ -29,7 +29,7 @@ public class DaftarKaryawanDanDosenYangAkanPensiunDAOImpl implements DaftarKarya
                 " INNER JOIN personalia.unit_peg unit_peg ON (pegawai.NPP = unit_peg.NPP) " +
                 " INNER JOIN kamus.unkerja unkerja ON (unit_peg.Kd_unit = unkerja.Kd_unit_kerja) " +
                 " INNER JOIN kamus.jenjang jenjang ON (jenjang.Kd_jenjang = pendidikan.Jenjang) " +
-                " WHERE (pegawai.Status_keluar = '1' AND pegawai.stat_peg='1')  GROUP BY pegawai.Nama_peg";
+                " WHERE (pegawai.Status_keluar = '1' AND pegawai.stat_peg='1')  GROUP BY pegawai.Nama_peg ORDER BY LENGTH(pensiun),pensiun,Nama_peg asc";
 
         ClassConnection.getJdbc().execute(sqlCreateView);
 
@@ -63,7 +63,7 @@ public class DaftarKaryawanDanDosenYangAkanPensiunDAOImpl implements DaftarKarya
 //        ClassConnection.getJdbc().execute(sqlCreateView2);
 
 //      String sql = "SELECT  Nama_peg as nama, Nama_unit_kerja as unit_kerja, pensiun , Nm_jenjang, umur  FROM tempo.pensiun_vi WHERE pensiun BETWEEN 1 AND " + tahun;
-        String sql = "SELECT  nama,unit_kerja, pensiun , umur  FROM tempo.pensiun WHERE pensiun BETWEEN 1 AND " + tahun+" ORDER BY pensiun, nama";
+        String sql = "SELECT  nama,unit_kerja, pensiun , umur  FROM tempo.pensiun WHERE pensiun BETWEEN 1 AND " + tahun+"";
         return ClassConnection.getJdbc().queryForList(sql);
     }
 }
