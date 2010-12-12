@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window title="Riwayat Dosen" border="normal" width="700px"
+    <window title="Riwayat Dosen" border="normal" width="800px"
             closable="true"
             id="riwayatDosenWnd"
             use="org.sadhar.sia.terpadu.riwayatdosen.RiwayatDosenWnd">
@@ -13,7 +13,7 @@
                             <row>
                                 <label value="Program Studi"></label>
                                 <hbox>
-                                    <combobox readonly="true" id="cmbProgdi" width="300px"/>
+                                    <combobox readonly="true" id="cmbProgdi" width="450px"/>
                                 </hbox>
                             </row>
                             
@@ -29,8 +29,8 @@
                 <div style="padding:3px">
                     <listbox id="lstDataDosen" onSelect="riwayatDosenWnd.dataOnSelect()">
                         <listhead>
-                            <listheader label="Nomor"></listheader>
-                            <listheader label="Kode"></listheader>
+                            <listheader label="Nomor" width="65px" align="center"></listheader>
+                            <listheader label="Kode"  width="65px"></listheader>
                             <listheader label="Nama"></listheader>
                         </listhead>
                     </listbox>
@@ -41,8 +41,8 @@
                 <div style="padding:3px">
                     <listbox id="lstDataRiwayat" rows="10">
                          <listhead>
-                            <listheader label="Nomor"></listheader>
-                            <listheader label="Tahun"></listheader>
+                            <listheader label="Nomor" width="65px" align="center"></listheader>
+                            <listheader label="Tahun" width="65px"></listheader>
                             <listheader label="Riwayat"></listheader>
                             <listheader label="Keterangan"></listheader>
                             <listheader label="Alamat"></listheader>
