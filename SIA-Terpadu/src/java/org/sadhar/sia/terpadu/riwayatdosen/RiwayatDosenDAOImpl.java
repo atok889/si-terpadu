@@ -19,7 +19,7 @@ public class RiwayatDosenDAOImpl implements RiwayatDosenDAO {
 
     static {
         String sql = "CREATE OR REPLACE VIEW tempo.riwayatDosen(riwayat,kodePegawai,namaPegawai,tahun,keterangan) AS "
-                + "  SELECT 'STUDI LANJUT' AS riwayat, "
+                + "  SELECT DISTINCT 'STUDI LANJUT' AS riwayat, "
                 + "          studi.kdPegawai AS kodePegawai, "
                 + "         LTRIM(CONCAT(pegawai.Gelar_depan,' ',pegawai.Nama_peg,' ',pegawai.Gelar_blk)) AS namaPegawai, "
                 + "        IF(YEAR(studi.Tgl_selesai_studi) <=> NULL,'',YEAR(studi.Tgl_selesai_studi)) AS tahun , "
@@ -32,7 +32,7 @@ public class RiwayatDosenDAOImpl implements RiwayatDosenDAO {
                 + "  WHERE pegawai.Status_keluar='1' OR pegawai.Status_keluar='6' OR  pegawai.Status_keluar='7' "
                 + "  AND studi.Tgl_selesai_studi AND pegawai.AdmEdu='2' "
                 + "  UNION ALL "
-                + "  SELECT 'PENDIDIKAN' AS riwayat, "
+                + "  SELECT DISTINCT 'PENDIDIKAN' AS riwayat, "
                 + "      pendidikan.kdPegawai AS kodePegawai, "
                 + "   LTRIM(CONCAT(pegawai.Gelar_depan,' ',pegawai.Nama_peg,' ',pegawai.Gelar_blk)) AS namaPegawai, "
                 + "  YEAR(pendidikan.Tgl_ijasah) as tahun, "
@@ -45,7 +45,7 @@ public class RiwayatDosenDAOImpl implements RiwayatDosenDAO {
                 + "            ON (pendidikan.kdPegawai = pegawai.kdPegawai) "
                 + "  WHERE  pegawai.Status_keluar='1' OR pegawai.Status_keluar='6' OR  pegawai.Status_keluar='7' AND pegawai.AdmEdu='2' "
                 + "  UNION ALL "
-                + "  SELECT 'JABATAN' as riwayat, "
+                + "  SELECT DISTINCT 'JABATAN' as riwayat, "
                 + "          pejabat.kdPegawai AS kodePegawai, "
                 + "         LTRIM(CONCAT(pegawai.Gelar_depan,' ',pegawai.Nama_peg,' ',pegawai.Gelar_blk)) AS namaPegawai, "
                 + "         YEAR(pejabat.tgl_sk_angkat_jabat)as tahun , "
@@ -70,7 +70,7 @@ public class RiwayatDosenDAOImpl implements RiwayatDosenDAO {
     }
 
     public List<DataDosen> getDataDosenByUnitKerja(String unitKerja) {
-        String sql = "SELECT riwayatDosen.kodePegawai as kode,"
+        String sql = "SELECT DISTINCT riwayatDosen.kodePegawai as kode,"
                 + "  riwayatDosen.namaPegawai as nama,"
                 + "  IF(MAX(unitPegawai.tgl_sk_unit)<=>NULL,'',MAX(unitPegawai.tgl_sk_unit))as tahun_sk,"
                 + "  unkerja.Nama_unit_kerja"
@@ -95,7 +95,7 @@ public class RiwayatDosenDAOImpl implements RiwayatDosenDAO {
     }
 
     public List<RiwayatDosen> getRiwayatDosenByKodeDosen(String kodePegawai, String unitKerja) {
-        String sql = "SELECT riwayatDosen.riwayat as riwayat, "
+        String sql = "SELECT DISTINCT riwayatDosen.riwayat as riwayat, "
                 + "   riwayatDosen.namaPegawai as nama, "
                 + "      CAST(riwayatDosen.tahun AS CHAR) as tahun, "
                 + "      riwayatDosen.keterangan as keterangan, "
