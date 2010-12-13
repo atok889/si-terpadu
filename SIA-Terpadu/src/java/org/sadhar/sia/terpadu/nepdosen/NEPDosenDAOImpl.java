@@ -36,7 +36,7 @@ public class NEPDosenDAOImpl implements NEPDosenDAO {
                 + "       ON (pegawai.NPP = unit_peg.NPP)) "
                 + "    INNER JOIN evaluasi.resume_kategori resume_kategori "
                 + "     ON (resume_kategori.npp = pegawai.NPP) "
-                + "    WHERE resume_kategori.ta LIKE '"+tahun+"%' AND unit_peg.Kd_unit LIKE '%" + kodeUnit + "%' "
+                + "    WHERE resume_kategori.ta LIKE '"+tahun+"' AND unit_peg.Kd_unit LIKE '%" + kodeUnit + "%' "
                 + "  GROUP BY resume_kategori.npp"
                 + " ORDER BY pegawai.Nama_peg ASC";
         List<NEPDosen> list = new ArrayList<NEPDosen>();
@@ -60,7 +60,7 @@ public class NEPDosenDAOImpl implements NEPDosenDAO {
                 + "    LTRIM(CONCAT(pegawai.Gelar_depan,' ',pegawai.Nama_peg,' ',pegawai.Gelar_blk)) as namaPegawai, "
                 + "     unit_peg.Kd_unit as kodeUnit, "
                 + "    unkerja.Nama_unit_kerja as namaUnit, "
-                + "    AVG(resume_kategori.skor) AS rataRata, "
+                + "    ROUND(AVG(resume_kategori.skor),2) AS rataRata, "
                 + "    resume_kategori.ta AS tahunAjaran "
                 + "  FROM ((kamus.unkerja unkerja "
                 + "        INNER JOIN kamus.unit_peg unit_peg "
@@ -69,7 +69,7 @@ public class NEPDosenDAOImpl implements NEPDosenDAO {
                 + "       ON (pegawai.NPP = unit_peg.NPP)) "
                 + "    INNER JOIN evaluasi.resume_kategori resume_kategori "
                 + "     ON (resume_kategori.npp = pegawai.NPP) "
-                + "    WHERE resume_kategori.ta LIKE '"+tahun+"%' "
+                + "    WHERE resume_kategori.ta LIKE '"+tahun+"' "
                 + "  GROUP BY resume_kategori.npp"
                 + " ORDER BY pegawai.Nama_peg ASC";
         List<NEPDosen> list = new ArrayList<NEPDosen>();
