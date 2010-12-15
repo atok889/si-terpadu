@@ -30,14 +30,14 @@ public class NEPDosenDAOImpl implements NEPDosenDAO {
                 + "    AVG(resume_kategori.skor) AS rataRata, "
                 + "    resume_kategori.ta AS tahunAjaran "
                 + "  FROM ((kamus.unkerja unkerja "
-                + "        INNER JOIN kamus.unit_peg unit_peg "
+                + "        INNER JOIN personalia.unit_peg unit_peg "
                 + "         ON (unkerja.Kd_unit_kerja = unit_peg.Kd_unit)) "
                 + "   INNER JOIN personalia.pegawai pegawai "
                 + "       ON (pegawai.NPP = unit_peg.NPP)) "
                 + "    INNER JOIN evaluasi.resume_kategori resume_kategori "
                 + "     ON (resume_kategori.npp = pegawai.NPP) "
                 + "    WHERE resume_kategori.ta LIKE '"+tahun+"' AND unit_peg.Kd_unit LIKE '%" + kodeUnit + "%' "
-                + "  GROUP BY resume_kategori.npp"
+                + "  GROUP BY unit_peg.npp"
                 + " ORDER BY pegawai.Nama_peg ASC";
         List<NEPDosen> list = new ArrayList<NEPDosen>();
         List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
@@ -63,14 +63,14 @@ public class NEPDosenDAOImpl implements NEPDosenDAO {
                 + "    ROUND(AVG(resume_kategori.skor),2) AS rataRata, "
                 + "    resume_kategori.ta AS tahunAjaran "
                 + "  FROM ((kamus.unkerja unkerja "
-                + "        INNER JOIN kamus.unit_peg unit_peg "
+                + "        INNER JOIN personalia.unit_peg unit_peg "
                 + "         ON (unkerja.Kd_unit_kerja = unit_peg.Kd_unit)) "
                 + "   INNER JOIN personalia.pegawai pegawai "
                 + "       ON (pegawai.NPP = unit_peg.NPP)) "
                 + "    INNER JOIN evaluasi.resume_kategori resume_kategori "
                 + "     ON (resume_kategori.npp = pegawai.NPP) "
                 + "    WHERE resume_kategori.ta LIKE '"+tahun+"' "
-                + "  GROUP BY resume_kategori.npp"
+                + "  GROUP BY unit_peg.npp"
                 + " ORDER BY pegawai.Nama_peg ASC";
         List<NEPDosen> list = new ArrayList<NEPDosen>();
         List<Map> rows = ClassConnection.getJdbc().queryForList(sql);
