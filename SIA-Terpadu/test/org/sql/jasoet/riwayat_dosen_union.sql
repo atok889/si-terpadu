@@ -10,9 +10,8 @@ FROM (kamus.jenjang jenjang
            ON (jenjang.Kd_jenjang = studi.Jenjang))
        INNER JOIN personalia.pegawai pegawai
           ON (studi.kdPegawai = pegawai.kdPegawai)
- WHERE pegawai.Status_keluar='1' OR pegawai.Status_keluar='6' OR  pegawai.Status_keluar='7'
+ WHERE (pegawai.Status_keluar='1' OR pegawai.Status_keluar='6' OR  pegawai.Status_keluar='7')
 AND studi.Tgl_selesai_studi AND pegawai.AdmEdu='2'
-
 UNION ALL
 SELECT 'PENDIDIKAN' AS riwayat,
        pendidikan.kdPegawai AS kodePegawai,
@@ -26,7 +25,7 @@ SELECT 'PENDIDIKAN' AS riwayat,
            ON (pendidikan.Jenjang = jenjang.Kd_jenjang))
        INNER JOIN personalia.pegawai pegawai
           ON (pendidikan.kdPegawai = pegawai.kdPegawai)
- WHERE  pegawai.Status_keluar='1' OR pegawai.Status_keluar='6' OR  pegawai.Status_keluar='7' AND pegawai.AdmEdu='2'
+ WHERE  (pegawai.Status_keluar='1' OR pegawai.Status_keluar='6' OR  pegawai.Status_keluar='7') AND pegawai.AdmEdu='2'
 UNION ALL
 SELECT 'JABATAN' as riwayat,
         pejabat.kdPegawai AS kodePegawai,
@@ -38,7 +37,7 @@ SELECT 'JABATAN' as riwayat,
            ON (pejabat.kode_jab = jabatan.Kd_jab))
        INNER JOIN personalia.pegawai pegawai
           ON (pejabat.kdPegawai = pegawai.kdPegawai)
-WHERE pegawai.Status_keluar='1' OR pegawai.Status_keluar='6' OR  pegawai.Status_keluar='7'
+WHERE (pegawai.Status_keluar='1' OR pegawai.Status_keluar='6' OR  pegawai.Status_keluar='7')
     AND YEAR(pejabat.tgl_sk_angkat_jabat) AND pegawai.AdmEdu='2';
 -------------------------------------------------------------------------------------------------------------------------
 
@@ -68,3 +67,19 @@ INNER JOIN personalia.unit_peg unitPegawai ON (pegawai.kdPegawai=unitPegawai.kdP
 INNER JOIN kamus.unkerja unkerja ON (unitPegawai.kd_unit=unkerja.kd_unit_kerja)
 WHERE unkerja.Kd_unit_kerja='16053140' AND riwayatDosen.kodePegawai='00961';
 -------------------------------------------------------------------------------------------------------------------------
+
+
+SELECT 'STUDI LANJUT' AS riwayat,
+        studi.kdPegawai AS kodePegawai,
+       pegawai.Nama_peg AS namaPegawai,
+       IF(YEAR(studi.Tgl_selesai_studi) <=> NULL,'',YEAR(studi.Tgl_selesai_studi)) AS tahun ,
+       CONCAT(IF(jenjang.Nm_jenjang<=>NULL,' ',jenjang.Nm_jenjang),' ',IF(studi.Univ<=>NULL,' ',studi.Univ)) as keterangan
+FROM (kamus.jenjang jenjang
+        INNER JOIN personalia.studi studi
+           ON (jenjang.Kd_jenjang = studi.Jenjang))
+       INNER JOIN personalia.pegawai pegawai
+          ON (studi.kdPegawai = pegawai.kdPegawai)
+ WHERE (pegawai.Status_keluar='1' OR pegawai.Status_keluar='6' OR  pegawai.Status_keluar='7')
+AND studi.Tgl_selesai_studi AND pegawai.AdmEdu='2'
+AND studi.kdPegawai = '00191'
+ORDER BY pegawai.Nama_peg;
