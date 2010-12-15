@@ -62,7 +62,7 @@ public class LaporanKinerjaPegawaiDAOImpl implements LaporanKinerjaPegawaiDAO {
                     " ON (pegawai.NPP = unit_peg.NPP))" +
                     " INNER JOIN evaluasi.resume_kategori resume_kategori" +
                     " ON (resume_kategori.npp = pegawai.NPP)" +
-                    " WHERE resume_kategori.ta LIKE '" + i + "%' GROUP BY unit_peg.Kd_unit";
+                    " WHERE resume_kategori.ta LIKE '" + i + "%' GROUP BY unit_peg.npp";
 
             ClassConnection.getJdbc().execute(sqlCreateView);
             String sql = "select if(semester=3,rerata,AVG(rerata)) as rerata, kp. kode, kp.nama, kp.tahun, kp.semester from tempo.kinerja_pegawai kp GROUP BY kode";
